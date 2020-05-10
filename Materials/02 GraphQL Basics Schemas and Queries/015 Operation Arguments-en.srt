@@ -1,0 +1,832 @@
+1
+00:00:00,300 --> 00:00:04,170
+In this video you're going to learn all about graphics you well operation arguments.
+
+2
+00:00:04,170 --> 00:00:08,730
+This is going to allow us to pass data from the client to the server.
+
+3
+00:00:08,790 --> 00:00:12,580
+So far all of the data has been flowing in the opposite direction.
+
+4
+00:00:12,660 --> 00:00:18,090
+So it's been going from the server to the client but there are plenty of examples of why we would want
+
+5
+00:00:18,090 --> 00:00:21,150
+to get data from our client to the server.
+
+6
+00:00:21,180 --> 00:00:24,930
+Imagine I'm creating a front end for this blog application.
+
+7
+00:00:24,930 --> 00:00:30,030
+The first thing I'm probably going to do is show them something like a sign up form where I ask them
+
+8
+00:00:30,060 --> 00:00:32,070
+for their email and their password.
+
+9
+00:00:32,190 --> 00:00:37,950
+Once I get those pieces of information from the user on the client I need a way to pass those through
+
+10
+00:00:37,980 --> 00:00:38,830
+to the server.
+
+11
+00:00:38,940 --> 00:00:42,590
+So the server can actually save a new record to the database.
+
+12
+00:00:42,600 --> 00:00:48,660
+For example another reason I might want to use operation arguments is if I'm trying to filter some data
+
+13
+00:00:49,050 --> 00:00:53,400
+so imagine I have a query that returns all posts that someone could read.
+
+14
+00:00:53,400 --> 00:00:59,510
+So all public published posts now that could be a lot of information so someone goes ahead and they
+
+15
+00:00:59,520 --> 00:01:03,230
+use the search box to search for a keyword like graft.
+
+16
+00:01:03,270 --> 00:01:09,050
+Well I want a way to get that key word that string from the client over to the server.
+
+17
+00:01:09,150 --> 00:01:11,610
+So the server can use it to filter posts.
+
+18
+00:01:11,700 --> 00:01:17,490
+Maybe I search for that key word in the title anti-body only returning the post if I find it somewhere
+
+19
+00:01:17,580 --> 00:01:18,980
+in either of those.
+
+20
+00:01:18,990 --> 00:01:23,930
+So there are tons of different reasons why I would want to get data from the client to the server.
+
+21
+00:01:24,060 --> 00:01:29,340
+Let's go ahead and take a look at how we can do that by exploring operation arguments and we're going
+
+22
+00:01:29,340 --> 00:01:33,750
+to start with a very simple query to explore this syntax.
+
+23
+00:01:33,750 --> 00:01:37,920
+We still need to name this query and I'm going to call this one a greeting and greeting is going to
+
+24
+00:01:37,920 --> 00:01:40,550
+return a non nullable string.
+
+25
+00:01:40,650 --> 00:01:45,180
+Now by default a greeting is going to return a generic message something like hello.
+
+26
+00:01:45,300 --> 00:01:49,720
+But we are going to allow the user to pass their name along with the query.
+
+27
+00:01:49,770 --> 00:01:56,340
+If they do we'll include that in the query as well saying something like Hello Andrew or Hello Kate.
+
+28
+00:01:56,610 --> 00:02:01,610
+So to kick things off we have to determine what arguments this query should accept.
+
+29
+00:02:01,680 --> 00:02:08,310
+And we do that inside of a set of parentheses right here right between the query name and the colon.
+
+30
+00:02:08,340 --> 00:02:12,470
+In here we define all of the arguments that could be passed along with greeting.
+
+31
+00:02:12,480 --> 00:02:17,640
+So we have to define all of the required ones if any and any potential optional ones everything has
+
+32
+00:02:17,640 --> 00:02:21,720
+to be listed inside of the definition for greeting.
+
+33
+00:02:21,720 --> 00:02:23,560
+In our case we're going to have one.
+
+34
+00:02:23,580 --> 00:02:25,290
+It's going to be an optional string.
+
+35
+00:02:25,380 --> 00:02:27,470
+So one can option really provide a name.
+
+36
+00:02:27,510 --> 00:02:29,540
+If they don't that's fine too.
+
+37
+00:02:29,550 --> 00:02:34,620
+The first thing we have to do is give a name for the argument I'm going to call this one name.
+
+38
+00:02:34,620 --> 00:02:38,850
+If I was trying to pass along the age I would call it something like age.
+
+39
+00:02:38,850 --> 00:02:45,160
+So we have the name argument then we use a colon and a space and we have to be explicit about what type
+
+40
+00:02:45,180 --> 00:02:46,250
+we are expecting.
+
+41
+00:02:46,320 --> 00:02:48,480
+Are we expecting a Boolean for this value.
+
+42
+00:02:48,480 --> 00:02:50,260
+No we're expecting a string.
+
+43
+00:02:50,340 --> 00:02:53,510
+So we will use the string scalar type.
+
+44
+00:02:53,520 --> 00:02:59,280
+Now if we were going to force them to provide a name every time greeting was used we would put an exclamation
+
+45
+00:02:59,280 --> 00:03:00,740
+mark after the type.
+
+46
+00:03:00,780 --> 00:03:05,940
+In this case without an exclamation mark we're saying that it's perfectly fine to use the greeting query
+
+47
+00:03:05,940 --> 00:03:08,090
+without providing a name.
+
+48
+00:03:08,250 --> 00:03:14,100
+So that is it for the query definition here we've determined that the greeting query has one optional
+
+49
+00:03:14,130 --> 00:03:16,530
+argument name down below.
+
+50
+00:03:16,590 --> 00:03:20,400
+Let's go ahead and actually set up the resolver method for it right here.
+
+51
+00:03:21,260 --> 00:03:22,200
+Greeting.
+
+52
+00:03:22,310 --> 00:03:27,440
+I'm going to set up my arguments I'm going to set up the function body I'll toss the comma right there
+
+53
+00:03:27,440 --> 00:03:33,570
+and for the moment I'm just going to return a generic static message return Hello.
+
+54
+00:03:33,710 --> 00:03:34,920
+Perfect.
+
+55
+00:03:34,920 --> 00:03:40,880
+Now let's go ahead and figure out what it takes to provide name when we're querying over inside of graft.
+
+56
+00:03:40,960 --> 00:03:42,330
+Well playground.
+
+57
+00:03:42,500 --> 00:03:45,160
+I'm going to go ahead and save index Dhananjay ass.
+
+58
+00:03:45,320 --> 00:03:50,270
+Over here we can start by just grabbing greeting and making sure at least that works.
+
+59
+00:03:50,270 --> 00:03:51,960
+If I run this query what do I get.
+
+60
+00:03:51,980 --> 00:03:53,110
+I get my data back.
+
+61
+00:03:53,120 --> 00:03:59,810
+I get my static hello message when we want to pass data along with one of our operations.
+
+62
+00:03:59,810 --> 00:04:06,870
+We use parentheses right after the operation name then we specify all of the arguments we want to provide.
+
+63
+00:04:06,890 --> 00:04:09,800
+Now in this case we don't have to provide any arguments.
+
+64
+00:04:09,800 --> 00:04:14,210
+We solve that work because the only one that's there name is optional.
+
+65
+00:04:14,390 --> 00:04:20,570
+But if we do want to provide it we set up the parentheses we determine the key we are trying to set
+
+66
+00:04:20,570 --> 00:04:21,680
+a value for.
+
+67
+00:04:21,680 --> 00:04:26,610
+In this case I am trying to set a value for the name argument then a colon space.
+
+68
+00:04:26,630 --> 00:04:29,940
+And we actually provide that value if it was a number.
+
+69
+00:04:30,020 --> 00:04:31,520
+I might provide 12 cents.
+
+70
+00:04:31,550 --> 00:04:32,440
+It's a string.
+
+71
+00:04:32,450 --> 00:04:35,510
+I am going to provide a string value in this case.
+
+72
+00:04:35,540 --> 00:04:38,070
+I will just use the name Jess.
+
+73
+00:04:38,270 --> 00:04:45,940
+So now we are successfully passing a value the string Jess along from the client to the server.
+
+74
+00:04:46,010 --> 00:04:47,640
+If we run the query what do we get.
+
+75
+00:04:47,660 --> 00:04:50,440
+We get absolutely no change in the response.
+
+76
+00:04:50,570 --> 00:04:57,290
+Yes the data is getting passed to the server but it's now up to the actual resolver method to use the
+
+77
+00:04:57,290 --> 00:05:03,860
+data to make some sort of dynamic response later on in the course we'll be using data to query the database
+
+78
+00:05:03,860 --> 00:05:05,990
+to save records for the database.
+
+79
+00:05:05,990 --> 00:05:12,230
+For now though let's just go ahead and use the argument to change the string that gets sent back.
+
+80
+00:05:12,230 --> 00:05:17,390
+Now the data that was provided in this case the name Jess lives in one of the arguments for our resolver
+
+81
+00:05:17,420 --> 00:05:18,280
+function.
+
+82
+00:05:18,290 --> 00:05:24,310
+There are four arguments that get passed to all resolver functions and they are as follows.
+
+83
+00:05:24,320 --> 00:05:30,180
+The first is parent parent is very common and it's useful when we're working with relational data.
+
+84
+00:05:30,290 --> 00:05:36,020
+So for example if a user has many posts the parent argument comes into play when figuring out how to
+
+85
+00:05:36,020 --> 00:05:37,650
+get a user's posts.
+
+86
+00:05:37,670 --> 00:05:39,770
+We'll touch on that in just a little bit.
+
+87
+00:05:39,860 --> 00:05:44,670
+The next argument called args This contains the information we need.
+
+88
+00:05:44,690 --> 00:05:48,270
+This contains the operation arguments supplied.
+
+89
+00:05:48,410 --> 00:05:56,020
+The third one known as context which is typically shortened to C-T X is very useful for contextual data.
+
+90
+00:05:56,150 --> 00:06:00,840
+So if a user is logged in context it might contain the idea of that user.
+
+91
+00:06:00,890 --> 00:06:06,060
+So you could access it throughout the application will be doing just that later in the class.
+
+92
+00:06:06,200 --> 00:06:13,070
+The last argument is info info contains great information about the actual operations that were sent
+
+93
+00:06:13,070 --> 00:06:14,490
+along to the server.
+
+94
+00:06:14,540 --> 00:06:16,410
+And we're going to be exploring that as well.
+
+95
+00:06:16,460 --> 00:06:21,740
+But as I mentioned the only one that's really important for us at the moment is this one right here
+
+96
+00:06:21,980 --> 00:06:28,270
+Ark's Argus is an object and it contains all of the argument values provided.
+
+97
+00:06:28,490 --> 00:06:32,930
+So let's go ahead and just dump Argus to the console console dialog args.
+
+98
+00:06:32,960 --> 00:06:39,560
+I am going to save indexed japes I will crack open the terminal and we're going to do is send that exact
+
+99
+00:06:39,560 --> 00:06:41,280
+same query across.
+
+100
+00:06:41,360 --> 00:06:44,030
+I click the play button over here what do I have.
+
+101
+00:06:44,090 --> 00:06:48,960
+I have an object with the name property and the value of that is the string.
+
+102
+00:06:49,070 --> 00:06:49,490
+Yes.
+
+103
+00:06:49,520 --> 00:06:52,310
+So this is where my data lives.
+
+104
+00:06:52,310 --> 00:06:56,410
+Now I can actually use that to provide a dynamic response right here.
+
+105
+00:06:56,420 --> 00:07:04,190
+I'm going to use an IF statement to check if args dot name exists and since it's a string this condition
+
+106
+00:07:04,190 --> 00:07:09,670
+will also make sure that this code only runs if it's a string that actually has content.
+
+107
+00:07:09,890 --> 00:07:14,490
+So if the name is provided and it has real content it's not just an empty string.
+
+108
+00:07:14,490 --> 00:07:18,180
+We are going to return the following using a template string.
+
+109
+00:07:18,200 --> 00:07:20,460
+I will say hello comma.
+
+110
+00:07:20,690 --> 00:07:23,870
+Then right here I am going to interpret their name.
+
+111
+00:07:23,870 --> 00:07:25,970
+So that's args dot name.
+
+112
+00:07:25,970 --> 00:07:30,440
+And at the very end of the string after their name I'll toss in the exclamation mark.
+
+113
+00:07:30,530 --> 00:07:33,670
+I can still return the generic message as well.
+
+114
+00:07:33,710 --> 00:07:36,040
+Right here I will set up an else clause.
+
+115
+00:07:36,080 --> 00:07:39,250
+Else return exactly what we had before.
+
+116
+00:07:39,290 --> 00:07:41,700
+Why return the hello string.
+
+117
+00:07:41,930 --> 00:07:44,650
+So now we are getting some arguments passed in.
+
+118
+00:07:44,650 --> 00:07:46,670
+If they are provided we do one thing.
+
+119
+00:07:46,670 --> 00:07:49,020
+If they're not provided we do something else.
+
+120
+00:07:49,100 --> 00:07:51,350
+I'm going to save index not J S.
+
+121
+00:07:51,350 --> 00:07:57,610
+Once again I am going to run that exact same query and this time around I get Hello Jess printing.
+
+122
+00:07:57,710 --> 00:08:04,560
+If I were to query for greeting and leave the arguments off as expected I would get my generic message
+
+123
+00:08:04,790 --> 00:08:05,530
+hello.
+
+124
+00:08:05,720 --> 00:08:06,510
+So there we have it.
+
+125
+00:08:06,530 --> 00:08:11,830
+This is how we can pass data from the client over to the server.
+
+126
+00:08:11,840 --> 00:08:16,750
+In this example we happen to just have a single argument but that's by no means a limitation.
+
+127
+00:08:16,760 --> 00:08:23,120
+I could provide more if I wanted to write here after the first I could comma space and define a second.
+
+128
+00:08:23,260 --> 00:08:29,350
+I could call this one something like job or position and I can pick a type for this one.
+
+129
+00:08:29,350 --> 00:08:31,340
+I'll make this a string as well.
+
+130
+00:08:31,450 --> 00:08:33,810
+And then we can choose to use it down below.
+
+131
+00:08:33,940 --> 00:08:40,390
+So maybe I check if the name is provided and then I use the logical and operator to check if the position
+
+132
+00:08:40,390 --> 00:08:41,850
+is also provided.
+
+133
+00:08:42,100 --> 00:08:44,800
+If they're both provided I use the following message.
+
+134
+00:08:44,800 --> 00:08:46,530
+Hello their name.
+
+135
+00:08:46,540 --> 00:08:53,570
+Then after the exclamation mark another sentence you are my favorite followed by their position.
+
+136
+00:08:53,670 --> 00:08:58,270
+So right here we will add in args dot position.
+
+137
+00:08:58,330 --> 00:09:03,370
+Now I can provide both of these arguments to see my more elaborate message actually sent.
+
+138
+00:09:03,400 --> 00:09:05,760
+Whoops sorry for jumping around right there.
+
+139
+00:09:05,800 --> 00:09:10,620
+I'm going to save index dot J s over inside of graph playground.
+
+140
+00:09:10,670 --> 00:09:18,430
+I am going to also add the position on so comma space position setting it equal to another string and
+
+141
+00:09:18,430 --> 00:09:22,630
+for this one I'll just call myself a teacher or developer or whatever like that.
+
+142
+00:09:22,660 --> 00:09:27,470
+Now although to us once again we have to refresh the schema in order for this argument to become valid
+
+143
+00:09:27,700 --> 00:09:29,200
+once it is added on though.
+
+144
+00:09:29,200 --> 00:09:31,420
+I can click play and I get my message.
+
+145
+00:09:31,420 --> 00:09:33,750
+Hello Jess you are my favorite teach.
+
+146
+00:09:33,820 --> 00:09:35,120
+That should have been teacher.
+
+147
+00:09:35,200 --> 00:09:38,760
+And while I'm at it I might as well change it to the correct name Andrew.
+
+148
+00:09:38,770 --> 00:09:39,440
+There we go.
+
+149
+00:09:39,640 --> 00:09:45,190
+So we have two arguments being passed to greeting and greeting is able to use both of them because we
+
+150
+00:09:45,190 --> 00:09:51,690
+actually use the args object here and we have to find them up above in the queery definition.
+
+151
+00:09:51,820 --> 00:09:53,710
+That's where we're going to stop for this one.
+
+152
+00:09:53,720 --> 00:09:59,230
+Let's move into Challenge time where you're going to be creating a new query that also accepts some
+
+153
+00:09:59,350 --> 00:10:00,260
+arguments.
+
+154
+00:10:00,280 --> 00:10:03,220
+Right here there are three steps for getting this done burst up.
+
+155
+00:10:03,220 --> 00:10:07,540
+You're going to create a new add query that returns a float.
+
+156
+00:10:07,630 --> 00:10:14,140
+Then you're going to set up add to take two arguments a and b which are required of floats and you're
+
+157
+00:10:14,140 --> 00:10:18,840
+going to have the resolver send back the sum of the two arguments.
+
+158
+00:10:18,880 --> 00:10:24,550
+So in the end of the day I should be using the ADD query over here passing in a and b instead of name
+
+159
+00:10:24,550 --> 00:10:25,360
+and position.
+
+160
+00:10:25,390 --> 00:10:31,330
+Both of them should be numbers then the actual resolver is just going to add up those two numbers and
+
+161
+00:10:31,330 --> 00:10:32,190
+return them.
+
+162
+00:10:32,320 --> 00:10:35,440
+So I would expect to see the sum in the response.
+
+163
+00:10:35,440 --> 00:10:38,780
+So if I passed in one for a and two for B.
+
+164
+00:10:38,860 --> 00:10:41,890
+I would expect to see the total three come back.
+
+165
+00:10:41,890 --> 00:10:46,420
+So you're going to have to define the query with the correct argument definition.
+
+166
+00:10:46,420 --> 00:10:51,250
+You're going to have to set up the resolver that actually looks for those arguments and returns the
+
+167
+00:10:51,250 --> 00:10:57,970
+sum and then you're going to have to test your work by creating a query for that and actually running
+
+168
+00:10:57,970 --> 00:11:01,130
+it making sure you get the correct response.
+
+169
+00:11:01,180 --> 00:11:06,220
+Once again if you have any trouble going through this you are more than welcome to refer to any code
+
+170
+00:11:06,220 --> 00:11:10,570
+we've written any videos you've watched or any external resources.
+
+171
+00:11:10,570 --> 00:11:12,670
+Take as much time as you need to work through this.
+
+172
+00:11:12,670 --> 00:11:17,170
+If you get stuck try to debug then come back and click play
+
+173
+00:11:21,320 --> 00:11:22,220
+how that one go.
+
+174
+00:11:22,250 --> 00:11:25,240
+We're going to kick things off by creating the query definition.
+
+175
+00:11:25,250 --> 00:11:30,560
+So right here we're going to call this one add add is going to return a float.
+
+176
+00:11:30,560 --> 00:11:32,210
+Now we do want some arguments for ADD.
+
+177
+00:11:32,210 --> 00:11:38,180
+That's the whole point of this challenge and we actually want to we want a and b both of them are going
+
+178
+00:11:38,180 --> 00:11:39,610
+to be required floats.
+
+179
+00:11:39,710 --> 00:11:46,330
+So a right here is going to be a float we put an exclamation mark on there to ensure it's provided.
+
+180
+00:11:46,460 --> 00:11:54,020
+And the other one B is also a float also non nullable so the query definition is in place down below
+
+181
+00:11:54,020 --> 00:12:00,590
+we can actually set up the resolver for ad ad we set up the method.
+
+182
+00:12:00,670 --> 00:12:02,720
+We are also going to define our arguments.
+
+183
+00:12:02,740 --> 00:12:09,550
+So we have the parent we have our args we have the context and we have the info you don't need to list
+
+184
+00:12:09,550 --> 00:12:11,380
+out all four of them.
+
+185
+00:12:11,440 --> 00:12:13,460
+Listing out all four as habit.
+
+186
+00:12:13,470 --> 00:12:17,090
+Census is something we'll be doing later in the class right here.
+
+187
+00:12:17,110 --> 00:12:24,760
+It's time to use the values so we know they're going to be there so I can return args dot a plus args
+
+188
+00:12:24,850 --> 00:12:28,550
+dot B and that is all we have to do for the resolver.
+
+189
+00:12:28,750 --> 00:12:35,530
+And that is actually it for the index dot J s changes I'm going to save this file and over inside of
+
+190
+00:12:35,560 --> 00:12:38,590
+playground I will actually make the correct query.
+
+191
+00:12:38,640 --> 00:12:40,650
+I'm going to query for ADD.
+
+192
+00:12:40,810 --> 00:12:47,890
+I'm going to pass in the two arguments it expects a I'll set that equal to 12 and B I'll set that equal
+
+193
+00:12:47,920 --> 00:12:49,320
+to minus 1.
+
+194
+00:12:49,420 --> 00:12:50,240
+And there we go.
+
+195
+00:12:50,320 --> 00:12:53,590
+We just need to refresh the schema to validate all of that.
+
+196
+00:12:53,590 --> 00:12:56,260
+Now we can actually fire that off and what do I get back.
+
+197
+00:12:56,260 --> 00:13:03,690
+I correctly get back 11 if I were to change that to one and two and send the request off.
+
+198
+00:13:03,690 --> 00:13:05,650
+This time I get back 3.
+
+199
+00:13:05,790 --> 00:13:10,780
+So this is what you should've been able to get done using operation arguments.
+
+200
+00:13:10,800 --> 00:13:11,320
+All right.
+
+201
+00:13:11,340 --> 00:13:13,140
+That is it for this video.
+
+202
+00:13:13,200 --> 00:13:18,600
+We now know how to use operation arguments and that's going to allow us to actually use these arguments
+
+203
+00:13:18,600 --> 00:13:24,630
+in a real way in the next video we're going to start focusing on how we can work with a ray based data
+
+204
+00:13:24,960 --> 00:13:29,430
+and arguments are going to come in handy for that because as mentioned in the beginning of this video
+
+205
+00:13:29,640 --> 00:13:35,100
+arguments will allow us to do things like filter that data sort that the data or do whatever else we
+
+206
+00:13:35,100 --> 00:13:36,090
+might need to do.
+
+207
+00:13:36,090 --> 00:13:37,370
+I'm excited to get to that.
+
+208
+00:13:37,380 --> 00:13:40,040
+So let's go ahead and jump right in to the next one.
+

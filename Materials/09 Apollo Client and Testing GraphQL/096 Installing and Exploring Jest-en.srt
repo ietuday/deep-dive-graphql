@@ -1,0 +1,684 @@
+1
+00:00:00,180 --> 00:00:05,340
+In this video you're going to be installing and exploring just the testing framework that we're going
+
+2
+00:00:05,340 --> 00:00:07,500
+to be using throughout this section.
+
+3
+00:00:07,500 --> 00:00:10,870
+We'll talk more about what exactly a test framework is.
+
+4
+00:00:10,950 --> 00:00:17,150
+But in short it's going to give us all of the tools we need to make it really easy to write test cases.
+
+5
+00:00:17,160 --> 00:00:22,870
+And in this video you'll learn what those are to by writing our very first test cases.
+
+6
+00:00:22,890 --> 00:00:27,960
+Now these initial test cases are going to test our graft application.
+
+7
+00:00:27,990 --> 00:00:31,140
+We're just going to explore how things work with geste.
+
+8
+00:00:31,290 --> 00:00:35,340
+Then as the section progresses we'll actually start to test our.
+
+9
+00:00:35,460 --> 00:00:39,840
+Well queries mutations and subscriptions to kick things off.
+
+10
+00:00:39,840 --> 00:00:43,560
+Let's go ahead and pull up the website for the just testing framework.
+
+11
+00:00:43,650 --> 00:00:48,300
+We can find that by heading over to the browser and going to just J s dot.
+
+12
+00:00:48,350 --> 00:00:52,860
+So here there is a bunch of great resources for using the tool.
+
+13
+00:00:52,980 --> 00:01:00,330
+The two main pages are docs and API docs contains a lot of guides showing you how to do specific things
+
+14
+00:01:00,330 --> 00:01:01,060
+with jast.
+
+15
+00:01:01,140 --> 00:01:07,680
+They will be covering much of this in the D.S. itself and the API page contains all of the various methods
+
+16
+00:01:07,680 --> 00:01:10,020
+and tools that Jeste provides.
+
+17
+00:01:10,020 --> 00:01:14,880
+And this is a page you will be referring to throughout this section as we explore new features.
+
+18
+00:01:14,880 --> 00:01:20,790
+For now though we can go ahead and install geste and geste installs as a module.
+
+19
+00:01:20,790 --> 00:01:26,610
+So from our project all we're going to do is run NPM install wups.
+
+20
+00:01:26,640 --> 00:01:29,790
+Let's go ahead and CD to the root of the project first.
+
+21
+00:01:29,910 --> 00:01:37,860
+NPM install then the module itself which is just at twenty three point five point zero which is the
+
+22
+00:01:37,920 --> 00:01:39,120
+latest version.
+
+23
+00:01:39,240 --> 00:01:44,450
+And it just is going to be a local module only not something that's needed in production.
+
+24
+00:01:44,550 --> 00:01:51,020
+So I can use the save dev flag to save that as a development dependency package.
+
+25
+00:01:51,120 --> 00:01:54,840
+Jason So this is going to go through the installation process.
+
+26
+00:01:54,930 --> 00:01:57,870
+Grabbing everything the framework has to offer.
+
+27
+00:01:57,870 --> 00:02:03,670
+And over in Patrick Gadot Jason we'll see that gests dependency show up in just a moment.
+
+28
+00:02:03,750 --> 00:02:10,110
+Once we have just installed we're going to go through the basic process of creating a test suite from
+
+29
+00:02:10,110 --> 00:02:10,910
+scratch.
+
+30
+00:02:11,030 --> 00:02:15,820
+So down below everything went well and we had it listed as a dev dependency.
+
+31
+00:02:16,030 --> 00:02:21,100
+But we're going to do now is create a test script now by default package.
+
+32
+00:02:21,130 --> 00:02:27,150
+Jason gives us a test script and it just dumps a message to the terminal when you run it saying that
+
+33
+00:02:27,150 --> 00:02:29,900
+there is no test suite specified.
+
+34
+00:02:29,910 --> 00:02:33,650
+We're going to go ahead and fix that by running just instead.
+
+35
+00:02:33,870 --> 00:02:39,540
+So there's nothing fancy we have to provide after just oh we will explore some arguments later.
+
+36
+00:02:39,540 --> 00:02:43,330
+For now it's enough to simply run the just command.
+
+37
+00:02:43,470 --> 00:02:49,120
+Let's go ahead and see what happens when we run the test script down below in the terminal.
+
+38
+00:02:49,140 --> 00:02:55,260
+I'm going to use clear to clear the terminal output and then I'm going to run NPM run test to fire off
+
+39
+00:02:55,320 --> 00:02:56,840
+our test script.
+
+40
+00:02:56,850 --> 00:03:02,430
+This is going to run geste and jestice going to try to run the test suite but we haven't created one
+
+41
+00:03:02,430 --> 00:03:02,720
+yet.
+
+42
+00:03:02,730 --> 00:03:04,580
+So it's going to fail and that's OK.
+
+43
+00:03:04,590 --> 00:03:07,350
+Let's go ahead and run it and see what errors we get.
+
+44
+00:03:07,350 --> 00:03:08,930
+Right here we do indeed have an error.
+
+45
+00:03:08,940 --> 00:03:13,360
+And if I scroll way up to the top we can see where it ran are just command.
+
+46
+00:03:13,560 --> 00:03:20,580
+And the first thing just said is that no tests have been found and that's true just it uses a specific
+
+47
+00:03:20,580 --> 00:03:25,260
+pattern to look for test files in our application and we haven't created any.
+
+48
+00:03:25,260 --> 00:03:26,730
+Let's go ahead and create one.
+
+49
+00:03:26,820 --> 00:03:28,950
+So just can actually detect it.
+
+50
+00:03:29,100 --> 00:03:33,070
+What we're going to do is make a new jur rectory in the root of our graph.
+
+51
+00:03:33,150 --> 00:03:34,820
+Well Prisma project.
+
+52
+00:03:34,830 --> 00:03:39,660
+So right here along side of the source directory and the Prisma directory.
+
+53
+00:03:39,870 --> 00:03:44,950
+I'm going to make a new one called tests and this folder name is specific.
+
+54
+00:03:44,960 --> 00:03:51,330
+Gest is specifically looking for a folder that has the tests name and in there we're going to end up
+
+55
+00:03:51,330 --> 00:03:53,840
+putting all of our test files.
+
+56
+00:03:53,940 --> 00:03:56,630
+So let's go ahead and create our very first one.
+
+57
+00:03:56,640 --> 00:04:01,650
+Now there's also a method to naming your test file so geste can detect it.
+
+58
+00:04:01,680 --> 00:04:08,820
+This is done by adding the dot test and Dot JSE extension onto the end so we can call our file as an
+
+59
+00:04:08,820 --> 00:04:16,620
+example user dot test dot J as we could call it something like post dot test dot J.S. or something like
+
+60
+00:04:16,650 --> 00:04:19,680
+order dot test dot J ass right here.
+
+61
+00:04:19,680 --> 00:04:24,720
+Let's go ahead and stick with that initial one user dot test dot Jay ass.
+
+62
+00:04:24,900 --> 00:04:32,350
+This is going to be the test file that contains individual test cases for user related functionality
+
+63
+00:04:32,370 --> 00:04:37,530
+so things like signing up and logging in and fetching your profile and updating your email.
+
+64
+00:04:37,530 --> 00:04:43,440
+Now we have a single test suite in place and our test suite is nothing more than a file with that correct
+
+65
+00:04:43,440 --> 00:04:45,960
+extension in the correct directory.
+
+66
+00:04:46,020 --> 00:04:50,440
+A test suite is a file that just is going to detect Down below.
+
+67
+00:04:50,550 --> 00:04:53,690
+I'm going to run the exact same command I ran before.
+
+68
+00:04:53,850 --> 00:04:56,350
+I'm going to run NPM run test.
+
+69
+00:04:56,430 --> 00:04:58,810
+This is going to fire off just again.
+
+70
+00:04:58,920 --> 00:05:01,050
+And well things are still going to fail.
+
+71
+00:05:01,060 --> 00:05:04,750
+They're going to fail with a different message if I scroll up.
+
+72
+00:05:05,670 --> 00:05:09,050
+We have the part where they originally ran the Jeste command.
+
+73
+00:05:09,180 --> 00:05:14,710
+Then we have a failure and it's related to the user dot test that J S file.
+
+74
+00:05:14,820 --> 00:05:17,380
+So this already is a big step in the right direction.
+
+75
+00:05:17,400 --> 00:05:24,660
+Gest was indeed able to detect our test suite because of the naming conventions we used down below.
+
+76
+00:05:24,660 --> 00:05:30,830
+We have an error test suite failed to run your test suite must contain at least one test.
+
+77
+00:05:30,840 --> 00:05:36,730
+Right now we have an empty file we definitely don't have a test so let's go ahead and fix that.
+
+78
+00:05:36,870 --> 00:05:42,660
+Adding our very first test case now jest it detects and executes our test file.
+
+79
+00:05:42,660 --> 00:05:48,760
+It's injecting a whole bunch of just specific stuff that we can use to build up our test suite.
+
+80
+00:05:48,810 --> 00:05:55,020
+And one of them is a function called test that allows us to define individual test cases.
+
+81
+00:05:55,020 --> 00:05:58,240
+And it's a function we'll be calling over and over again.
+
+82
+00:05:58,350 --> 00:06:00,060
+It's injected as a global.
+
+83
+00:06:00,090 --> 00:06:01,930
+So we'll call it like this.
+
+84
+00:06:02,040 --> 00:06:05,630
+And we passed to just two important pieces of information.
+
+85
+00:06:05,640 --> 00:06:07,030
+The first is a strain.
+
+86
+00:06:07,140 --> 00:06:09,320
+This is the name for our test case.
+
+87
+00:06:09,330 --> 00:06:12,140
+It describes exactly what we're trying to test.
+
+88
+00:06:12,150 --> 00:06:14,410
+We're going to be writing dozens of test cases.
+
+89
+00:06:14,430 --> 00:06:16,580
+So it's important to stay organized.
+
+90
+00:06:16,620 --> 00:06:21,210
+And the second argument we passed to the test function is a function.
+
+91
+00:06:21,510 --> 00:06:27,360
+We're going to pass in a function and this is the function that runs some code and makes sure that code
+
+92
+00:06:27,420 --> 00:06:28,920
+worked as expected.
+
+93
+00:06:28,920 --> 00:06:34,920
+So in this function for example I might fetch all of my draft posts and make sure I got the correct
+
+94
+00:06:35,070 --> 00:06:37,260
+number back for the moment.
+
+95
+00:06:37,320 --> 00:06:40,040
+Let's go ahead and create a dummy test case.
+
+96
+00:06:40,080 --> 00:06:42,780
+I'm going to set up a name for this one.
+
+97
+00:06:42,810 --> 00:06:45,670
+This is my first test case.
+
+98
+00:06:45,780 --> 00:06:49,980
+Then we're going to save the test suite and down below in the terminal.
+
+99
+00:06:50,040 --> 00:06:58,230
+Once again I will be executing NPM run test this time around the test suite is going to work we're not
+
+100
+00:06:58,230 --> 00:06:59,420
+going to get an error.
+
+101
+00:06:59,520 --> 00:07:01,190
+And right here we have the output.
+
+102
+00:07:01,380 --> 00:07:07,140
+This is the beginning where it ran the Jeste command and we can see that our test suite the file user
+
+103
+00:07:07,440 --> 00:07:08,100
+test.
+
+104
+00:07:08,170 --> 00:07:14,220
+J.S. it is indeed passing which means that all of the test cases inside of it succeeded and those are
+
+105
+00:07:14,220 --> 00:07:15,570
+listed out as well.
+
+106
+00:07:15,570 --> 00:07:17,290
+Right here we have just one.
+
+107
+00:07:17,310 --> 00:07:19,680
+This is my first test case.
+
+108
+00:07:19,680 --> 00:07:23,140
+It passed and it took just one millisecond to do so.
+
+109
+00:07:23,250 --> 00:07:26,830
+Down below at the bottom we have some input about the entire process.
+
+110
+00:07:26,910 --> 00:07:32,910
+All of our test suites they all passed all of the individual test cases we just have one and it passed
+
+111
+00:07:33,240 --> 00:07:35,830
+then we have snapshots which we're not going to be using.
+
+112
+00:07:35,880 --> 00:07:38,310
+That's more for our user interface development.
+
+113
+00:07:38,430 --> 00:07:46,890
+And finally we have the total time that it took to start up run and finish the test suite just 1.5 seconds.
+
+114
+00:07:46,890 --> 00:07:52,740
+Now at this point we have a test case in place and we've already ran to the NPM test script multiple
+
+115
+00:07:52,740 --> 00:07:53,700
+times.
+
+116
+00:07:53,700 --> 00:08:00,750
+There's actually an option we can use on our just command that's going to cause the geste sweet to rerun
+
+117
+00:08:00,930 --> 00:08:02,730
+as our files change.
+
+118
+00:08:02,730 --> 00:08:09,450
+This is the hyphen hyphen watch option and that is going to make sure that when our test files change
+
+119
+00:08:09,630 --> 00:08:14,070
+or when the code we're testing changes that everything restarts.
+
+120
+00:08:14,070 --> 00:08:15,000
+So now what do we do.
+
+121
+00:08:15,000 --> 00:08:20,850
+Well we can go ahead and talk about where the documentation for Watch lives over inside of the geste
+
+122
+00:08:20,910 --> 00:08:23,310
+API page where we were before.
+
+123
+00:08:23,400 --> 00:08:27,320
+If I scroll way to the bottom there are just CLID options.
+
+124
+00:08:27,330 --> 00:08:29,810
+That's actually an entire page on its own.
+
+125
+00:08:29,910 --> 00:08:33,890
+And in the sidebar there are all sorts of options we can use most.
+
+126
+00:08:34,020 --> 00:08:40,410
+Not particularly useful for our purposes but down below we do indeed have the watch option and we can
+
+127
+00:08:40,410 --> 00:08:42,160
+see exactly what that does.
+
+128
+00:08:42,180 --> 00:08:47,200
+Watches are files for changes and then reruns the correct tests.
+
+129
+00:08:47,220 --> 00:08:51,640
+So now that we have that in place we can go ahead and run the test suite again.
+
+130
+00:08:51,750 --> 00:08:55,320
+NPM run test this time around.
+
+131
+00:08:55,340 --> 00:08:56,940
+So it's not going to finish.
+
+132
+00:08:56,940 --> 00:08:59,290
+We're not going to be brought back to the command prompt.
+
+133
+00:08:59,310 --> 00:09:00,880
+It's going to sit and wait.
+
+134
+00:09:00,900 --> 00:09:05,730
+Right here we can see that things still succeeded and down below we can see we now have a whole bunch
+
+135
+00:09:05,730 --> 00:09:06,670
+of options.
+
+136
+00:09:06,750 --> 00:09:11,200
+So I can use the key for example to rerun all of the test cases again.
+
+137
+00:09:11,370 --> 00:09:15,270
+I can use w to show more options and use a different option.
+
+138
+00:09:15,270 --> 00:09:20,020
+I can use some of these to filter and run just a specific set of my test cases.
+
+139
+00:09:20,160 --> 00:09:21,650
+All sorts of interesting things.
+
+140
+00:09:21,660 --> 00:09:25,230
+But in general we're not going to be using these watch options.
+
+141
+00:09:25,230 --> 00:09:31,930
+We're just using it so that when we do make changes to our test file the test suite reruns for example
+
+142
+00:09:32,220 --> 00:09:36,820
+I'm going to go ahead and just add a little line in here one plus two.
+
+143
+00:09:37,110 --> 00:09:40,990
+I'm going to save the file down below the test suite Re-Read.
+
+144
+00:09:41,040 --> 00:09:44,910
+And we do indeed still have a single passing test case.
+
+145
+00:09:44,910 --> 00:09:49,980
+Now it's Challenge time it's going to be up to you to create a new test case and this is an easy one.
+
+146
+00:09:49,980 --> 00:09:53,510
+But I wanted to give you a little experience working with that test function.
+
+147
+00:09:53,700 --> 00:09:58,110
+So you're going to create a second test case by using the test function.
+
+148
+00:09:58,110 --> 00:10:00,300
+You're going to pass in a name for your test.
+
+149
+00:10:00,300 --> 00:10:04,910
+You can use anything you like and you're going to pass in the function argument and you can just leave
+
+150
+00:10:05,010 --> 00:10:05,980
+that empty.
+
+151
+00:10:06,060 --> 00:10:11,640
+Then I'd like you to save the file and ensure that your second test case shows up in the output and
+
+152
+00:10:11,640 --> 00:10:13,150
+that it is indeed passing.
+
+153
+00:10:13,320 --> 00:10:17,620
+So take some time to knock that one out and when you're done come back and click play
+
+154
+00:10:21,140 --> 00:10:24,970
+how that go let's go ahead and kick this one off by calling test.
+
+155
+00:10:25,020 --> 00:10:27,000
+So up above or down below.
+
+156
+00:10:27,030 --> 00:10:28,040
+Order doesn't matter.
+
+157
+00:10:28,050 --> 00:10:31,520
+I am going to call test with the two arguments we have to provide.
+
+158
+00:10:31,620 --> 00:10:38,490
+First up a string name and second up a function to run and we can pick whatever name we like for this
+
+159
+00:10:38,490 --> 00:10:39,480
+test case.
+
+160
+00:10:39,480 --> 00:10:42,540
+I'll just say my second test ever.
+
+161
+00:10:42,540 --> 00:10:43,440
+Perfect.
+
+162
+00:10:43,440 --> 00:10:45,900
+Now we can actually save the file.
+
+163
+00:10:45,960 --> 00:10:50,030
+And down below we have new information under our test suite.
+
+164
+00:10:50,040 --> 00:10:51,630
+We have two test cases.
+
+165
+00:10:51,720 --> 00:10:54,360
+Down below we have one test suite passing.
+
+166
+00:10:54,360 --> 00:10:59,210
+We only have one test file and we have two individual test cases.
+
+167
+00:10:59,250 --> 00:11:04,260
+And now at this point you're probably wondering what exactly we put inside of our test functions and
+
+168
+00:11:04,260 --> 00:11:09,390
+you might even be wondering why these test cases are passing if they're not really doing anything.
+
+169
+00:11:09,420 --> 00:11:13,170
+We're going to talk about all of that and more in the very next video.
+
+170
+00:11:13,200 --> 00:11:17,880
+We're actually going to be testing some functions that will create I'm excited to get to that.
+
+171
+00:11:17,880 --> 00:11:20,700
+So let's go ahead and jump right in to the next one.
+

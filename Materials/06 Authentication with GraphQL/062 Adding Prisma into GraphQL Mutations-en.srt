@@ -1,0 +1,848 @@
+1
+00:00:00,210 --> 00:00:04,350
+In this video we're going to start to turn our attention towards our mutations.
+
+2
+00:00:04,350 --> 00:00:10,960
+We have more mutations than we do queries and with the mutations we also want node j ass to serve us
+
+3
+00:00:10,980 --> 00:00:16,350
+that middleman that's going to make sure that when we do add in things like authentication we can use
+
+4
+00:00:16,350 --> 00:00:22,920
+node to make sure that someone has the correct permissions to edit some post or delete some comment.
+
+5
+00:00:22,920 --> 00:00:27,660
+So to kick things off what I'm going to do is close all of the open files and I'm going to open just
+
+6
+00:00:27,660 --> 00:00:29,190
+a single file to start.
+
+7
+00:00:29,190 --> 00:00:33,590
+Mutation Dhananjay as in here we're going to go one by one.
+
+8
+00:00:33,720 --> 00:00:39,900
+Updating all of our mutations to interact with the data from the database as opposed to interacting
+
+9
+00:00:39,900 --> 00:00:45,190
+with the data from our arrays which is what it's currently doing first on our list is the create user
+
+10
+00:00:45,210 --> 00:00:45,820
+mutation.
+
+11
+00:00:45,840 --> 00:00:48,250
+Eventually this mutation will be called Sign-Up.
+
+12
+00:00:48,270 --> 00:00:52,920
+That's coming a little bit later in this section but for now we'll leave the name the same and all we're
+
+13
+00:00:52,920 --> 00:00:59,100
+going to do is switch the functionality from working with the array data to working with the real database.
+
+14
+00:00:59,100 --> 00:01:05,310
+I'll start by commenting out everything we have so far and swapping out the D B argument for Prisma
+
+15
+00:01:05,400 --> 00:01:08,150
+so we can actually interact with that database.
+
+16
+00:01:08,160 --> 00:01:13,530
+Now the first thing we do inside of here is going to be something very similar to what we did before.
+
+17
+00:01:13,530 --> 00:01:16,850
+I'm going to try to find a user with the e-mail.
+
+18
+00:01:16,890 --> 00:01:18,890
+This person is trying to register with.
+
+19
+00:01:18,990 --> 00:01:21,240
+I want to make sure that it's not already taken.
+
+20
+00:01:21,240 --> 00:01:29,130
+So Konst email taken once again this time though we are going to take advantage of Prisma data exists.
+
+21
+00:01:29,250 --> 00:01:36,130
+We are going to call user and in this case we're just going to search by ID so I can pass in that object.
+
+22
+00:01:36,150 --> 00:01:43,260
+We're looking for users where their email is equal to the value provided in args dot data dot email.
+
+23
+00:01:43,320 --> 00:01:45,920
+That's the exact value we were using before.
+
+24
+00:01:45,990 --> 00:01:47,040
+Perfect.
+
+25
+00:01:47,040 --> 00:01:51,270
+Now it's important to note that what comes back from user is indeed a promise.
+
+26
+00:01:51,270 --> 00:01:56,250
+So we're going to take advantage of a sink and a weight inside of this method so let's market as an
+
+27
+00:01:56,250 --> 00:02:02,550
+async function when we're using the ESX method definition we put the async keyword upfront like we're
+
+28
+00:02:02,550 --> 00:02:04,800
+seeing here now down below.
+
+29
+00:02:04,890 --> 00:02:11,330
+I can actually await this promise and what we're getting back is a boolean value email taken is true.
+
+30
+00:02:11,340 --> 00:02:15,490
+If it did find a user with that e-mail e-mail taken is false.
+
+31
+00:02:15,510 --> 00:02:20,850
+If it did not find a user with that e-mail now on the end of the day we're going to throw the same error
+
+32
+00:02:20,910 --> 00:02:21,990
+we through before.
+
+33
+00:02:22,140 --> 00:02:28,900
+So I can actually just take this code copy it paste it up above and uncomment it.
+
+34
+00:02:28,930 --> 00:02:30,400
+Excellent.
+
+35
+00:02:30,400 --> 00:02:36,400
+Now we have the actual uniqueness verified and we can continue on down the list.
+
+36
+00:02:36,400 --> 00:02:43,730
+But we're going to end up doing is creating the user by using Prisma Dopp mutation not create user.
+
+37
+00:02:43,780 --> 00:02:49,810
+Now what is important to note that if we tried to create a user and the email was already taken yes
+
+38
+00:02:49,870 --> 00:02:51,460
+we would indeed get a failure.
+
+39
+00:02:51,610 --> 00:02:57,550
+The only reason we're using exists here is to allow us a little more fine grained control here we can
+
+40
+00:02:57,550 --> 00:03:01,490
+explicitly throw an error with the exact message we want.
+
+41
+00:03:01,660 --> 00:03:03,850
+So once again you can really go either way.
+
+42
+00:03:03,850 --> 00:03:10,630
+Maybe you just pass all the data to the nutation and see if that fails maybe you first check using exists.
+
+43
+00:03:10,630 --> 00:03:11,940
+Either way works.
+
+44
+00:03:11,980 --> 00:03:16,870
+They're both perfectly valid approaches and I've worked in projects that actually use both techniques
+
+45
+00:03:16,930 --> 00:03:18,240
+successfully.
+
+46
+00:03:18,250 --> 00:03:23,050
+So now we're going to continue on down that list and the next thing to do is to create the user.
+
+47
+00:03:23,050 --> 00:03:30,010
+So I will create a variable Konst I'm going to call this user and right here we are going to await the
+
+48
+00:03:30,010 --> 00:03:34,170
+promise that comes back from Prisma dot mutation dot.
+
+49
+00:03:34,240 --> 00:03:35,880
+Create user.
+
+50
+00:03:35,950 --> 00:03:36,850
+Perfect.
+
+51
+00:03:36,850 --> 00:03:41,050
+We're going to call that as such and pass in our necessary arguments.
+
+52
+00:03:41,080 --> 00:03:46,600
+The first argument is where we provide our operation arguments to the Prisma Graph API and we're just
+
+53
+00:03:46,600 --> 00:03:48,850
+going to pass the arguments through.
+
+54
+00:03:48,850 --> 00:03:52,550
+So arguments were provided to the node Graph API.
+
+55
+00:03:52,660 --> 00:03:54,320
+We're going to pass them right along.
+
+56
+00:03:54,580 --> 00:04:00,850
+I'm going to set up data getting its value from args ADOT data which is the arguments provided to the
+
+57
+00:04:00,880 --> 00:04:04,110
+node j s graft UL API.
+
+58
+00:04:04,300 --> 00:04:07,670
+Now I know this can be a little confusing to visualize at first.
+
+59
+00:04:07,690 --> 00:04:14,410
+So what happens is that the client makes a request to the node JSE API and it passes in the arguments
+
+60
+00:04:14,410 --> 00:04:15,340
+necessary.
+
+61
+00:04:15,520 --> 00:04:19,270
+We can always remember exactly what we set up by going into schema.
+
+62
+00:04:19,320 --> 00:04:23,510
+Graft well up above I have the mutation for create user.
+
+63
+00:04:23,580 --> 00:04:27,320
+This is the node j as a graphical API mutation.
+
+64
+00:04:27,610 --> 00:04:31,000
+It takes in create user input which we created down below.
+
+65
+00:04:31,000 --> 00:04:35,760
+This requires the name and the email just like the Prisma API does.
+
+66
+00:04:35,830 --> 00:04:40,470
+Now it still has age left behind as an artifact from when age was on the user.
+
+67
+00:04:40,480 --> 00:04:45,820
+We could actually remove that right here from create user input and I can also remove it from Update
+
+68
+00:04:45,880 --> 00:04:47,170
+user input.
+
+69
+00:04:47,170 --> 00:04:48,240
+Perfect.
+
+70
+00:04:48,250 --> 00:04:54,010
+So in the end of the day the object that we're talking about right here args dot data we know that is
+
+71
+00:04:54,010 --> 00:04:56,990
+going to have a name and it is going to have an email.
+
+72
+00:04:57,010 --> 00:05:04,510
+So it's perfectly fine to pass that right on through to Prisma which also requires a name and an e-mail.
+
+73
+00:05:04,510 --> 00:05:05,710
+So where are we going to go from here.
+
+74
+00:05:05,710 --> 00:05:12,500
+Well we have that user created an over going to do is pass in as the second argument info.
+
+75
+00:05:12,520 --> 00:05:17,800
+This is going to ensure that whatever selection set was asked for actually ends up coming back.
+
+76
+00:05:17,800 --> 00:05:22,900
+So if I create a new user and just ask for their ID that is the exact information we'll get back.
+
+77
+00:05:22,900 --> 00:05:25,040
+So we're passing info through.
+
+78
+00:05:25,120 --> 00:05:26,170
+Perfect.
+
+79
+00:05:26,170 --> 00:05:28,420
+Now with this in place we're actually all done.
+
+80
+00:05:28,630 --> 00:05:32,810
+I can remove all of the comments down below and all we have to do is return something.
+
+81
+00:05:32,850 --> 00:05:35,530
+I am going to return the user.
+
+82
+00:05:35,530 --> 00:05:36,490
+Excellent.
+
+83
+00:05:36,490 --> 00:05:42,880
+Now remember that we can indeed return promises from our resolver functions so the code we have here
+
+84
+00:05:43,120 --> 00:05:47,430
+is actually identical to just returning that promise directly.
+
+85
+00:05:47,590 --> 00:05:50,270
+There's no need to create a separate variable and await it.
+
+86
+00:05:50,290 --> 00:05:55,790
+If we're just going to return that value right away this code is just a little more concise though.
+
+87
+00:05:55,870 --> 00:05:58,390
+Once again both solutions are identical.
+
+88
+00:05:58,390 --> 00:05:59,100
+Perfect.
+
+89
+00:05:59,110 --> 00:06:02,530
+Now I can save this file and we're actually going to test things out.
+
+90
+00:06:02,530 --> 00:06:08,090
+We're going to make sure that it does interact with our real database over inside of local host 4000.
+
+91
+00:06:08,200 --> 00:06:13,220
+We're going to be firing off a create user mutation to our node J.S. graph.
+
+92
+00:06:13,250 --> 00:06:19,600
+Q Well API now to do this we will move over to the create user tab which we already have in place and
+
+93
+00:06:19,600 --> 00:06:26,140
+we have a mutation creating a name Jess and an e-mail Jess at example dot com Dambulla we have our selection
+
+94
+00:06:26,140 --> 00:06:31,730
+set and all we need to do is remove age since that's no longer something we can actually select.
+
+95
+00:06:31,750 --> 00:06:35,480
+Though I am going to grab the id the name and the email.
+
+96
+00:06:35,620 --> 00:06:36,520
+Awesome.
+
+97
+00:06:36,520 --> 00:06:39,430
+From here we can actually fire this off and see what we get.
+
+98
+00:06:39,430 --> 00:06:40,750
+Right here we have an ID.
+
+99
+00:06:40,770 --> 00:06:45,220
+We have a name and we have an e-mail as expected which is a great first step.
+
+100
+00:06:45,220 --> 00:06:51,070
+Let's go ahead and verify it's actually in the database by moving over to P.G. admin down below.
+
+101
+00:06:51,070 --> 00:06:55,370
+I have all of the tables for my default default schema.
+
+102
+00:06:55,480 --> 00:06:58,030
+I'm going to view the data in that user table.
+
+103
+00:06:58,030 --> 00:07:00,090
+So right click View added data.
+
+104
+00:07:00,190 --> 00:07:01,940
+I'm going to view all rows.
+
+105
+00:07:02,020 --> 00:07:07,950
+I should have my three old users as well as my one new user and right here that is exactly what I have.
+
+106
+00:07:08,020 --> 00:07:10,710
+I have the name Jess and I have the email.
+
+107
+00:07:10,720 --> 00:07:12,790
+Just an example dot com.
+
+108
+00:07:12,820 --> 00:07:16,180
+So the new user was indeed successfully created.
+
+109
+00:07:16,180 --> 00:07:17,100
+Excellent.
+
+110
+00:07:17,110 --> 00:07:26,550
+So at this point we do indeed use no JS as a middleman between the Prisma API and our API.
+
+111
+00:07:26,570 --> 00:07:32,040
+Now currently Yes you might say that I could just go over to this you Arel and do whatever I want to
+
+112
+00:07:32,040 --> 00:07:35,270
+the database shortly though we are going to lock that down.
+
+113
+00:07:35,280 --> 00:07:40,350
+So you'll need a secret password to actually directly interact with Prisma.
+
+114
+00:07:40,530 --> 00:07:46,340
+But the moment though we have one of our mutations converted which is a fantastic first step.
+
+115
+00:07:46,350 --> 00:07:51,450
+Now out of all of the original nutation methods I would have said the original create user mutation
+
+116
+00:07:51,450 --> 00:07:53,760
+was one of the least complex mutations.
+
+117
+00:07:53,760 --> 00:07:55,540
+There was not that much there.
+
+118
+00:07:55,560 --> 00:07:59,490
+The code is a bit simpler now but it was already pretty simple to begin with.
+
+119
+00:07:59,550 --> 00:08:04,770
+Some of our other mutation methods though are going to be able to get reduced drastically for example
+
+120
+00:08:04,800 --> 00:08:07,320
+delete user in this one.
+
+121
+00:08:07,440 --> 00:08:13,080
+We had to do some stuff directly related to the user but we also had to do a lot of stuff just to delete
+
+122
+00:08:13,080 --> 00:08:20,180
+user's posts and comments remember all of that is now automatically handled via Prisma.
+
+123
+00:08:20,250 --> 00:08:25,830
+So we're going to be able to reduce the complexity of this method by a great deal and that's a good
+
+124
+00:08:25,830 --> 00:08:26,620
+thing.
+
+125
+00:08:26,640 --> 00:08:31,950
+Now actually refactoring delete is going to be your challenge for the video I have some comments right
+
+126
+00:08:31,950 --> 00:08:32,610
+here.
+
+127
+00:08:32,640 --> 00:08:34,870
+So let's go ahead and talk about what I'd like you to do.
+
+128
+00:08:34,950 --> 00:08:40,320
+The big picture goal for this one is to wire up delete user to work with the Prisma database.
+
+129
+00:08:40,320 --> 00:08:47,520
+So once again when I fire off the delete user mutation right here from local host 4000 I would expect
+
+130
+00:08:47,520 --> 00:08:52,910
+it to actually be deleting users from inside of the post Gras database.
+
+131
+00:08:52,920 --> 00:08:55,470
+You're going to end up firing this off to verify that things work.
+
+132
+00:08:55,470 --> 00:09:02,970
+Step 1 refactor the delete user mutation resolver to use Prisma instead of working with that array data.
+
+133
+00:09:03,180 --> 00:09:06,750
+Now you're going to have to check if the user exists by their ID if they don't.
+
+134
+00:09:06,750 --> 00:09:07,800
+You can throw an error.
+
+135
+00:09:07,980 --> 00:09:12,120
+And if they do exist you can delete them and return the user itself.
+
+136
+00:09:12,120 --> 00:09:17,280
+Once again don't worry about deleting the posts or the comments like We are currently doing.
+
+137
+00:09:17,370 --> 00:09:19,450
+All of that's already been configured.
+
+138
+00:09:19,560 --> 00:09:26,130
+When we used the at relation directive and we set up the cascade deletion preferences.
+
+139
+00:09:26,130 --> 00:09:29,450
+Now step 2 I already talked about you're just going to test your work.
+
+140
+00:09:29,520 --> 00:09:34,400
+You're going to remove a user and verify that they were actually deleted from the database.
+
+141
+00:09:34,500 --> 00:09:36,300
+So take some time to knock this one out.
+
+142
+00:09:36,300 --> 00:09:39,520
+All you're going to have to do is change what's inside of this method.
+
+143
+00:09:39,660 --> 00:09:43,320
+Then fire off some operations from graft UL playground.
+
+144
+00:09:43,380 --> 00:09:45,270
+Take a moment to pause the video.
+
+145
+00:09:45,270 --> 00:09:51,390
+Test your work and when you're done come back and click play.
+
+146
+00:09:51,430 --> 00:09:52,000
+How'd you do.
+
+147
+00:09:52,000 --> 00:09:56,760
+Let's go ahead and kick things off down below by commenting out everything we have so far.
+
+148
+00:09:56,800 --> 00:10:02,200
+As always I'm choosing to leave it in place temporarily as a reference so we can make sure we get back
+
+149
+00:10:02,200 --> 00:10:07,520
+to feature parity that the refactored version does the same things the old version did.
+
+150
+00:10:07,540 --> 00:10:13,150
+Step 1 we want to go ahead and check if there is already a user's right here a variable something like
+
+151
+00:10:13,150 --> 00:10:18,790
+user exists would have got the job done the exact name isn't particularly important and we are going
+
+152
+00:10:18,790 --> 00:10:20,470
+to go ahead and use a wait.
+
+153
+00:10:20,470 --> 00:10:25,260
+We're going to await something so we should probably mark this as an async function.
+
+154
+00:10:25,270 --> 00:10:26,260
+Perfect.
+
+155
+00:10:26,290 --> 00:10:31,460
+Now we are going to be using Prisma exists so I should probably get access to that too.
+
+156
+00:10:31,630 --> 00:10:35,690
+I'm no longer going to need DBI so I can use Prisma instead.
+
+157
+00:10:35,860 --> 00:10:42,540
+Then right here we are going to await the promise that comes back from Prisma data exists dot user and
+
+158
+00:10:42,550 --> 00:10:48,880
+this time around we are searching for a user by their ID so I'll look for a user whose ID equals args
+
+159
+00:10:48,880 --> 00:10:49,970
+dot ID.
+
+160
+00:10:49,990 --> 00:10:55,210
+The argument that got passed in next up if there was no user were going to throw an error.
+
+161
+00:10:55,210 --> 00:10:59,280
+So if right here there is no user exists.
+
+162
+00:10:59,290 --> 00:11:05,700
+If that's false what are we going to do I will throw a new error and we're going to pick a good message.
+
+163
+00:11:05,710 --> 00:11:07,670
+I'll use the same one we had before.
+
+164
+00:11:07,690 --> 00:11:09,840
+User not found.
+
+165
+00:11:09,940 --> 00:11:11,320
+Excellent.
+
+166
+00:11:11,320 --> 00:11:15,480
+Now if there was a user found that means the code down below will actually run.
+
+167
+00:11:15,610 --> 00:11:20,340
+And in this case we just need to use the Prisma delete user mutation.
+
+168
+00:11:20,340 --> 00:11:29,110
+So right here I am going to return Prisma that mutation dot delete user.
+
+169
+00:11:29,310 --> 00:11:31,500
+And remember we have to pass in those arguments.
+
+170
+00:11:31,500 --> 00:11:33,880
+The first one is our operation arguments.
+
+171
+00:11:33,910 --> 00:11:35,970
+The second one is info.
+
+172
+00:11:36,300 --> 00:11:41,520
+Now for that first argument we need to search using whatever arguments are actually set up.
+
+173
+00:11:41,520 --> 00:11:47,730
+If you forget Remember you can always pull up the schema at localhost 4 4 6 6.
+
+174
+00:11:47,730 --> 00:11:54,150
+Down below we have all of our mutations we have delete user we can delete users by providing the where
+
+175
+00:11:54,150 --> 00:11:54,920
+argument.
+
+176
+00:11:54,960 --> 00:11:57,960
+Here we can delete them by ID or by email.
+
+177
+00:11:57,990 --> 00:12:01,200
+We're going to go ahead and delete them by ID so I provide where
+
+178
+00:12:04,140 --> 00:12:09,780
+I set that up as an object and I provide ID getting the ID from args dot ID.
+
+179
+00:12:09,870 --> 00:12:10,710
+Excellent.
+
+180
+00:12:10,710 --> 00:12:11,400
+And there we go.
+
+181
+00:12:11,400 --> 00:12:14,150
+This is actually all we have to do.
+
+182
+00:12:14,190 --> 00:12:19,380
+We are already returning the promise which means that the data that comes back will get sent back which
+
+183
+00:12:19,380 --> 00:12:20,190
+is good.
+
+184
+00:12:20,220 --> 00:12:26,730
+The node JSE graph Q L API will be able to send back the necessary data to the client whether its a
+
+185
+00:12:26,730 --> 00:12:32,160
+web site or a mobile application and the posts and comments are automatically going to get cleaned up
+
+186
+00:12:32,220 --> 00:12:36,410
+because we have the relation directive already configured to do that.
+
+187
+00:12:36,660 --> 00:12:42,540
+So we took what was much longer and more complex and made it much simpler or abstracting away a lot
+
+188
+00:12:42,540 --> 00:12:45,590
+of that complex logic to Prisma itself.
+
+189
+00:12:45,600 --> 00:12:50,910
+Now we can actually remove all of the commented out code down below and test our work.
+
+190
+00:12:50,910 --> 00:12:55,460
+I'm going to save mutation Dhananjay ass and try to delete one of our users.
+
+191
+00:12:55,550 --> 00:12:58,820
+I can get a user's idea a couple of different ways.
+
+192
+00:12:58,860 --> 00:13:02,460
+I'm just going to head into PGE admin and I'm going to pick one of my victims.
+
+193
+00:13:02,460 --> 00:13:07,080
+I'm going to delete victim number one right here I have his ID.
+
+194
+00:13:07,140 --> 00:13:13,410
+I'm going to copy that to the clipboard then I'm going to take that idea over to localhost 4000 and
+
+195
+00:13:13,410 --> 00:13:15,510
+I'm going to try to delete a user.
+
+196
+00:13:15,570 --> 00:13:18,060
+I'm going to swap out the ID of one with the value.
+
+197
+00:13:18,060 --> 00:13:19,320
+I just copied.
+
+198
+00:13:19,320 --> 00:13:20,760
+And for this deleted user.
+
+199
+00:13:20,760 --> 00:13:21,470
+I'll get back there.
+
+200
+00:13:21,480 --> 00:13:26,460
+Id their name their email but not their age since that no longer actually exists.
+
+201
+00:13:26,460 --> 00:13:27,520
+Perfect.
+
+202
+00:13:27,570 --> 00:13:30,630
+Let's go ahead and fire this off and see what happens right here.
+
+203
+00:13:30,660 --> 00:13:34,110
+The Delete user operation did indeed work as expected.
+
+204
+00:13:34,110 --> 00:13:39,270
+Once again we can always verify that by going into the database and refreshing things we click that
+
+205
+00:13:39,270 --> 00:13:40,410
+lightning bolt.
+
+206
+00:13:40,650 --> 00:13:41,580
+And what do we get.
+
+207
+00:13:41,580 --> 00:13:45,600
+We can see that we now only have one victim which is perfect.
+
+208
+00:13:45,600 --> 00:13:52,800
+We are now able to create users and delete users with no J.S. acting as that intermediary.
+
+209
+00:13:52,810 --> 00:13:57,600
+We're going to end up doing this for all of our other mutations as well but for now this is a great
+
+210
+00:13:57,600 --> 00:13:59,180
+place to stop.
+
+211
+00:13:59,190 --> 00:14:02,250
+I'm going to delete all of the challenge comments up above.
+
+212
+00:14:02,250 --> 00:14:07,490
+Save the file and I'll see you in the next video where we continue working with our mutations.
+

@@ -1,0 +1,648 @@
+1
+00:00:00,330 --> 00:00:06,210
+In the last video together we updated our post subscription to support and he created updated and deleted
+
+2
+00:00:06,270 --> 00:00:07,770
+events in this video.
+
+3
+00:00:07,770 --> 00:00:12,840
+You're going to be doing the exact same thing as a challenge but for the comment subscription and the
+
+4
+00:00:12,840 --> 00:00:18,060
+good news is that the comment type does not contain any sort of published property like we have with
+
+5
+00:00:18,090 --> 00:00:19,150
+our posts.
+
+6
+00:00:19,150 --> 00:00:21,840
+So there's no strange conditional logic that needs to happen.
+
+7
+00:00:21,930 --> 00:00:26,070
+Working with the comments subscription is going to be way more straightforward.
+
+8
+00:00:26,070 --> 00:00:30,840
+All right let's talk about exactly what I'd like you to do over in mutation Dhananjay J s up at the
+
+9
+00:00:30,840 --> 00:00:31,140
+top.
+
+10
+00:00:31,140 --> 00:00:34,700
+I am going to paste in the challenge comments for knocking this one out.
+
+11
+00:00:34,710 --> 00:00:40,290
+Once again the big picture goal is to set up support for the created updated and deleted events on our
+
+12
+00:00:40,290 --> 00:00:41,660
+comment subscription.
+
+13
+00:00:41,850 --> 00:00:44,880
+Now step one is to set up a custom payload.
+
+14
+00:00:44,910 --> 00:00:48,460
+So currently we are just sending back the individual comment.
+
+15
+00:00:48,480 --> 00:00:53,310
+We still want to send that data back but we also want to send back the string that represents what type
+
+16
+00:00:53,310 --> 00:00:56,270
+of mutation actually caused this event to fire.
+
+17
+00:00:56,280 --> 00:00:59,820
+Was this comment that I'm getting back created updated or deleted.
+
+18
+00:00:59,970 --> 00:01:05,910
+So just like we did for the post subscription we want to send back a new custom payload by creating
+
+19
+00:01:05,910 --> 00:01:08,310
+a custom type with those two fields.
+
+20
+00:01:08,310 --> 00:01:14,190
+That brings us to step two which is to update our one existing call related to the commet subscription
+
+21
+00:01:14,430 --> 00:01:20,120
+that is in create comment and we just want to change what we're sending back to support the new custom
+
+22
+00:01:20,130 --> 00:01:21,510
+type we're creating.
+
+23
+00:01:21,510 --> 00:01:26,700
+So we have to add on that mutation property setting its value equal to create it then you're going to
+
+24
+00:01:26,700 --> 00:01:30,090
+do the exact same thing for actually deleting a comment.
+
+25
+00:01:30,090 --> 00:01:32,980
+Now in this case there is no existing published call for that.
+
+26
+00:01:33,000 --> 00:01:36,270
+So you're going to have to add one in once the comment is deleted.
+
+27
+00:01:36,270 --> 00:01:39,180
+You want to call publish sending that event off.
+
+28
+00:01:39,180 --> 00:01:42,090
+Now once again there is no conditional logic to worry about here.
+
+29
+00:01:42,090 --> 00:01:43,150
+Very straightforward.
+
+30
+00:01:43,230 --> 00:01:48,090
+And the same thing is true with Step number four right here you are adding a publish call to update
+
+31
+00:01:48,090 --> 00:01:55,290
+comment to send out that updated event just passing along the actual mutation string and the data that
+
+32
+00:01:55,290 --> 00:01:57,880
+brings you to step five which is to test your work.
+
+33
+00:01:57,960 --> 00:02:03,090
+You want to start up your subscription then you want to create a comment update a comment and delete
+
+34
+00:02:03,120 --> 00:02:07,120
+a comment to make sure you see all three events firing correctly.
+
+35
+00:02:07,350 --> 00:02:11,850
+So take some time to knock that out and feel free to use whatever we talked about in the last video
+
+36
+00:02:12,030 --> 00:02:17,790
+since this and the last video we're going to follow a similar set of steps paused the video test your
+
+37
+00:02:17,790 --> 00:02:24,140
+work and when you're done come back and click play.
+
+38
+00:02:24,170 --> 00:02:24,800
+How'd you do.
+
+39
+00:02:24,800 --> 00:02:27,110
+Let's go ahead and kick things off with Step number one.
+
+40
+00:02:27,110 --> 00:02:32,840
+Setting up our custom payload type for the comment subscription with data and mutation over in schema
+
+41
+00:02:32,870 --> 00:02:33,610
+damn graphs.
+
+42
+00:02:33,620 --> 00:02:38,750
+Well we're going to do just that by defining the new custom type near the bottom of the file right here.
+
+43
+00:02:38,750 --> 00:02:44,890
+A new type comment which is the subscription name followed by subscription payload
+
+44
+00:02:47,800 --> 00:02:52,120
+and we're going to set up the two fields we know we need one we do need the mutation that's the whole
+
+45
+00:02:52,120 --> 00:02:53,980
+point of doing this restructuring.
+
+46
+00:02:54,010 --> 00:02:58,330
+We went a little bit of context about why this event is firing and we still want the data.
+
+47
+00:02:58,330 --> 00:03:01,180
+So I still want to be able to get the comments right here.
+
+48
+00:03:01,180 --> 00:03:04,330
+Data is going to be of the type comment.
+
+49
+00:03:04,370 --> 00:03:09,760
+Now we can actually modify our subscription up above to use this type appear.
+
+50
+00:03:09,820 --> 00:03:13,250
+We have our comment subscription which currently sends back a comment.
+
+51
+00:03:13,360 --> 00:03:21,220
+I'm going to change that to sending back an instance of our comment subscription payload making that
+
+52
+00:03:21,250 --> 00:03:22,940
+a non nullable field.
+
+53
+00:03:23,020 --> 00:03:23,870
+Awesome.
+
+54
+00:03:23,890 --> 00:03:27,580
+This is actually the only thing necessary to change in schema doc graft.
+
+55
+00:03:27,640 --> 00:03:33,750
+Well that's the end of step 1 and we can move on to Step 2 which happens in mutation at J S.
+
+56
+00:03:33,790 --> 00:03:38,000
+Here we are changing our existing published call uncreate comment.
+
+57
+00:03:38,020 --> 00:03:42,990
+So if you remember Krait comment lives near the bottom and we currently do have a publish call.
+
+58
+00:03:43,060 --> 00:03:45,780
+We're not going to change anything about the channel name.
+
+59
+00:03:45,820 --> 00:03:49,640
+What we need to change is the structure right here like we did in the last video.
+
+60
+00:03:49,780 --> 00:03:54,880
+So I'm going to empty this object out and break it out onto multiple lines.
+
+61
+00:03:54,880 --> 00:03:59,590
+Now we're still going to have that comment route property but this time it is an object that matches
+
+62
+00:03:59,590 --> 00:04:01,860
+up with the custom type we just created.
+
+63
+00:04:01,870 --> 00:04:08,320
+So I need mom nutation field and I also need in my data field the value for mutation is going to be
+
+64
+00:04:08,320 --> 00:04:09,370
+the string created.
+
+65
+00:04:09,400 --> 00:04:15,460
+So let's add that in right here and the value for data is going to be our comment which I have in the
+
+66
+00:04:15,460 --> 00:04:16,680
+comment variable.
+
+67
+00:04:16,720 --> 00:04:17,430
+Awesome.
+
+68
+00:04:17,470 --> 00:04:19,400
+So now step two is done.
+
+69
+00:04:19,480 --> 00:04:23,560
+And we should be correctly notified about newly created comments.
+
+70
+00:04:23,560 --> 00:04:25,720
+Let's go ahead and move on to the next step.
+
+71
+00:04:25,720 --> 00:04:32,070
+Step three which is to change delete comment right now delete comment does not have a pub sub publish
+
+72
+00:04:32,100 --> 00:04:32,820
+call.
+
+73
+00:04:32,860 --> 00:04:35,740
+So I am going to go ahead and restructure it and add one in.
+
+74
+00:04:36,160 --> 00:04:42,390
+I'm going to grab pub sub from the context object down below just like we did for our posts.
+
+75
+00:04:42,400 --> 00:04:49,330
+I am going to structure this array grabbing the first item in creating an individual variable for it.
+
+76
+00:04:49,330 --> 00:04:55,980
+I'm going to call that one deleted comment and that's going to allow me to use deleted comment down
+
+77
+00:04:55,980 --> 00:04:56,540
+below.
+
+78
+00:04:56,610 --> 00:05:00,500
+As opposed to needing to grab it off the array every single time I want to access it.
+
+79
+00:05:00,690 --> 00:05:01,670
+Awesome.
+
+80
+00:05:01,680 --> 00:05:03,570
+Now this was not a necessary step.
+
+81
+00:05:03,660 --> 00:05:08,040
+If you left things as they were in regards to what I just change that's fine too.
+
+82
+00:05:08,130 --> 00:05:13,850
+All that's important is that you added the pub sub Dom publish call into the mix right here.
+
+83
+00:05:13,980 --> 00:05:16,380
+We have to specify the correct channel name.
+
+84
+00:05:16,380 --> 00:05:23,760
+Remember it's comment space followed by the post ID so comment space and I can grab the post Id off
+
+85
+00:05:23,760 --> 00:05:26,140
+of deleted comment right here.
+
+86
+00:05:26,140 --> 00:05:28,160
+Deleted comment.
+
+87
+00:05:28,260 --> 00:05:29,830
+Post contains that data.
+
+88
+00:05:30,000 --> 00:05:31,700
+And then we provide the second argument.
+
+89
+00:05:31,700 --> 00:05:37,500
+Our object we set up that route comment property we set up our mutation value.
+
+90
+00:05:37,530 --> 00:05:43,320
+In this case we are deleting some data so I will set the value equal to deleted and then finally we
+
+91
+00:05:43,320 --> 00:05:46,300
+set up data passing in the deleted comments.
+
+92
+00:05:46,350 --> 00:05:47,210
+Excellent.
+
+93
+00:05:47,400 --> 00:05:49,530
+And that is it for Step number three.
+
+94
+00:05:49,570 --> 00:05:53,170
+Our delete comment mutation method is all set up.
+
+95
+00:05:53,250 --> 00:05:57,830
+That brings us to step number for the last method to change is update comment.
+
+96
+00:05:57,960 --> 00:06:04,030
+Once again we do need to structure pub subs since there is no existing publish call and sign of here.
+
+97
+00:06:04,080 --> 00:06:11,180
+Then down below we can use pub sub dot publish we are going to pass in that channel name.
+
+98
+00:06:11,180 --> 00:06:15,760
+So once again comment space followed by the comment post ID.
+
+99
+00:06:15,830 --> 00:06:18,190
+Now the post ID is available on comment.
+
+100
+00:06:18,230 --> 00:06:19,120
+Post.
+
+101
+00:06:19,370 --> 00:06:21,570
+Then we're going to set up the object.
+
+102
+00:06:22,040 --> 00:06:27,910
+We have our route comments property on there we have a mutation property and for this one we are going
+
+103
+00:06:27,910 --> 00:06:29,730
+to send back our little updated event.
+
+104
+00:06:29,740 --> 00:06:33,070
+And finally we have our data which comes from the comment variable.
+
+105
+00:06:33,070 --> 00:06:40,090
+So right here comment perfect that is done for Step 4 and that brings us to the final step which is
+
+106
+00:06:40,090 --> 00:06:42,000
+to actually test all of this out.
+
+107
+00:06:42,160 --> 00:06:47,530
+So I want to go through the process of creating updating and then deleting a comment making sure the
+
+108
+00:06:47,530 --> 00:06:49,280
+event fires correctly.
+
+109
+00:06:49,330 --> 00:06:54,640
+I'm going to switch over to my comment subscription tab and before I can actually start this one up
+
+110
+00:06:54,840 --> 00:07:00,970
+I am going to need to change what I'm requesting since in this case Id text an author no longer exists
+
+111
+00:07:00,970 --> 00:07:02,050
+directly on here.
+
+112
+00:07:02,050 --> 00:07:05,830
+Instead what we have is mutation which I am going to grab.
+
+113
+00:07:06,040 --> 00:07:13,270
+And we also have data on data that's where we can grab things about the comment like it's ID the text
+
+114
+00:07:13,300 --> 00:07:15,000
+and some info about the author.
+
+115
+00:07:15,010 --> 00:07:18,260
+I'll grab the author's ID and the author's name.
+
+116
+00:07:18,340 --> 00:07:21,580
+Now if I refresh the schema this should become a valid operation.
+
+117
+00:07:21,580 --> 00:07:27,070
+Here it is indeed valid and the last thing I'm going to do is change this post ID to the idea of a post
+
+118
+00:07:27,100 --> 00:07:28,300
+that is actually published.
+
+119
+00:07:28,300 --> 00:07:29,750
+I'm going to use either 10 or 12.
+
+120
+00:07:29,770 --> 00:07:31,260
+I'll stick with 10.
+
+121
+00:07:31,360 --> 00:07:36,220
+Now if I fire this off we should start the listening process down below it does say it's listening which
+
+122
+00:07:36,220 --> 00:07:36,910
+is great.
+
+123
+00:07:37,060 --> 00:07:42,370
+And now we can move into our other tabs and actually create update and delete a comment.
+
+124
+00:07:42,370 --> 00:07:46,200
+I'm going to start by creating a comment using my Create comment mutation.
+
+125
+00:07:46,360 --> 00:07:48,820
+Now in this case it's the wrong post ID.
+
+126
+00:07:48,850 --> 00:07:53,430
+I'm going to switch this over to making a comment on the post with an ID of 10.
+
+127
+00:07:53,440 --> 00:07:58,450
+Now if I fire this off the comment was indeed created and I should be able to see that event over in
+
+128
+00:07:58,450 --> 00:07:59,830
+my subscription tab.
+
+129
+00:07:59,980 --> 00:08:03,700
+I'm going to click over to that and look for that new event to fire.
+
+130
+00:08:03,700 --> 00:08:08,590
+Right here we can indeed see the created event where we have all of the correct data.
+
+131
+00:08:08,590 --> 00:08:11,970
+Now let's go ahead and actually grab this comment ID.
+
+132
+00:08:12,070 --> 00:08:14,400
+I'm going to use this for my other tests.
+
+133
+00:08:14,410 --> 00:08:17,650
+Next up I am going to update a comment right here.
+
+134
+00:08:17,650 --> 00:08:21,050
+The comment has the idea of the ID I just copied.
+
+135
+00:08:21,070 --> 00:08:28,240
+I'm going to change the text to something like this is my new comment text with a couple of exclamation
+
+136
+00:08:28,240 --> 00:08:33,730
+marks and if I send that off we can see the operation did appear to succeed and over inside of the comment
+
+137
+00:08:33,730 --> 00:08:34,040
+tab.
+
+138
+00:08:34,060 --> 00:08:39,640
+We should have our second event firing with a mutation value of updated and there we go.
+
+139
+00:08:39,640 --> 00:08:45,490
+We have our mutation values set correctly and we have our new comment text showing up last up.
+
+140
+00:08:45,490 --> 00:08:46,190
+What do we have.
+
+141
+00:08:46,270 --> 00:08:49,680
+Well we have our delete comment event right here we have.
+
+142
+00:08:49,680 --> 00:08:50,810
+Delete comment.
+
+143
+00:08:50,830 --> 00:08:54,090
+The mutation we're going to delete the comment we created.
+
+144
+00:08:54,100 --> 00:08:56,170
+I'm going to paste in that same ID.
+
+145
+00:08:56,200 --> 00:09:00,150
+The same idea used for updating the comment we're going to fire that off.
+
+146
+00:09:00,190 --> 00:09:05,260
+We do indeed get our deleted comment data back and if I head over to that subscription tab we should
+
+147
+00:09:05,260 --> 00:09:08,860
+have our third and final event showing up right here.
+
+148
+00:09:08,860 --> 00:09:10,030
+We have our deleted event.
+
+149
+00:09:10,060 --> 00:09:14,550
+As expected we can see the exact data and we can see the actual event.
+
+150
+00:09:14,560 --> 00:09:17,310
+Type the mutation type was indeed deleted.
+
+151
+00:09:17,530 --> 00:09:18,390
+So there we go.
+
+152
+00:09:18,400 --> 00:09:23,630
+We now have both of our subscriptions and they're actually useful for keeping the front end up to date.
+
+153
+00:09:23,770 --> 00:09:28,930
+If a front end client actually subscribed to the comments for a post it could render new comments when
+
+154
+00:09:28,930 --> 00:09:29,880
+they're created.
+
+155
+00:09:29,890 --> 00:09:35,110
+It could update existing ones when they're updated and it could delete comments from the rendered output
+
+156
+00:09:35,260 --> 00:09:37,370
+when a comment is marked as deleted.
+
+157
+00:09:37,690 --> 00:09:39,700
+That's where we're going to stop for this video.
+
+158
+00:09:39,700 --> 00:09:43,720
+The challenge is now over and our two subscriptions are working really really well.
+
+159
+00:09:43,720 --> 00:09:47,950
+There are still a couple of videos left for this section there are a few things that I still want to
+
+160
+00:09:47,950 --> 00:09:49,680
+take the time to talk about.
+
+161
+00:09:49,690 --> 00:09:50,920
+I'm excited to get to those.
+
+162
+00:09:50,920 --> 00:09:55,470
+So let's go ahead and jump right into the next video and talk about the income's type.
+

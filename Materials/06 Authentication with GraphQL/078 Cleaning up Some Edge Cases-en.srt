@@ -1,0 +1,696 @@
+1
+00:00:00,210 --> 00:00:05,760
+In this video we're going to be taking care of a few small and necessary changes that haven't fit into
+
+2
+00:00:05,760 --> 00:00:07,650
+a video so far.
+
+3
+00:00:07,650 --> 00:00:13,270
+Now the first of those changes is actually going to live over inside of query dot J.
+
+4
+00:00:13,270 --> 00:00:20,670
+S. in here we have our users query which is indeed restricted in the sense that you can't access a user's
+
+5
+00:00:20,700 --> 00:00:24,360
+e-mail or a user's unpublished posts.
+
+6
+00:00:24,360 --> 00:00:28,140
+The problem though is that we still let someone search by e-mail.
+
+7
+00:00:28,200 --> 00:00:32,310
+Now they're not going to be able to view the e-mail but if they knew someone's e-mail they could try
+
+8
+00:00:32,310 --> 00:00:35,530
+to search for it and associate it with a given account.
+
+9
+00:00:35,580 --> 00:00:37,470
+So we don't want them to be able to do that.
+
+10
+00:00:37,620 --> 00:00:42,720
+When you are querying for a user the only thing you can search by is this stuff you can see.
+
+11
+00:00:42,720 --> 00:00:45,310
+And in this case it is the name perfect.
+
+12
+00:00:45,450 --> 00:00:46,070
+So there is.
+
+13
+00:00:46,070 --> 00:00:47,060
+Thing one.
+
+14
+00:00:47,280 --> 00:00:52,950
+Now the other two things that we're going to take care of live in mutation dot J s and they're related
+
+15
+00:00:52,950 --> 00:00:55,020
+to create comment.
+
+16
+00:00:55,020 --> 00:00:57,270
+First of all an update post.
+
+17
+00:00:57,270 --> 00:01:04,260
+Second of all right here we're creating comments but now we've locked down our posts so we should really
+
+18
+00:01:04,290 --> 00:01:09,000
+only be able to create comments for published posts.
+
+19
+00:01:09,000 --> 00:01:14,070
+So that's the first thing we're going to take care of knocking this out is actually going to be a challenge
+
+20
+00:01:14,070 --> 00:01:14,900
+for you to complete.
+
+21
+00:01:14,940 --> 00:01:17,640
+And I have the challenge of comments sitting right here.
+
+22
+00:01:17,640 --> 00:01:22,670
+So go allow comments to be created unpublished posts only.
+
+23
+00:01:22,710 --> 00:01:24,500
+So what are you going to do inside of here.
+
+24
+00:01:24,570 --> 00:01:27,210
+Well we're not actually going to make any changes to this.
+
+25
+00:01:27,210 --> 00:01:29,760
+You're just going to be adding a few new things in the mix.
+
+26
+00:01:29,760 --> 00:01:33,580
+First up you want to check if the post is published.
+
+27
+00:01:33,630 --> 00:01:36,270
+Now you can use exists to get that done.
+
+28
+00:01:36,390 --> 00:01:43,200
+So you want to see if there's a post that exists with this ID that also has a published value of true.
+
+29
+00:01:43,350 --> 00:01:47,820
+Once you know whether or not in the published post exists you can determine whether or not you want
+
+30
+00:01:47,820 --> 00:01:53,190
+to throw an error if you didn't find a post throw in error then you're going to test your work.
+
+31
+00:01:53,190 --> 00:01:58,320
+So in the end of the day you should be able to create a comment for a published post and you should
+
+32
+00:01:58,320 --> 00:02:02,610
+not be able to create a comment for a draft post.
+
+33
+00:02:02,610 --> 00:02:03,090
+All right.
+
+34
+00:02:03,090 --> 00:02:05,670
+Take as much time as you need to knock that one out.
+
+35
+00:02:05,670 --> 00:02:08,820
+Adding just a few lines of code to this method.
+
+36
+00:02:08,970 --> 00:02:10,040
+Then test your work.
+
+37
+00:02:10,110 --> 00:02:12,210
+When you're done come back and click play
+
+38
+00:02:16,420 --> 00:02:17,300
+how that one go.
+
+39
+00:02:17,320 --> 00:02:22,740
+I'm going to kick things off by using Prisma dot exists dot post.
+
+40
+00:02:22,750 --> 00:02:26,290
+So right here we are going to create a contest.
+
+41
+00:02:26,410 --> 00:02:34,880
+I'm going to call this something like post exists equals and then we're going to await Prisma dot exists
+
+42
+00:02:34,970 --> 00:02:41,370
+dot post and if I am going to use a wait I have to mark this function as a sync which I will do.
+
+43
+00:02:41,540 --> 00:02:44,500
+And then we can define our search criteria.
+
+44
+00:02:44,510 --> 00:02:51,170
+So in this case we are looking for a post whose ID matches up with our DOT data dot post.
+
+45
+00:02:51,170 --> 00:02:52,580
+That's where the idea lives.
+
+46
+00:02:52,580 --> 00:02:58,400
+It's the ID we're using down below to connect to the comment to a given post and we also want to make
+
+47
+00:02:58,400 --> 00:03:02,270
+sure the Post has a published value of true.
+
+48
+00:03:02,270 --> 00:03:03,300
+Perfect.
+
+49
+00:03:03,320 --> 00:03:09,950
+Now if there is no post so if there is no post existing with that criteria what are we going to do.
+
+50
+00:03:09,950 --> 00:03:15,470
+We're going to go ahead and throw a new error and we can print a generic message something along the
+
+51
+00:03:15,470 --> 00:03:16,130
+lines of.
+
+52
+00:03:16,160 --> 00:03:20,790
+Unable to find posts or are able to create comment.
+
+53
+00:03:20,870 --> 00:03:24,080
+I'm actually going to stick with unable to find post.
+
+54
+00:03:24,170 --> 00:03:25,060
+Excellent.
+
+55
+00:03:25,070 --> 00:03:28,140
+The exact error message you used wasn't important.
+
+56
+00:03:28,160 --> 00:03:32,660
+The goal was to just throw some sort of error if the post can't be found.
+
+57
+00:03:32,660 --> 00:03:36,560
+Now we can actually remove the challenge comments and test our work.
+
+58
+00:03:36,560 --> 00:03:38,170
+I'm going to save mutation.
+
+59
+00:03:38,210 --> 00:03:38,960
+Jay asked.
+
+60
+00:03:39,050 --> 00:03:45,430
+And we're going to try to create a comment for a published and an unpublished post.
+
+61
+00:03:45,440 --> 00:03:51,440
+Now I'm going to go over to the ME queery I have actually I'll go over to my posts.
+
+62
+00:03:51,530 --> 00:03:54,650
+This is where we can get all of the posts for Jess.
+
+63
+00:03:54,680 --> 00:03:58,790
+I'm going to first try to create a comment for post by geste too.
+
+64
+00:03:58,790 --> 00:04:07,160
+Which is indeed published so this should work over in the create comment nutation tab we can go ahead
+
+65
+00:04:07,190 --> 00:04:08,820
+and get that done.
+
+66
+00:04:08,870 --> 00:04:11,780
+I'm just going to call it some comment.
+
+67
+00:04:12,050 --> 00:04:17,450
+I'll paste the idea of that published post right here and hopefully that authentication token still
+
+68
+00:04:17,450 --> 00:04:17,950
+works.
+
+69
+00:04:18,050 --> 00:04:19,750
+I fire it off and it does.
+
+70
+00:04:19,790 --> 00:04:23,780
+Right here we are getting our success data coming back.
+
+71
+00:04:23,780 --> 00:04:28,640
+Now let's grab the idea of an unpublished post right here we have just one.
+
+72
+00:04:28,640 --> 00:04:33,480
+It's sitting right here for this one we are going to once again create a new comment.
+
+73
+00:04:33,520 --> 00:04:35,270
+This time it should fail.
+
+74
+00:04:35,300 --> 00:04:37,030
+I'm going to swap out the IDs.
+
+75
+00:04:37,100 --> 00:04:40,700
+I'm going to fire off the operation and this time we are getting our error.
+
+76
+00:04:40,730 --> 00:04:44,810
+Unable to find post which is fantastic.
+
+77
+00:04:44,810 --> 00:04:48,800
+Now that we have this in place create comment is all locked down.
+
+78
+00:04:48,920 --> 00:04:54,550
+And the last thing I want to touch on in this video has to do with updating a post.
+
+79
+00:04:54,560 --> 00:04:57,560
+The goal here is to delete all post comments.
+
+80
+00:04:57,560 --> 00:05:03,800
+If a post is about to be unpublished So if the post was published and it's about to be unpublished because
+
+81
+00:05:03,800 --> 00:05:07,990
+of this operation we want to remove all existing comments.
+
+82
+00:05:08,000 --> 00:05:13,060
+Now we don't need to do that when deleting posts because we use that at Cascade directive.
+
+83
+00:05:13,190 --> 00:05:15,010
+But that's not going to help us in this case.
+
+84
+00:05:15,050 --> 00:05:17,840
+It's still going to require a very small amount of manual work.
+
+85
+00:05:17,840 --> 00:05:20,960
+So right here I am going to paste in the challenge comments.
+
+86
+00:05:20,960 --> 00:05:22,380
+Big picture goal.
+
+87
+00:05:22,430 --> 00:05:26,330
+Delete all comments when an publishing a post.
+
+88
+00:05:26,330 --> 00:05:30,080
+Step one we need to determine if this post is published or not.
+
+89
+00:05:30,080 --> 00:05:36,320
+Because remember I only want to delete the comments if it's published and it's about to be unpublished.
+
+90
+00:05:36,350 --> 00:05:41,450
+So step one use exist to determine if this post is published or not.
+
+91
+00:05:41,450 --> 00:05:45,740
+We can add another exists call sitting right here below our current one.
+
+92
+00:05:45,740 --> 00:05:47,270
+That brings us to step 2.
+
+93
+00:05:47,420 --> 00:05:55,170
+An if statement if the post is published but based off of our X-Com data it's about to be unpublished.
+
+94
+00:05:55,250 --> 00:05:57,700
+We want to delete all of the comments.
+
+95
+00:05:57,710 --> 00:06:01,700
+Now how do you delete many comments while you can check out delete many comments.
+
+96
+00:06:01,700 --> 00:06:02,900
+It's a mutation.
+
+97
+00:06:02,900 --> 00:06:05,880
+You can view it in the schema tab for Prisma.
+
+98
+00:06:05,990 --> 00:06:11,840
+Once you have that in place once you have your exists call here and your if statement set up down below
+
+99
+00:06:11,960 --> 00:06:18,110
+you want to test your work and so try to unpublished a published post and make sure all of the comments
+
+100
+00:06:18,140 --> 00:06:19,970
+do indeed get deleted.
+
+101
+00:06:20,130 --> 00:06:21,650
+All right that's it for the set up.
+
+102
+00:06:21,650 --> 00:06:23,930
+Take some time to knock this out when you're done.
+
+103
+00:06:23,960 --> 00:06:25,430
+Come back and click play
+
+104
+00:06:28,830 --> 00:06:29,510
+how that go.
+
+105
+00:06:29,550 --> 00:06:32,040
+Let's go ahead and kick things off with step 1.
+
+106
+00:06:32,070 --> 00:06:36,750
+I want to figure out if this is a published post now to do this.
+
+107
+00:06:36,750 --> 00:06:39,870
+What are we going to do while I am going to create a variable.
+
+108
+00:06:39,870 --> 00:06:45,280
+Is it published and I am going to await a call to Prisma exists.
+
+109
+00:06:45,420 --> 00:06:49,710
+Post to determine if this particular post is indeed published.
+
+110
+00:06:49,830 --> 00:06:58,330
+So I want to find the post where the ID equals args ID and where the published status is true.
+
+111
+00:06:58,530 --> 00:07:01,670
+Now down below we can write that if statement for step 2.
+
+112
+00:07:01,680 --> 00:07:11,430
+So right here if we want to see if the Post currently is published so is is published true and we want
+
+113
+00:07:11,430 --> 00:07:19,190
+to make sure it's about to be unpublished so is args dot data dot published
+
+114
+00:07:22,060 --> 00:07:29,400
+equal to false only under these circumstances do we want to delete all of the posts comments now right
+
+115
+00:07:29,420 --> 00:07:31,600
+here we can use delete many comments.
+
+116
+00:07:31,600 --> 00:07:36,650
+And once again I mentioned that you can explore that over in our Prisma schema tab.
+
+117
+00:07:36,760 --> 00:07:38,700
+We have our mutations down below.
+
+118
+00:07:38,860 --> 00:07:44,620
+We have individual deletions and we also have bulk deletions down below I have Duleep many users posts
+
+119
+00:07:44,650 --> 00:07:45,670
+and comments.
+
+120
+00:07:45,750 --> 00:07:51,160
+We are going to delete many comments and if we use where you should have figured out that you want to
+
+121
+00:07:51,160 --> 00:07:58,240
+delete comments where something about the post is indeed the criteria and in this case we are looking
+
+122
+00:07:58,240 --> 00:08:00,420
+for the post by ID.
+
+123
+00:08:00,610 --> 00:08:04,230
+So right here what are we going to do while I am going to await.
+
+124
+00:08:04,300 --> 00:08:14,570
+We are going to use Prisma dot mutation dot delete spelled correctly of course many comments and we
+
+125
+00:08:14,570 --> 00:08:18,780
+are going to pass in our search criteria are where I object.
+
+126
+00:08:18,860 --> 00:08:21,700
+In this case we are looking for comments.
+
+127
+00:08:21,800 --> 00:08:24,170
+Where are the post right here.
+
+128
+00:08:24,170 --> 00:08:28,540
+Has an id property equal to args dot ID.
+
+129
+00:08:28,580 --> 00:08:29,600
+Awesome.
+
+130
+00:08:29,630 --> 00:08:33,710
+Now you could have broken this out onto multiple lines you could keep it as one line.
+
+131
+00:08:33,710 --> 00:08:36,020
+The choice really is yours.
+
+132
+00:08:36,080 --> 00:08:41,120
+The end of the day though we have all of the functionality set up and we can actually test our work
+
+133
+00:08:41,210 --> 00:08:41,940
+out.
+
+134
+00:08:41,930 --> 00:08:47,960
+I'm going to remove that challenge comment and we are going to head over into localhost 4000 and actually
+
+135
+00:08:47,960 --> 00:08:49,850
+see this in action.
+
+136
+00:08:49,850 --> 00:08:53,030
+So do I have any published posts with comments.
+
+137
+00:08:53,030 --> 00:08:54,790
+The answer is yes.
+
+138
+00:08:54,860 --> 00:08:58,510
+Over here I'm querying for all posts and all of their comments.
+
+139
+00:08:58,520 --> 00:09:00,770
+I'm going to fire this off down below.
+
+140
+00:09:00,770 --> 00:09:03,170
+I have a post post by gests too.
+
+141
+00:09:03,290 --> 00:09:04,170
+It is published.
+
+142
+00:09:04,190 --> 00:09:05,430
+It does have a comment.
+
+143
+00:09:05,510 --> 00:09:06,720
+So here's what we're gonna do.
+
+144
+00:09:06,920 --> 00:09:12,710
+I'm going to unpublished it and I'm going to make sure this comment goes away when I publish it.
+
+145
+00:09:12,710 --> 00:09:15,560
+This post should have zero comments.
+
+146
+00:09:15,560 --> 00:09:17,260
+Let's actually knock this out.
+
+147
+00:09:17,310 --> 00:09:19,400
+So I'm going to grab this post ID.
+
+148
+00:09:19,400 --> 00:09:21,560
+This is the one we're going to change.
+
+149
+00:09:21,590 --> 00:09:25,970
+I'm going to take it over to update post and I'm going to paste it in.
+
+150
+00:09:26,300 --> 00:09:27,440
+Then down below.
+
+151
+00:09:27,470 --> 00:09:28,940
+We're not going to update the title.
+
+152
+00:09:28,940 --> 00:09:30,450
+I'm just going to change.
+
+153
+00:09:30,470 --> 00:09:33,970
+Published equal to false.
+
+154
+00:09:34,100 --> 00:09:35,200
+Perfect.
+
+155
+00:09:35,240 --> 00:09:40,510
+The next thing we have to do is make sure we are authenticated as the author which is gests.
+
+156
+00:09:40,520 --> 00:09:47,720
+If I go over to the logon page I have Jessy's authentication tokin sitting right here and I am going
+
+157
+00:09:47,720 --> 00:09:52,610
+to just swap that out with the token currently used for update post down below.
+
+158
+00:09:52,910 --> 00:09:58,020
+I'll remove the old token paste the new one in and now we can actually fire this off.
+
+159
+00:09:58,100 --> 00:10:03,590
+I'm going to fire it off and what happens it seems that the post was indeed unpublished and then I am
+
+160
+00:10:03,590 --> 00:10:05,930
+going to publish it once again.
+
+161
+00:10:05,930 --> 00:10:06,730
+Perfect.
+
+162
+00:10:06,770 --> 00:10:13,190
+Now at this point that post should have zero comments and if I head over to the original query and fire
+
+163
+00:10:13,190 --> 00:10:16,490
+it off I'm expecting to see this comment go away.
+
+164
+00:10:16,490 --> 00:10:17,850
+And right there it does.
+
+165
+00:10:17,870 --> 00:10:18,990
+Which is awesome.
+
+166
+00:10:19,250 --> 00:10:20,060
+So there we go.
+
+167
+00:10:20,150 --> 00:10:25,820
+We've cleaned up a few little loopholes and edge cases around our application and everything is now
+
+168
+00:10:25,850 --> 00:10:26,690
+pretty secure.
+
+169
+00:10:26,690 --> 00:10:29,180
+All of our data is locked down.
+
+170
+00:10:29,420 --> 00:10:33,050
+There is just one last video for this section.
+
+171
+00:10:33,050 --> 00:10:37,220
+You're going to learn how to lock down subscriptions now in our application.
+
+172
+00:10:37,220 --> 00:10:42,890
+We're not actually going to lock down any subscriptions but I am going to show you how you can do that.
+
+173
+00:10:42,920 --> 00:10:45,970
+In case you needed to do it for your own projects in the future.
+
+174
+00:10:45,980 --> 00:10:47,420
+All right let's jump in to that.
+

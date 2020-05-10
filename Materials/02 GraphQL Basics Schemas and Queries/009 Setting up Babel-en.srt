@@ -1,0 +1,700 @@
+1
+00:00:00,240 --> 00:00:05,040
+In this video you're going to move away from using Grath you a playground with the demo API and you're
+
+2
+00:00:05,040 --> 00:00:10,610
+going to move towards Visual Studio code and actually writing code to create your very own graphical
+
+3
+00:00:10,680 --> 00:00:11,720
+projects.
+
+4
+00:00:11,820 --> 00:00:16,560
+In this video in particular we're going to be setting up our little boiler plate project with a couple
+
+5
+00:00:16,560 --> 00:00:23,500
+of nice to have tools for local development especially when we're working with graft UL and node j ass.
+
+6
+00:00:23,640 --> 00:00:26,580
+So I'm going to crack open my editor for the rest of the course.
+
+7
+00:00:26,580 --> 00:00:31,770
+I'll be leaving the browser here on the left hand side and on the right hand side I will have the visual
+
+8
+00:00:31,770 --> 00:00:35,550
+studio code so you can quickly switch between the two.
+
+9
+00:00:35,550 --> 00:00:39,610
+Let's go ahead and kick things off by creating a new directory for all of the code.
+
+10
+00:00:39,690 --> 00:00:45,630
+We're going to have in this course I'm going to use command 0 or the command here for your operating
+
+11
+00:00:45,630 --> 00:00:48,980
+system to open the folder on the desktop.
+
+12
+00:00:48,990 --> 00:00:51,240
+I'm just going to create a new directory.
+
+13
+00:00:51,300 --> 00:00:52,610
+You can call it whatever you want.
+
+14
+00:00:52,650 --> 00:00:58,070
+I'm going to call mine Grath Q L course this will contain all of the files and folders and projects
+
+15
+00:00:58,080 --> 00:01:00,020
+we end up creating throughout the class.
+
+16
+00:01:00,240 --> 00:01:01,940
+Let's create that directory.
+
+17
+00:01:02,130 --> 00:01:03,690
+We're going to crack it open.
+
+18
+00:01:03,930 --> 00:01:09,020
+And now we're going to focus on actually creating the folder for this first project.
+
+19
+00:01:09,150 --> 00:01:11,390
+We can call that one something like graph.
+
+20
+00:01:11,380 --> 00:01:14,130
+Q Well hyphen basics.
+
+21
+00:01:14,160 --> 00:01:14,840
+Perfect.
+
+22
+00:01:14,850 --> 00:01:19,530
+So we have the graph tool course directory for all of the code in the course and I have the graph Well
+
+23
+00:01:19,650 --> 00:01:25,590
+base ex-directory for the specific stuff we're going to explore for this first project since we will
+
+24
+00:01:25,590 --> 00:01:27,300
+be writing some code in this lesson.
+
+25
+00:01:27,300 --> 00:01:32,280
+I wanted to remind you that there is a lecture xit available for every single lesson in the class where
+
+26
+00:01:32,280 --> 00:01:37,620
+we actually write some code that xit contains all of the code up until that point in the course.
+
+27
+00:01:37,620 --> 00:01:43,140
+So if you lose your project or your projects not working you can always download the lectures to compare
+
+28
+00:01:43,140 --> 00:01:46,440
+my code to yours and figure out where you went wrong.
+
+29
+00:01:46,440 --> 00:01:51,630
+So don't forget lectures that for every lecture where we actually write some code to get things off
+
+30
+00:01:51,630 --> 00:01:56,090
+what I want to do is install and configure a tool called bannable in our project.
+
+31
+00:01:56,190 --> 00:02:01,710
+Babel is a tool that's going to allow us to use the most advanced cutting edge javascript features today.
+
+32
+00:02:01,830 --> 00:02:07,210
+In particular we're going to be able to use the six import export syntax.
+
+33
+00:02:07,440 --> 00:02:10,570
+Let's go ahead and kick things off by pulling up the Web site for Babel.
+
+34
+00:02:10,710 --> 00:02:13,710
+That is B A B E L Babel J.
+
+35
+00:02:13,710 --> 00:02:15,930
+S. dot I O.
+
+36
+00:02:15,930 --> 00:02:20,140
+If you come from a more front end development background you might have actually heard of or even used
+
+37
+00:02:20,140 --> 00:02:21,000
+a babbel before.
+
+38
+00:02:21,000 --> 00:02:23,260
+Particularly if you've worked with react.
+
+39
+00:02:23,370 --> 00:02:28,110
+If you come from strictly a node ingenius background it's likely you've never heard of or even used
+
+40
+00:02:28,110 --> 00:02:30,180
+babbel before but that's ok.
+
+41
+00:02:30,180 --> 00:02:32,220
+Setting up babbel is actually really easy.
+
+42
+00:02:32,220 --> 00:02:37,920
+We're going to be installing two NPM modules and adding about five lines of configuration code to our
+
+43
+00:02:37,920 --> 00:02:43,390
+project then we'll have babbel all set up and we'll be able to forget about it for the rest of the class.
+
+44
+00:02:43,530 --> 00:02:46,680
+In the end of the day Babel is a javascript compiler.
+
+45
+00:02:46,680 --> 00:02:52,020
+So we write some code we send it through babble and babble spits out other code.
+
+46
+00:02:52,020 --> 00:02:57,060
+This allows us to take advantage of cutting edge features in our code but still have code.
+
+47
+00:02:57,120 --> 00:03:01,700
+The output from babbel which runs in a wide range of environments.
+
+48
+00:03:01,710 --> 00:03:06,270
+So if I'm writing an application I might want to take advantage of the great features offered up by
+
+49
+00:03:06,270 --> 00:03:12,240
+the arrow function but if I want my code to run in an older browser like IEEE 10 I'm going to need a
+
+50
+00:03:12,240 --> 00:03:19,050
+way to actually convert that arrow function to something that IEEE 10 understands because IEEE 10 does
+
+51
+00:03:19,050 --> 00:03:21,640
+not and never will support the arrow function.
+
+52
+00:03:21,660 --> 00:03:22,760
+What's the solution.
+
+53
+00:03:22,770 --> 00:03:25,540
+The solution is to just pass that code through Babel.
+
+54
+00:03:25,560 --> 00:03:31,140
+Now as I mentioned in our particular use case we're going to be using Babel so we can access the ESX
+
+55
+00:03:31,230 --> 00:03:33,260
+import export syntax from.
+
+56
+00:03:33,270 --> 00:03:38,640
+Note you can learn more about babbel by actually seeing it in action and heading over to the try it
+
+57
+00:03:38,640 --> 00:03:42,770
+out page on this page we type some code on the left hand side.
+
+58
+00:03:42,870 --> 00:03:45,080
+The output ends up on the right hand side.
+
+59
+00:03:45,180 --> 00:03:47,050
+Let's go ahead and give this a try.
+
+60
+00:03:47,070 --> 00:03:54,270
+I'm going to create a simple statement Konst my function setting and equal to a brand new area function
+
+61
+00:03:54,270 --> 00:03:57,150
+that takes no arguments and has no function body.
+
+62
+00:03:57,150 --> 00:04:01,920
+So on the left hand side we had the code that we would write on the right hand side we have the code
+
+63
+00:04:01,950 --> 00:04:03,560
+that Babolat would spit out.
+
+64
+00:04:03,630 --> 00:04:09,720
+We can see that Konst has been converted to var since var is understood by a wider range of environments
+
+65
+00:04:09,980 --> 00:04:15,090
+and we can also see that our arrow function has been converted into a standard function something that
+
+66
+00:04:15,090 --> 00:04:18,550
+is also supported in a wider range of environments.
+
+67
+00:04:18,570 --> 00:04:21,180
+So this is just one example of what Babolat can do.
+
+68
+00:04:21,270 --> 00:04:24,340
+We can actually teach babbled to do almost anything.
+
+69
+00:04:24,570 --> 00:04:29,150
+If you want to learn more about how to configure babbel you can head over to the set up or Dachs page.
+
+70
+00:04:29,260 --> 00:04:32,010
+Though we're actually going to go through that process together.
+
+71
+00:04:32,070 --> 00:04:33,870
+Like I said it's super simple.
+
+72
+00:04:33,870 --> 00:04:37,820
+Install two things out about six lines of code and we're all done.
+
+73
+00:04:37,950 --> 00:04:43,500
+So let's go ahead and actually knock that out from Visual Studio code for this course I am going to
+
+74
+00:04:43,500 --> 00:04:47,130
+be using the integrated terminal provided by visual studio code.
+
+75
+00:04:47,130 --> 00:04:51,150
+If you're on Linux or Mac OS you're more than welcome to use that as well.
+
+76
+00:04:51,210 --> 00:04:56,610
+If you're on Windows though I'd suggest using a terminal emulator so you can access the same commands
+
+77
+00:04:56,610 --> 00:04:59,370
+that Mac OS and Linux users have access to.
+
+78
+00:04:59,370 --> 00:05:04,020
+They don't easier to follow along with the videos you can grab one of these terminal emulators such
+
+79
+00:05:04,020 --> 00:05:11,970
+as commander over at S.M. DDR commander dot net here you need to download the application run it and
+
+80
+00:05:11,970 --> 00:05:16,590
+when you do you'll be brought to a new terminal window where you can access all of the same commands
+
+81
+00:05:16,590 --> 00:05:18,480
+that I'm about to run.
+
+82
+00:05:18,480 --> 00:05:23,420
+I'm also going to be using some keyboard shortcuts in Visual Studio code for this advanced class.
+
+83
+00:05:23,460 --> 00:05:28,100
+I recommend you get familiar with the keyboard shortcuts for your operating system as well.
+
+84
+00:05:28,140 --> 00:05:32,970
+If you're not sure what a keyboard shortcut is for a particular command you want to perform.
+
+85
+00:05:32,970 --> 00:05:35,630
+You can always search for it using the command prompt.
+
+86
+00:05:35,640 --> 00:05:41,480
+So in the end of the day the only one you actually need to remember is the command to shell alchemist's
+
+87
+00:05:41,850 --> 00:05:46,400
+for me and my particular OS and setup it is shift command p.
+
+88
+00:05:46,590 --> 00:05:51,390
+You can go ahead and close all of the tabs to actually see the background panel and see what the keyboard
+
+89
+00:05:51,390 --> 00:05:52,930
+shortcut is for you.
+
+90
+00:05:53,190 --> 00:05:58,980
+Now I can search for something like toggle terminal and I can see that for me it is this keyboard shortcut
+
+91
+00:05:59,160 --> 00:06:01,500
+that is control plus the back tick.
+
+92
+00:06:01,530 --> 00:06:05,640
+So I'm going to go ahead and run that and bam the terminal pops open.
+
+93
+00:06:05,640 --> 00:06:08,760
+So we will be using keyboard shortcuts for those operations.
+
+94
+00:06:08,760 --> 00:06:14,040
+I recommend using the command palette to find the keyboard shortcut and then memorize it right here.
+
+95
+00:06:14,130 --> 00:06:17,580
+We're going to start by changing directories into the graphics.
+
+96
+00:06:17,610 --> 00:06:24,080
+Well basics project CD space craft Cuil Python basics.
+
+97
+00:06:24,150 --> 00:06:29,970
+From here we're going to generate a packaged Jason File for this project and we're going to install
+
+98
+00:06:29,970 --> 00:06:35,910
+the two modules necessary to get Babel up and running since node is a requirement for this course.
+
+99
+00:06:35,910 --> 00:06:38,410
+You should be familiar with generating a package.
+
+100
+00:06:38,430 --> 00:06:40,930
+Jason File and installing modules.
+
+101
+00:06:41,160 --> 00:06:44,300
+I'm going to be using NPM in it to generate my package.
+
+102
+00:06:44,310 --> 00:06:49,370
+Jason File for this project and I'm not going to actually change any of the default values.
+
+103
+00:06:49,440 --> 00:06:52,290
+So it's going ask me for about 7 different values.
+
+104
+00:06:52,380 --> 00:06:58,040
+I'm going to use the default one by just hitting enter about seven or eight different times at the end
+
+105
+00:06:58,040 --> 00:07:01,010
+it asks me if this package got Jason File looks good.
+
+106
+00:07:01,020 --> 00:07:01,750
+It does.
+
+107
+00:07:01,770 --> 00:07:02,680
+I type yes.
+
+108
+00:07:02,730 --> 00:07:04,410
+Hit enter and we're done.
+
+109
+00:07:04,440 --> 00:07:08,340
+Now all that command did was it generated are packaged up Jason File.
+
+110
+00:07:08,360 --> 00:07:13,740
+We're going to have to run an NPM installation command to get those two modules installed for Babel.
+
+111
+00:07:13,920 --> 00:07:17,230
+So right here I'll use clear to clear the terminal output.
+
+112
+00:07:17,340 --> 00:07:21,240
+And we're going to use NPM install to install those two modules.
+
+113
+00:07:21,480 --> 00:07:25,600
+The first module we need is Babel hyphen CLID.
+
+114
+00:07:25,650 --> 00:07:30,230
+This is going to give us a new command that we can run to actually pass our code through babbel and
+
+115
+00:07:30,230 --> 00:07:31,920
+have Babel compile it.
+
+116
+00:07:31,920 --> 00:07:38,880
+I'm going to specify a specific version using the at sign so battle C ally at six point twenty six point
+
+117
+00:07:38,880 --> 00:07:42,090
+zero which is the latest and the other module.
+
+118
+00:07:42,090 --> 00:07:42,990
+We're going to need.
+
+119
+00:07:42,990 --> 00:07:45,190
+Which is actually going to process.
+
+120
+00:07:45,330 --> 00:07:51,230
+Import Export is babbel hyphen preset hyphen envy.
+
+121
+00:07:51,450 --> 00:07:54,860
+So this allows us to run a command to compile Babel.
+
+122
+00:07:54,960 --> 00:07:58,250
+This tells babbel exactly what it should change.
+
+123
+00:07:58,290 --> 00:08:01,020
+We're going to provide a specific version number for this one too.
+
+124
+00:08:01,020 --> 00:08:06,620
+That is at one point seven point zero which is the latest we can go ahead and run that command.
+
+125
+00:08:06,780 --> 00:08:08,820
+That's going to get both of those installed.
+
+126
+00:08:08,880 --> 00:08:16,210
+Then only have to do is write about four lines of configuration code to tell Babel to use that NVI preset.
+
+127
+00:08:16,230 --> 00:08:21,160
+So our import export code gets converted correctly and is compatible with Node.
+
+128
+00:08:21,540 --> 00:08:24,800
+We can add a single file to our project to get that done.
+
+129
+00:08:24,810 --> 00:08:27,040
+You want to toss this in the root of the graph.
+
+130
+00:08:27,040 --> 00:08:34,050
+Q Well base x project we need to call that one dot Babel are C and in the end of the day.
+
+131
+00:08:34,050 --> 00:08:37,840
+This is just a Jason File or we can figure how babbel works.
+
+132
+00:08:38,010 --> 00:08:41,540
+We're going to provide our root object with a single property.
+
+133
+00:08:41,670 --> 00:08:43,060
+The pre-sets property.
+
+134
+00:08:43,080 --> 00:08:50,820
+So right here in double quotes pre-sets the value for pre-sets is an array and we provide as strings
+
+135
+00:08:51,000 --> 00:08:53,420
+the names of all the presets we want to use.
+
+136
+00:08:53,520 --> 00:08:55,420
+In this case we installed just one.
+
+137
+00:08:55,530 --> 00:08:58,320
+So we're going to provide just a single string in this array.
+
+138
+00:08:58,390 --> 00:08:59,520
+Ian V.
+
+139
+00:08:59,670 --> 00:09:00,320
+Excellent.
+
+140
+00:09:00,330 --> 00:09:01,200
+And there we go.
+
+141
+00:09:01,230 --> 00:09:05,480
+Babbel is all configured and ready to go for the rest of the class.
+
+142
+00:09:05,490 --> 00:09:10,980
+Now before we can actually run any code we need to create a source directory and some sort of entry
+
+143
+00:09:10,980 --> 00:09:12,740
+point for our application.
+
+144
+00:09:12,870 --> 00:09:18,570
+I'm going to create a source folder in the root of the project called SIRC and in there I am going to
+
+145
+00:09:18,570 --> 00:09:24,450
+create the entry point for this application and I'll call that file something along the lines of index
+
+146
+00:09:24,510 --> 00:09:30,840
+dot J as we can add some content inside of here like a simple console a dialog call just to make sure
+
+147
+00:09:30,840 --> 00:09:33,140
+the file runs successfully right here.
+
+148
+00:09:33,150 --> 00:09:38,870
+Something along the lines of Hello graft UL or any other generic message will get the job done.
+
+149
+00:09:38,880 --> 00:09:44,300
+The last thing we're gonna do before we actually run this file is to make a new script in package dot
+
+150
+00:09:44,340 --> 00:09:47,830
+Jason that allows us to run things through Babel.
+
+151
+00:09:47,850 --> 00:09:55,100
+So right here I'm going to create a new start script so I'll add a new property on to the start object.
+
+152
+00:09:55,100 --> 00:09:57,990
+We will set its value equal to a string as well.
+
+153
+00:09:58,050 --> 00:10:06,500
+And this string is going to be the following Babel hyphen Noad space then the path to our Biles source
+
+154
+00:10:06,610 --> 00:10:12,950
+lowered slash index dot Jay ass babbel node is what we're going to end up using for local development
+
+155
+00:10:12,950 --> 00:10:14,200
+purposes only.
+
+156
+00:10:14,240 --> 00:10:19,580
+We'll talk much more about how to create and run this project and production later in the course when
+
+157
+00:10:19,580 --> 00:10:22,350
+we actually deploy our projects live to the Web.
+
+158
+00:10:22,370 --> 00:10:26,370
+But for now this is a fantastic way to get started.
+
+159
+00:10:26,630 --> 00:10:32,930
+If we go ahead and save package dot Jason we can run that starts script right here.
+
+160
+00:10:33,080 --> 00:10:35,540
+NPM run start.
+
+161
+00:10:35,660 --> 00:10:37,070
+I'm going to run through the script.
+
+162
+00:10:37,070 --> 00:10:37,900
+And what do we get.
+
+163
+00:10:37,910 --> 00:10:40,560
+We get our little message showing up hello graph.
+
+164
+00:10:40,720 --> 00:10:41,360
+Prints.
+
+165
+00:10:41,450 --> 00:10:48,590
+So when we run that command a babel grabs the file we specified it passes it through the babbel compiler
+
+166
+00:10:48,590 --> 00:10:55,460
+using the configuration we provided then the output file is what actually runs the output file isn't
+
+167
+00:10:55,460 --> 00:10:57,530
+saved anywhere to our hard drive.
+
+168
+00:10:57,530 --> 00:11:00,860
+It's just executed by the command itself.
+
+169
+00:11:00,860 --> 00:11:05,160
+Now currently we're not using any feature that would be unsupported otherwise.
+
+170
+00:11:05,210 --> 00:11:09,710
+So we're not getting any real advantage from babbel that's all going to change though in the very next
+
+171
+00:11:09,710 --> 00:11:14,730
+video when we start exploring the ESX import export syntax.
+
+172
+00:11:14,840 --> 00:11:16,890
+So as long as you're seeing Hello graft.
+
+173
+00:11:17,000 --> 00:11:22,160
+Well printing right here you are all ready to continue on to the next lecture and we're going to dive
+
+174
+00:11:22,160 --> 00:11:27,230
+a bit deeper into how that syntax works because it's something we'll be using throughout the entire
+
+175
+00:11:27,230 --> 00:11:27,920
+class.
+

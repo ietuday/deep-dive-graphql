@@ -1,0 +1,532 @@
+1
+00:00:00,180 --> 00:00:06,480
+In the last video you set up a Prisma secret that closed down this back channel between the client and
+
+2
+00:00:06,480 --> 00:00:09,090
+Prisma forcing the client to go through no.
+
+3
+00:00:09,100 --> 00:00:13,110
+J.S. in order to read and write from the database which is a good thing.
+
+4
+00:00:13,320 --> 00:00:19,290
+In this video we're going to focus on how exactly we can authenticate a client's requests after we go
+
+5
+00:00:19,290 --> 00:00:21,180
+through this quick visualization.
+
+6
+00:00:21,210 --> 00:00:24,150
+We'll be focusing on our Sign-Up request.
+
+7
+00:00:24,150 --> 00:00:29,790
+Currently there is a way to create a user Yes but we're not doing anything special related to a password.
+
+8
+00:00:29,790 --> 00:00:31,700
+There's actually no password field.
+
+9
+00:00:31,830 --> 00:00:35,200
+So we're going to incorporate that and we're going to get everything up and running.
+
+10
+00:00:35,460 --> 00:00:40,220
+So let's run through a quick example and for example we're just going to stick with plain English.
+
+11
+00:00:40,220 --> 00:00:44,840
+So right here the client might want to perform an operation like editing a post.
+
+12
+00:00:44,880 --> 00:00:49,130
+I'd like to edit the post with the idea of a 9 and end.
+
+13
+00:00:49,350 --> 00:00:55,580
+Now this request is going to get sent off to node j s and no J S is going to respond correctly.
+
+14
+00:00:55,590 --> 00:01:00,390
+Now if we're not authenticated we're going to be locking down almost all operations.
+
+15
+00:01:00,390 --> 00:01:06,620
+The only thing you'll be able to do if you're not authenticated is read published posts.
+
+16
+00:01:06,720 --> 00:01:11,910
+You won't be able to read your drafts because we don't know who you are and you won't be able to create
+
+17
+00:01:11,970 --> 00:01:14,290
+update or delete anything.
+
+18
+00:01:14,340 --> 00:01:18,420
+Now in the end of the day the node server is going to say you have to log in to do that.
+
+19
+00:01:18,420 --> 00:01:20,870
+So we'll move on to the log in stage.
+
+20
+00:01:20,910 --> 00:01:25,950
+The client will actually go ahead and log in passing in an e-mail and a password.
+
+21
+00:01:26,040 --> 00:01:29,310
+Let's say for example that the account already exists.
+
+22
+00:01:29,310 --> 00:01:32,040
+So the client is providing those credentials.
+
+23
+00:01:32,160 --> 00:01:33,550
+It's going to send them off to no.
+
+24
+00:01:33,570 --> 00:01:38,730
+J ass and no jackass is going to verify that they actually exist in the database so we're going to make
+
+25
+00:01:38,730 --> 00:01:42,990
+sure there is a user with that e-mail end with that password.
+
+26
+00:01:43,260 --> 00:01:47,720
+Now in this case if it does find a user it's going to say I found your account.
+
+27
+00:01:47,730 --> 00:01:50,250
+Here is an authentication token.
+
+28
+00:01:50,400 --> 00:01:55,090
+So Noad is going to create an auth token and send that back to the client.
+
+29
+00:01:55,170 --> 00:02:00,200
+The client can then use this token to make requests that require authentication.
+
+30
+00:02:00,210 --> 00:02:02,770
+For example editing a post.
+
+31
+00:02:02,880 --> 00:02:08,940
+So now that our client actually has the token it can send that with future requests so we can actually
+
+32
+00:02:08,940 --> 00:02:12,510
+replay the request from before that originally fell.
+
+33
+00:02:12,600 --> 00:02:16,400
+I like to edit the post with the idea of a 9 am n.
+
+34
+00:02:16,430 --> 00:02:19,790
+Here is my auth token proving it's my post.
+
+35
+00:02:19,860 --> 00:02:26,370
+Now Knode can get that off tokin it can verify that it actually belongs to the user who is the creator
+
+36
+00:02:26,490 --> 00:02:28,160
+of the post that's being edited.
+
+37
+00:02:28,290 --> 00:02:31,560
+And if it is a match it can go ahead and perform that operation.
+
+38
+00:02:31,650 --> 00:02:33,320
+So we can say something like perfect.
+
+39
+00:02:33,420 --> 00:02:36,650
+I verified you in the post and I've updated the post.
+
+40
+00:02:36,720 --> 00:02:39,300
+And that's exactly what we were hoping to happen.
+
+41
+00:02:39,600 --> 00:02:44,940
+So this is a quick look at the authentication mechanism that we're going to be using the client is going
+
+42
+00:02:44,940 --> 00:02:51,090
+to get a token from the server the client then uses that token when it makes other requests other requests
+
+43
+00:02:51,090 --> 00:02:53,160
+that require authentication.
+
+44
+00:02:53,160 --> 00:02:53,630
+All right.
+
+45
+00:02:53,640 --> 00:02:56,120
+That is it for this quick visualization.
+
+46
+00:02:56,130 --> 00:03:00,110
+I just wanted to give us an overview of exactly what we're going to be setting up.
+
+47
+00:03:00,120 --> 00:03:04,370
+Let's go ahead and move into the editor and actually get this process started.
+
+48
+00:03:04,380 --> 00:03:07,980
+The first thing we're going to end up doing is adding a new field for the user.
+
+49
+00:03:07,980 --> 00:03:12,510
+We're going to store a user's password alongside their name and email.
+
+50
+00:03:12,520 --> 00:03:18,660
+Now we're not going to be storing it in plain text so if your password is password 1 2 3 we're not going
+
+51
+00:03:18,660 --> 00:03:21,160
+to be storing password 1 2 3.
+
+52
+00:03:21,270 --> 00:03:24,830
+We'll be using a hashing algorithm which we'll be talking about shortly.
+
+53
+00:03:25,010 --> 00:03:32,100
+So after email or before or wherever we're going to set up password in data model Dom graft Well I'm
+
+54
+00:03:32,100 --> 00:03:35,680
+going to set it up as a non nullable string.
+
+55
+00:03:35,700 --> 00:03:36,480
+Awesome.
+
+56
+00:03:36,720 --> 00:03:41,110
+Now in this case we're also going to do the exact same thing in schema graph.
+
+57
+00:03:41,170 --> 00:03:48,930
+Well so let's save this file head over to schema graph QOL and add a password for the user type there
+
+58
+00:03:48,930 --> 00:03:50,340
+as well down below.
+
+59
+00:03:50,340 --> 00:03:53,450
+We have our types I have name I have e-mail.
+
+60
+00:03:53,460 --> 00:03:55,710
+I'm going to add password into the mix.
+
+61
+00:03:55,710 --> 00:03:59,750
+Setting this up to be a non nullable string too.
+
+62
+00:03:59,760 --> 00:04:05,660
+So now we have the password field inside of schema UL and data model engraft.
+
+63
+00:04:05,730 --> 00:04:12,780
+Well what I want to take a moment to do is actually wipe our database then redeploy to add this new
+
+64
+00:04:12,780 --> 00:04:14,550
+field to post grass.
+
+65
+00:04:14,550 --> 00:04:16,090
+Now why are we deleting the data.
+
+66
+00:04:16,110 --> 00:04:21,780
+Well once again we've just added this new non nullable field and short from adding a password for each
+
+67
+00:04:21,780 --> 00:04:23,320
+of our existing users.
+
+68
+00:04:23,370 --> 00:04:29,280
+There's no way to deploy this new data model without deleting our existing data.
+
+69
+00:04:29,280 --> 00:04:31,280
+Now there's a shortcut way to get this done.
+
+70
+00:04:31,320 --> 00:04:35,190
+Down below we can run a command from the Prisma directory.
+
+71
+00:04:35,190 --> 00:04:37,860
+So make sure you are in the Prisma directory.
+
+72
+00:04:37,890 --> 00:04:40,940
+We can run Prisma delete.
+
+73
+00:04:41,130 --> 00:04:43,890
+That's going to delete the default service.
+
+74
+00:04:43,920 --> 00:04:46,320
+So it is going to wipe all of our data.
+
+75
+00:04:46,320 --> 00:04:49,080
+We can't type yes we do indeed want to delete it.
+
+76
+00:04:49,080 --> 00:04:50,330
+It's going to remove it.
+
+77
+00:04:50,430 --> 00:04:56,780
+Then we can redeploy it by using Prisma deploy like we've done plenty of times before.
+
+78
+00:04:56,790 --> 00:05:02,860
+So there we go once this is done we will have our database with a password field for each and every
+
+79
+00:05:02,920 --> 00:05:03,670
+user.
+
+80
+00:05:03,820 --> 00:05:08,120
+Now there's one more thing we have to do before we really dive into any more code.
+
+81
+00:05:08,290 --> 00:05:15,350
+We've made a change to data model accom graft UL which means we need to grab a new generated file then
+
+82
+00:05:15,400 --> 00:05:15,810
+do that.
+
+83
+00:05:15,820 --> 00:05:19,470
+We can use CD dot dot to go to the graph.
+
+84
+00:05:19,560 --> 00:05:26,640
+Well Prisma directory and we're going to run that one script we had set up over here that was get schema.
+
+85
+00:05:26,740 --> 00:05:31,810
+Now the problem here is that by setting up the Prisma secret we've actually locked out this command
+
+86
+00:05:31,810 --> 00:05:34,420
+from being able to do its job correctly.
+
+87
+00:05:34,420 --> 00:05:36,810
+If we were to run it it would actually fail.
+
+88
+00:05:36,910 --> 00:05:39,280
+So down below we can go ahead and do just that.
+
+89
+00:05:39,280 --> 00:05:42,070
+NPM run get schema.
+
+90
+00:05:42,070 --> 00:05:44,500
+This is going to try to fetch a new schema.
+
+91
+00:05:44,500 --> 00:05:49,070
+It's going to then replace the current generated Prisma graphed file.
+
+92
+00:05:49,090 --> 00:05:53,980
+While it would do that if it worked correctly but as we can see we get an error and if we scroll up
+
+93
+00:05:53,980 --> 00:05:58,020
+to the top of the output your token is invalid.
+
+94
+00:05:58,030 --> 00:06:01,990
+Now there are a couple different ways we can overcome this problem.
+
+95
+00:06:01,990 --> 00:06:08,110
+We could add a whole bunch of arguments onto this command but that gets nasty and ugly providing a token
+
+96
+00:06:08,110 --> 00:06:08,630
+here.
+
+97
+00:06:08,740 --> 00:06:14,940
+Well we're going to do instead is make a small tweak to dot graph Cuil config.
+
+98
+00:06:14,950 --> 00:06:21,040
+Currently the command is failing because the only way I can actually access that schema is by end point
+
+99
+00:06:21,070 --> 00:06:26,170
+and we've locked down that end point for that one script specifically though we're going to provide
+
+100
+00:06:26,200 --> 00:06:31,230
+an alternative where we're going to be able to run and get schema without providing a secret.
+
+101
+00:06:31,240 --> 00:06:36,310
+Now the only reason this is going to work is because we have the Prisma directory right in the same
+
+102
+00:06:36,310 --> 00:06:37,130
+project.
+
+103
+00:06:37,180 --> 00:06:43,150
+So we're just going to point get schema right towards these files so it can get the new schema without
+
+104
+00:06:43,150 --> 00:06:47,970
+needing to go to localhost 4 4 6 6 which is locked down.
+
+105
+00:06:48,310 --> 00:06:54,160
+So over here what are we going to do all we're going to do is add a single property onto the extensions
+
+106
+00:06:54,250 --> 00:06:55,220
+object.
+
+107
+00:06:55,240 --> 00:07:02,100
+This one is going to be called Prisma and all we're going to do is directed towards our Prisma.
+
+108
+00:07:02,190 --> 00:07:05,600
+That's why M-L file the one in our Prisma directory.
+
+109
+00:07:05,770 --> 00:07:07,190
+So for us what would that be.
+
+110
+00:07:07,210 --> 00:07:09,560
+It would be Prisma the Prisma folder.
+
+111
+00:07:09,760 --> 00:07:12,700
+Forward slash Prisma dot wya now.
+
+112
+00:07:12,700 --> 00:07:13,520
+Perfect.
+
+113
+00:07:13,690 --> 00:07:16,480
+Now we still have that locked down End Point.
+
+114
+00:07:16,480 --> 00:07:21,770
+Making sure that the client can't directly interact with our Prisma graphed API.
+
+115
+00:07:22,000 --> 00:07:27,880
+But we've provided an alternative for our local development tools allowing us to keep the script exactly
+
+116
+00:07:27,880 --> 00:07:28,930
+the same.
+
+117
+00:07:28,930 --> 00:07:34,810
+So by adding that single property and saving the file I should be able to rerun our get schema script
+
+118
+00:07:34,810 --> 00:07:38,020
+and this time it should work as expected down below.
+
+119
+00:07:38,080 --> 00:07:42,820
+We can see that our schema file was updated which is fantastic.
+
+120
+00:07:42,820 --> 00:07:47,300
+Now the next thing we're going to tackle is to actually make some changes to node j s.
+
+121
+00:07:47,320 --> 00:07:53,170
+So I'm going to close all of our open files and the file that we're concerned with is mutation dot J
+
+122
+00:07:53,170 --> 00:07:56,110
+as we are going to be updating create user.
+
+123
+00:07:56,110 --> 00:08:01,330
+Now in this case we're going to perform some validation and we also want to hash that password we don't
+
+124
+00:08:01,330 --> 00:08:03,640
+want to store plain text passwords.
+
+125
+00:08:03,700 --> 00:08:08,170
+So there is going to be a little bit of work to add inside of here and I'm actually gonna save that
+
+126
+00:08:08,170 --> 00:08:09,180
+for the next video.
+
+127
+00:08:09,180 --> 00:08:11,350
+I don't want these videos to get too long.
+
+128
+00:08:11,410 --> 00:08:12,730
+So what have we done in this one.
+
+129
+00:08:12,730 --> 00:08:19,470
+We've just set up support for that password field both on Prisma and in node j s.
+
+130
+00:08:19,540 --> 00:08:24,970
+We've added that to the user type in the next one we're actually going to make use of it by changing
+
+131
+00:08:24,970 --> 00:08:26,430
+our application code.
+
+132
+00:08:26,440 --> 00:08:27,610
+I'm excited to get to that.
+
+133
+00:08:27,610 --> 00:08:30,250
+So stay tuned and I'll see you in the next one.
+

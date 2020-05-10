@@ -1,0 +1,1368 @@
+1
+00:00:00,270 --> 00:00:06,260
+In this video we're going to continue our discussion on raise by talking about arrays of custom types.
+
+2
+00:00:06,300 --> 00:00:11,250
+So far all of the arrays we've worked with had been arrays of scalar types.
+
+3
+00:00:11,250 --> 00:00:16,890
+So an array of integers or an array of floats instead of something like an array of ints we would have
+
+4
+00:00:16,890 --> 00:00:20,880
+something like an array of users or an array of posts.
+
+5
+00:00:20,880 --> 00:00:25,040
+This is going to allow us to represent complex more real world data.
+
+6
+00:00:25,080 --> 00:00:30,480
+So if I want to get an array of all of the posts that someone can actually read I need an array of objects
+
+7
+00:00:30,480 --> 00:00:35,680
+where each object has the post-Idol the post body and other post related information.
+
+8
+00:00:35,940 --> 00:00:41,460
+So we're going to kick things off together by talking about how we can work with an array of users using
+
+9
+00:00:41,460 --> 00:00:43,320
+the user custom type.
+
+10
+00:00:43,320 --> 00:00:48,660
+Then as your challenge for the video you're going to be working with arrays of posts using the post
+
+11
+00:00:48,690 --> 00:00:53,830
+custom type defined below for the moment we're going to clean up our application.
+
+12
+00:00:53,970 --> 00:00:58,660
+So I'm going to remove the greeting add and grade's query.
+
+13
+00:00:58,710 --> 00:01:03,870
+Those were all useful for exploring various things but they're not actually going to make it into the
+
+14
+00:01:03,870 --> 00:01:05,670
+final version of our application.
+
+15
+00:01:05,670 --> 00:01:11,590
+Now down below we can actually remove the three resolver functions for those three queries we just removed.
+
+16
+00:01:11,610 --> 00:01:13,510
+I'm going to delete all of those.
+
+17
+00:01:13,560 --> 00:01:20,300
+And that leaves us with just me and post both of which will make it into the final version of our application.
+
+18
+00:01:20,520 --> 00:01:24,960
+What we're going to do now is add another query which will also make it into the final version of the
+
+19
+00:01:24,960 --> 00:01:25,900
+application.
+
+20
+00:01:26,010 --> 00:01:28,230
+And I'm going to call this one a user's.
+
+21
+00:01:28,230 --> 00:01:33,690
+This will be a way to get all users which can be very useful if you're trying to fetch all authors for
+
+22
+00:01:33,690 --> 00:01:35,490
+a blog for example.
+
+23
+00:01:35,580 --> 00:01:40,860
+Now in this case we are still going to get an array as the response value so we will still set up our
+
+24
+00:01:40,860 --> 00:01:44,070
+square brackets and I'll put an exclamation mark on the end.
+
+25
+00:01:44,070 --> 00:01:46,480
+Making this a non nullable field.
+
+26
+00:01:46,610 --> 00:01:49,630
+And now inside of here we have to specify the type.
+
+27
+00:01:49,650 --> 00:01:53,870
+It's not going to be one of our scalar types so we won't reference one of these five.
+
+28
+00:01:53,910 --> 00:01:59,330
+Instead it's going to be one of our custom types so will reference either user or post.
+
+29
+00:01:59,340 --> 00:02:02,820
+In this case for users it's an array of individual users.
+
+30
+00:02:02,850 --> 00:02:09,840
+So we will use the user custom type right here uppercase you user with an exclamation mark on the end
+
+31
+00:02:10,050 --> 00:02:13,530
+saying that we're never going to get back a null array element.
+
+32
+00:02:13,620 --> 00:02:18,030
+If we get back any array elements at all they will always be users.
+
+33
+00:02:18,030 --> 00:02:25,110
+So essentially it's an array of objects where each object matches up and is validated against this type
+
+34
+00:02:25,110 --> 00:02:26,070
+definition.
+
+35
+00:02:26,130 --> 00:02:31,860
+So each object has an ID a name and an email and each object optional has an age.
+
+36
+00:02:31,860 --> 00:02:34,370
+So some of the array items might have ages.
+
+37
+00:02:34,410 --> 00:02:36,510
+Others might not.
+
+38
+00:02:36,510 --> 00:02:41,820
+Now we have the queery definition in place but to see how all of this works we have to set up and fill
+
+39
+00:02:41,820 --> 00:02:44,180
+out the resolver function for users.
+
+40
+00:02:44,250 --> 00:02:46,400
+Let's set up our resolver method.
+
+41
+00:02:46,410 --> 00:02:48,960
+I'm going to call this one the same as the query name.
+
+42
+00:02:48,960 --> 00:02:54,030
+Users and we are going to set it up with all arguments even if we're not going to use all arguments.
+
+43
+00:02:54,060 --> 00:02:55,930
+It's just a good idea to get in that habit.
+
+44
+00:02:55,950 --> 00:03:03,330
+So we have the parent we have our arguments we have the context and we have the info down below what
+
+45
+00:03:03,360 --> 00:03:10,980
+we need to do is return an array of objects where each object matches up with this schema definition.
+
+46
+00:03:10,980 --> 00:03:15,930
+Now we can define the array right inside of here but I want to actually define the array up above as
+
+47
+00:03:15,930 --> 00:03:17,440
+some demo data.
+
+48
+00:03:17,610 --> 00:03:21,650
+So this data is currently going to live right here as a static array.
+
+49
+00:03:21,690 --> 00:03:24,630
+Later on the data will actually come from the database.
+
+50
+00:03:24,630 --> 00:03:27,020
+So I'll just have a little comment right here.
+
+51
+00:03:27,030 --> 00:03:34,230
+Demo user data and what we're going to do is define an array of a couple of users right here.
+
+52
+00:03:34,230 --> 00:03:38,500
+Konst users will be an array of objects.
+
+53
+00:03:38,560 --> 00:03:42,450
+And let's go ahead and define three users for our example purposes.
+
+54
+00:03:42,450 --> 00:03:44,700
+I'm going to have this first user be myself.
+
+55
+00:03:44,700 --> 00:03:46,920
+So for the idea I can use whatever I want.
+
+56
+00:03:46,920 --> 00:03:49,110
+I'll use the number one for the name.
+
+57
+00:03:49,110 --> 00:03:54,060
+I'm just going to use my first name you can use your first name and for the email I'm just going to
+
+58
+00:03:54,060 --> 00:03:57,610
+use my first name at example dot com Sarratt here.
+
+59
+00:03:57,690 --> 00:04:01,280
+Email Andrew at example dot com.
+
+60
+00:04:01,350 --> 00:04:02,240
+Perfect.
+
+61
+00:04:02,250 --> 00:04:08,680
+Now this user does indeed meet the minimum criteria for a user object so we have an idea.
+
+62
+00:04:08,790 --> 00:04:12,630
+We have a name and we have an email with the correct type for each.
+
+63
+00:04:12,630 --> 00:04:17,830
+Now at this point we could also choose to include an age though it is not necessary per myself.
+
+64
+00:04:17,850 --> 00:04:19,420
+I will include my own age.
+
+65
+00:04:19,440 --> 00:04:24,410
+So right here another property age setting an equal to my age 27.
+
+66
+00:04:24,420 --> 00:04:29,310
+Now this is just one user we can add a couple of more users into the mix to keep things interesting.
+
+67
+00:04:29,430 --> 00:04:31,590
+Right here I'm going to add a couple of other users.
+
+68
+00:04:31,590 --> 00:04:38,690
+The next one ID to name I'll use something like Sarah which I had for the demo API.
+
+69
+00:04:38,790 --> 00:04:43,950
+And then for her e-mail I will use Sarah at example dot com.
+
+70
+00:04:44,070 --> 00:04:47,670
+And for Sarah I can leave her age off that is valid as well.
+
+71
+00:04:47,670 --> 00:04:57,010
+Last hour the third and final user id 3 name I'll use something like Mike and then for the email I will
+
+72
+00:04:57,010 --> 00:05:00,370
+use Mike at example dot com.
+
+73
+00:05:00,370 --> 00:05:01,270
+Perfect.
+
+74
+00:05:01,270 --> 00:05:02,440
+So now what do we have.
+
+75
+00:05:02,440 --> 00:05:08,740
+We have three users and each of these users match up with the schema definition for what a user type
+
+76
+00:05:08,740 --> 00:05:09,790
+should look like.
+
+77
+00:05:09,790 --> 00:05:14,680
+At this point we can actually set up users to correctly return that data.
+
+78
+00:05:14,770 --> 00:05:16,500
+And that's going to be a pretty easy process.
+
+79
+00:05:16,500 --> 00:05:20,610
+All we have to do is return users just like that.
+
+80
+00:05:20,710 --> 00:05:27,940
+With this in place we can now save index data J S and actually test out this query over engraft UL playground.
+
+81
+00:05:27,940 --> 00:05:34,660
+I'm going to remove the ADD queery which no longer exists and we're going to query for the users instead.
+
+82
+00:05:34,660 --> 00:05:38,050
+Now we do have to refresh the schema in order to actually get the latest.
+
+83
+00:05:38,200 --> 00:05:43,380
+But this is still invalid because remember we're not getting back an array of scalar types.
+
+84
+00:05:43,420 --> 00:05:45,840
+We're getting back an array of custom types.
+
+85
+00:05:45,910 --> 00:05:52,310
+So we do have to provide a selection set specifying what we want from each individual user.
+
+86
+00:05:52,330 --> 00:05:57,430
+Do I want their ID their name their email her age a combination of multiple fields.
+
+87
+00:05:57,430 --> 00:06:00,230
+Let's go ahead and say we just want their ID.
+
+88
+00:06:00,280 --> 00:06:02,290
+This is a perfectly valid query.
+
+89
+00:06:02,380 --> 00:06:03,540
+We could go ahead and run that.
+
+90
+00:06:03,550 --> 00:06:04,310
+And what do we get.
+
+91
+00:06:04,330 --> 00:06:12,720
+We get an array of users back where each one just has the ID property we have ID one ID to an id 3.
+
+92
+00:06:12,820 --> 00:06:16,440
+I could also choose to add on the other fields I could add on name.
+
+93
+00:06:16,600 --> 00:06:22,990
+I could add on email and I could add on age requesting everything the server has to offer about a user.
+
+94
+00:06:23,140 --> 00:06:24,600
+And when I do that what do I get.
+
+95
+00:06:24,640 --> 00:06:26,610
+I get all of the data back.
+
+96
+00:06:26,680 --> 00:06:31,750
+Now you'll notice that when I do have an age I get back that age as an integer when I don't have an
+
+97
+00:06:31,750 --> 00:06:38,830
+age I get back Knol saying that this value does not exist and that's OK because remember age is completely
+
+98
+00:06:38,860 --> 00:06:39,750
+optional.
+
+99
+00:06:39,760 --> 00:06:45,350
+There is no exclamation mark after that type definition which means that it is a nullable field.
+
+100
+00:06:45,370 --> 00:06:48,170
+In this case getting null back is a ok.
+
+101
+00:06:48,490 --> 00:06:53,800
+Now we didn't get back something like the id the name or the email that would indeed cause a problem
+
+102
+00:06:53,800 --> 00:06:57,140
+because all three of those are indeed required.
+
+103
+00:06:57,220 --> 00:07:02,980
+Now this is a fantastic first step but typically when we're working with arrays of our custom types
+
+104
+00:07:03,250 --> 00:07:05,920
+we want to provide other functionality to the client.
+
+105
+00:07:06,010 --> 00:07:11,800
+Maybe we want to give them a way to sort the data or a way to filter the data so I could sort alphabetically
+
+106
+00:07:11,800 --> 00:07:12,720
+by name.
+
+107
+00:07:12,730 --> 00:07:14,330
+I could sort by age.
+
+108
+00:07:14,410 --> 00:07:19,240
+I could filter by the name or I could filter by ages within a specific range.
+
+109
+00:07:19,270 --> 00:07:25,390
+All of this is going to modify either the order in which these items come back or which items come back
+
+110
+00:07:25,450 --> 00:07:26,470
+altogether.
+
+111
+00:07:26,470 --> 00:07:31,430
+So if I were to search for just users whose name contains the letter A.
+
+112
+00:07:31,540 --> 00:07:32,930
+I would get back Andrew.
+
+113
+00:07:33,010 --> 00:07:38,890
+I would get back Sarah but the third object for Mike would not come back because Mike does not contain
+
+114
+00:07:38,950 --> 00:07:40,220
+the letter A.
+
+115
+00:07:40,320 --> 00:07:45,820
+So let's see how we can actually set some of this up using what we now know about Operation arguments
+
+116
+00:07:46,060 --> 00:07:49,300
+and array data types up above.
+
+117
+00:07:49,300 --> 00:07:50,440
+What are we going to do.
+
+118
+00:07:50,530 --> 00:07:56,260
+All we're going to do is set up a single argument for users and we're going to make this one an optional
+
+119
+00:07:56,260 --> 00:07:56,920
+argument.
+
+120
+00:07:56,950 --> 00:07:59,980
+So right here I will set up my parentheses.
+
+121
+00:07:59,980 --> 00:08:04,820
+I'm going to call this one query and query is going to be an optional string.
+
+122
+00:08:04,840 --> 00:08:09,340
+So if you don't provide query will return all of the users like we currently do.
+
+123
+00:08:09,550 --> 00:08:16,630
+If you do provide query though we're only going to return users whose name contains the string you provided.
+
+124
+00:08:16,840 --> 00:08:19,060
+So the query definition is all set up.
+
+125
+00:08:19,060 --> 00:08:23,970
+Let's go ahead and actually make the necessary changes to users down below.
+
+126
+00:08:23,980 --> 00:08:28,840
+I'm going to start from a nice clean slate and the first thing we're going to do is see if that argument
+
+127
+00:08:28,840 --> 00:08:30,090
+was provided or not.
+
+128
+00:08:30,190 --> 00:08:34,130
+If it wasn't provided we'll just return all of the users like we did previously.
+
+129
+00:08:34,210 --> 00:08:40,510
+If it was provided we'll add a bit more complex logic to actually return just that users who match the
+
+130
+00:08:40,510 --> 00:08:43,220
+query to start we'll set up our IF condition.
+
+131
+00:08:43,240 --> 00:08:49,120
+And in this particular condition we are going to take a look at args dot queery and we're going to run
+
+132
+00:08:49,120 --> 00:08:49,690
+the code.
+
+133
+00:08:49,710 --> 00:08:51,450
+If it does not exist.
+
+134
+00:08:51,520 --> 00:08:57,460
+So if the query wasn't provided or if it was something like an empty string in either case we have nothing
+
+135
+00:08:57,460 --> 00:08:59,230
+we can actually filter by.
+
+136
+00:08:59,320 --> 00:09:03,610
+So I will just return all of the users like we had previously.
+
+137
+00:09:03,610 --> 00:09:10,240
+Now down below this code is only going to run if there is a query actually worth using and what we're
+
+138
+00:09:10,240 --> 00:09:17,540
+going to do is return another array by using the user's data filter array method.
+
+139
+00:09:17,710 --> 00:09:20,610
+So right here we provide our callback function.
+
+140
+00:09:20,620 --> 00:09:24,190
+This function gets called one time for each item in the array.
+
+141
+00:09:24,220 --> 00:09:28,130
+Since we have an array of users we can call the individual item a user.
+
+142
+00:09:28,360 --> 00:09:32,380
+We return true if the item is should be kept in the new array.
+
+143
+00:09:32,380 --> 00:09:35,170
+We return false if it should be filtered out.
+
+144
+00:09:35,170 --> 00:09:41,490
+So in this case I want to return true when the user's name contains the query.
+
+145
+00:09:41,500 --> 00:09:46,630
+Let's go ahead and do this in a case insensitive way so we're going to convert everything to lowercase
+
+146
+00:09:46,900 --> 00:09:52,370
+making sure that the case provided does not come into account when actually doing the thing.
+
+147
+00:09:52,530 --> 00:09:54,340
+We'll start off with the user's name.
+
+148
+00:09:54,480 --> 00:09:56,440
+So right here I'm going to return.
+
+149
+00:09:56,760 --> 00:10:03,450
+We're going to look at user name and we're going to convert it to a lower case.
+
+150
+00:10:03,450 --> 00:10:09,540
+Then on this string we'll be using the includes method to check if that includes a another string.
+
+151
+00:10:09,690 --> 00:10:14,790
+If it does we'll get true back meaning that the item will indeed be kept in the new array.
+
+152
+00:10:14,790 --> 00:10:20,040
+If it doesn't contain the other string will get false back meaning the item will be filtered out.
+
+153
+00:10:20,100 --> 00:10:25,480
+Right here what's the other string we're trying to search for it is args dot query.
+
+154
+00:10:25,500 --> 00:10:30,870
+But once again we want to make this completely case insensitive so I'll be converting this to lower
+
+155
+00:10:30,870 --> 00:10:32,070
+case as well.
+
+156
+00:10:32,130 --> 00:10:35,160
+And there we go with just a couple of lines of code.
+
+157
+00:10:35,190 --> 00:10:38,870
+We now have a way to filter our users by their name.
+
+158
+00:10:38,970 --> 00:10:41,150
+I'm going to save index dot J S.
+
+159
+00:10:41,180 --> 00:10:46,680
+I am going to rerun the query over here and you'll notice that it still works as expected because the
+
+160
+00:10:46,680 --> 00:10:49,080
+query argument is optional.
+
+161
+00:10:49,080 --> 00:10:50,870
+If I wanted to though I could provide it.
+
+162
+00:10:50,880 --> 00:10:52,920
+Let's go ahead and do that as well.
+
+163
+00:10:52,920 --> 00:10:58,990
+So right after users we set up our list of arguments we're going to be providing just that one query.
+
+164
+00:10:59,100 --> 00:11:02,290
+The value is a string so I will set it up as such.
+
+165
+00:11:02,370 --> 00:11:04,020
+And for the moment I will adjust.
+
+166
+00:11:04,020 --> 00:11:06,450
+Search for upper case a.
+
+167
+00:11:06,480 --> 00:11:10,600
+Now we are still getting an error saying this is an invalid and an no an argument.
+
+168
+00:11:10,620 --> 00:11:13,130
+But if we refresh the schema that will go away.
+
+169
+00:11:13,440 --> 00:11:15,470
+We can now fire off this operation.
+
+170
+00:11:15,480 --> 00:11:16,530
+And what do I get back.
+
+171
+00:11:16,560 --> 00:11:17,140
+I get back.
+
+172
+00:11:17,160 --> 00:11:23,640
+Andrew and Sarah the two users that have a in their name and you'll notice that while Sarah only has
+
+173
+00:11:23,650 --> 00:11:26,560
+lower case is the uppercase a query.
+
+174
+00:11:26,580 --> 00:11:34,050
+Still indeed matches correctly because it is indeed a case insensitive search and this is more like
+
+175
+00:11:34,050 --> 00:11:35,790
+what we're going to have in the real world.
+
+176
+00:11:35,790 --> 00:11:42,660
+Sure I wanna get a raise of custom types back but I want to be able to filter and sort that data allowing
+
+177
+00:11:42,660 --> 00:11:46,590
+me to get just the data I need in the right order.
+
+178
+00:11:46,590 --> 00:11:51,710
+Now if we provided a query like Q Which didn't match any users names what would we get back.
+
+179
+00:11:51,720 --> 00:11:54,120
+We would get back an empty array which is perfectly fine.
+
+180
+00:11:54,120 --> 00:11:59,460
+In this case we're just saying there are no search results matching your search criteria.
+
+181
+00:11:59,790 --> 00:12:05,160
+Now that we have worked through the users example what I'd like to do is something similar for posts
+
+182
+00:12:05,250 --> 00:12:08,290
+though that is going to be your challenge for the video.
+
+183
+00:12:08,460 --> 00:12:10,460
+You're going to create some new sample data.
+
+184
+00:12:10,560 --> 00:12:15,840
+You'll be setting up a new query with its own arguments and you'll be setting up a resolver function
+
+185
+00:12:15,840 --> 00:12:17,500
+for the query you create.
+
+186
+00:12:17,520 --> 00:12:21,510
+So let's go out and talk about exactly what I'd like you to do and I'm going to paste some comments
+
+187
+00:12:21,570 --> 00:12:22,410
+up top.
+
+188
+00:12:22,410 --> 00:12:24,360
+There are five steps to getting this done.
+
+189
+00:12:24,360 --> 00:12:29,190
+Step one is to set up an array of three posts with a dummy post data.
+
+190
+00:12:29,190 --> 00:12:35,040
+So just like we set up an array of users you're going to have an array of posts where each post has
+
+191
+00:12:35,040 --> 00:12:38,010
+these four required fields.
+
+192
+00:12:38,010 --> 00:12:43,410
+Now once you have these dummy data set up you're actually going to use it by creating a post's query
+
+193
+00:12:43,440 --> 00:12:48,110
+and resolver that returns all of the posts just like we returned all of the users.
+
+194
+00:12:48,120 --> 00:12:50,550
+A bit earlier in this video.
+
+195
+00:12:50,580 --> 00:12:57,920
+Step three is to test out the queries so far making sure you actually get all of the dummy posts back.
+
+196
+00:12:58,080 --> 00:13:04,710
+Step 4 and 5 revolve around you actually adding a query in you're going to add a query argument and
+
+197
+00:13:04,710 --> 00:13:09,770
+this is going to allow you to search for posts by the title or the body.
+
+198
+00:13:09,780 --> 00:13:15,630
+So if I provide the search term it something like Test you would search the title and the body.
+
+199
+00:13:15,630 --> 00:13:21,780
+And as long as one of them contain the search term test that post would be considered a match and should
+
+200
+00:13:21,780 --> 00:13:22,890
+come back.
+
+201
+00:13:22,890 --> 00:13:29,220
+If the queery value is nowhere in the title and it's nowhere in the body that one is not a match and
+
+202
+00:13:29,220 --> 00:13:31,270
+that post should not come back.
+
+203
+00:13:31,320 --> 00:13:32,040
+Step 5.
+
+204
+00:13:32,040 --> 00:13:33,450
+Run a few sample queries.
+
+205
+00:13:33,450 --> 00:13:40,160
+Searching for various posts by titles and bodies making sure you get the correct data back.
+
+206
+00:13:40,170 --> 00:13:45,060
+So essentially we're doing something very similar to what we did with users though slightly different
+
+207
+00:13:45,060 --> 00:13:47,850
+since we're working with a different custom type.
+
+208
+00:13:47,880 --> 00:13:50,380
+Take as much time as you need to knock that out.
+
+209
+00:13:50,400 --> 00:13:56,340
+Feel free to refer to anything we've done so far including what we just used in this video to get this
+
+210
+00:13:56,340 --> 00:13:57,780
+done for users.
+
+211
+00:13:57,780 --> 00:13:58,320
+All right.
+
+212
+00:13:58,320 --> 00:13:59,150
+Pause the video.
+
+213
+00:13:59,160 --> 00:14:00,210
+Knock this out.
+
+214
+00:14:00,210 --> 00:14:03,080
+Test your work and when you're done click play
+
+215
+00:14:06,750 --> 00:14:07,580
+how how'd you do.
+
+216
+00:14:07,580 --> 00:14:10,840
+Hopefully you were able to knock that out without too much trouble.
+
+217
+00:14:10,850 --> 00:14:12,620
+A little trouble is always a good thing.
+
+218
+00:14:12,620 --> 00:14:14,890
+It means you're pushing your abilities forward.
+
+219
+00:14:15,020 --> 00:14:17,680
+So let's go ahead and actually knock this out step one.
+
+220
+00:14:17,780 --> 00:14:21,160
+Setting up an array with some dummy post data.
+
+221
+00:14:21,350 --> 00:14:27,390
+I'm going to do that down below and I'll just create a concept called post to get that done right here.
+
+222
+00:14:27,410 --> 00:14:28,720
+An array of objects.
+
+223
+00:14:28,730 --> 00:14:31,360
+Let's go ahead and add three for the first post.
+
+224
+00:14:31,370 --> 00:14:40,900
+I'll set up an idea of 10 I'll set up a title of something along the lines of graph Well 1 0 1 for the
+
+225
+00:14:40,900 --> 00:14:43,000
+body value I can use whatever I like.
+
+226
+00:14:43,000 --> 00:14:47,400
+This is how to use graph Q QOL for example.
+
+227
+00:14:47,620 --> 00:14:53,080
+And then a published value to wrap this one up published for this one I'll say is true.
+
+228
+00:14:53,080 --> 00:14:58,110
+We're going to add a couple of more posts real quick to have some interesting data in the mix ID of
+
+229
+00:14:58,120 --> 00:14:59,930
+11 for the second one.
+
+230
+00:15:00,340 --> 00:15:07,360
+I can use a title of graph Well 201 for this one for the body for this one.
+
+231
+00:15:07,360 --> 00:15:11,880
+I'll say something like this is an advanced graph.
+
+232
+00:15:11,910 --> 00:15:16,280
+Q Well post then the published value.
+
+233
+00:15:16,310 --> 00:15:22,040
+I'll say this one is not published just yet one more post and then we're all done with step 1 and we'll
+
+234
+00:15:22,040 --> 00:15:30,020
+have some dummy data to actually work with ID 12 title I'll use the same title from the demo app programming
+
+235
+00:15:30,080 --> 00:15:33,160
+music then right ear for the body.
+
+236
+00:15:33,170 --> 00:15:35,570
+I could leave the body blank if I wanted to.
+
+237
+00:15:35,600 --> 00:15:40,730
+Maybe I haven't started this one yet and I'll leave the published value set to false.
+
+238
+00:15:40,730 --> 00:15:43,700
+So right here published false.
+
+239
+00:15:43,760 --> 00:15:44,490
+Perfect.
+
+240
+00:15:44,660 --> 00:15:50,540
+So we have our three posts all set up and they all match up with the schema defined down below for what
+
+241
+00:15:50,540 --> 00:15:52,410
+a post actually is.
+
+242
+00:15:52,460 --> 00:15:58,580
+Now we've done step 1 and we can move on to Step 2 which is to set up a post's query and resolver that
+
+243
+00:15:58,580 --> 00:16:03,420
+returns all of the posts so down below where we have our type definition.
+
+244
+00:16:03,440 --> 00:16:05,530
+I'm going to set up posts.
+
+245
+00:16:05,630 --> 00:16:08,080
+I'm not going to set up any arguments just yet.
+
+246
+00:16:08,150 --> 00:16:12,860
+And we are going to return an array of posts so right here we have our array definition.
+
+247
+00:16:12,860 --> 00:16:14,890
+Then we define the individual elements.
+
+248
+00:16:14,900 --> 00:16:18,750
+In this case it is a post perfect down below.
+
+249
+00:16:18,830 --> 00:16:24,510
+We can define the resolver for that new posts query right here posts.
+
+250
+00:16:24,560 --> 00:16:28,100
+I will set up all of the arguments we have the parent.
+
+251
+00:16:28,250 --> 00:16:32,340
+We have our arguments we have the context and we have the info.
+
+252
+00:16:32,570 --> 00:16:38,880
+Then all we're going to do is return every single post that exists by returning the posts array.
+
+253
+00:16:38,910 --> 00:16:40,770
+This wraps up step 2.
+
+254
+00:16:40,940 --> 00:16:46,730
+And now we can actually move on to Step 3 to make sure things are working well so far so we're not all
+
+255
+00:16:46,730 --> 00:16:51,710
+done but I do want to take a moment to actually test the query out and make sure we're at least headed
+
+256
+00:16:51,710 --> 00:16:53,160
+in the right direction.
+
+257
+00:16:53,380 --> 00:16:56,450
+So right here I can create a new tab.
+
+258
+00:16:56,450 --> 00:16:58,550
+I'll make sure to refresh the schema.
+
+259
+00:16:58,880 --> 00:17:05,540
+I am going to query for posts specifying my selections set and I'm gonna grab all of the fields so I'll
+
+260
+00:17:05,540 --> 00:17:06,890
+grab the ID.
+
+261
+00:17:06,920 --> 00:17:08,460
+I'll grab the title.
+
+262
+00:17:08,470 --> 00:17:09,410
+I'll grab the body.
+
+263
+00:17:09,410 --> 00:17:13,280
+And finally I will grab the Post's published status.
+
+264
+00:17:13,280 --> 00:17:17,500
+Excellent we can go ahead and fire off this query and what do we get back.
+
+265
+00:17:17,540 --> 00:17:21,290
+I get back and array posts with three objects.
+
+266
+00:17:21,290 --> 00:17:22,640
+We have our first post.
+
+267
+00:17:22,640 --> 00:17:25,950
+We got the second one and down below we have our third one.
+
+268
+00:17:26,060 --> 00:17:27,140
+So there we go.
+
+269
+00:17:27,140 --> 00:17:30,950
+We've successfully completed the first portion of the challenge.
+
+270
+00:17:31,010 --> 00:17:39,230
+Now what I wanted you to do was add a way to query by the post title or body via a single query argument.
+
+271
+00:17:39,290 --> 00:17:42,520
+So let's go ahead and move through the process of actually setting that up.
+
+272
+00:17:42,530 --> 00:17:45,700
+Step 1 is going to be to change our type definition.
+
+273
+00:17:45,710 --> 00:17:51,630
+So once again we have to provide you the arguments that we want this query to be able to accept.
+
+274
+00:17:51,660 --> 00:17:57,410
+We're going to have one called query which will be an optional string like it was for users above.
+
+275
+00:17:57,410 --> 00:18:02,060
+Now we have to make some changes to the code down below to actually knock this out.
+
+276
+00:18:02,060 --> 00:18:06,470
+So right here I'm going to check if there was no query provided.
+
+277
+00:18:06,470 --> 00:18:13,030
+If there is no args dot query I am just going to return all of the posts like we were doing previously.
+
+278
+00:18:13,100 --> 00:18:19,100
+If there is a query we're actually going to use filter once again to just return posts that actually
+
+279
+00:18:19,100 --> 00:18:24,730
+match the query provided I'll be returning whatever comes back from calling posts.
+
+280
+00:18:24,740 --> 00:18:26,000
+DUP filter.
+
+281
+00:18:26,000 --> 00:18:31,280
+I'm going to provide that callback function which will get called with an individual post so I can set
+
+282
+00:18:31,280 --> 00:18:35,090
+up the post argument and what I'm going to do is perform those checks.
+
+283
+00:18:35,090 --> 00:18:39,230
+I'll check if the title is a match that I'll check if the body is a match.
+
+284
+00:18:39,230 --> 00:18:43,130
+Then I will return true if either of them were matches and false.
+
+285
+00:18:43,130 --> 00:18:45,170
+If both of them or not matches.
+
+286
+00:18:45,180 --> 00:18:49,010
+So right here Konst is title match.
+
+287
+00:18:49,010 --> 00:18:52,160
+For example I can set that up to check the title.
+
+288
+00:18:52,170 --> 00:18:54,630
+So I'm going to look at the post title.
+
+289
+00:18:54,650 --> 00:18:58,810
+I'm going to convert it to a lower case like I did previously.
+
+290
+00:18:58,820 --> 00:19:04,440
+I am then going to use includes to see if the query is contained inside the title or right here.
+
+291
+00:19:04,460 --> 00:19:05,580
+That would be args.
+
+292
+00:19:05,590 --> 00:19:06,710
+Doc query.
+
+293
+00:19:06,830 --> 00:19:09,170
+To lower case.
+
+294
+00:19:09,170 --> 00:19:11,460
+So that is going to be either true or false.
+
+295
+00:19:11,480 --> 00:19:18,760
+And we're going to do the same thing for the body is body match where we look at the posts body property.
+
+296
+00:19:18,890 --> 00:19:24,880
+Converting that to lower case and checking if that converted string includes the queries.
+
+297
+00:19:24,890 --> 00:19:30,650
+So once again ARGs that query to lower case.
+
+298
+00:19:30,650 --> 00:19:33,410
+Now maybe you didn't create separate variables for these.
+
+299
+00:19:33,410 --> 00:19:34,730
+That's perfectly fine.
+
+300
+00:19:34,730 --> 00:19:38,540
+There are a lot of different ways you can solve this challenge.
+
+301
+00:19:38,540 --> 00:19:40,780
+Next up we are going to return.
+
+302
+00:19:40,790 --> 00:19:42,280
+Whoops not retry.
+
+303
+00:19:42,320 --> 00:19:46,380
+We are going to return it spelled correctly and we're going to return.
+
+304
+00:19:46,400 --> 00:19:50,650
+The following is title match.
+
+305
+00:19:50,870 --> 00:19:55,480
+Then we're going to use the logical or operator is body match.
+
+306
+00:19:55,640 --> 00:20:00,180
+So as long as one of these are true the item will be considered a match.
+
+307
+00:20:00,230 --> 00:20:04,020
+If both of them are false the item won't be considered a match.
+
+308
+00:20:04,190 --> 00:20:10,040
+So if neither of them match the actual query the post won't be returned as long as either the title
+
+309
+00:20:10,040 --> 00:20:12,760
+or the body match it will be returned.
+
+310
+00:20:12,770 --> 00:20:15,160
+Now we've we did step four.
+
+311
+00:20:15,160 --> 00:20:22,510
+We've actually set up that queery argument and we can move on to Step 5 and run a few sample queries
+
+312
+00:20:22,580 --> 00:20:25,490
+right here let's just modify the operation.
+
+313
+00:20:25,840 --> 00:20:31,480
+I will specify queery providing a string value and I will refresh the schema.
+
+314
+00:20:31,480 --> 00:20:33,310
+So this is actually valid.
+
+315
+00:20:33,550 --> 00:20:35,290
+And then we can make a few choices.
+
+316
+00:20:35,290 --> 00:20:36,340
+Let's start with graphs.
+
+317
+00:20:36,440 --> 00:20:41,000
+Well something that is contained in the title and body for two of our posts.
+
+318
+00:20:41,020 --> 00:20:42,960
+So right here I'm going to run that.
+
+319
+00:20:43,000 --> 00:20:46,210
+And what do I get back I get back just two of those.
+
+320
+00:20:46,210 --> 00:20:52,810
+Now maybe I search for something like advanced if I run that I just get back the one post that has advanced
+
+321
+00:20:52,900 --> 00:20:54,010
+in the body.
+
+322
+00:20:54,010 --> 00:20:59,710
+Last up I could run something like music here I get the programming music post.
+
+323
+00:20:59,740 --> 00:21:03,060
+I could also run a query that returns nothing.
+
+324
+00:21:03,160 --> 00:21:05,910
+Let's go ahead and search for something like javascript.
+
+325
+00:21:05,980 --> 00:21:11,320
+In this case what do I get back I get back in no posts letting me know that there are no posts related
+
+326
+00:21:11,380 --> 00:21:13,630
+to javascript and there we go.
+
+327
+00:21:13,750 --> 00:21:19,680
+We now have a post's query all set up and you were able to knock that out on your very own.
+
+328
+00:21:19,870 --> 00:21:24,290
+Let's go ahead and remove the challenge comments and that's where we're going to start for this one.
+
+329
+00:21:24,490 --> 00:21:30,340
+We now know how to work with arrays of scalar types and arrays of custom types.
+
+330
+00:21:30,340 --> 00:21:33,150
+And that's going to allow us to create real world API.
+
+331
+00:21:33,160 --> 00:21:38,890
+Because remember as mentioned earlier in the class all real world data is essentially arrays.
+
+332
+00:21:38,890 --> 00:21:43,780
+I have an array of orders and array of products and array of users all of the things that make up our
+
+333
+00:21:43,780 --> 00:21:44,860
+application.
+
+334
+00:21:44,950 --> 00:21:46,920
+Our arrays of objects.
+
+335
+00:21:47,140 --> 00:21:52,470
+So we're going to do it from here on out is explore how we can add some relationships between these.
+
+336
+00:21:52,480 --> 00:21:59,410
+For example users have a set of posts they've written and each post has an author which links to an
+
+337
+00:21:59,410 --> 00:22:03,310
+individual user so we don't just want to have data set up.
+
+338
+00:22:03,370 --> 00:22:04,480
+That's not related.
+
+339
+00:22:04,480 --> 00:22:09,720
+All of this data is relational and we want to make sure that graphed Well actually respects that.
+
+340
+00:22:09,790 --> 00:22:15,040
+So we're going to see how to start this process off in the very next video which I am super excited
+
+341
+00:22:15,040 --> 00:22:15,870
+to get to.
+
+342
+00:22:15,880 --> 00:22:18,390
+So stay tuned and I'll see you then.
+

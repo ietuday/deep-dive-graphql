@@ -1,0 +1,1304 @@
+1
+00:00:00,270 --> 00:00:06,800
+We've tested mutations we've tested queries and in this video you're going to learn how to test subscriptions.
+
+2
+00:00:06,810 --> 00:00:09,000
+So the process is going to look very similar.
+
+3
+00:00:09,000 --> 00:00:15,990
+We'll be setting up test cases instead of using client dot mutate or client Dom queery we'll be using
+
+4
+00:00:15,990 --> 00:00:17,940
+client dot subscribe.
+
+5
+00:00:17,940 --> 00:00:20,700
+We're then going to subscribe to changes.
+
+6
+00:00:20,700 --> 00:00:26,400
+We're going to make a change in the database and we're going to ensure that the subscription got notified.
+
+7
+00:00:26,460 --> 00:00:32,130
+We have a few different subscriptions we can write test cases for if I crack open the schema tab engraft
+
+8
+00:00:32,260 --> 00:00:35,110
+Well playground we have three in this video.
+
+9
+00:00:35,130 --> 00:00:37,530
+We're going to write two test cases together.
+
+10
+00:00:37,680 --> 00:00:43,020
+We'll be writing a test case for our comment subscription making sure we get notified about changes
+
+11
+00:00:43,020 --> 00:00:49,620
+to comments that belong to a post and then down below we'll also write a test for the post subscription
+
+12
+00:00:49,620 --> 00:00:53,660
+though that's something you'll be doing on your own as a challenge.
+
+13
+00:00:53,760 --> 00:00:58,860
+Now in order to get this done we have to use Apollo to fire off a subscription.
+
+14
+00:00:58,860 --> 00:01:02,250
+Right now we're only using it for mutations and queries.
+
+15
+00:01:02,250 --> 00:01:05,900
+Now here's the catch and it's a big one Apollo boost.
+
+16
+00:01:05,940 --> 00:01:09,900
+It actually does not currently support subscriptions.
+
+17
+00:01:09,900 --> 00:01:14,470
+Now obviously this is not ideal since we're using Apollo boost as our client.
+
+18
+00:01:14,490 --> 00:01:20,010
+If we're going to set up mutations and queries we also want to be able to set up subscriptions whether
+
+19
+00:01:20,010 --> 00:01:23,650
+it's from test cases or from the browser.
+
+20
+00:01:23,670 --> 00:01:29,670
+Now Appollo boost is nothing more than a collection of other libraries under the Apollo ecosystem.
+
+21
+00:01:29,670 --> 00:01:32,970
+It's easier configuration way to get started with Apollo.
+
+22
+00:01:32,970 --> 00:01:38,240
+All you have to do is provide that object with the property and you're done.
+
+23
+00:01:38,250 --> 00:01:46,080
+The other tools though can be used to create a more complex client one that for example supports subscriptions.
+
+24
+00:01:46,080 --> 00:01:51,480
+Now the Apollo boosted developers do indeed plan on adding subscription support to the library.
+
+25
+00:01:51,480 --> 00:01:56,490
+There are good issue threads about this but there's no definitive timeline and I'm not banking on it
+
+26
+00:01:56,490 --> 00:01:58,440
+happening in the next couple of days.
+
+27
+00:01:58,500 --> 00:02:02,580
+So what I've done as a temporary work around as I've created for you.
+
+28
+00:02:02,580 --> 00:02:09,240
+A new version of the Get client file instead of relying on Appollo boost that version uses all of the
+
+29
+00:02:09,240 --> 00:02:12,610
+libraries that Appollo boost uses behind the scenes.
+
+30
+00:02:12,660 --> 00:02:18,090
+It's going to give us what we already get from Appollo boost but it's also going to set up subscription
+
+31
+00:02:18,090 --> 00:02:18,870
+support.
+
+32
+00:02:18,870 --> 00:02:23,280
+So that's going to give us something a little extra we can find this file that we're going to end up
+
+33
+00:02:23,280 --> 00:02:25,460
+using by heading over to the browser.
+
+34
+00:02:25,500 --> 00:02:28,690
+I've uploaded it at Lincs dot meet DOT.
+
+35
+00:02:28,710 --> 00:02:35,340
+I go forward slash get client that's get client in all lower case and if we head over there it's going
+
+36
+00:02:35,340 --> 00:02:37,530
+to redirect us over to a get home.
+
+37
+00:02:37,590 --> 00:02:42,880
+Just this is a single file that we're going to use as a replacement for now.
+
+38
+00:02:42,930 --> 00:02:48,120
+The first thing you'll notice is that we have plenty of new libraries from the Apollo ecosystem being
+
+39
+00:02:48,150 --> 00:02:48,690
+used.
+
+40
+00:02:48,690 --> 00:02:52,380
+Previously we had just one that was Apollo boost.
+
+41
+00:02:52,380 --> 00:02:54,450
+Now we're going to have seven different ones.
+
+42
+00:02:54,450 --> 00:03:01,430
+Things like Apollo client Apollo link HTP and Apollo utilities as well as others.
+
+43
+00:03:01,470 --> 00:03:07,250
+Many of these are already being used by Apollo boost behind the scenes but not all of them.
+
+44
+00:03:07,290 --> 00:03:08,430
+Apollo link.
+
+45
+00:03:08,430 --> 00:03:11,950
+WS This is what sets up web Sacket support.
+
+46
+00:03:11,970 --> 00:03:16,830
+And that's the protocol that allows us to have real time communication with our subscriptions.
+
+47
+00:03:16,830 --> 00:03:24,300
+This is something that we have to manually set up as once again Apollo boost does not support web sockets.
+
+48
+00:03:24,300 --> 00:03:30,180
+So down below we have a whole bunch of configuration everything that Apollo boost does plus a little
+
+49
+00:03:30,180 --> 00:03:32,890
+bit more to add support for web sockets.
+
+50
+00:03:32,910 --> 00:03:40,020
+This file still exports a get client function that accepts a JWT argument just like we have over here.
+
+51
+00:03:40,020 --> 00:03:45,660
+We're actually going to be able to swap out the files without needing to change any of our test case
+
+52
+00:03:45,750 --> 00:03:46,460
+code.
+
+53
+00:03:46,470 --> 00:03:51,150
+The two functions return a client and those clients are identical.
+
+54
+00:03:51,150 --> 00:03:57,540
+Besides the fact that the new one supports subscriptions down below that we have all of the code necessary
+
+55
+00:03:57,720 --> 00:04:00,540
+to actually set up the client manually.
+
+56
+00:04:00,540 --> 00:04:03,360
+And it is quite a bit of boring configuration.
+
+57
+00:04:03,420 --> 00:04:08,810
+Let's go ahead and kick things off by grabbing the NPM command up top on the second line.
+
+58
+00:04:08,940 --> 00:04:15,700
+I'm going to grab everything from NPM install all the way to the end of the file.
+
+59
+00:04:15,910 --> 00:04:17,290
+I'm going to grab that command.
+
+60
+00:04:17,290 --> 00:04:19,830
+I'm going to bring it over to our application.
+
+61
+00:04:19,870 --> 00:04:22,060
+I will shut down the test suite.
+
+62
+00:04:22,150 --> 00:04:23,350
+I'll paste it in.
+
+63
+00:04:23,380 --> 00:04:28,150
+Fire it off and that's going to install all of the modules necessary now.
+
+64
+00:04:28,170 --> 00:04:32,980
+In the meantime we can grab everything else in this file starting with our first import all the way
+
+65
+00:04:32,980 --> 00:04:34,340
+down to the end.
+
+66
+00:04:34,510 --> 00:04:36,420
+We can copy this to the clipboard.
+
+67
+00:04:36,490 --> 00:04:41,480
+And this is what we're going to bring over to the Get client file we have in our application.
+
+68
+00:04:41,620 --> 00:04:47,980
+Now you can always leave a version of the Apollo boost file in place incased subscription support gets
+
+69
+00:04:47,980 --> 00:04:49,260
+added down the line.
+
+70
+00:04:49,480 --> 00:04:54,200
+So what I'm going to do is right click on get a duplicate file or directory.
+
+71
+00:04:54,430 --> 00:05:01,370
+Here I can call this get client without subs without subscriptions.
+
+72
+00:05:01,400 --> 00:05:02,720
+Damn Jay S..
+
+73
+00:05:03,080 --> 00:05:08,810
+And now that we have that file in place as a backup of sorts I'm going to move back to the original
+
+74
+00:05:08,810 --> 00:05:15,860
+get client file delete everything and paste in the contents of what we copied over from the browser.
+
+75
+00:05:15,860 --> 00:05:20,210
+So now we have a much more advanced setup for Appollo client.
+
+76
+00:05:20,210 --> 00:05:25,640
+This is one that's going to enable support for what we need which is subscriptions.
+
+77
+00:05:25,640 --> 00:05:28,210
+Now before we do anything with subscriptions let's save.
+
+78
+00:05:28,210 --> 00:05:35,030
+Get client restart our test suite and make sure that all of our existing test cases are passing before
+
+79
+00:05:35,030 --> 00:05:36,290
+going any further.
+
+80
+00:05:36,290 --> 00:05:40,280
+We had 12 before we made this change and all 12 were passing.
+
+81
+00:05:40,280 --> 00:05:44,390
+I said that the GET client function shouldn't change the functionality.
+
+82
+00:05:44,390 --> 00:05:50,060
+So I would still be expecting all 12 to pats down below were wrapping up and everything looks good so
+
+83
+00:05:50,060 --> 00:05:50,680
+far.
+
+84
+00:05:50,750 --> 00:05:54,470
+We have 10 passing and in a couple of seconds the other two should finish.
+
+85
+00:05:54,470 --> 00:05:55,240
+There we go.
+
+86
+00:05:55,310 --> 00:05:57,910
+We have 12 passing test cases.
+
+87
+00:05:58,270 --> 00:06:04,190
+So now that we have the new version of Get client in place we're going to start to test our subscriptions
+
+88
+00:06:04,400 --> 00:06:10,430
+and to start we are going to make sure that we get notified of comments for a particular post and we're
+
+89
+00:06:10,430 --> 00:06:14,030
+going to do that over inside of the comment test suite.
+
+90
+00:06:14,030 --> 00:06:18,480
+You can also make the argument that that belongs over in the post test suite.
+
+91
+00:06:18,560 --> 00:06:22,820
+In the end of the day either way is fine as long as you're consistent with where you put stuff down
+
+92
+00:06:22,820 --> 00:06:23,430
+below.
+
+93
+00:06:23,600 --> 00:06:27,610
+Let's go ahead and explore how we can test a subscription to start.
+
+94
+00:06:27,620 --> 00:06:30,070
+Let's set up a place for this new test case.
+
+95
+00:06:30,080 --> 00:06:37,580
+I'm going to call test and we'll pass in a name something like should subscribe to comments for a post
+
+96
+00:06:38,620 --> 00:06:44,320
+then we'll set up our async aero function and we can move on to the actual meat of the test case.
+
+97
+00:06:44,320 --> 00:06:47,340
+Now in this case we're going to be firing off a subscription.
+
+98
+00:06:47,350 --> 00:06:52,540
+One of the three subscriptions we have available to us that is the comment subscription.
+
+99
+00:06:52,540 --> 00:06:56,940
+And remember this does take in an argument to the ID of the post.
+
+100
+00:06:56,950 --> 00:06:58,180
+You want to monitor.
+
+101
+00:06:58,210 --> 00:07:02,570
+So we're going to monitor our first test post which is indeed the published one.
+
+102
+00:07:02,790 --> 00:07:07,120
+So let's go ahead and start by actually defining the operation in operations.
+
+103
+00:07:07,190 --> 00:07:17,020
+J.S. down below at the bottom of our operations list we can set up a new one Konst subscribe to comments
+
+104
+00:07:17,590 --> 00:07:18,070
+right here.
+
+105
+00:07:18,070 --> 00:07:20,250
+I'm gonna set it equal to we're still going to use.
+
+106
+00:07:20,260 --> 00:07:25,480
+GQ well with template strings and we're going to set up our subscription like we've done plenty of times
+
+107
+00:07:25,510 --> 00:07:27,010
+before right here.
+
+108
+00:07:27,010 --> 00:07:29,020
+It is indeed a subscription.
+
+109
+00:07:29,230 --> 00:07:37,390
+We are going to provide a single variable post ID of the type ID and then down below we can talk about
+
+110
+00:07:37,390 --> 00:07:38,170
+the subscription.
+
+111
+00:07:38,200 --> 00:07:40,400
+We're going to use which is comment.
+
+112
+00:07:40,540 --> 00:07:48,130
+Now we have to provide a post ID as an argument and we're going to get its value from the post ID variable
+
+113
+00:07:48,580 --> 00:07:52,540
+perfect and then down below we can choose exactly what we want.
+
+114
+00:07:52,570 --> 00:07:57,790
+Remember the payload for our subscriptions has a mutation which lets us know what happened.
+
+115
+00:07:57,790 --> 00:08:04,610
+Did a comment get deleted updated or added and node which contains the individual comment fields.
+
+116
+00:08:04,630 --> 00:08:08,040
+So in this case I could say I want to know exactly what happened.
+
+117
+00:08:08,050 --> 00:08:12,700
+So I'll grab mutation and I also want to grab the comments ID and text.
+
+118
+00:08:12,730 --> 00:08:17,980
+So right here node ID text perfect.
+
+119
+00:08:18,010 --> 00:08:26,680
+Now we can go ahead and add subscribe to comments on to our export list subscribe to comments and we
+
+120
+00:08:26,680 --> 00:08:33,910
+are going to save the operations file and inport subscribe to comments over inside of the comment test
+
+121
+00:08:33,910 --> 00:08:35,200
+suite up top.
+
+122
+00:08:35,200 --> 00:08:37,600
+We're going to go ahead and grab two new things.
+
+123
+00:08:37,600 --> 00:08:45,790
+First up from the operations file We're going to grab what we just exported subscribe to comments then
+
+124
+00:08:45,790 --> 00:08:49,350
+we're going to grab something from the C database as well.
+
+125
+00:08:49,360 --> 00:08:52,510
+We're going to need a post ID to monitor all grab.
+
+126
+00:08:52,550 --> 00:08:53,380
+Post one.
+
+127
+00:08:53,380 --> 00:09:00,130
+Also once we have these two ports in place we can actually move down below and use them to set up the
+
+128
+00:09:00,130 --> 00:09:01,960
+test suite right here.
+
+129
+00:09:01,960 --> 00:09:04,330
+We're going to start by defining our variables.
+
+130
+00:09:04,330 --> 00:09:07,360
+So we do indeed need a variables object.
+
+131
+00:09:07,480 --> 00:09:12,760
+Since our operation our subscription requires the post ID a variable.
+
+132
+00:09:12,770 --> 00:09:19,400
+So right here let's set that up post ID and we'll get its value from post one.
+
+133
+00:09:19,480 --> 00:09:23,500
+Post dot Id like we've done plenty of times before.
+
+134
+00:09:23,500 --> 00:09:24,380
+Awesome.
+
+135
+00:09:24,460 --> 00:09:30,760
+Now that we have the variables object in place we can go ahead and use a new method on client to actually
+
+136
+00:09:30,760 --> 00:09:38,800
+set up the subscription that his client doesn't subscribe subscribe method takes in an options object
+
+137
+00:09:38,830 --> 00:09:40,860
+like queery and mutate did.
+
+138
+00:09:41,020 --> 00:09:42,730
+And we provide two properties.
+
+139
+00:09:42,730 --> 00:09:48,480
+First up query this is where we list out the subscription we want to use and we just imported that it's
+
+140
+00:09:48,490 --> 00:09:51,860
+subscribe to comments.
+
+141
+00:09:52,040 --> 00:09:58,450
+And next up we go ahead and list out the variables we want to use and we'll register those as well.
+
+142
+00:09:58,450 --> 00:10:03,280
+Now with queries and mutations the data comes back a single time.
+
+143
+00:10:03,280 --> 00:10:08,250
+So if we fire off a query it gets the data it sends it back and that query is complete.
+
+144
+00:10:08,260 --> 00:10:14,290
+We're never going to get new data back without sending off the query again with our subscription though
+
+145
+00:10:14,440 --> 00:10:20,890
+we're going to get new data back any time a comment for this post changes that means we actually can't
+
+146
+00:10:20,950 --> 00:10:26,920
+use a promise because promises can resolve or reject a single time with a single value.
+
+147
+00:10:26,920 --> 00:10:33,520
+In this case what we do is we actually set up a callback function that fires every time the subscription
+
+148
+00:10:33,580 --> 00:10:35,110
+gets new data.
+
+149
+00:10:35,110 --> 00:10:43,330
+To do that we call subscribe right here chaining on the method calls we pass in an options object and
+
+150
+00:10:43,330 --> 00:10:45,600
+to set this up with a single property.
+
+151
+00:10:45,610 --> 00:10:47,880
+Next Next is a function.
+
+152
+00:10:47,900 --> 00:10:53,890
+So I'm going to set it up as such and it gets called with the response and next will fire as many times
+
+153
+00:10:53,920 --> 00:10:58,090
+as it needs to every single time a comment changes.
+
+154
+00:10:58,090 --> 00:11:02,100
+Now that response is similar to what we'd get back for a query or a mutation.
+
+155
+00:11:02,230 --> 00:11:08,710
+We have access to response data to get information about the comment that was altered whether it was
+
+156
+00:11:08,710 --> 00:11:11,410
+created updated or deleted.
+
+157
+00:11:11,410 --> 00:11:15,490
+Now let's go ahead and talk about what we're going to do to trigger this function.
+
+158
+00:11:15,490 --> 00:11:20,690
+So here we're going to end up setting up some assertions making sure that things went well.
+
+159
+00:11:20,920 --> 00:11:26,540
+But in order for next to fire we actually have to change a comment.
+
+160
+00:11:26,620 --> 00:11:31,530
+So down below all we need to change a comment in order to trigger next.
+
+161
+00:11:31,540 --> 00:11:33,100
+And we need next to run.
+
+162
+00:11:33,190 --> 00:11:36,550
+So we can assert the subscription is working as expected.
+
+163
+00:11:36,550 --> 00:11:37,810
+Now that's not a hard process.
+
+164
+00:11:37,810 --> 00:11:43,090
+We can use any of our Prisma mutations to change one of the comments for that post.
+
+165
+00:11:43,120 --> 00:11:48,910
+I'm going to use the delete comment nutation to delete one of the two comments so down below.
+
+166
+00:11:49,720 --> 00:11:51,570
+We can await the following.
+
+167
+00:11:51,610 --> 00:11:59,810
+That's going to be Prisma dot mutation dot delete comment and we're going to delete the comment by providing
+
+168
+00:11:59,840 --> 00:12:08,150
+the where object will delete a comment where the ID equals let's say the first comments ID so comment
+
+169
+00:12:08,150 --> 00:12:11,360
+one dot comment dot ID.
+
+170
+00:12:11,480 --> 00:12:12,490
+Perfect.
+
+171
+00:12:12,530 --> 00:12:18,890
+Now at this point the next function should indeed be triggered a single time and we can go ahead and
+
+172
+00:12:18,890 --> 00:12:20,770
+focus on our assertions.
+
+173
+00:12:20,780 --> 00:12:25,010
+Now before we do anything real I want to set up a dummy assertion to prove a point.
+
+174
+00:12:25,100 --> 00:12:28,240
+What we're going to do is expect that one equals two.
+
+175
+00:12:28,260 --> 00:12:31,410
+So I'm going to expect one to be two.
+
+176
+00:12:31,460 --> 00:12:33,390
+Now clearly that's not the case.
+
+177
+00:12:33,440 --> 00:12:38,820
+And the reason I'm setting this up is to talk about exactly how tests like this need to be configured.
+
+178
+00:12:39,060 --> 00:12:44,750
+So down below we have the test suite running and then just a few seconds we should indeed see our test
+
+179
+00:12:44,750 --> 00:12:45,350
+case.
+
+180
+00:12:45,440 --> 00:12:50,840
+And I would expect it to be failing because one is not two but down below as we can see.
+
+181
+00:12:50,990 --> 00:12:54,070
+We now have 13 passing tests.
+
+182
+00:12:54,080 --> 00:12:56,250
+So what exactly is happening here.
+
+183
+00:12:56,270 --> 00:13:02,750
+Clearly this assertion isn't being taken into account when jast determines whether or not this test
+
+184
+00:13:02,930 --> 00:13:05,000
+should have succeeded or failed.
+
+185
+00:13:05,000 --> 00:13:11,090
+The problem is that just runs our function and as soon as the function finishes it goes ahead and says
+
+186
+00:13:11,090 --> 00:13:14,960
+the test is done and determines whether or not an error was thrown.
+
+187
+00:13:14,960 --> 00:13:19,830
+Now right after delete comment is done that's when the function finishes.
+
+188
+00:13:19,910 --> 00:13:26,390
+It's actually going to finish before the asynchronous process can notify our subscription that the new
+
+189
+00:13:26,390 --> 00:13:27,520
+event has been fired.
+
+190
+00:13:27,520 --> 00:13:29,200
+In which case next would run.
+
+191
+00:13:29,240 --> 00:13:34,040
+So this code does run but it runs a little bit after this function completes.
+
+192
+00:13:34,040 --> 00:13:39,850
+And by that time just has already determined whether or not the function threw an error.
+
+193
+00:13:39,860 --> 00:13:46,280
+Now we can fix this by setting up a new argument for our test function just supports a done argument
+
+194
+00:13:46,550 --> 00:13:48,910
+when we configure done like this.
+
+195
+00:13:48,940 --> 00:13:53,390
+That test case won't be considered finished until done is called.
+
+196
+00:13:53,390 --> 00:13:54,830
+So all we have to do is call.
+
+197
+00:13:54,830 --> 00:13:56,260
+Done right here.
+
+198
+00:13:56,360 --> 00:13:57,160
+I'm going to call.
+
+199
+00:13:57,160 --> 00:13:57,710
+Done.
+
+200
+00:13:57,890 --> 00:14:05,030
+And now if we were to save the test suite with our dummy assertion in place we would indeed see a failure
+
+201
+00:14:05,240 --> 00:14:10,220
+because we're not going to actually consider this test done until this function runs.
+
+202
+00:14:10,220 --> 00:14:14,750
+So once again we'll set up the subscription will fire off the delete comment of mutation.
+
+203
+00:14:14,930 --> 00:14:20,840
+We'll wait for next to complete and when next is complete geste We'll look at the test case and determine
+
+204
+00:14:21,110 --> 00:14:24,180
+whether or not it should be considered a success or a failure.
+
+205
+00:14:24,200 --> 00:14:26,350
+Right here we have a single failure.
+
+206
+00:14:26,360 --> 00:14:29,540
+And if I scroll up what do we get we expected to.
+
+207
+00:14:29,630 --> 00:14:31,140
+And we received one.
+
+208
+00:14:31,340 --> 00:14:34,340
+So at this point everything is working as expected.
+
+209
+00:14:34,340 --> 00:14:40,310
+We have actually proved that this function is at least running so we know when we delete a comment the
+
+210
+00:14:40,310 --> 00:14:43,040
+subscription is indeed getting notified.
+
+211
+00:14:43,040 --> 00:14:48,650
+Now let's talk about what we should actually assert this test case as it stands actually does a pretty
+
+212
+00:14:48,650 --> 00:14:51,440
+good job ensuring that things go well.
+
+213
+00:14:51,500 --> 00:14:58,100
+This ensures that the function does indeed get called meaning that our subscription did indeed get notified
+
+214
+00:14:58,370 --> 00:15:02,560
+if it didn't this function would never get called done would never fire.
+
+215
+00:15:02,690 --> 00:15:08,360
+And after a certain amount of time it just just considers the test a failure if done never runs.
+
+216
+00:15:08,360 --> 00:15:12,340
+So we know that at least next is executing.
+
+217
+00:15:12,410 --> 00:15:17,420
+Now we don't need to assert something like the fact that the comment has indeed been removed because
+
+218
+00:15:17,420 --> 00:15:18,260
+the subscription.
+
+219
+00:15:18,260 --> 00:15:20,190
+It's not what's removing the comment.
+
+220
+00:15:20,210 --> 00:15:21,730
+It's just getting notified.
+
+221
+00:15:21,830 --> 00:15:28,160
+If we were to assert that the content is indeed removed we're essentially testing the Prisma library
+
+222
+00:15:28,160 --> 00:15:32,440
+itself making sure it works and that doesn't make too much sense in this case.
+
+223
+00:15:32,480 --> 00:15:36,230
+I'm just going to assert that we're getting notified about a deletion.
+
+224
+00:15:36,230 --> 00:15:38,120
+So I could set up something like the following.
+
+225
+00:15:38,120 --> 00:15:45,760
+I could expect something about response data on here we're going to have all of our data the common
+
+226
+00:15:45,770 --> 00:15:52,190
+property is where we'll have the data for our comment subscription then we're going to access something
+
+227
+00:15:52,190 --> 00:15:59,470
+like mutation which we did indeed ask for and we can check that it equals using to be the following.
+
+228
+00:15:59,480 --> 00:16:02,100
+In upper case the string deleted.
+
+229
+00:16:02,300 --> 00:16:07,250
+So now we are confirming two things we're confirming that we're getting notified because something's
+
+230
+00:16:07,250 --> 00:16:12,740
+been deleted and we're confirming that we're actually getting notified just based off of the fact that
+
+231
+00:16:12,740 --> 00:16:14,280
+Dunn is set up.
+
+232
+00:16:14,510 --> 00:16:18,520
+Now this should indeed complete the test case down below.
+
+233
+00:16:18,590 --> 00:16:24,290
+I would expect to have 13 passing tests and if we do we're going to wrap up this video with a quick
+
+234
+00:16:24,350 --> 00:16:26,500
+subscription challenge down below.
+
+235
+00:16:26,600 --> 00:16:30,020
+We have just that everything is working really well.
+
+236
+00:16:30,100 --> 00:16:32,360
+And this video has gotten a little long.
+
+237
+00:16:32,360 --> 00:16:37,310
+I was thinking about breaking the challenge out into the next one but I'd like to bundle this up all
+
+238
+00:16:37,310 --> 00:16:37,950
+in one.
+
+239
+00:16:38,000 --> 00:16:42,250
+So bear with me as we move into challenge territory.
+
+240
+00:16:42,260 --> 00:16:47,000
+It's going to be your job to set up a test case for the post subscription.
+
+241
+00:16:47,000 --> 00:16:53,360
+So if I head over to our schema real quick we just added a test case for comment down below we also
+
+242
+00:16:53,360 --> 00:16:54,440
+have post.
+
+243
+00:16:54,470 --> 00:17:00,890
+So this is going to get notified if a published post gets created updated or deleted and that's good.
+
+244
+00:17:00,890 --> 00:17:02,110
+That's exactly what we want.
+
+245
+00:17:02,110 --> 00:17:06,420
+It takes no arguments so no variables need to get set up.
+
+246
+00:17:06,440 --> 00:17:13,400
+So big picture goal as a test case for the post subscription you want to set up the subscription operation
+
+247
+00:17:13,400 --> 00:17:20,390
+in the operations file then you're going to actually fire that operation off then you're going to fire
+
+248
+00:17:20,390 --> 00:17:23,750
+off the Prisma mutation that would trigger the subscription.
+
+249
+00:17:23,750 --> 00:17:28,510
+So if we're listening on published posts you're going to have to manipulate a published post.
+
+250
+00:17:28,520 --> 00:17:34,520
+You can go ahead and delete posts 1 to do that as an example from there you're going to make sure that
+
+251
+00:17:34,520 --> 00:17:40,460
+things actually worked by setting up an assertion and making sure the mutation property is correct either
+
+252
+00:17:40,460 --> 00:17:42,950
+created updated or deleted.
+
+253
+00:17:42,950 --> 00:17:49,490
+And remember to get that done you'll also need to use done to ensure that geste waits for next to fire
+
+254
+00:17:49,810 --> 00:17:50,350
+last.
+
+255
+00:17:50,420 --> 00:17:56,450
+Test your work so you can use the above test case as a template for what you need to get done.
+
+256
+00:17:56,450 --> 00:17:56,960
+All right.
+
+257
+00:17:56,960 --> 00:18:00,290
+Pause the video and when you're done come back and click play
+
+258
+00:18:03,090 --> 00:18:06,590
+how that go I'm going to kick things off by setting up the operation.
+
+259
+00:18:06,590 --> 00:18:11,420
+There's no point in setting up the test case until we have something to test over here.
+
+260
+00:18:11,540 --> 00:18:20,720
+I will call this something along the lines of Konst subscribe to posts and I'll use this with GQ UL
+
+261
+00:18:20,720 --> 00:18:22,400
+and a template string.
+
+262
+00:18:22,670 --> 00:18:28,370
+This subscription doesn't take in any arguments so there's no need to take in any variables.
+
+263
+00:18:28,370 --> 00:18:34,770
+All we're going to do is set up the subscription and the subscription name itself is post.
+
+264
+00:18:34,820 --> 00:18:40,160
+In this case once again no arguments necessary and all we're going to do is ask for mutation though
+
+265
+00:18:40,160 --> 00:18:42,700
+we could also grab things off of Node.
+
+266
+00:18:42,980 --> 00:18:48,910
+Now that we have this in place we can go ahead and export it over here at the end of the list.
+
+267
+00:18:49,770 --> 00:18:53,210
+Subscribe to posts.
+
+268
+00:18:53,220 --> 00:18:54,190
+Excellent.
+
+269
+00:18:54,330 --> 00:19:01,140
+So now that we have these subscription exported we can save operations dot J s over any comment test
+
+270
+00:19:01,140 --> 00:19:03,940
+file before we create the test case.
+
+271
+00:19:03,960 --> 00:19:12,550
+I'm just going to inport what we just export it so subscribe two posts then down below we can actually
+
+272
+00:19:12,550 --> 00:19:13,960
+put that to use.
+
+273
+00:19:13,960 --> 00:19:18,460
+Let's go ahead and create a brand new test case and new test case.
+
+274
+00:19:18,820 --> 00:19:20,600
+I'm going to set up a name for this one.
+
+275
+00:19:20,620 --> 00:19:27,310
+Something like should subscribe to changes for published posts.
+
+276
+00:19:27,340 --> 00:19:29,750
+This will also be an async function.
+
+277
+00:19:29,860 --> 00:19:35,690
+And we're also going to configure this to accept that done argument allowing us to confirm that the
+
+278
+00:19:35,690 --> 00:19:38,770
+subscription actually got notified of a change.
+
+279
+00:19:38,770 --> 00:19:44,020
+Now there's no need to set up variables inside of here so we can kick things off right away with a call
+
+280
+00:19:44,020 --> 00:19:46,630
+to client doesn't subscribe.
+
+281
+00:19:46,870 --> 00:19:49,580
+I'm going to pass to the two things it expects.
+
+282
+00:19:49,600 --> 00:19:56,920
+We have a query the one we're going to be using is to subscribe to the posts and we would have variables
+
+283
+00:19:56,950 --> 00:19:59,710
+but no variables required from there.
+
+284
+00:19:59,710 --> 00:20:03,860
+We're going to end up changing on a another call to subscribe like we did above.
+
+285
+00:20:03,970 --> 00:20:09,790
+This is where we set up next next Nectars the function that runs when the subscription gets notified
+
+286
+00:20:09,820 --> 00:20:11,590
+of an event right here.
+
+287
+00:20:11,650 --> 00:20:16,360
+We're going to do is get the response and we're going to do something with it.
+
+288
+00:20:16,370 --> 00:20:22,630
+Now it's important to remember that next a won't run unless we actually mutate something in this case.
+
+289
+00:20:22,670 --> 00:20:30,050
+I'm going to go ahead and delete that published post so I'll await Prisma dot mutation dot right here
+
+290
+00:20:30,290 --> 00:20:31,650
+delete post.
+
+291
+00:20:31,880 --> 00:20:37,490
+And we are indeed going to provide the criteria for deleting a post we'll use where to delete a post
+
+292
+00:20:37,500 --> 00:20:39,740
+by its ID the ID.
+
+293
+00:20:39,740 --> 00:20:43,240
+In this case being the ID of post number 1.
+
+294
+00:20:43,430 --> 00:20:48,540
+So post one dot post dot ID.
+
+295
+00:20:48,710 --> 00:20:49,730
+Excellent.
+
+296
+00:20:49,730 --> 00:20:50,180
+Whoops.
+
+297
+00:20:50,180 --> 00:20:51,950
+Not is ID.
+
+298
+00:20:51,980 --> 00:20:55,920
+Now that we have this in place next should indeed be running in here.
+
+299
+00:20:56,000 --> 00:21:00,470
+We can set up an assertion and we definitely need to called done otherwise.
+
+300
+00:21:00,470 --> 00:21:04,770
+Remember just won't consider the test case complete.
+
+301
+00:21:04,910 --> 00:21:10,900
+After a certain amount of time if done is in called it will be considered a failure by default.
+
+302
+00:21:10,910 --> 00:21:14,410
+Now we can use expect to look at that mutation type.
+
+303
+00:21:14,420 --> 00:21:20,490
+This is step number 4 expecting that response dot data dot.
+
+304
+00:21:20,510 --> 00:21:26,110
+In this case Post has a mutation property with the value using to be.
+
+305
+00:21:26,240 --> 00:21:28,710
+In this case once again deleted.
+
+306
+00:21:28,970 --> 00:21:30,940
+With this in place we are all done.
+
+307
+00:21:30,950 --> 00:21:34,100
+We can go ahead and remove our comments down below.
+
+308
+00:21:34,310 --> 00:21:40,520
+I can save the comment test suite and we're going to watch our test cases run for the last time in this
+
+309
+00:21:40,520 --> 00:21:41,260
+video.
+
+310
+00:21:41,540 --> 00:21:43,270
+So let's take a quick moment to recap.
+
+311
+00:21:43,280 --> 00:21:49,340
+Well that's happening in this video we had to swap out get client instead of using Apollo boost which
+
+312
+00:21:49,340 --> 00:21:51,230
+doesn't support subscriptions.
+
+313
+00:21:51,290 --> 00:21:56,900
+We have used a custom setup that I've provided maybe in the future we can switch back to Appollo boost
+
+314
+00:21:56,990 --> 00:21:59,270
+if subscriptions or ever support it.
+
+315
+00:21:59,270 --> 00:22:05,960
+We then used those in our test cases to set up calls to subscribe waiting for things to change.
+
+316
+00:22:05,960 --> 00:22:11,150
+Now in these test cases we actually had to trigger changes and there is a reason here that I'm working
+
+317
+00:22:11,150 --> 00:22:15,010
+with Prisma and not maybe firing off one of our own operations.
+
+318
+00:22:15,050 --> 00:22:21,740
+We want to isolate our tests so if we were using our own subscription and our own delete mutation it
+
+319
+00:22:21,740 --> 00:22:25,760
+would be hard to pinpoint exactly why a test is failing if it failed.
+
+320
+00:22:25,850 --> 00:22:31,070
+In this case Prisma does its own testing so we can assume that it's going to work as expected and we
+
+321
+00:22:31,070 --> 00:22:34,820
+are just testing the subscription related features.
+
+322
+00:22:34,820 --> 00:22:38,740
+Dambulla we have 14 passing tests and there we go.
+
+323
+00:22:38,930 --> 00:22:45,080
+You now know how to use subscriptions queries and mutations from clients whether that's the browser
+
+324
+00:22:45,110 --> 00:22:47,300
+or in this case a test suite.
+
+325
+00:22:47,300 --> 00:22:49,460
+And that's where we're going to stop for this one.
+
+326
+00:22:49,460 --> 00:22:51,070
+I'll see you next time.
+

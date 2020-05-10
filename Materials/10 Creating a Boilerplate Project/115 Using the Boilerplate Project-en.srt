@@ -1,0 +1,632 @@
+1
+00:00:00,300 --> 00:00:02,780
+We have our boilerplate project directory.
+
+2
+00:00:02,790 --> 00:00:05,160
+And in this video we're going to learn how to use that.
+
+3
+00:00:05,160 --> 00:00:10,080
+So we're going to duplicate it and we're going to get it set up as the starting point for some other
+
+4
+00:00:10,080 --> 00:00:11,460
+dummy project.
+
+5
+00:00:11,460 --> 00:00:16,820
+Let's go ahead and do just that right here I'll kick things off by duplicating the directory.
+
+6
+00:00:16,830 --> 00:00:21,670
+We don't want to modify the boilerplate directly for our new application.
+
+7
+00:00:21,720 --> 00:00:22,740
+That defeats the purpose.
+
+8
+00:00:22,740 --> 00:00:25,760
+The goal is to keep that around as an easy starting point.
+
+9
+00:00:25,770 --> 00:00:33,570
+I'm going to duplicate it and I'll call this something like books from boiler plate.
+
+10
+00:00:33,570 --> 00:00:37,120
+Perfect just a name that suggests exactly what it is.
+
+11
+00:00:37,120 --> 00:00:39,890
+A little books app based off of the boiler plate.
+
+12
+00:00:40,060 --> 00:00:44,860
+And we're going to go ahead and spend our time in this folder and to kick things off.
+
+13
+00:00:44,860 --> 00:00:47,890
+Let's go ahead and change directories into that folder.
+
+14
+00:00:48,130 --> 00:00:56,290
+I'm going to use C.D dot dot to get out of the boilerplate folder then CD books hyphen from hyphen boiler
+
+15
+00:00:56,500 --> 00:00:57,130
+plate.
+
+16
+00:00:57,280 --> 00:00:58,810
+Perfect from here.
+
+17
+00:00:58,810 --> 00:01:02,860
+The first thing we're going to do is make sure that Prisma is up and running and we're going to start
+
+18
+00:01:03,100 --> 00:01:07,050
+by deploying Prisma to both the dev and test environment.
+
+19
+00:01:07,050 --> 00:01:13,510
+So in the config directory we're going to be cracking open the DEF file and the test file.
+
+20
+00:01:13,510 --> 00:01:16,450
+Let's go ahead and start with the dev file.
+
+21
+00:01:16,450 --> 00:01:19,300
+What we need to do is update the endpoint.
+
+22
+00:01:19,300 --> 00:01:23,550
+We're going to deploy to our local docker instance right here.
+
+23
+00:01:23,550 --> 00:01:25,850
+Default default that's already taken.
+
+24
+00:01:25,870 --> 00:01:27,250
+So I'm going to use something like.
+
+25
+00:01:27,250 --> 00:01:33,430
+Forward slash I'll use food as the service name and then whatever I want for the stage name in this
+
+26
+00:01:33,430 --> 00:01:36,610
+case I can use dev over and test.
+
+27
+00:01:36,640 --> 00:01:44,530
+Ian V I am going to use forward slash food so I'm using the exact same service name and for the stage
+
+28
+00:01:44,530 --> 00:01:46,040
+name I'll use test.
+
+29
+00:01:46,060 --> 00:01:52,100
+So we have the food app in a test environment and we have the food app in a development environment.
+
+30
+00:01:52,120 --> 00:01:57,910
+Now we can actually deploy both of those by changing directories into the Prisma folder and running
+
+31
+00:01:57,910 --> 00:01:59,710
+Prisma deploy it twice.
+
+32
+00:01:59,980 --> 00:02:05,790
+I'm going to run Prisma deploy with the flag providing a path to the config file.
+
+33
+00:02:05,800 --> 00:02:07,710
+Let's start with the dev environment.
+
+34
+00:02:07,720 --> 00:02:10,520
+So dot dot to get out of the Prisma folder.
+
+35
+00:02:10,690 --> 00:02:16,100
+Forward slash config forward slash right here dev dot envy.
+
+36
+00:02:16,300 --> 00:02:20,300
+Now if we actually run this it's going to go through the real deployment process.
+
+37
+00:02:20,320 --> 00:02:23,700
+It's going to set up the new service and new stage.
+
+38
+00:02:23,800 --> 00:02:30,940
+And if I scroll up through the success output for here deploying a service food to stage Dev and we
+
+39
+00:02:30,940 --> 00:02:35,660
+can see that our user type was created which is a great start.
+
+40
+00:02:35,710 --> 00:02:40,870
+The next thing we're going to do is deploy the test so I can just reload the same command using the
+
+41
+00:02:40,870 --> 00:02:42,370
+up arrow key.
+
+42
+00:02:42,370 --> 00:02:51,310
+I'll switch over the file name from dev NV to test dock EMV to deploy to the test environment as well.
+
+43
+00:02:51,310 --> 00:02:54,700
+Once that's done we're ready to do something a bit more interesting.
+
+44
+00:02:54,730 --> 00:03:01,270
+So I'm going to CD out of the Prisma folder and use clear and the go from here is to actually get our
+
+45
+00:03:01,270 --> 00:03:05,810
+app up and running in both the dev and test environments.
+
+46
+00:03:05,830 --> 00:03:06,840
+First things first.
+
+47
+00:03:06,850 --> 00:03:12,250
+Let's go ahead and run NPM install to actually install all of our dependencies remember.
+
+48
+00:03:12,250 --> 00:03:17,380
+We did not include those in the boilerplate since they can just be generated by running the install
+
+49
+00:03:17,380 --> 00:03:18,180
+command.
+
+50
+00:03:18,430 --> 00:03:23,380
+Now once that's done the next thing we're going to do is get a correct generated file.
+
+51
+00:03:23,380 --> 00:03:28,090
+So we're going to get a new version of source generated Prisma graph.
+
+52
+00:03:28,120 --> 00:03:31,100
+And remember we have a package Jason's script.
+
+53
+00:03:31,120 --> 00:03:33,090
+We can run to get that done.
+
+54
+00:03:33,100 --> 00:03:35,380
+So the process isn't going to be too bad.
+
+55
+00:03:35,500 --> 00:03:39,660
+I'm going to take a moment to cut the video to when the modules are installed.
+
+56
+00:03:39,730 --> 00:03:45,400
+Now that everything is installed we can go ahead and use our get schema script but remember that's going
+
+57
+00:03:45,400 --> 00:03:49,400
+to grab the L from the dot graphical config file.
+
+58
+00:03:49,450 --> 00:03:53,060
+We're going to switch that over to the correct one for our dev environment.
+
+59
+00:03:53,110 --> 00:03:54,840
+That's food dev.
+
+60
+00:03:54,910 --> 00:04:01,150
+So right here localhost 4 4 6 6 forward slash food forward slash dev.
+
+61
+00:04:01,450 --> 00:04:09,100
+Once we have that small change made we can now run that script NPM run get a hyphen schema that is going
+
+62
+00:04:09,100 --> 00:04:13,900
+to fetch the brand new schema making sure that we can actually use that right here.
+
+63
+00:04:13,990 --> 00:04:17,500
+We can see the source was indeed updated which is a good thing.
+
+64
+00:04:17,620 --> 00:04:23,860
+I would expect some changes since the last time we ran that command we also had the comment and post
+
+65
+00:04:23,920 --> 00:04:25,370
+types in place.
+
+66
+00:04:25,510 --> 00:04:30,880
+Now we can clear the terminal output and we're going to go ahead and get our app running in the test
+
+67
+00:04:30,880 --> 00:04:32,450
+environment to do that.
+
+68
+00:04:32,470 --> 00:04:35,170
+All we have to do is run NPM run test.
+
+69
+00:04:35,230 --> 00:04:41,690
+We're going to start up the test suite now when just runs it might not actually run any test cases.
+
+70
+00:04:41,740 --> 00:04:44,320
+It's saying that no files have changed.
+
+71
+00:04:44,320 --> 00:04:46,140
+So why would the output change.
+
+72
+00:04:46,150 --> 00:04:52,780
+And it's right we can always use a task force just to rerun things and for our own sanity we can make
+
+73
+00:04:52,780 --> 00:04:55,430
+sure that everything is set up correct.
+
+74
+00:04:55,450 --> 00:04:59,600
+Right here we have five passing tests which is fantastic.
+
+75
+00:04:59,620 --> 00:05:02,610
+Now what I'm going to do is shut down the test suite.
+
+76
+00:05:02,650 --> 00:05:05,640
+That's how you would start it up if you were building out this app.
+
+77
+00:05:05,710 --> 00:05:09,260
+And we are going to start up the development environment.
+
+78
+00:05:09,310 --> 00:05:10,060
+So right here.
+
+79
+00:05:10,120 --> 00:05:11,700
+Let's go ahead and get that done.
+
+80
+00:05:11,710 --> 00:05:16,020
+That would be NPM a run at Dev like we've done plenty of times before.
+
+81
+00:05:16,030 --> 00:05:21,310
+Hopefully our app starts up correctly and it looks like the server is up and if we were to head over
+
+82
+00:05:21,310 --> 00:05:28,060
+to localhost 4000 and give things a refresh I would expect to see our updated schema we have our two
+
+83
+00:05:28,060 --> 00:05:32,650
+queries we have our four mutations and our subscriptions are completely gone.
+
+84
+00:05:32,650 --> 00:05:37,540
+So it looks like the development version of the app is working really well too and I could go ahead
+
+85
+00:05:37,540 --> 00:05:43,660
+and fire something off just to verify that I'm going to remove the auth headers for the users query
+
+86
+00:05:44,170 --> 00:05:45,060
+I'll fire that off.
+
+87
+00:05:45,070 --> 00:05:46,050
+And what do we get back.
+
+88
+00:05:46,060 --> 00:05:48,790
+We get back an empty array as expected.
+
+89
+00:05:48,850 --> 00:05:55,070
+So that's the process to get the death and test environment up and running when working with the boiler
+
+90
+00:05:55,070 --> 00:05:56,620
+plate project.
+
+91
+00:05:56,620 --> 00:06:01,150
+Now let's get things up and running in production since we've knocked out Devyn test first up.
+
+92
+00:06:01,150 --> 00:06:06,160
+We're going to make a small change to prod EMV like we did for Devyn test.
+
+93
+00:06:06,230 --> 00:06:10,780
+The stage can stay the same as Prod. but right here the service name.
+
+94
+00:06:10,870 --> 00:06:12,890
+I'm going to swap out for something new.
+
+95
+00:06:12,970 --> 00:06:19,630
+I'll call this once again food which is what I used for Dev and test that you r l itself can stay exactly
+
+96
+00:06:19,630 --> 00:06:20,480
+the same.
+
+97
+00:06:20,560 --> 00:06:24,040
+Use the same server that we set up previously in the class.
+
+98
+00:06:24,040 --> 00:06:28,270
+You could always create a new one if you wanted to via Prisma cloud.
+
+99
+00:06:28,270 --> 00:06:31,280
+Now I'm going to go ahead and save product envy.
+
+100
+00:06:31,450 --> 00:06:35,420
+We're going to navigate back into the Prisma directory and deploy to production.
+
+101
+00:06:35,440 --> 00:06:42,160
+So CD Prisma then after that I'll use clear just to bring things up off the bottom of the screen and
+
+102
+00:06:42,160 --> 00:06:50,010
+I'll be using it Prisma deploy it with the E flag dot dot forward slash config forward slash Prod. dot
+
+103
+00:06:50,070 --> 00:06:51,100
+envy.
+
+104
+00:06:51,190 --> 00:06:56,910
+This is going to deploy our Prisma books back end if we go ahead and run it.
+
+105
+00:06:56,920 --> 00:07:02,410
+It's going to move through that process and in just a few moments we should see the brand new service
+
+106
+00:07:02,500 --> 00:07:10,180
+and stage set up up above we can see the user was created the service food and the stage Prod. that
+
+107
+00:07:10,180 --> 00:07:12,900
+now lives over in Prisma cloud.
+
+108
+00:07:13,090 --> 00:07:19,450
+From here the last thing to do now that the Prisma app is deployed is to deploy our node app and it
+
+109
+00:07:19,450 --> 00:07:24,370
+will go through that process quickly using the Heroku command line interface so we're going to create
+
+110
+00:07:24,370 --> 00:07:25,130
+a new app.
+
+111
+00:07:25,300 --> 00:07:29,930
+We're going to set up the environment variables and we're going to push our code up.
+
+112
+00:07:29,950 --> 00:07:34,900
+First things first we'll be seeing out of the Prisma folder or getting back to the root of our books
+
+113
+00:07:34,900 --> 00:07:40,240
+project then we'll use Heroku create to create a new Heroku application.
+
+114
+00:07:40,330 --> 00:07:45,310
+Once the app is up and running we're going to have to get all of these environment variables set on
+
+115
+00:07:45,310 --> 00:07:45,980
+Heroku.
+
+116
+00:07:46,240 --> 00:07:51,940
+I'll start by using Heroku config Colon's set like we've done before and we're just going to copy them
+
+117
+00:07:51,970 --> 00:07:52,660
+over.
+
+118
+00:07:52,690 --> 00:07:54,250
+I'm going to grab the first line.
+
+119
+00:07:54,430 --> 00:07:59,100
+I'll paste that in with a space between set and P in Prisma.
+
+120
+00:07:59,110 --> 00:08:01,360
+Then after that I'll type another space.
+
+121
+00:08:01,360 --> 00:08:04,540
+I can grab the second one and paste that in.
+
+122
+00:08:04,540 --> 00:08:07,630
+And finally the third one are JWT secret.
+
+123
+00:08:07,660 --> 00:08:10,410
+I will add a space and paste that in.
+
+124
+00:08:10,420 --> 00:08:15,970
+Now if we run that it's going to set all of those environment variables and we could always use Heroku
+
+125
+00:08:15,970 --> 00:08:19,090
+config just to confirm they got set as expected.
+
+126
+00:08:19,090 --> 00:08:21,550
+Here we have all three.
+
+127
+00:08:21,550 --> 00:08:27,780
+Next up we're going to go ahead and actually commit all of our changes so we can do that by running.
+
+128
+00:08:27,800 --> 00:08:39,700
+Get commit with the AM flag to commit our changes right here I am going to type in set up book project.
+
+129
+00:08:39,800 --> 00:08:45,770
+So it's basically the initial commit for the book project and once we have that in place we can push
+
+130
+00:08:45,770 --> 00:08:47,610
+it up to Heroku.
+
+131
+00:08:47,660 --> 00:08:53,400
+Now Heroku when we ran Heroku create automatically created that remote get remote.
+
+132
+00:08:53,560 --> 00:08:59,480
+Is going to reveal that to us it's always called Heroku and to deploy it we'll be using get push Heroku
+
+133
+00:08:59,540 --> 00:09:01,850
+master to push our code up.
+
+134
+00:09:01,940 --> 00:09:05,590
+Right here it is indeed pushing the code up to the Heroku remote.
+
+135
+00:09:05,630 --> 00:09:10,580
+It's going through the deployment process and once it's done we should be able to visit our app you
+
+136
+00:09:10,590 --> 00:09:14,950
+Arel and see the production version of our little book application.
+
+137
+00:09:14,960 --> 00:09:20,390
+Now we haven't added anything specific to books to the app but this would be the starting point.
+
+138
+00:09:20,420 --> 00:09:25,460
+That was everything necessary to get dev test and prod configured.
+
+139
+00:09:25,460 --> 00:09:30,280
+I'm going to go ahead and cut the video to when the Heroku deployment is done.
+
+140
+00:09:30,280 --> 00:09:30,760
+All right.
+
+141
+00:09:30,770 --> 00:09:31,880
+Everything is done.
+
+142
+00:09:31,880 --> 00:09:34,050
+I have the app you are all right here.
+
+143
+00:09:34,050 --> 00:09:37,300
+I am going to click that to bring me over to the Heroku app.
+
+144
+00:09:37,310 --> 00:09:38,460
+And what do we get.
+
+145
+00:09:38,510 --> 00:09:45,220
+We get our version of graph Q Al playground for the book's production app right here.
+
+146
+00:09:45,260 --> 00:09:50,990
+I can see my schema I'd be able to fire off the queries and mutations that I'd be able to fire off in
+
+147
+00:09:50,990 --> 00:09:53,260
+dev or test.
+
+148
+00:09:53,270 --> 00:09:55,780
+So there we go in just a matter of a few minutes.
+
+149
+00:09:55,820 --> 00:09:57,500
+We got up and running with the graph.
+
+150
+00:09:57,500 --> 00:10:04,310
+Q Well project from here we can add new features add new test cases and build out our graphic application
+
+151
+00:10:04,310 --> 00:10:05,920
+to fit our needs.
+
+152
+00:10:05,930 --> 00:10:12,440
+I am going to leave the little books from a boiler plate project inside of here and you can always download
+
+153
+00:10:12,440 --> 00:10:15,770
+it by downloading the lecture zip for this one.
+
+154
+00:10:15,890 --> 00:10:21,260
+That's going to contain everything we've written in the course so far including the code for the books
+
+155
+00:10:21,260 --> 00:10:22,220
+example.
+
+156
+00:10:22,220 --> 00:10:22,760
+All right.
+
+157
+00:10:22,760 --> 00:10:24,110
+That's it for this video.
+
+158
+00:10:24,110 --> 00:10:25,830
+I'll see you in the next one.
+

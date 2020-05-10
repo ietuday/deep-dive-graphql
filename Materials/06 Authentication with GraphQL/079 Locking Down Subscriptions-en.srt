@@ -1,0 +1,584 @@
+1
+00:00:00,240 --> 00:00:07,190
+In this video which is the last video for this section we're going to turn our attention towards subscriptions.
+
+2
+00:00:07,320 --> 00:00:13,720
+So we've already locked down our queries and our mutations and we can use the exact same system to lock
+
+3
+00:00:13,720 --> 00:00:16,530
+down our subscriptions and that's exactly what we're going to do.
+
+4
+00:00:16,680 --> 00:00:22,470
+Now we have two subscriptions we have the comment subscription for subscribing to comments on a particular
+
+5
+00:00:22,470 --> 00:00:25,340
+post where we provide the posts ID.
+
+6
+00:00:25,500 --> 00:00:32,640
+We can also use the post subscription to subscribe to all published posts but we're going to do is create
+
+7
+00:00:32,670 --> 00:00:36,450
+a third subscription which requires authentication.
+
+8
+00:00:36,540 --> 00:00:43,620
+And this is going to be called my post and this is going to allow a logged in user to subscribe to just
+
+9
+00:00:43,710 --> 00:00:44,870
+their posts.
+
+10
+00:00:44,880 --> 00:00:49,700
+This would include both published posts as well as drafts.
+
+11
+00:00:49,710 --> 00:00:51,480
+Now to get this done what are we going to do.
+
+12
+00:00:51,480 --> 00:00:54,440
+Well we're going to start like we would for any other subscription.
+
+13
+00:00:54,480 --> 00:01:01,200
+I'm going to create my post sending an equal to an object that I am going to set up the SUBSCRIBE method
+
+14
+00:01:01,410 --> 00:01:04,450
+providing all of those arguments we're going to have parent.
+
+15
+00:01:04,600 --> 00:01:05,900
+We're going to have ours.
+
+16
+00:01:05,950 --> 00:01:11,880
+We're going to deep structure Prisma off of the context and we're going to have info from there we set
+
+17
+00:01:11,880 --> 00:01:14,410
+up our curly braces and what do we do.
+
+18
+00:01:14,420 --> 00:01:21,390
+Well we use get user id so we're going to inport that and use it just like we did from our mutations
+
+19
+00:01:21,450 --> 00:01:22,950
+and our queries.
+
+20
+00:01:23,100 --> 00:01:33,300
+So Step 1 let's inport it up above inport get user ID from we have to go out of the resolvers folder
+
+21
+00:01:33,330 --> 00:01:39,600
+into the utils directory and in there we have get user id perfect.
+
+22
+00:01:39,600 --> 00:01:44,430
+Now we can actually take advantage of this down below and it's going to look exactly like what we did
+
+23
+00:01:44,430 --> 00:01:46,320
+for the queries and the mutations.
+
+24
+00:01:46,320 --> 00:01:53,250
+I am going to the structure request off of context that I'm going to pass it in to get user ID.
+
+25
+00:01:53,280 --> 00:02:01,360
+So right here Konst user ID equals I'm going to call get user ID and I am going to pass in request.
+
+26
+00:02:01,440 --> 00:02:05,190
+Now if we wanted to make authentication optional I could pass in false.
+
+27
+00:02:05,280 --> 00:02:07,780
+But we are going to require authentication.
+
+28
+00:02:07,920 --> 00:02:14,280
+So I'll either pass in true or just leave it off and allow it to fall back to its default value.
+
+29
+00:02:14,280 --> 00:02:20,010
+Now there is a problem with what we've done so far and it has to do with what happens inside of get
+
+30
+00:02:20,040 --> 00:02:28,890
+user id in here to fetch the higher value we use request data request that dot authorization.
+
+31
+00:02:28,890 --> 00:02:33,990
+The problem though is that when we are working with subscriptions it's actually a bit different.
+
+32
+00:02:33,990 --> 00:02:39,510
+So with queries and mutations we're using standard HTP requests with subscriptions.
+
+33
+00:02:39,600 --> 00:02:45,310
+We are using web sockets and in that case the data lives somewhere else on request.
+
+34
+00:02:45,360 --> 00:02:54,330
+The data we're looking for for subscriptions actually lives on request dot connection dot context dot
+
+35
+00:02:54,510 --> 00:02:56,800
+then right there we have authorization.
+
+36
+00:02:56,940 --> 00:02:57,960
+Perfect.
+
+37
+00:02:57,960 --> 00:03:04,860
+Now why it's lowercase on headers and uppercase on context I do not know maybe that's going to get cleared
+
+38
+00:03:04,860 --> 00:03:07,620
+up down the line in which case it'll break this code.
+
+39
+00:03:07,620 --> 00:03:11,470
+But for now that is the case there is no rhyme or reason to it.
+
+40
+00:03:11,490 --> 00:03:16,640
+I'm not sure why that's how the library is setting it up but this is indeed correct.
+
+41
+00:03:16,650 --> 00:03:20,830
+So in some cases we want to use this in other cases we want to use this.
+
+42
+00:03:20,850 --> 00:03:22,780
+And what's the determining factor.
+
+43
+00:03:22,920 --> 00:03:26,940
+Well it's whether or not request data request exists.
+
+44
+00:03:26,940 --> 00:03:30,750
+That's only going to exist for our queries and our mutations.
+
+45
+00:03:30,840 --> 00:03:34,090
+It's not going to exist for our subscriptions.
+
+46
+00:03:34,110 --> 00:03:34,850
+So what are we going to do.
+
+47
+00:03:34,860 --> 00:03:38,160
+Well I'm just going to cut out what we have so far and pay it down below.
+
+48
+00:03:38,370 --> 00:03:41,890
+So now we have our two approaches we have our one for TTP.
+
+49
+00:03:42,030 --> 00:03:47,340
+We have the other for web sockets our subscriptions and right here we are going to dynamically set this
+
+50
+00:03:47,340 --> 00:03:53,690
+value based off of whether or not request daat request exists and to do that.
+
+51
+00:03:53,730 --> 00:04:00,360
+I'm going to use our ternary conditional operator if this is indeed truthy then the value for hetter
+
+52
+00:04:00,480 --> 00:04:05,730
+will come from what's right here in which case we want to grab the header exactly like we were grabbing
+
+53
+00:04:05,730 --> 00:04:06,590
+it before.
+
+54
+00:04:06,780 --> 00:04:08,240
+I'm going to paste that in.
+
+55
+00:04:08,400 --> 00:04:14,580
+Now we can provide our colon if this is falsie than the header value is going to come from whatever
+
+56
+00:04:14,580 --> 00:04:19,330
+is after the colon which in this case will be what we have right here.
+
+57
+00:04:19,350 --> 00:04:23,230
+So I'm going to cut that out and paste that in right after the colon.
+
+58
+00:04:23,370 --> 00:04:24,220
+And there we go.
+
+59
+00:04:24,360 --> 00:04:26,520
+That's actually all we need to change.
+
+60
+00:04:26,520 --> 00:04:28,040
+Forget user ID.
+
+61
+00:04:28,200 --> 00:04:34,740
+We just have to change exactly where we are pulling that authentication token everything else down below
+
+62
+00:04:34,950 --> 00:04:37,800
+is going to stay exactly the same.
+
+63
+00:04:37,800 --> 00:04:42,720
+Now we can save user id go over to subscription dot J.
+
+64
+00:04:42,720 --> 00:04:46,570
+S. and actually wrap up the rest of the my post subscription.
+
+65
+00:04:46,650 --> 00:04:50,340
+Now actually finishing this off is going to be your challenge for the video.
+
+66
+00:04:50,340 --> 00:04:52,580
+So right here I have some challenge comments.
+
+67
+00:04:52,590 --> 00:04:59,530
+The big picture goal is to finish the my post subscription Step one you need to define the subscription
+
+68
+00:04:59,540 --> 00:05:00,920
+in schema Dom graph.
+
+69
+00:05:00,990 --> 00:05:07,110
+Well all of our other subscriptions are defined over there and the same needs to be true for this one.
+
+70
+00:05:07,350 --> 00:05:12,960
+Once you have it defined you want to come back to this file and use the correct Prisma method to subscribe
+
+71
+00:05:12,960 --> 00:05:18,240
+to posts and you want to customize exactly which posts were subscribing to.
+
+72
+00:05:18,270 --> 00:05:21,780
+Now we customize what posts were subscribing to up above.
+
+73
+00:05:21,870 --> 00:05:24,780
+In this case though the criteria is a bit different.
+
+74
+00:05:24,840 --> 00:05:26,760
+We don't care about the post itself.
+
+75
+00:05:26,760 --> 00:05:29,100
+We care about the posts author.
+
+76
+00:05:29,100 --> 00:05:35,520
+We want to make sure the posts author ID matches up with the User ID right here for the authenticated
+
+77
+00:05:35,700 --> 00:05:36,410
+user.
+
+78
+00:05:36,420 --> 00:05:37,580
+Then step 3.
+
+79
+00:05:37,590 --> 00:05:38,810
+Test your work.
+
+80
+00:05:38,880 --> 00:05:42,890
+If you try to subscribe and you're not authenticated it should fail.
+
+81
+00:05:42,990 --> 00:05:47,850
+If you try to subscribe and you are authenticated you should see that listening message and you should
+
+82
+00:05:47,850 --> 00:05:48,670
+be notified.
+
+83
+00:05:48,690 --> 00:05:54,870
+Anytime one of your posts change to really test things go ahead and actually change one of the posts
+
+84
+00:05:55,050 --> 00:05:58,210
+and make sure the notification shows up all right.
+
+85
+00:05:58,220 --> 00:06:00,560
+Take some time to knock that one out.
+
+86
+00:06:00,570 --> 00:06:03,930
+Test your work when you're done come back and click play
+
+87
+00:06:07,790 --> 00:06:08,540
+How'd that go.
+
+88
+00:06:08,540 --> 00:06:12,770
+Let's go ahead and kick things off by making our small change to schema.
+
+89
+00:06:13,160 --> 00:06:19,520
+Well over here at the very top we have our subscriptions and we have our comments subscription payload
+
+90
+00:06:19,550 --> 00:06:23,860
+and our post subscription payload for comment and post respectively.
+
+91
+00:06:23,990 --> 00:06:30,560
+Down below we are going to set up my post and we are going to set it up with no arguments and the value
+
+92
+00:06:30,620 --> 00:06:34,260
+that comes back will indeed be post subscription payload.
+
+93
+00:06:34,370 --> 00:06:36,740
+Just like it was for a post up above.
+
+94
+00:06:36,860 --> 00:06:39,850
+So we had the same response type for both.
+
+95
+00:06:39,860 --> 00:06:42,180
+Now we can actually save this file.
+
+96
+00:06:42,230 --> 00:06:48,170
+I'm going to close this file as well as get user ID and we're going to move on to Step 2 which is to
+
+97
+00:06:48,170 --> 00:06:50,210
+make a change to this method.
+
+98
+00:06:50,270 --> 00:06:56,150
+We have to go ad and actually subscribe to data using Prisma data subscriptions are right here.
+
+99
+00:06:56,150 --> 00:07:03,840
+I am going to use return to send back the subscription that is Prisma datt subscription dot.
+
+100
+00:07:03,860 --> 00:07:10,790
+And in this case it is post and we pass in our options object and the only operation argument we're
+
+101
+00:07:10,790 --> 00:07:16,920
+going to define is where we want to limit it by posts that belong to this author.
+
+102
+00:07:17,060 --> 00:07:18,110
+How do we do that.
+
+103
+00:07:18,110 --> 00:07:22,990
+Well we start by providing Noad remember when we are working with subscriptions.
+
+104
+00:07:23,000 --> 00:07:28,890
+If we want to actually specify some criteria about the individual thing we use knode.
+
+105
+00:07:29,060 --> 00:07:34,250
+That's what we did above to filter by just posts that have a published value of true.
+
+106
+00:07:34,340 --> 00:07:40,610
+And that's what we did up here too to filter by comments that belong to a particular post down below.
+
+107
+00:07:40,610 --> 00:07:47,870
+What we're gonna do is look at the posts author and make sure that author has an ID value equal to the
+
+108
+00:07:47,870 --> 00:07:49,920
+authenticated user's ID.
+
+109
+00:07:50,030 --> 00:07:55,070
+Perfect last up we do have to provide info as the second argument to post.
+
+110
+00:07:55,100 --> 00:07:59,070
+So down below right here comma space info.
+
+111
+00:07:59,150 --> 00:08:01,810
+Now we can remove the challenge comments.
+
+112
+00:08:01,850 --> 00:08:07,070
+I can actually save this file and we can test things out to test things out.
+
+113
+00:08:07,070 --> 00:08:12,800
+I'm going to bring us over to well playground and we're going to go all the way over to our subscription
+
+114
+00:08:12,980 --> 00:08:13,520
+tabs.
+
+115
+00:08:13,520 --> 00:08:14,800
+I have one for post.
+
+116
+00:08:14,930 --> 00:08:21,170
+I'm going to repurpose this for my post so right here I'll change post over to my post.
+
+117
+00:08:21,230 --> 00:08:26,570
+Now if I fire it off in it's current state we should get our authentication error because we are not
+
+118
+00:08:26,570 --> 00:08:31,150
+authenticated and if I do sell that's exactly what I see right here.
+
+119
+00:08:31,160 --> 00:08:33,310
+Authentication required.
+
+120
+00:08:33,350 --> 00:08:36,800
+Let's go ahead and actually authenticate as one of our users.
+
+121
+00:08:36,830 --> 00:08:41,360
+I have the correct headers set up in one of my other queries like the meek query.
+
+122
+00:08:41,510 --> 00:08:48,260
+This is the header for Jess So let's go ahead and subscribe to Jess's posts by providing the authorization
+
+123
+00:08:48,260 --> 00:08:49,220
+header.
+
+124
+00:08:49,220 --> 00:08:51,970
+Now if I fire things off we shouldn't see the error.
+
+125
+00:08:52,070 --> 00:08:55,670
+We should get our listening message and that is exactly what's happening.
+
+126
+00:08:55,880 --> 00:08:59,300
+So now it's just waiting for one of our posts to change.
+
+127
+00:08:59,300 --> 00:09:03,990
+Let's go ahead and actually change one of them over in the update post tab.
+
+128
+00:09:04,820 --> 00:09:10,220
+What I'm going to do is alter this post that I altered a video go for Jess right here.
+
+129
+00:09:10,280 --> 00:09:15,020
+I'm going to take it from being unpublished to being published.
+
+130
+00:09:15,080 --> 00:09:17,090
+Now I'm actually going to fire that off.
+
+131
+00:09:17,120 --> 00:09:23,000
+We can see the post did indeed change and there should be a notification about that change over here
+
+132
+00:09:23,060 --> 00:09:24,730
+in our tab and right here.
+
+133
+00:09:24,770 --> 00:09:25,630
+What do we have.
+
+134
+00:09:25,730 --> 00:09:30,480
+We have our notification that that post was indeed updated.
+
+135
+00:09:30,680 --> 00:09:31,690
+So there we go.
+
+136
+00:09:31,700 --> 00:09:38,720
+This is how we can create a subscription that sits behind authentication only really needed to do was
+
+137
+00:09:38,720 --> 00:09:41,480
+make a small tweak to get user ID.
+
+138
+00:09:41,480 --> 00:09:45,330
+Everything else is very similar to what we've done in the past.
+
+139
+00:09:45,380 --> 00:09:49,600
+That's where we're going to stop for this video and that's where we're going to stop for this section
+
+140
+00:09:49,610 --> 00:09:53,110
+our entire application now sits behind authentication.
+
+141
+00:09:53,180 --> 00:09:59,360
+And we're going to be able to expand on this knowing that our mutations queries and subscriptions are
+
+142
+00:09:59,360 --> 00:10:05,690
+all locked down and someone can't just fire off some operations and completely obliterate all of our
+
+143
+00:10:05,690 --> 00:10:06,580
+data.
+
+144
+00:10:06,590 --> 00:10:07,100
+All right.
+
+145
+00:10:07,100 --> 00:10:11,390
+That is it for this section the section introduction for the next one is coming up now.
+
+146
+00:10:11,450 --> 00:10:13,700
+So let's go ahead and jump right into that.
+

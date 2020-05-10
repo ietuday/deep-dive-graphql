@@ -1,0 +1,976 @@
+1
+00:00:00,540 --> 00:00:04,760
+In this video you're going to be setting up your machine to work with Prisma.
+
+2
+00:00:04,770 --> 00:00:11,150
+Now as I mentioned in the last video there is a separate installation video for each operating system.
+
+3
+00:00:11,250 --> 00:00:13,970
+This video is for my Windows users.
+
+4
+00:00:14,070 --> 00:00:17,030
+If you're working on a Mac the last video was for you.
+
+5
+00:00:17,130 --> 00:00:20,720
+If you're working on aboon to the next video is for you.
+
+6
+00:00:20,730 --> 00:00:25,890
+So if you're still watching I am going to assume that you're on Windows and for the moment we're going
+
+7
+00:00:25,890 --> 00:00:29,900
+to stick with the Mac screen recording and a little bit later.
+
+8
+00:00:29,910 --> 00:00:35,880
+In about three minutes we'll switch over to Windows when we have to perform some Windows specific things.
+
+9
+00:00:36,000 --> 00:00:37,520
+All right my Windows users.
+
+10
+00:00:37,530 --> 00:00:41,110
+Let's go ahead and set up our machines for Prisma.
+
+11
+00:00:41,170 --> 00:00:45,880
+The first thing I'd like to do is get us set up with a database and the database we're going to be using
+
+12
+00:00:45,880 --> 00:00:47,410
+is post-grads.
+
+13
+00:00:47,490 --> 00:00:54,110
+Grass is an S Q L database and it pairs really well with graft Well Eskew all databases in general pair
+
+14
+00:00:54,130 --> 00:00:55,180
+really well with graphics.
+
+15
+00:00:55,210 --> 00:01:01,000
+Well because with graphite you well you have to be explicit about the exact fields and type definitions
+
+16
+00:01:01,000 --> 00:01:03,840
+for those fields making it an easy match.
+
+17
+00:01:03,940 --> 00:01:09,450
+Later on in the course I will show you how to set up Prisma with Mongo D-B if that's your cup of tea.
+
+18
+00:01:09,490 --> 00:01:15,460
+Honestly any database you can pick works because in the end of the day Prisma abstracts that database
+
+19
+00:01:15,520 --> 00:01:16,830
+away anyways.
+
+20
+00:01:16,840 --> 00:01:19,400
+For now though let's go ahead and grab a post gresse.
+
+21
+00:01:19,510 --> 00:01:21,910
+Heading over to Heroku dot com.
+
+22
+00:01:22,010 --> 00:01:28,070
+Now there are plenty of places where you can get a post gresse database and you do not have to use Heroku.
+
+23
+00:01:28,090 --> 00:01:31,790
+I use Heroku because they have a free tier for what we're about to do.
+
+24
+00:01:31,900 --> 00:01:38,410
+So you actually don't need to pay in order to get a basic database up and running for your sample application.
+
+25
+00:01:38,410 --> 00:01:41,530
+So take a moment to log in if you have an account and sign up.
+
+26
+00:01:41,530 --> 00:01:46,960
+If you don't I'm going to go ahead and log in to my existing account and once we're in we should see
+
+27
+00:01:46,960 --> 00:01:48,230
+a dashboard.
+
+28
+00:01:48,250 --> 00:01:53,950
+Now if you're creating your new account it's likely going to send you through some new customer flow
+
+29
+00:01:53,950 --> 00:01:58,550
+or it asks you to create an app and that's good because that's exactly what we're going to do.
+
+30
+00:01:58,570 --> 00:02:02,530
+I'm going to create a new application and we're going to give it a name.
+
+31
+00:02:02,560 --> 00:02:05,490
+I'm going to start with my last name and all lower case letters.
+
+32
+00:02:05,500 --> 00:02:06,840
+No there's no spaces allowed.
+
+33
+00:02:06,850 --> 00:02:09,520
+So I will use hyphens to separate my words.
+
+34
+00:02:09,520 --> 00:02:13,940
+That is Mead hyphen Prisma hyphen dev server.
+
+35
+00:02:13,960 --> 00:02:14,670
+Awesome.
+
+36
+00:02:14,920 --> 00:02:16,510
+Now we don't need to touch the region.
+
+37
+00:02:16,510 --> 00:02:18,400
+You likely have a default region.
+
+38
+00:02:18,400 --> 00:02:20,570
+Good for your location around the world.
+
+39
+00:02:20,620 --> 00:02:25,420
+You could customize it to Europe if you wanted to but since I am in the US I'll stick with that and
+
+40
+00:02:25,420 --> 00:02:29,980
+I'm not going to touch the pipeline at all over going to do is create the application.
+
+41
+00:02:30,010 --> 00:02:35,230
+And once the application is created it's going to bring us to a set of steps describing how we can start
+
+42
+00:02:35,230 --> 00:02:36,600
+to deploy things.
+
+43
+00:02:36,610 --> 00:02:42,110
+Now there are plenty of features for Heroku but we're actually not going to need in this class.
+
+44
+00:02:42,130 --> 00:02:47,890
+We really only need a very small subset of them and we can get started by heading to the overview tab
+
+45
+00:02:47,920 --> 00:02:49,520
+for our application.
+
+46
+00:02:49,850 --> 00:02:54,880
+But we're concerned about is installing Add-Ons there's one for a postgresql database.
+
+47
+00:02:55,000 --> 00:03:00,100
+So let's head over to the configure add ons page and from here we can search all of the available add
+
+48
+00:03:00,100 --> 00:03:04,660
+ons you want to search for Heroku post graphs.
+
+49
+00:03:04,660 --> 00:03:06,040
+Now there is a free tier for that.
+
+50
+00:03:06,040 --> 00:03:12,070
+So once we click on Heroku postgresql it's going to allow us to pick the option we want everything from
+
+51
+00:03:12,130 --> 00:03:14,890
+free to $12000 a month.
+
+52
+00:03:14,890 --> 00:03:17,320
+Let's go ahead and start with that free plan.
+
+53
+00:03:17,320 --> 00:03:22,840
+I am going to provision this which is going to create the database and once the database is created
+
+54
+00:03:23,050 --> 00:03:26,390
+We're going to be able to click that in our add ons list.
+
+55
+00:03:26,410 --> 00:03:31,210
+It's going to bring us over to the page where we can learn a little bit more about our database.
+
+56
+00:03:31,210 --> 00:03:34,750
+One important thing we need from here are the credentials.
+
+57
+00:03:34,750 --> 00:03:41,050
+The credentials that allow us to connect to the database you can find those over in these settings tab.
+
+58
+00:03:41,140 --> 00:03:45,540
+Right here we have the database credentials area and we can view our credentials.
+
+59
+00:03:45,670 --> 00:03:51,190
+And this is the information that we're going to need to connect to this newly created database from
+
+60
+00:03:51,190 --> 00:03:52,650
+the outside world.
+
+61
+00:03:52,690 --> 00:03:57,800
+Now we're over on my Windows machine and what we're going to do is install the next tool we need.
+
+62
+00:03:57,820 --> 00:04:03,250
+This one is PGE admen and this is a post Gras database gooey.
+
+63
+00:04:03,250 --> 00:04:07,700
+It's a tool that's going to allow us to connect to our database and manage our data.
+
+64
+00:04:07,720 --> 00:04:14,610
+So we'll be able to create data update data delete data and read all of our data in an Excel like table.
+
+65
+00:04:14,620 --> 00:04:16,600
+It's a fantastic companion.
+
+66
+00:04:16,660 --> 00:04:22,570
+When working with post graphs so share our code is going to connect it to the database and it is going
+
+67
+00:04:22,570 --> 00:04:24,500
+to read and write to the database.
+
+68
+00:04:24,580 --> 00:04:29,990
+But it's also nice to have this gooey so we can track how our data is changing over time.
+
+69
+00:04:29,980 --> 00:04:36,640
+We can find this tool and install it by heading over to PGE admin dot org.
+
+70
+00:04:36,640 --> 00:04:42,900
+Here we can go to the downloads page and we can find the download for our operating system which is
+
+71
+00:04:42,920 --> 00:04:46,200
+Windows and we can just grab the latest release.
+
+72
+00:04:46,210 --> 00:04:48,440
+You don't need to match up with my version.
+
+73
+00:04:48,460 --> 00:04:51,370
+You can grab the latest version available.
+
+74
+00:04:51,430 --> 00:04:57,230
+So I'm going to go ahead and download version three point two by grabbing the s e right here.
+
+75
+00:04:57,250 --> 00:05:02,770
+Now take some time to download the file so we don't have to watch and sit here while I download the
+
+76
+00:05:02,770 --> 00:05:05,600
+file I've actually downloaded it in advance.
+
+77
+00:05:05,620 --> 00:05:09,220
+I have the text file that would get downloaded right here.
+
+78
+00:05:09,220 --> 00:05:11,230
+And all we're going to do is install it.
+
+79
+00:05:11,440 --> 00:05:15,270
+So if your file is downloaded we can run through the installer together.
+
+80
+00:05:15,310 --> 00:05:19,790
+Right here it's one of those click next installers so we don't have to do anything fancy.
+
+81
+00:05:19,810 --> 00:05:21,770
+We don't have to run any commands.
+
+82
+00:05:21,790 --> 00:05:24,800
+All we have to do is agree to their terms.
+
+83
+00:05:24,850 --> 00:05:27,400
+Pick a destination for our installation.
+
+84
+00:05:27,400 --> 00:05:30,500
+We can go ahead and actually create a shortcut if we want to.
+
+85
+00:05:30,640 --> 00:05:34,560
+And then it just confirms our options and we run the installer.
+
+86
+00:05:34,570 --> 00:05:41,480
+Now once this is done we're going to run it PGE admen that is going to allow us to connect to our database.
+
+87
+00:05:41,480 --> 00:05:47,720
+So what we're going to do is provide these credentials to PGE admin so it can actually make this connection
+
+88
+00:05:47,780 --> 00:05:48,830
+securely.
+
+89
+00:05:48,830 --> 00:05:53,890
+From there we'll just make sure that the connection is all set up then we'll be done with PGE and then
+
+90
+00:05:53,920 --> 00:05:58,820
+for the moment and we'll continue to use it as we progress through the course in the background the
+
+91
+00:05:58,820 --> 00:06:00,580
+installer is almost done.
+
+92
+00:06:00,680 --> 00:06:05,270
+I'm going to go ahead and cut the video to when the installer is complete.
+
+93
+00:06:05,820 --> 00:06:12,300
+Welcome back the installer is complete I'm going to go ahead and launch PGE admin for right here.
+
+94
+00:06:12,300 --> 00:06:17,370
+The tool is starting up and then the end of the day what's going to happen is that it is going to crack
+
+95
+00:06:17,400 --> 00:06:19,270
+open a browser tab.
+
+96
+00:06:19,380 --> 00:06:22,500
+And that's where we're going to interact with the tool itself.
+
+97
+00:06:22,540 --> 00:06:28,130
+All we're going to do is copy those credentials over so we can actually connect to the database.
+
+98
+00:06:28,140 --> 00:06:30,670
+So let's take a quick moment to let this tool start up.
+
+99
+00:06:30,690 --> 00:06:37,590
+Then we'll come back together right here we have our new tab for the admin application and now on the
+
+100
+00:06:37,590 --> 00:06:42,540
+left hand side we have a list of all of the servers that we've set up connections for and currently
+
+101
+00:06:42,540 --> 00:06:44,280
+you can see there are none.
+
+102
+00:06:44,280 --> 00:06:50,110
+So before we can actually do anything with this tool we have to go ahead and create a brand new server.
+
+103
+00:06:50,250 --> 00:06:54,270
+So right here we have to provide some details in the name field.
+
+104
+00:06:54,270 --> 00:06:56,220
+We're going to go ahead and pick a name for this.
+
+105
+00:06:56,220 --> 00:06:58,070
+It can be whatever you'd like.
+
+106
+00:06:58,080 --> 00:07:02,060
+I'm going to use something like Heroku PGE as an example.
+
+107
+00:07:02,130 --> 00:07:04,900
+Then we have to move over to the connection tab.
+
+108
+00:07:05,010 --> 00:07:11,780
+And this is where we provide all of the connection details we have over inside of our Heroku dashboard.
+
+109
+00:07:11,790 --> 00:07:17,130
+The first thing I'm going to do is grab the host value copying that to the clipboard and bringing it
+
+110
+00:07:17,190 --> 00:07:18,780
+over to PGE admin.
+
+111
+00:07:18,780 --> 00:07:20,780
+We're at a pace that in right here.
+
+112
+00:07:21,060 --> 00:07:24,870
+Next up is the port that is the value 5 4 3 2.
+
+113
+00:07:24,960 --> 00:07:29,420
+That's the default post gresse port and you can see it's used over here as well.
+
+114
+00:07:29,430 --> 00:07:31,800
+So there's no need to change anything.
+
+115
+00:07:31,800 --> 00:07:36,280
+Next up we have our database itself Amen copy this to the clipboard.
+
+116
+00:07:36,330 --> 00:07:41,550
+Then over here I'm going to paste that in under maintenance database.
+
+117
+00:07:41,580 --> 00:07:44,820
+After that we have the username and password.
+
+118
+00:07:44,880 --> 00:07:46,530
+We have both of those over here.
+
+119
+00:07:46,860 --> 00:07:51,060
+I'm going to grab the user I'm going to bring that over and paste it in.
+
+120
+00:07:51,170 --> 00:07:53,450
+And I'm also going to grab the password.
+
+121
+00:07:53,450 --> 00:07:56,510
+So let's take a moment to grab that password.
+
+122
+00:07:56,510 --> 00:08:03,170
+Copy it to the clipboard paste it in and I'm going to choose to check the save password button so I
+
+123
+00:08:03,170 --> 00:08:07,110
+don't have to re-enter the password every single time I want to connect.
+
+124
+00:08:07,130 --> 00:08:08,340
+Now we're actually done.
+
+125
+00:08:08,420 --> 00:08:14,000
+We can go ahead and save this connection and it's going to test the connection and right over here we
+
+126
+00:08:14,000 --> 00:08:16,630
+can now actually expand that server.
+
+127
+00:08:16,850 --> 00:08:20,010
+We can view our database by expanding databases.
+
+128
+00:08:20,120 --> 00:08:25,710
+And the first thing you'll notice is that there is way more than just our database.
+
+129
+00:08:25,730 --> 00:08:30,410
+There are actually maybe a couple of thousand different databases running on this server.
+
+130
+00:08:30,470 --> 00:08:33,080
+Now that doesn't mean we can actually access them.
+
+131
+00:08:33,110 --> 00:08:39,310
+If I were to try to expand one of these other databases with a little red mark what do I get.
+
+132
+00:08:39,350 --> 00:08:43,790
+I get an error saying that I do not have permission to connect to that database.
+
+133
+00:08:43,790 --> 00:08:45,250
+And that's a good thing.
+
+134
+00:08:45,260 --> 00:08:48,140
+Now we have a really long list of databases here.
+
+135
+00:08:48,220 --> 00:08:51,710
+It can be a burden to scroll through and find yours.
+
+136
+00:08:51,710 --> 00:08:55,480
+So what I like to do is just copy the database name to the clipboard.
+
+137
+00:08:56,490 --> 00:09:02,850
+Then use control after bring up my search on page I paste that database value in and it shows it right
+
+138
+00:09:02,850 --> 00:09:03,340
+here.
+
+139
+00:09:03,450 --> 00:09:09,240
+Here we can see this database shown in gold is something we can connect to and if I expand it we're
+
+140
+00:09:09,240 --> 00:09:13,810
+going to be able to dive in to exactly what that database contains.
+
+141
+00:09:14,130 --> 00:09:19,230
+Now this is actually where we're going to stop with P.G. and then for the moment once we actually get
+
+142
+00:09:19,230 --> 00:09:22,770
+Prisma set up we'll dive into here and explore our data.
+
+143
+00:09:22,770 --> 00:09:28,470
+But for now there's actually nothing in here worth looking at though we do have PGE admin set up and
+
+144
+00:09:28,470 --> 00:09:32,920
+connecting to the database which is a fantastic first step.
+
+145
+00:09:33,000 --> 00:09:37,040
+There is just one more thing we have to grab before we're done with this video.
+
+146
+00:09:37,140 --> 00:09:39,370
+And that is a tool called docker.
+
+147
+00:09:39,390 --> 00:09:47,740
+We can find that by cracking open a new tab and heading over to Dr. dot com if you've never used or
+
+148
+00:09:47,740 --> 00:09:50,340
+worked with Daker before that's perfectly fine.
+
+149
+00:09:50,350 --> 00:09:53,890
+We're going to be using a very small amount of Dakar in this class.
+
+150
+00:09:53,950 --> 00:09:59,740
+DAKAR can be a complex tool in the whole debt ops space and there are literally entire You Tommy courses
+
+151
+00:09:59,740 --> 00:10:01,440
+that just cover Dharker.
+
+152
+00:10:01,450 --> 00:10:03,350
+We don't need to worry about all of that.
+
+153
+00:10:03,370 --> 00:10:07,860
+We're using a very very small subset of its features.
+
+154
+00:10:07,870 --> 00:10:08,680
+Now what is Dakar.
+
+155
+00:10:08,680 --> 00:10:12,860
+Well it's part of this whole containerisation and virtual machine movement.
+
+156
+00:10:13,120 --> 00:10:17,930
+So if I'm building up an application I have my application code and I have my dependencies.
+
+157
+00:10:17,950 --> 00:10:19,710
+Let's say I need to run on Linux.
+
+158
+00:10:19,720 --> 00:10:22,660
+And I also need get a. node Yes and stop.
+
+159
+00:10:22,720 --> 00:10:27,670
+Now I have a couple of options I could choose to allow people who want to run the application to actually
+
+160
+00:10:27,670 --> 00:10:32,720
+install all of those things that I could cross my fingers and hope it works on their environment.
+
+161
+00:10:32,890 --> 00:10:38,860
+Or I can bundle it all up into a container the container which in essence is a little virtual machine
+
+162
+00:10:39,130 --> 00:10:43,840
+can then be executed from anywhere docker is supported and the good news is that docker is supported
+
+163
+00:10:43,840 --> 00:10:47,600
+pretty much everywhere whether it's Mac Linux or Windows.
+
+164
+00:10:47,680 --> 00:10:52,830
+You can run Doctor containers regardless of what tools or dependencies they need.
+
+165
+00:10:52,840 --> 00:10:56,620
+You don't have to slow down and install a whole bunch of stuff on your machine.
+
+166
+00:10:56,680 --> 00:11:00,230
+For every application instead you just run the container.
+
+167
+00:11:00,250 --> 00:11:05,560
+It's very easy to stop containers to delete them and to free up all of that space without trying to
+
+168
+00:11:05,560 --> 00:11:07,930
+remember all of the dependencies you had to install.
+
+169
+00:11:07,930 --> 00:11:10,340
+It's just a better way to manage apps.
+
+170
+00:11:10,390 --> 00:11:12,240
+Now there are two sides to docker.
+
+171
+00:11:12,280 --> 00:11:17,400
+There is the person creating the application and creating the container and there's the person who's
+
+172
+00:11:17,410 --> 00:11:19,750
+using the container to run the application.
+
+173
+00:11:19,750 --> 00:11:21,320
+That's the side we're on.
+
+174
+00:11:21,340 --> 00:11:26,070
+So we're not going to learn about the ins and outs of docker because in reality we're just a user of
+
+175
+00:11:26,110 --> 00:11:30,920
+docker trying to run a container provided by somebody else.
+
+176
+00:11:30,940 --> 00:11:36,160
+Let's go ahead and download and install this tool we can find it by heading over to the get started
+
+177
+00:11:36,160 --> 00:11:36,670
+button.
+
+178
+00:11:36,730 --> 00:11:43,030
+If that button has been moved for some reason you can just go to Dr dot com forward slash and get started.
+
+179
+00:11:43,030 --> 00:11:48,680
+And if I scroll down under the developer tab we have our download for Windows button.
+
+180
+00:11:48,850 --> 00:11:54,480
+Now there are a few different versions of docker for Windows we want the docker toolbox.
+
+181
+00:11:54,490 --> 00:11:57,850
+There's a link to that right over here on the right hand side.
+
+182
+00:11:57,910 --> 00:12:04,420
+The docker tool box is going to allow us to do exactly what we want to do which is use it as the dependency
+
+183
+00:12:04,570 --> 00:12:05,520
+for Prisma.
+
+184
+00:12:05,680 --> 00:12:06,580
+Perfect.
+
+185
+00:12:06,580 --> 00:12:09,900
+Now we do have to go ahead and actually download and install this.
+
+186
+00:12:09,940 --> 00:12:12,040
+So let's go ahead and do just that.
+
+187
+00:12:12,040 --> 00:12:16,760
+If I scroll down on this page we can grab the Windows installation.
+
+188
+00:12:16,780 --> 00:12:21,040
+This is going to download an XP and to save us all a bunch of time.
+
+189
+00:12:21,040 --> 00:12:27,520
+I've downloaded this ahead of time so take a moment to allow that download to finish then come back
+
+190
+00:12:27,550 --> 00:12:32,110
+and click play and we'll go through the installation process all right at this point.
+
+191
+00:12:32,110 --> 00:12:35,820
+I am going to assume you have a docker tool box downloaded.
+
+192
+00:12:35,980 --> 00:12:41,920
+All we need to do is give that a double click to start the installation process much like we saw with
+
+193
+00:12:41,920 --> 00:12:43,240
+PGE admin.
+
+194
+00:12:43,240 --> 00:12:46,920
+This is going to be one of those click next type installers.
+
+195
+00:12:47,100 --> 00:12:52,860
+We need to pick the location to install the tool we want to leave all of the options at their default.
+
+196
+00:12:52,870 --> 00:12:56,410
+So here we are installing everything which is good.
+
+197
+00:12:56,560 --> 00:13:01,510
+Then from there we're going to leave the next pages options as default as well.
+
+198
+00:13:01,510 --> 00:13:05,130
+Finally it's going to ask us to confirm everything which we will.
+
+199
+00:13:05,200 --> 00:13:11,590
+And now it's going to run through the installation process once Dharker is actually installed to wrap
+
+200
+00:13:11,590 --> 00:13:12,330
+up the video.
+
+201
+00:13:12,330 --> 00:13:15,740
+We're just going to run it and make sure that it's running correctly.
+
+202
+00:13:15,820 --> 00:13:20,800
+As long as it's running correctly then we'll be able to be done with this video and continue on to the
+
+203
+00:13:20,800 --> 00:13:21,550
+next one.
+
+204
+00:13:21,610 --> 00:13:29,210
+Actually setting up and using Prisma from here I just have to confirm that I want to install everything
+
+205
+00:13:29,210 --> 00:13:33,110
+and that should wrap up the installation process right here.
+
+206
+00:13:33,200 --> 00:13:33,930
+It's all done.
+
+207
+00:13:33,930 --> 00:13:34,640
+Perfect.
+
+208
+00:13:34,790 --> 00:13:36,650
+Let's go ahead and click Finish.
+
+209
+00:13:36,650 --> 00:13:38,730
+That is going to wrap up the installation.
+
+210
+00:13:38,740 --> 00:13:42,500
+And we're going to go ahead and actually start up Dr Mary.
+
+211
+00:13:42,500 --> 00:13:44,800
+Here we can see we have a couple of options.
+
+212
+00:13:44,870 --> 00:13:46,020
+We want to double click.
+
+213
+00:13:46,040 --> 00:13:53,120
+Dr. QuickStart terminal this is going to crack open a terminal style window and it is going to start
+
+214
+00:13:53,120 --> 00:13:54,920
+up the docker application.
+
+215
+00:13:55,040 --> 00:13:59,540
+And this is something that we're going to leave running in the background for as long as we're using
+
+216
+00:13:59,540 --> 00:14:00,180
+docker.
+
+217
+00:14:00,320 --> 00:14:05,570
+Now if you restart your machine you can always just start up the docker QuickStart terminal again to
+
+218
+00:14:05,570 --> 00:14:07,790
+get darker up and running once again.
+
+219
+00:14:07,810 --> 00:14:11,200
+But once again it is important to leave this window running.
+
+220
+00:14:11,330 --> 00:14:17,720
+As we progress through the course now on initial booting it's going to take about 30 seconds for it
+
+221
+00:14:17,720 --> 00:14:19,290
+to go through the process.
+
+222
+00:14:19,460 --> 00:14:25,550
+And once the process is complete you'll know because it's going to show you a big message in green.
+
+223
+00:14:25,550 --> 00:14:30,560
+So we're just going to wait here for a couple of moments clicking yes to confirm that we do actually
+
+224
+00:14:30,560 --> 00:14:34,170
+want to set up Daker the way that doctor wants to set itself up.
+
+225
+00:14:34,340 --> 00:14:37,220
+And once this is done we'll be done.
+
+226
+00:14:37,220 --> 00:14:37,790
+All right.
+
+227
+00:14:37,790 --> 00:14:38,410
+Here we are.
+
+228
+00:14:38,420 --> 00:14:40,070
+This is what we are looking for.
+
+229
+00:14:40,070 --> 00:14:45,770
+This is the screen that lets us know that docker started up successfully and right here it's showing
+
+230
+00:14:45,770 --> 00:14:49,480
+us the local IP address where docker can be used.
+
+231
+00:14:49,490 --> 00:14:55,460
+It's important to keep the screen up and make note of this address because you as Windows users are
+
+232
+00:14:55,460 --> 00:14:58,270
+going to need to use this a bit later on.
+
+233
+00:14:58,280 --> 00:14:59,830
+So that's it for this video.
+
+234
+00:14:59,900 --> 00:15:02,210
+We have three things set up.
+
+235
+00:15:02,240 --> 00:15:06,030
+We created a brand new post database using Heroku.
+
+236
+00:15:06,050 --> 00:15:11,600
+That's where all of our data is going to be stored for our local development app as well as our real
+
+237
+00:15:11,600 --> 00:15:13,720
+world production application.
+
+238
+00:15:13,730 --> 00:15:19,600
+We also installed PGE admen which is going to allow us to interact with our database from a gooey.
+
+239
+00:15:19,700 --> 00:15:26,090
+And finally we installed docker which is what's going to let us run the Prisma application.
+
+240
+00:15:26,300 --> 00:15:26,810
+All right.
+
+241
+00:15:26,810 --> 00:15:30,090
+That is it for the Windows specific installation video.
+
+242
+00:15:30,140 --> 00:15:37,100
+The next video is for our Linux users so you can go ahead and skip that video and jump right back in
+
+243
+00:15:37,190 --> 00:15:38,410
+to the rest of the course.
+
+244
+00:15:38,410 --> 00:15:39,230
+I'll see you there.
+

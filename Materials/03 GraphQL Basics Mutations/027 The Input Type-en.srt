@@ -1,0 +1,832 @@
+1
+00:00:00,150 --> 00:00:04,770
+In this video you're going to learn about a more real world and more advanced way to structure your
+
+2
+00:00:04,770 --> 00:00:05,420
+operation.
+
+3
+00:00:05,440 --> 00:00:10,890
+Arguments engraft Well when we were just working with the query operation we didn't really run into
+
+4
+00:00:10,890 --> 00:00:16,920
+a problem with argument structuring because we had at most one argument but with our mutations we're
+
+5
+00:00:16,920 --> 00:00:22,980
+going to end up having more and more arguments like with Create post where we have what for almost running
+
+6
+00:00:22,980 --> 00:00:23,910
+off the screen.
+
+7
+00:00:24,100 --> 00:00:27,950
+Well we're going to do in this video is come up with a better way to structure these.
+
+8
+00:00:27,990 --> 00:00:30,570
+We're not changing the applications functionality.
+
+9
+00:00:30,720 --> 00:00:32,830
+We're just learning about a new feature of graft.
+
+10
+00:00:32,860 --> 00:00:38,410
+Well allowing us to create more complex applications without more complex code.
+
+11
+00:00:38,520 --> 00:00:44,070
+Currently all of our arguments are of a scalar type so up above we have a couple of strings down below
+
+12
+00:00:44,070 --> 00:00:49,410
+we have plenty of strings as well but we also have ideas we have booleans and we have ints and we could
+
+13
+00:00:49,410 --> 00:00:52,640
+have used floats if they made sense for application.
+
+14
+00:00:52,650 --> 00:00:54,960
+So any of our five scalar types.
+
+15
+00:00:55,020 --> 00:01:01,710
+Well we can also set up operation arguments whose values are objects but it is going to require us to
+
+16
+00:01:01,710 --> 00:01:04,800
+learn about one new thing the input type.
+
+17
+00:01:04,800 --> 00:01:08,580
+So let's say that we don't want to pass in three arguments to create user.
+
+18
+00:01:08,670 --> 00:01:15,310
+We just want to pass in one an object called user who has all of these as properties.
+
+19
+00:01:15,450 --> 00:01:20,910
+To get that done what we can't do is something like the following user equals an object where we define
+
+20
+00:01:20,910 --> 00:01:21,920
+the properties.
+
+21
+00:01:21,930 --> 00:01:25,660
+This is not the syntax for creating an object argument.
+
+22
+00:01:25,680 --> 00:01:31,720
+Instead what we do is define an input type and then we are referencing the arguments list.
+
+23
+00:01:31,770 --> 00:01:33,560
+So I'm going to do undo all those changes.
+
+24
+00:01:33,570 --> 00:01:37,080
+Bringing us back to what we had in the beginning and then down below.
+
+25
+00:01:37,180 --> 00:01:44,760
+What we're going to do is define an input type which lists out all of the arguments for this mutation.
+
+26
+00:01:44,760 --> 00:01:46,380
+So right here what does that look like.
+
+27
+00:01:46,380 --> 00:01:53,380
+Well we start with the key word input followed by a generic name that we choose for these inputs.
+
+28
+00:01:53,400 --> 00:01:58,790
+I'm going to go ahead and call Vess create user input.
+
+29
+00:01:58,840 --> 00:02:01,800
+It's typical to follow a convention similar to this.
+
+30
+00:02:01,840 --> 00:02:06,610
+We have the action then we have the actual object we're acting on.
+
+31
+00:02:06,640 --> 00:02:12,040
+And then finally we have input just making it easy to know that this is of the input type.
+
+32
+00:02:12,040 --> 00:02:13,000
+Now what do we do from here.
+
+33
+00:02:13,000 --> 00:02:19,900
+Well we go ahead and set up the curly braces and inside of these curly braces we define all of the properties
+
+34
+00:02:19,990 --> 00:02:22,240
+that could exist on this input.
+
+35
+00:02:22,240 --> 00:02:27,790
+So on the arguments that we're setting up goes inside of here is going to match up one to one with the
+
+36
+00:02:27,790 --> 00:02:29,290
+arguments we actually need.
+
+37
+00:02:29,380 --> 00:02:35,530
+So I can start off with the name whose value is a non indelible string that will also add an email a
+
+38
+00:02:35,530 --> 00:02:36,950
+non nullable string.
+
+39
+00:02:37,060 --> 00:02:39,720
+And finally we have age and double it.
+
+40
+00:02:39,730 --> 00:02:40,400
+So right here.
+
+41
+00:02:40,430 --> 00:02:47,260
+Ange ant now all we can actually use to create user input inside of the arguments list up above.
+
+42
+00:02:47,260 --> 00:02:52,900
+So right here I can remove all of the three individual arguments and then I can create a single argument
+
+43
+00:02:53,170 --> 00:02:56,140
+whose type is going to be create user input.
+
+44
+00:02:56,140 --> 00:02:57,550
+Now you can call this whatever you like.
+
+45
+00:02:57,550 --> 00:03:01,980
+You could call it something like user but in general I always call mine data.
+
+46
+00:03:01,990 --> 00:03:04,540
+So what is the core data for this mutation.
+
+47
+00:03:04,780 --> 00:03:09,240
+And then the type for this one is going to be the input type we created below.
+
+48
+00:03:09,370 --> 00:03:13,110
+So right here create user input.
+
+49
+00:03:13,120 --> 00:03:18,320
+Now it's important to note that if you want to reference a typewrite year it has to be an input type.
+
+50
+00:03:18,370 --> 00:03:24,730
+It could not be one of our custom object types like user post or comment those cannot be referenced
+
+51
+00:03:24,820 --> 00:03:26,480
+in an argument list.
+
+52
+00:03:26,500 --> 00:03:27,540
+Why is that.
+
+53
+00:03:27,550 --> 00:03:34,630
+It is because your input types can only have scalar values so I could not have a custom object type
+
+54
+00:03:34,630 --> 00:03:35,570
+inside of here.
+
+55
+00:03:35,620 --> 00:03:39,240
+Everything listed inside of the input type needs to be a scalar.
+
+56
+00:03:39,320 --> 00:03:40,850
+That's exactly what we have here.
+
+57
+00:03:40,900 --> 00:03:43,620
+Using just string and INT.
+
+58
+00:03:43,630 --> 00:03:48,160
+Now down below we can make a small change to the create user mutation.
+
+59
+00:03:48,160 --> 00:03:54,430
+So we have our resolver function under resolvers we have mutation we have create user and we reference
+
+60
+00:03:54,430 --> 00:04:01,870
+the args argument right here we use our X-Com email for example but we now have args dot data dot email
+
+61
+00:04:01,930 --> 00:04:04,900
+and down below we have args dot data.
+
+62
+00:04:05,080 --> 00:04:11,440
+So right here this is what we're going to stick with going forward using the data object on ARX.
+
+63
+00:04:11,440 --> 00:04:14,220
+Now it might seem like we're not getting a ton of value here.
+
+64
+00:04:14,320 --> 00:04:19,060
+The value is going to be more and more obvious as we start to create other mutations.
+
+65
+00:04:19,150 --> 00:04:25,960
+For example when we update a user we have two distinct sets of data one being the idea of the user we
+
+66
+00:04:25,960 --> 00:04:31,600
+want to update and the other being an object with all of the properties we actually want to change using
+
+67
+00:04:31,600 --> 00:04:36,500
+the input type we can create our inputs in a way that's just a bit more organized.
+
+68
+00:04:36,580 --> 00:04:41,590
+So once again this is not a magic silver bullet allowing you to do anything you couldn't already do
+
+69
+00:04:41,590 --> 00:04:42,190
+with craft.
+
+70
+00:04:42,250 --> 00:04:48,130
+Well it is just a better way to organize our applications listing out all of the arguments for a given
+
+71
+00:04:48,130 --> 00:04:52,290
+operation separately from the operation definition itself.
+
+72
+00:04:52,600 --> 00:04:57,130
+Now that we have this in place with one of our three mutations we're going to go ahead and go through
+
+73
+00:04:57,160 --> 00:05:02,680
+the same process for the other two before we do let's go ahead and test our work and make sure that
+
+74
+00:05:02,680 --> 00:05:04,950
+our current changes haven't broken anything.
+
+75
+00:05:05,170 --> 00:05:10,080
+I'm going to save index dot J s over inside of the create user mutation.
+
+76
+00:05:10,090 --> 00:05:15,490
+Well we're going to do is remove our individual arguments and we're going to replace them with a single
+
+77
+00:05:15,550 --> 00:05:18,730
+argument right here matching up with the one we chose.
+
+78
+00:05:18,730 --> 00:05:21,850
+I chose data you might have picked something else.
+
+79
+00:05:21,850 --> 00:05:23,490
+Now data is indeed an object.
+
+80
+00:05:23,500 --> 00:05:25,720
+So we're going to set it up as such.
+
+81
+00:05:25,720 --> 00:05:30,530
+And now we have to set this object up to conform to the input type we created.
+
+82
+00:05:30,640 --> 00:05:33,710
+So I need a name and I need e-mail and optional.
+
+83
+00:05:33,730 --> 00:05:39,170
+I could include H so for name I'll pick something like Jess.
+
+84
+00:05:39,370 --> 00:05:44,230
+Then for email I'll pick something like Jess at example dot com.
+
+85
+00:05:44,500 --> 00:05:47,000
+And then I can also choose to put the age in there.
+
+86
+00:05:47,110 --> 00:05:49,490
+Let's go ahead and say that Jess is 39.
+
+87
+00:05:49,720 --> 00:05:53,060
+So now we have a completely valid mutation.
+
+88
+00:05:53,080 --> 00:05:56,770
+I can always go ahead and refresh the schema to get the latest changes.
+
+89
+00:05:56,770 --> 00:06:03,160
+If I then go ahead and actually run this operation it should still create a brand new user right here
+
+90
+00:06:03,370 --> 00:06:04,030
+no errors.
+
+91
+00:06:04,030 --> 00:06:09,940
+A new user was created and we can always test that the new user was created successfully by fetching
+
+92
+00:06:09,940 --> 00:06:11,770
+them using one of our queries.
+
+93
+00:06:11,770 --> 00:06:13,730
+I have the users query over here.
+
+94
+00:06:13,840 --> 00:06:19,780
+I could go ahead and refresh the schema run the operation and down below I should see Jess and there
+
+95
+00:06:19,780 --> 00:06:20,410
+she is.
+
+96
+00:06:20,410 --> 00:06:25,040
+I have Jess showing up as my fourth and final user.
+
+97
+00:06:25,300 --> 00:06:29,980
+So now that we have a better way to structure and organize our arguments for create user let's do the
+
+98
+00:06:29,980 --> 00:06:34,450
+same thing for the other two mutations starting with Create post.
+
+99
+00:06:34,490 --> 00:06:39,130
+This is actually going to be your challenge for the video so I will paste in the challenge comments
+
+100
+00:06:39,190 --> 00:06:40,820
+up top right here.
+
+101
+00:06:41,990 --> 00:06:47,330
+The big picture goal is to create input types for create post and create comment.
+
+102
+00:06:47,360 --> 00:06:52,820
+So step one is to create the input type for create post with the same fields and for the name like we
+
+103
+00:06:52,820 --> 00:06:58,580
+did you could use data or you could use something more specific to that particular mutation like post
+
+104
+00:06:59,000 --> 00:07:03,860
+then you're going to update and create posts resolver to use the new object you've created.
+
+105
+00:07:03,860 --> 00:07:09,170
+Step three is to verify the application still works by creating a post and then fetching it using one
+
+106
+00:07:09,170 --> 00:07:10,580
+of our queries.
+
+107
+00:07:10,580 --> 00:07:14,130
+Moving on to Step 4 we start changing create comet Sorba.
+
+108
+00:07:14,150 --> 00:07:20,390
+Here you are going to create an input type for create comment with the same fields using data or comment
+
+109
+00:07:20,420 --> 00:07:22,160
+as the argument name.
+
+110
+00:07:22,160 --> 00:07:25,930
+Then you're going to update the Create comment resolver to use the new object.
+
+111
+00:07:25,940 --> 00:07:31,850
+And finally you will verify that the application still works by creating a comment and then fetching
+
+112
+00:07:31,850 --> 00:07:32,200
+it.
+
+113
+00:07:32,420 --> 00:07:37,340
+So take some time to knock out all six of these steps and feel free to refer to anything we've covered
+
+114
+00:07:37,340 --> 00:07:38,230
+in this video.
+
+115
+00:07:38,240 --> 00:07:40,990
+Any other video or anything you find on the web.
+
+116
+00:07:41,150 --> 00:07:41,750
+All right.
+
+117
+00:07:41,750 --> 00:07:42,750
+Pause the video.
+
+118
+00:07:42,830 --> 00:07:43,760
+Knock this out.
+
+119
+00:07:43,760 --> 00:07:51,600
+Test your work and when you're done come back and click play.
+
+120
+00:07:51,630 --> 00:07:52,330
+How'd you do.
+
+121
+00:07:52,430 --> 00:07:57,130
+We're going to go ahead and move through this process together starting by changing create post.
+
+122
+00:07:57,230 --> 00:08:00,440
+So down below we need to change our type definitions.
+
+123
+00:08:00,440 --> 00:08:04,810
+We're going to set up a new input type for create post input.
+
+124
+00:08:04,880 --> 00:08:11,030
+I'll call this something like create post input and then we're going to set up all of the actual properties
+
+125
+00:08:11,030 --> 00:08:12,740
+we want on that object.
+
+126
+00:08:12,740 --> 00:08:15,010
+So once again there are four right here.
+
+127
+00:08:15,140 --> 00:08:18,600
+We have title being a non-global string.
+
+128
+00:08:18,860 --> 00:08:22,020
+We have body being a non nullable string.
+
+129
+00:08:22,070 --> 00:08:27,800
+I have published being a non nullable boolean.
+
+130
+00:08:27,920 --> 00:08:31,650
+And finally we have author of being a non nullable idea.
+
+131
+00:08:31,730 --> 00:08:38,570
+So in this case all four are required now that we have the input type created we can change the Create
+
+132
+00:08:38,660 --> 00:08:40,930
+post mutation definition.
+
+133
+00:08:41,090 --> 00:08:43,260
+I'm going to remove the individual arguments.
+
+134
+00:08:43,400 --> 00:08:48,670
+I'll create just one something like data or post then I will reference that input to type.
+
+135
+00:08:48,680 --> 00:08:52,580
+So right here create post input.
+
+136
+00:08:52,580 --> 00:08:56,180
+Now both of these should have been non nullable like this.
+
+137
+00:08:56,180 --> 00:08:57,790
+Sorry for the confusion there.
+
+138
+00:08:57,800 --> 00:09:02,400
+If you didn't add that in that's fine too but we're going to go ahead and make that change.
+
+139
+00:09:02,450 --> 00:09:06,950
+Meaning that the argument is always required when the mutation is executed.
+
+140
+00:09:06,950 --> 00:09:07,810
+So what do we have.
+
+141
+00:09:07,820 --> 00:09:11,650
+We have create user don't we have create Post done for the most part.
+
+142
+00:09:11,660 --> 00:09:15,270
+Besides changing the resolver Let's go ahead and knock that out.
+
+143
+00:09:15,320 --> 00:09:19,910
+Down below create post we reference ARGs in a couple of different places here and here.
+
+144
+00:09:19,950 --> 00:09:23,910
+All we're going to do is change that to args dot data dot author.
+
+145
+00:09:23,990 --> 00:09:27,680
+And then below we're going to spread out args dot data.
+
+146
+00:09:27,680 --> 00:09:28,570
+Excellent.
+
+147
+00:09:28,670 --> 00:09:30,490
+That should be it for create post.
+
+148
+00:09:30,530 --> 00:09:34,720
+I'm going to save index dot J S and we can actually test this out.
+
+149
+00:09:34,730 --> 00:09:40,100
+So over here we have the Create post mutation but I'm going to do is go ahead and refresh that schema
+
+150
+00:09:41,200 --> 00:09:46,420
+then we're going to set up create post with the data argument.
+
+151
+00:09:46,420 --> 00:09:47,040
+So data.
+
+152
+00:09:47,080 --> 00:09:51,610
+And then we need all four things that data expects We have our title.
+
+153
+00:09:51,610 --> 00:09:55,820
+I can use something like my new post again.
+
+154
+00:09:55,940 --> 00:09:58,410
+We're going to have the body which I'll leave empty.
+
+155
+00:09:58,460 --> 00:10:01,230
+We're going to have a publish which I'll set to false.
+
+156
+00:10:01,250 --> 00:10:03,900
+And finally we need one of the author ideas.
+
+157
+00:10:04,040 --> 00:10:08,210
+I'm going to go ahead and use three which I believe belongs to Michael.
+
+158
+00:10:08,210 --> 00:10:11,300
+Now if we go ahead and actually run this operation what happens.
+
+159
+00:10:11,300 --> 00:10:13,020
+A new post gets created.
+
+160
+00:10:13,040 --> 00:10:17,700
+We have our new ID we have our post data and we can see the author's name is Mike.
+
+161
+00:10:17,750 --> 00:10:22,480
+Finally if I actually go ahead and try to fetch all of the posts I should see the new one added and
+
+162
+00:10:22,490 --> 00:10:23,090
+down below.
+
+163
+00:10:23,090 --> 00:10:24,740
+It has indeed been added.
+
+164
+00:10:24,770 --> 00:10:25,580
+So there we go.
+
+165
+00:10:25,580 --> 00:10:27,380
+That is steps 1 through three.
+
+166
+00:10:27,380 --> 00:10:28,220
+All done.
+
+167
+00:10:28,220 --> 00:10:31,570
+We're now going to move on two steps four through six.
+
+168
+00:10:31,640 --> 00:10:33,560
+Doing the same thing for create comment.
+
+169
+00:10:33,560 --> 00:10:40,250
+So down here we have our mutation for create comment I'm going to create an input type input.
+
+170
+00:10:40,250 --> 00:10:47,890
+We're going to call this one create comment input and we will set up all of the fields necessary we
+
+171
+00:10:47,890 --> 00:10:51,410
+have the text being a non nullable string.
+
+172
+00:10:51,580 --> 00:10:55,240
+Then we have author and being a non nullable ID.
+
+173
+00:10:55,330 --> 00:10:59,730
+And finally we have post whose value is also a non nullable idea.
+
+174
+00:10:59,980 --> 00:11:02,660
+We can now reference that up above right here.
+
+175
+00:11:02,740 --> 00:11:08,590
+Data referencing our new input type create Calment input.
+
+176
+00:11:08,740 --> 00:11:09,770
+Excellent.
+
+177
+00:11:09,820 --> 00:11:13,360
+That brings us to step fiber we can actually change the resolver.
+
+178
+00:11:13,360 --> 00:11:20,230
+So down below we have our last mutation for create comment we are referencing ARGs in a few different
+
+179
+00:11:20,230 --> 00:11:22,450
+places all of which now need to change.
+
+180
+00:11:22,450 --> 00:11:25,290
+We have args dot data dot author.
+
+181
+00:11:25,300 --> 00:11:29,050
+Then down below that we have args dot data dot post.
+
+182
+00:11:29,050 --> 00:11:32,290
+And finally we spread out args dot data.
+
+183
+00:11:32,290 --> 00:11:33,290
+Excellent.
+
+184
+00:11:33,310 --> 00:11:38,980
+The last thing to do is to move on to Step 6 and actually verify that we can still create and fetch
+
+185
+00:11:38,980 --> 00:11:39,770
+comments.
+
+186
+00:11:39,820 --> 00:11:43,080
+I'm going to save index Dhananjay as over inside of graph.
+
+187
+00:11:43,120 --> 00:11:48,340
+Well playground we can switch over to the Create comment tab and refresh the schema and then we're going
+
+188
+00:11:48,340 --> 00:11:53,000
+to set up the one argument for create comment and I'll use the same author and post value.
+
+189
+00:11:53,000 --> 00:11:55,720
+I mean try to remember those three and 12.
+
+190
+00:11:55,750 --> 00:12:06,100
+So right here we have data inside of data we need text we need author and we need the actual post ID
+
+191
+00:12:06,190 --> 00:12:11,320
+via post and we're going to use 12:4 the post ID.
+
+192
+00:12:11,350 --> 00:12:17,920
+We're going to use three for the author ID and I will stick with a comment like this was a great read
+
+193
+00:12:18,730 --> 00:12:21,420
+and now we can go ahead and actually create that comment.
+
+194
+00:12:21,520 --> 00:12:25,610
+I'm going to run the operation right here we get our comment and successfully created.
+
+195
+00:12:25,660 --> 00:12:30,970
+And if I actually fetch it using the comments query it should be showing up as the last one down below
+
+196
+00:12:30,970 --> 00:12:32,050
+at the bottom of our list.
+
+197
+00:12:32,050 --> 00:12:32,890
+What do we have.
+
+198
+00:12:32,890 --> 00:12:37,490
+We have our comment created by Mike on the programming music post.
+
+199
+00:12:37,510 --> 00:12:38,340
+So there we go.
+
+200
+00:12:38,470 --> 00:12:45,050
+We have now converted all of our three mutations to use a custom input type for our arguments.
+
+201
+00:12:45,060 --> 00:12:50,680
+Now as we've seen we haven't changed the functionality of our application at all but we now have a simpler
+
+202
+00:12:50,710 --> 00:12:56,770
+mutation definition and we now have these input types which can be reused across other operations creating
+
+203
+00:12:56,770 --> 00:12:59,730
+just a better structured application.
+
+204
+00:12:59,800 --> 00:13:03,330
+That's where we're going to stop for this one in the next couple of videos.
+
+205
+00:13:03,430 --> 00:13:06,230
+We're going to focus on mutations that delete data.
+
+206
+00:13:06,280 --> 00:13:12,530
+So we're going to figure out how we can create mutations that delete users delete posts and delete comments.
+
+207
+00:13:12,550 --> 00:13:14,160
+I'm real excited to get to that.
+
+208
+00:13:14,170 --> 00:13:16,840
+So let's go ahead and jump right in that to the next video.
+

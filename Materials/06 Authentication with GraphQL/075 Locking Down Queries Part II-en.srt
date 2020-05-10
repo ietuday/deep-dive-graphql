@@ -1,0 +1,512 @@
+1
+00:00:00,270 --> 00:00:05,100
+In this video we're going to continue to lock down our application data and we're going to turn our
+
+2
+00:00:05,100 --> 00:00:08,090
+attention towards how we're fetching posts.
+
+3
+00:00:08,100 --> 00:00:14,610
+Right now we have a single way to fetch posts with the posts queries and this returns every single post
+
+4
+00:00:14,610 --> 00:00:18,660
+in the database for godless of whether or not it's published.
+
+5
+00:00:18,660 --> 00:00:20,750
+So we're going to go ahead and fix that.
+
+6
+00:00:20,790 --> 00:00:27,120
+We're going to make the posts query a public query so we're not going to require any sort of authentication.
+
+7
+00:00:27,120 --> 00:00:33,720
+But if we're going to do that we're only going to send back published posts now to get that done.
+
+8
+00:00:33,720 --> 00:00:39,750
+We're going to set up our OP args object to be a little different than it is right now.
+
+9
+00:00:39,750 --> 00:00:45,840
+Instead of setting it up as an empty object we're actually going to start it off with a WHERE condition.
+
+10
+00:00:46,020 --> 00:00:52,790
+Right here we are only going to get posts where published is true.
+
+11
+00:00:52,980 --> 00:00:54,120
+Perfect.
+
+12
+00:00:54,120 --> 00:00:59,250
+Now we are setting up an initial where a value on args and this is a good thing.
+
+13
+00:00:59,250 --> 00:01:05,520
+The problem though is that down below we could potentially be overwriting the object that we just created
+
+14
+00:01:05,520 --> 00:01:07,500
+with something completely different.
+
+15
+00:01:07,560 --> 00:01:13,710
+We still want to set up our or condition where it is going to change how we do that instead of assigning
+
+16
+00:01:13,710 --> 00:01:24,760
+a new value to where I'm just going to set up args dot where Dot or equal to the array we had down below.
+
+17
+00:01:24,960 --> 00:01:30,930
+So I can copy this paste it right here and now we have the same functionality up above that we have
+
+18
+00:01:30,930 --> 00:01:37,670
+right here only using a slightly different structure allowing us to avoid overriding what we set up
+
+19
+00:01:37,700 --> 00:01:38,880
+up above.
+
+20
+00:01:38,880 --> 00:01:42,030
+So at this point the Post's query is completely public.
+
+21
+00:01:42,120 --> 00:01:47,060
+You're only going to get back published posts and if you choose to provide a query we will limit it
+
+22
+00:01:47,070 --> 00:01:48,890
+by that as well.
+
+23
+00:01:48,900 --> 00:01:54,360
+If I were to save a query Dr. J asked we could actually test this out in the background.
+
+24
+00:01:54,360 --> 00:02:00,750
+I have my post to query a local host 4000 and we can see over here that we're getting a combination
+
+25
+00:02:00,780 --> 00:02:09,140
+of published posts like updated post by Andrew and unpublished posts like post by Jess one.
+
+26
+00:02:09,510 --> 00:02:14,480
+Now if we go ahead and write it with our changes in place post by Jess one should go away.
+
+27
+00:02:14,520 --> 00:02:16,380
+I'm going to go ahead and do just that.
+
+28
+00:02:16,380 --> 00:02:17,360
+And what do I get.
+
+29
+00:02:17,430 --> 00:02:17,960
+Post by.
+
+30
+00:02:17,980 --> 00:02:19,290
+Yes one is gone.
+
+31
+00:02:19,290 --> 00:02:25,970
+I'm still seeing a bunch of posts but you'll notice that for all of these the published value is true.
+
+32
+00:02:26,190 --> 00:02:33,090
+So now our posts queery is all locked down making sure we're not exposing anything that we don't want
+
+33
+00:02:33,090 --> 00:02:34,050
+to expose.
+
+34
+00:02:34,050 --> 00:02:38,910
+Now it's Challenge time and in this challenge you're going to create a brand new query from scratch
+
+35
+00:02:39,120 --> 00:02:44,730
+that allows a logged in user to get all of their published and unpublished posts.
+
+36
+00:02:44,730 --> 00:02:49,740
+So up above I'm going to paste in the challenge comments for that's a right ear big picture goal.
+
+37
+00:02:49,800 --> 00:02:54,810
+Create a new query for accessing your posts when you're lying down and you can call it something like
+
+38
+00:02:54,810 --> 00:02:55,970
+my posts.
+
+39
+00:02:56,130 --> 00:03:01,640
+Now I'll be honest this is actually the second time I'm filming this video the first time around.
+
+40
+00:03:01,770 --> 00:03:08,460
+I had you and this logic in two posts down below allowing you to use posts if you were logged in and
+
+41
+00:03:08,460 --> 00:03:14,300
+if you are not logged in that ended up making this query way more complex than it needed to be.
+
+42
+00:03:14,370 --> 00:03:17,460
+The code got quite long and quite complex.
+
+43
+00:03:17,490 --> 00:03:23,370
+So instead of trying to cram everything in one query posts we're going to end up creating a second one
+
+44
+00:03:23,550 --> 00:03:25,650
+and this should go a whole lot smoother.
+
+45
+00:03:25,650 --> 00:03:28,450
+So step 1 define the query and schema Dom graph.
+
+46
+00:03:28,500 --> 00:03:34,850
+Well it's going to have the exact same set of arguments and the same return value as the Post's query
+
+47
+00:03:34,900 --> 00:03:35,690
+below.
+
+48
+00:03:35,700 --> 00:03:39,670
+We still want that query string and we're still sending back an array of posts.
+
+49
+00:03:39,840 --> 00:03:44,250
+This time though we do want to require authentication so make sure to set that up.
+
+50
+00:03:44,460 --> 00:03:45,290
+Step 3.
+
+51
+00:03:45,300 --> 00:03:52,440
+Set up the operation arguments to just fetch posts where the authenticated user is the author.
+
+52
+00:03:52,440 --> 00:03:58,710
+Step 4 you're going to set up support for the query argument exactly like we end up doing down here
+
+53
+00:03:59,160 --> 00:04:07,980
+and then step 5 you're going to use not user use correct Prisma query to get and to return the data.
+
+54
+00:04:07,980 --> 00:04:09,510
+Last up you're going to test your work.
+
+55
+00:04:09,570 --> 00:04:13,990
+So if you're not authenticated you should never be able to get data back from my posts.
+
+56
+00:04:14,070 --> 00:04:18,050
+If you are authenticated you should be able to get your posts back.
+
+57
+00:04:18,090 --> 00:04:20,550
+Take as much time as you need to knock this one out.
+
+58
+00:04:20,550 --> 00:04:28,350
+Don't forget to test your work when you're done come back and click play.
+
+59
+00:04:28,390 --> 00:04:29,000
+How'd you do.
+
+60
+00:04:29,020 --> 00:04:35,260
+Let's go ahead and move through that together so step 1 we have to define this query inside of a schema
+
+61
+00:04:35,270 --> 00:04:36,100
+dot graphics.
+
+62
+00:04:36,160 --> 00:04:43,150
+Well over here it's going to be almost exactly the same as posts so similar in fact I could just duplicate
+
+63
+00:04:43,150 --> 00:04:47,950
+this line and change the name from posts to my posts.
+
+64
+00:04:47,950 --> 00:04:53,440
+We still want to set up that query argument and I still want to send back an array of posts.
+
+65
+00:04:53,440 --> 00:04:59,140
+The reason I'm creating two separate ones even though they're so similar is to keep each query focused
+
+66
+00:04:59,140 --> 00:05:01,510
+on a specific task.
+
+67
+00:05:01,540 --> 00:05:03,000
+Now over inside of query.
+
+68
+00:05:03,040 --> 00:05:03,600
+Jay asked.
+
+69
+00:05:03,600 --> 00:05:09,100
+We can move on to Step 2 in order to require authentication we're going to need our method in place.
+
+70
+00:05:09,100 --> 00:05:15,580
+So right here my posts setting it up with all of those arguments we have parent we have args we have
+
+71
+00:05:15,580 --> 00:05:16,830
+our context.
+
+72
+00:05:16,910 --> 00:05:20,590
+I'm going to deal structure both Prisma and request.
+
+73
+00:05:20,590 --> 00:05:25,890
+Since I know I'm setting up authentication and last up we have info perfect.
+
+74
+00:05:25,930 --> 00:05:31,510
+I'm going to set up the method body toss a comma on the end and now we can require authentication by
+
+75
+00:05:31,510 --> 00:05:36,220
+calling get user id so Konst user ID equals.
+
+76
+00:05:36,260 --> 00:05:42,540
+We're going to call get user ID and I am going to pass to just a single argument request.
+
+77
+00:05:42,790 --> 00:05:47,010
+I'm not passing in false because I don't want this to be optional.
+
+78
+00:05:47,080 --> 00:05:53,300
+I want to force authentication so I can either pass in true or leave it off altogether.
+
+79
+00:05:53,320 --> 00:05:57,550
+Now down below we can move on to setting up our initial operation arguments.
+
+80
+00:05:57,550 --> 00:06:05,130
+So right here we're going to have a Konst OP args where we set up where like we do down below.
+
+81
+00:06:05,250 --> 00:06:08,820
+This time though we're not concerned about the published value.
+
+82
+00:06:08,820 --> 00:06:12,120
+We're concerned about finding posts where you're the author.
+
+83
+00:06:12,120 --> 00:06:19,050
+So we're going to look at author and we're going to make sure the author ID is indeed equal to the user
+
+84
+00:06:19,050 --> 00:06:21,110
+id from up above.
+
+85
+00:06:21,210 --> 00:06:24,790
+And that wraps up step three and we can move on to Step 4.
+
+86
+00:06:24,810 --> 00:06:27,930
+Setting up support for that queery argument.
+
+87
+00:06:27,940 --> 00:06:29,270
+So right here what are we going to do.
+
+88
+00:06:29,280 --> 00:06:34,310
+Well we're going to knock that out if args dot queery exists.
+
+89
+00:06:34,440 --> 00:06:43,620
+We're going to set up oph args dot where Dot or end right here we're going to define our array of objects
+
+90
+00:06:43,620 --> 00:06:51,580
+and we're going to have to in the first one we're going to check that title contains matches up with
+
+91
+00:06:51,610 --> 00:06:53,480
+args dot query.
+
+92
+00:06:53,740 --> 00:07:00,580
+And then in the second one we're going to check if body contains matches up with args dot wearie that's
+
+93
+00:07:00,580 --> 00:07:02,290
+exactly what we have down below.
+
+94
+00:07:02,290 --> 00:07:06,730
+And that wraps up Step 5 excuse me step 4.
+
+95
+00:07:06,790 --> 00:07:09,090
+Now we're on to Step 5 which is very simple.
+
+96
+00:07:09,090 --> 00:07:13,360
+It is just our return statement more we actually use what we've built.
+
+97
+00:07:13,390 --> 00:07:23,380
+So I am going to return Prisma dot queery dot right here posts passing in our op args and also passing
+
+98
+00:07:23,380 --> 00:07:28,980
+in info that brings us to step number 6 which is just to test our work.
+
+99
+00:07:29,050 --> 00:07:33,180
+So I'm going to remove all of the challenge comments and save a query dot J.
+
+100
+00:07:33,180 --> 00:07:35,550
+S. and I am going to head over into graphics.
+
+101
+00:07:35,570 --> 00:07:43,540
+Well playground at local host 4000 and create a new tab for our brand new queries over here query we
+
+102
+00:07:43,540 --> 00:07:46,570
+are querying for my posts.
+
+103
+00:07:46,570 --> 00:07:52,170
+We don't need any operation arguments let's leave them off for the moment and for each post we're going
+
+104
+00:07:52,170 --> 00:07:55,800
+to go ahead and grab the posts Id the title.
+
+105
+00:07:55,810 --> 00:07:58,910
+The published value and the body.
+
+106
+00:07:58,930 --> 00:08:01,510
+Now currently we can see that this is invalid.
+
+107
+00:08:01,510 --> 00:08:05,740
+That's because the schema can't be fetched if I just refreshed the page.
+
+108
+00:08:05,740 --> 00:08:11,530
+This should become a valid operation and it is and not why I should be able to fire it off and see it
+
+109
+00:08:11,530 --> 00:08:14,930
+fail because we have not authenticated so right here.
+
+110
+00:08:14,980 --> 00:08:15,870
+What do I get.
+
+111
+00:08:15,880 --> 00:08:18,370
+Authentication is required.
+
+112
+00:08:18,400 --> 00:08:25,630
+Now I know that Jess has both published and unpublished posts so I'm going to log in as her over in
+
+113
+00:08:25,630 --> 00:08:28,330
+the ME tab where I am landan as her.
+
+114
+00:08:28,450 --> 00:08:33,150
+I can just grab the headers down below and I can bring them over to this tab.
+
+115
+00:08:33,160 --> 00:08:34,980
+Pasting them right in.
+
+116
+00:08:35,020 --> 00:08:37,160
+Now if I fire this off what do I get.
+
+117
+00:08:37,240 --> 00:08:42,850
+I get all of the posts just by geste just by the user who is authenticated.
+
+118
+00:08:42,850 --> 00:08:48,290
+I have her unpublished post right here and I have all of her published posts down below.
+
+119
+00:08:48,520 --> 00:08:53,260
+So now we have a few different options depending on what sort of information you want to get.
+
+120
+00:08:53,320 --> 00:08:56,860
+And this gives us a lot of flexibility when it comes to authentication.
+
+121
+00:08:56,860 --> 00:09:00,880
+We have posts for public posts and we have my posts.
+
+122
+00:09:00,940 --> 00:09:06,280
+When you're working in your back and dashboard and want to manage whether that's deleting or updating
+
+123
+00:09:06,490 --> 00:09:10,930
+the posts you've written so far that's where we're going to stop for this video.
+
+124
+00:09:10,930 --> 00:09:17,320
+The only query left is our users query but to actually get this one working as we want.
+
+125
+00:09:17,320 --> 00:09:19,590
+We're going to have to learn a few new things.
+
+126
+00:09:19,720 --> 00:09:25,310
+So in the next video we're going to go on a small side tangent as we cover a new feature of graphics.
+
+127
+00:09:25,330 --> 00:09:29,950
+Well then we're actually going to integrate it to properly lockdown down our users.
+
+128
+00:09:29,950 --> 00:09:32,970
+Let's go ahead and jump into the next video and learn all about that.
+

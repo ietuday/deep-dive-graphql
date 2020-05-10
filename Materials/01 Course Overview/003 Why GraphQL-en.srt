@@ -1,0 +1,836 @@
+1
+00:00:00,240 --> 00:00:04,190
+In this video I want to take a few minutes to explore an important question.
+
+2
+00:00:04,200 --> 00:00:08,820
+Arguably the most important question we have right now which is why graph.
+
+3
+00:00:08,820 --> 00:00:13,130
+Q Well we're about to spend a lot of time together learning this new tool.
+
+4
+00:00:13,170 --> 00:00:16,860
+So we want to make sure it's going to be time well spent in this video.
+
+5
+00:00:16,860 --> 00:00:20,490
+We'll be talking about where graft fits into our applications.
+
+6
+00:00:20,490 --> 00:00:22,960
+We'll explore some of the benefits of using graphs.
+
+7
+00:00:22,970 --> 00:00:28,040
+Well and lastly we'll talk about why it's become such a popular tool.
+
+8
+00:00:28,080 --> 00:00:33,340
+I want to kick things off by talking about where graft well fits into our application.
+
+9
+00:00:33,360 --> 00:00:39,720
+Now if you're like most people your current application likely uses some form of a rest API where you're
+
+10
+00:00:39,720 --> 00:00:46,770
+making HTP calls between your client and the server to send and receive data or your application likely
+
+11
+00:00:46,770 --> 00:00:48,580
+has at least one client.
+
+12
+00:00:48,600 --> 00:00:52,840
+I'm going to go ahead and say that for our fictitious example we have a few different clients.
+
+13
+00:00:52,950 --> 00:00:57,810
+Let's say that we have a web application where users can log in to manage their data and let's say that
+
+14
+00:00:57,810 --> 00:01:03,030
+we also give them a mobile application one for iOS and one for Android that they can take with them
+
+15
+00:01:03,090 --> 00:01:04,130
+on the go.
+
+16
+00:01:04,140 --> 00:01:09,090
+Now our clients these three represent just part of our entire application stack.
+
+17
+00:01:09,090 --> 00:01:12,000
+We also have our server and our database at a minimum.
+
+18
+00:01:12,000 --> 00:01:14,630
+So let's represent those over here as well.
+
+19
+00:01:14,880 --> 00:01:20,580
+Maybe we're using no J.S. with the Mongo D-B database maybe we're using Python with the post gresse
+
+20
+00:01:20,580 --> 00:01:23,930
+database or maybe we're using Java with my ask you owl.
+
+21
+00:01:24,030 --> 00:01:25,140
+It doesn't matter.
+
+22
+00:01:25,140 --> 00:01:31,980
+Any number of clients phones TVs laptops can communicate with any number of servers because the glue
+
+23
+00:01:32,070 --> 00:01:40,060
+between the two has always been standard HTP requests typically represented as some sort of rest API
+
+24
+00:01:40,170 --> 00:01:40,870
+or rest.
+
+25
+00:01:40,870 --> 00:01:46,470
+API might have a dozen or so different you are Elle's different endpoints that can be used to communicate
+
+26
+00:01:46,470 --> 00:01:47,340
+with the server.
+
+27
+00:01:47,340 --> 00:01:52,760
+Maybe we have one for signing up another for logging in and let's say we're creating a blogging application
+
+28
+00:01:52,770 --> 00:01:57,930
+so we have one for creating a new post and we have one for reading all of the available posts in the
+
+29
+00:01:57,930 --> 00:01:58,800
+database.
+
+30
+00:01:58,800 --> 00:02:02,130
+This is a pretty typical setup when we introduce graft.
+
+31
+00:02:02,160 --> 00:02:04,250
+Well not a whole lot is going to change.
+
+32
+00:02:04,290 --> 00:02:08,820
+We're still going to be able to use any client and we're still going to be able to use any server although
+
+33
+00:02:08,820 --> 00:02:11,650
+in this course we're going to be focusing on node j ass.
+
+34
+00:02:11,760 --> 00:02:19,740
+All we're going to do is replace our rest API with many endpoints with a Graph API that has just a single
+
+35
+00:02:20,000 --> 00:02:22,080
+end point exposed graph.
+
+36
+00:02:22,100 --> 00:02:28,200
+L stands for the graph query language and this is something that also operates over HTP which means
+
+37
+00:02:28,200 --> 00:02:33,390
+that we can use any back end language we want with any database we want and we can use any client we
+
+38
+00:02:33,390 --> 00:02:33,930
+want.
+
+39
+00:02:33,930 --> 00:02:35,630
+Maybe we have a web and mobile app.
+
+40
+00:02:35,670 --> 00:02:40,190
+Maybe we also need to communicate with this graph API from another server.
+
+41
+00:02:40,200 --> 00:02:42,290
+That's perfectly fine as well.
+
+42
+00:02:42,300 --> 00:02:46,680
+Graph L is super flexible and we're going to see this throughout the course.
+
+43
+00:02:46,680 --> 00:02:52,600
+So next step I want to quickly go over why graphical is something that you should consider using burst
+
+44
+00:02:52,650 --> 00:02:53,210
+up graph.
+
+45
+00:02:53,250 --> 00:02:58,980
+Well is fast and to explore this I want to go through a typical example of what it might look like to
+
+46
+00:02:59,070 --> 00:03:05,710
+load the data necessary for a page with a rest API and then with a graphical API.
+
+47
+00:03:05,820 --> 00:03:08,410
+So let's say that we start with the rest AAPI example.
+
+48
+00:03:08,580 --> 00:03:09,990
+We still have some sort of client.
+
+49
+00:03:10,050 --> 00:03:13,810
+Let's just say it's a browser and we have our server the glue between the two.
+
+50
+00:03:13,830 --> 00:03:19,200
+Is that standard rest API where we have a dozen or so different endpoints for managing our application
+
+51
+00:03:19,260 --> 00:03:20,220
+data.
+
+52
+00:03:20,220 --> 00:03:26,010
+Let's go ahead and make some HTP requests to render a page and let's say this page is a page for reading
+
+53
+00:03:26,010 --> 00:03:26,940
+a blog post.
+
+54
+00:03:26,940 --> 00:03:30,440
+So we need the title of the post and we need the Post body.
+
+55
+00:03:30,450 --> 00:03:31,230
+How do we get those.
+
+56
+00:03:31,230 --> 00:03:35,600
+We make an HTP request that might look a little bit like this.
+
+57
+00:03:35,670 --> 00:03:38,930
+We make a get request to the following You are L..
+
+58
+00:03:39,030 --> 00:03:44,780
+Forward slash posts forward slash 1 to 3 where 1 to 3 is that post ID.
+
+59
+00:03:44,910 --> 00:03:50,080
+The server is going to parse this you Arel it's going to find the correct data and it's going to send
+
+60
+00:03:50,080 --> 00:03:50,550
+it back.
+
+61
+00:03:50,550 --> 00:03:52,320
+Likely in the form of Jason.
+
+62
+00:03:52,530 --> 00:03:54,720
+So the server responds saying something like.
+
+63
+00:03:54,720 --> 00:03:57,200
+Here are the Post details.
+
+64
+00:03:57,240 --> 00:04:02,880
+Now do we get those post details rendered to the page and we realize we want a bit more information.
+
+65
+00:04:02,880 --> 00:04:07,980
+I also want to show at the end of the post other posts by that author because I want to keep people
+
+66
+00:04:07,980 --> 00:04:08,550
+on the site.
+
+67
+00:04:08,550 --> 00:04:12,290
+I want to give them something to read when they're done what they're currently reading.
+
+68
+00:04:12,300 --> 00:04:15,340
+If I need more data I make another request for it here.
+
+69
+00:04:15,450 --> 00:04:22,920
+I can make a second HTP request to something like get forward slash posts here I'm using a query string
+
+70
+00:04:23,100 --> 00:04:24,900
+to filter by the Post author.
+
+71
+00:04:24,930 --> 00:04:30,150
+I want to find only posts with the following author ID 3 4 to 1.
+
+72
+00:04:30,180 --> 00:04:31,280
+Just a made up ID.
+
+73
+00:04:31,300 --> 00:04:37,410
+Let's assume this is the author ID of the post that we fetched the server once again is going to parse
+
+74
+00:04:37,410 --> 00:04:38,240
+all of this.
+
+75
+00:04:38,280 --> 00:04:43,320
+It's going to try to find other posts by that author and it is going to send them back so we can correctly
+
+76
+00:04:43,320 --> 00:04:46,540
+render some of them at the bottom of the post page.
+
+77
+00:04:46,860 --> 00:04:49,910
+Now let's say there is just one more thing we need to get needed.
+
+78
+00:04:49,920 --> 00:04:53,950
+Comments made for this post so we can show those at the bottom as well.
+
+79
+00:04:53,990 --> 00:04:58,770
+For here we're going to make our third and final h t t p request for another resource.
+
+80
+00:04:58,770 --> 00:05:06,210
+Here we're still making get request to forward slash posts forward slash 2:59 the post ID forward slash
+
+81
+00:05:06,210 --> 00:05:07,020
+comments.
+
+82
+00:05:07,140 --> 00:05:09,780
+So we're getting all comments for that post.
+
+83
+00:05:09,780 --> 00:05:13,980
+This is a pretty standard arrest API you RL structure.
+
+84
+00:05:14,010 --> 00:05:15,960
+Once again the server goes off.
+
+85
+00:05:15,960 --> 00:05:18,400
+It parses this and it sends back the data.
+
+86
+00:05:18,570 --> 00:05:23,790
+And finally we have everything we need we can get everything rendered to the screen giving the user
+
+87
+00:05:23,880 --> 00:05:26,220
+the best experience possible.
+
+88
+00:05:26,220 --> 00:05:31,530
+Now let's see how we might fetch the exact same data to render our blog post page but using a graphical
+
+89
+00:05:31,530 --> 00:05:32,270
+API.
+
+90
+00:05:32,310 --> 00:05:35,030
+So we still want to post details like the title and body.
+
+91
+00:05:35,070 --> 00:05:41,520
+I still want other posts by that author and I still want the post comments right here.
+
+92
+00:05:41,520 --> 00:05:43,460
+We have a client we have a server.
+
+93
+00:05:43,560 --> 00:05:46,170
+This time though graft well as the glue between the two.
+
+94
+00:05:46,170 --> 00:05:49,430
+And remember graphs you all can operate over HTP.
+
+95
+00:05:49,470 --> 00:05:53,610
+So in the end of the day we're still just making HTP requests.
+
+96
+00:05:53,760 --> 00:05:55,380
+Let's go ahead and make our first one.
+
+97
+00:05:55,470 --> 00:05:58,390
+Getting the data needed for this page.
+
+98
+00:05:58,440 --> 00:06:04,440
+Now the request we're going to make is going to be a post request and graphed QOL exposes just a single
+
+99
+00:06:04,520 --> 00:06:05,220
+end point.
+
+100
+00:06:05,220 --> 00:06:07,670
+That's a very important piece to the puzzle.
+
+101
+00:06:07,680 --> 00:06:09,590
+Now you could have called this whatever you liked.
+
+102
+00:06:09,690 --> 00:06:14,700
+For this example I happened to call it graft well but we'll see how to rename that throughout the course.
+
+103
+00:06:14,700 --> 00:06:17,220
+Now here's the catch with our request.
+
+104
+00:06:17,280 --> 00:06:23,820
+We're going to be sending along a graph he will query a graph you will query lets the client describe
+
+105
+00:06:23,820 --> 00:06:29,490
+exactly what data it needs from the server the server then gets all of that data ready and it sends
+
+106
+00:06:29,490 --> 00:06:35,550
+it back so the client can describe exactly what it needs and it gets that data nothing more and nothing
+
+107
+00:06:35,550 --> 00:06:36,540
+less.
+
+108
+00:06:36,540 --> 00:06:39,290
+This is a very powerful piece to the puzzle.
+
+109
+00:06:39,480 --> 00:06:44,880
+Instead of the server determining what data gets sent back it's up to the client to request all of the
+
+110
+00:06:44,880 --> 00:06:46,300
+data it needs.
+
+111
+00:06:46,440 --> 00:06:52,180
+So in this case I can actually request the post details other posts by that author.
+
+112
+00:06:52,240 --> 00:06:53,880
+Any post comments.
+
+113
+00:06:53,880 --> 00:06:59,170
+All with a single graft will request now the magic behind all of this is that graph.
+
+114
+00:06:59,220 --> 00:07:03,780
+Well queery but that's actually not something we're going to talk about in this video though it is a
+
+115
+00:07:03,780 --> 00:07:07,350
+major topic of the course and we'll be getting to it very soon.
+
+116
+00:07:07,350 --> 00:07:12,450
+For now all we need to know about the graph you will query is that it lets the client determine what
+
+117
+00:07:12,450 --> 00:07:19,050
+data it gets back as opposed to a traditional arrest API endpoint where the server determines what data
+
+118
+00:07:19,170 --> 00:07:21,270
+comes back from an endpoint.
+
+119
+00:07:21,270 --> 00:07:24,680
+Now clearly three requests is more than one request.
+
+120
+00:07:24,690 --> 00:07:29,160
+So Grath well in the end of the day is going to be faster it's going to allow us to get all of the data
+
+121
+00:07:29,160 --> 00:07:36,300
+we need with one HTP request now Rod Speed alone is not enough to make a tool useful.
+
+122
+00:07:36,300 --> 00:07:41,740
+And while that is an advantage of graft Well its definitely not the biggest advantage in my opinion.
+
+123
+00:07:41,760 --> 00:07:45,470
+The biggest advantage is the flexibility of graft well.
+
+124
+00:07:45,540 --> 00:07:50,580
+So with that last example you could have easily argued that the rest API portion of the example was
+
+125
+00:07:50,580 --> 00:07:51,930
+completely contrived.
+
+126
+00:07:51,960 --> 00:07:55,240
+I intentionally chose to make it three requests instead of one.
+
+127
+00:07:55,380 --> 00:07:56,800
+Clearly three is bigger than one.
+
+128
+00:07:56,820 --> 00:08:02,610
+So obviously its going to be a bit slower but I made that choice to prove this point.
+
+129
+00:08:02,610 --> 00:08:07,440
+We could absolutely cram all three of those and points into one.
+
+130
+00:08:07,440 --> 00:08:10,620
+So let's revisit our rest API example right here.
+
+131
+00:08:10,650 --> 00:08:13,160
+We have our client our server rest API is the glue.
+
+132
+00:08:13,350 --> 00:08:18,280
+We make our single HTP request here I'm just using that first end point we had.
+
+133
+00:08:18,420 --> 00:08:20,500
+We get the post by ID.
+
+134
+00:08:20,640 --> 00:08:21,570
+And what do we get back.
+
+135
+00:08:21,600 --> 00:08:25,530
+We get back everything we get our post details which is the title and the body.
+
+136
+00:08:25,530 --> 00:08:29,740
+We get the comments for the post and we get other posts by the author.
+
+137
+00:08:29,820 --> 00:08:32,350
+This would be a perfectly fine approach.
+
+138
+00:08:32,490 --> 00:08:39,540
+It would give the client everything it needs to render that page with just a single HTP request.
+
+139
+00:08:39,580 --> 00:08:44,790
+And the problem with this solution is that we now have this one end point which is making way more database
+
+140
+00:08:44,790 --> 00:08:46,220
+requests than it was before.
+
+141
+00:08:46,230 --> 00:08:47,580
+It's getting big and slow.
+
+142
+00:08:47,610 --> 00:08:52,740
+It went in for maybe making one database request to making at least three requests in order to get all
+
+143
+00:08:52,740 --> 00:08:54,320
+the data necessary.
+
+144
+00:08:54,350 --> 00:08:58,980
+Now for the desktop version of our app that might be fine maybe we're going to use all of the data right
+
+145
+00:08:58,980 --> 00:08:59,330
+away.
+
+146
+00:08:59,340 --> 00:09:00,520
+So let's just get it.
+
+147
+00:09:00,780 --> 00:09:05,200
+But what if we want a mobile version of our application to use the same back end.
+
+148
+00:09:05,460 --> 00:09:11,400
+We make the HTP request to that you are l and the problem is that the mobile application can't change
+
+149
+00:09:11,400 --> 00:09:11,870
+the data.
+
+150
+00:09:11,880 --> 00:09:14,030
+It gets back on mobile devices.
+
+151
+00:09:14,040 --> 00:09:16,460
+We have a whole different set of considerations.
+
+152
+00:09:16,470 --> 00:09:18,230
+We have less screen real estate.
+
+153
+00:09:18,300 --> 00:09:20,180
+We have battery life to worry about.
+
+154
+00:09:20,220 --> 00:09:22,980
+We have slow and expensive data.
+
+155
+00:09:22,980 --> 00:09:27,270
+We want to make sure that we're not abusing the device otherwise people are going to get a poor user
+
+156
+00:09:27,270 --> 00:09:27,960
+experience.
+
+157
+00:09:27,960 --> 00:09:31,620
+The app is going to feel Genki and they're likely to uninstall.
+
+158
+00:09:31,680 --> 00:09:35,160
+This is actually the original reason graft well was created.
+
+159
+00:09:35,160 --> 00:09:40,350
+Facebook had the same problem that a desktop version of the application that a mobile version of the
+
+160
+00:09:40,350 --> 00:09:44,560
+application and they didn't always need the same data for both.
+
+161
+00:09:44,580 --> 00:09:50,280
+They wanted a flexible way for the individual clients to request exactly the data they were going to
+
+162
+00:09:50,280 --> 00:09:53,010
+use nothing more and nothing less.
+
+163
+00:09:53,010 --> 00:09:57,840
+So maybe on the mobile device we don't want to load the comments until someone clicks a button at the
+
+164
+00:09:57,840 --> 00:10:03,110
+bottom of the post like show comment with a solution it doesn't really matter because the comments have
+
+165
+00:10:03,110 --> 00:10:04,400
+already been loaded.
+
+166
+00:10:04,460 --> 00:10:08,660
+It would be nicer if we could fetch the comments later when necessary.
+
+167
+00:10:08,660 --> 00:10:12,410
+So the desktop and mobile devices both have different needs.
+
+168
+00:10:12,410 --> 00:10:16,730
+This is not an issue we're going to run into with the graft UL API on the desktop.
+
+169
+00:10:16,730 --> 00:10:20,900
+We make a graphics UL query specifying we need all of that information.
+
+170
+00:10:20,900 --> 00:10:25,790
+We need the post itself when you add the comments in other posts by the author and on our mobile device.
+
+171
+00:10:25,790 --> 00:10:26,650
+What do we do.
+
+172
+00:10:26,840 --> 00:10:32,640
+We make an HTP request to the same endpoint with a different graphical query.
+
+173
+00:10:32,660 --> 00:10:38,540
+In this case we say maybe we just need to post details so we get back just the post details.
+
+174
+00:10:38,600 --> 00:10:43,580
+So with the website version of our application where the query asks for a lot of data the server is
+
+175
+00:10:43,580 --> 00:10:49,210
+going to have to do a lot of work making those three or so database requests necessary to get everything.
+
+176
+00:10:49,220 --> 00:10:54,320
+The nice thing though is that on the mobile version of the application where the query asks for less
+
+177
+00:10:54,320 --> 00:10:56,730
+data the server does less work.
+
+178
+00:10:56,750 --> 00:11:03,440
+In this case making the 1 database request necessary to get the post title and the Post body with the
+
+179
+00:11:03,440 --> 00:11:06,160
+rest API we didn't have that same flexibility.
+
+180
+00:11:06,200 --> 00:11:08,820
+We've got the same response with both with graphs.
+
+181
+00:11:08,850 --> 00:11:14,780
+Well it is the individual client that determines what data it gets back from the server with a rest
+
+182
+00:11:14,780 --> 00:11:15,440
+API.
+
+183
+00:11:15,440 --> 00:11:21,360
+It is the server that determines what data gets sent back to what endpoint and that's a huge difference.
+
+184
+00:11:21,380 --> 00:11:26,750
+Now yes in the end of the day you could go ahead and try to customize your rest API maybe adding on
+
+185
+00:11:26,750 --> 00:11:31,370
+query strings to determine whether or not you want the comments and whether or not you want the other
+
+186
+00:11:31,370 --> 00:11:32,820
+posts by that author.
+
+187
+00:11:32,990 --> 00:11:38,410
+But at that point you're getting dangerously close to just recreating what graft you all already offers.
+
+188
+00:11:38,570 --> 00:11:44,390
+That's why huge companies like Facebook and get hub are using graphical in production today.
+
+189
+00:11:44,450 --> 00:11:50,030
+It provides the speed and flexibility needed for real world applications.
+
+190
+00:11:50,090 --> 00:11:56,900
+So we saw that graph well was fast and flexible graph is also easy to use and simple to maintain with
+
+191
+00:11:56,900 --> 00:11:59,540
+the rest API if the client needs different data.
+
+192
+00:11:59,540 --> 00:12:04,690
+It typically requires us to add a new endpoint or change an existing one using a graph.
+
+193
+00:12:04,720 --> 00:12:05,870
+Well API though.
+
+194
+00:12:05,900 --> 00:12:08,490
+The client just needs to change its query.
+
+195
+00:12:08,600 --> 00:12:15,620
+Making graphical API is much simpler to maintain in my own personal opinion and experience so that's
+
+196
+00:12:15,620 --> 00:12:16,090
+it.
+
+197
+00:12:16,160 --> 00:12:20,180
+At this point we've definitely asked more questions than we have answers to.
+
+198
+00:12:20,180 --> 00:12:25,090
+For example we have no idea what a graphical query is or how we're going to set any of this up.
+
+199
+00:12:25,190 --> 00:12:27,110
+And that is OK for the moment.
+
+200
+00:12:27,170 --> 00:12:29,630
+We're going to dive into all of that in detail.
+
+201
+00:12:29,630 --> 00:12:35,540
+As always a bit later in the class for now the only thing you really need to take away from this video
+
+202
+00:12:35,630 --> 00:12:37,210
+is the following graph.
+
+203
+00:12:37,310 --> 00:12:44,300
+Well creates fast and flexible API eyes giving clients complete control to ask for just the data they
+
+204
+00:12:44,300 --> 00:12:45,030
+need.
+
+205
+00:12:45,050 --> 00:12:52,490
+This results in fewer HTP requests flexible data querying and in general less code to manage.
+
+206
+00:12:52,510 --> 00:12:56,890
+We get all of the same advantages with this increased speed and flexibility.
+
+207
+00:12:56,900 --> 00:13:02,000
+I am super excited to dive into the rest of the course and actually put all of this into practice with
+
+208
+00:13:02,030 --> 00:13:04,580
+a real world production ready application.
+
+209
+00:13:04,700 --> 00:13:08,190
+So let's go ahead and jump right in to the next video.
+

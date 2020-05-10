@@ -1,0 +1,928 @@
+1
+00:00:00,210 --> 00:00:02,960
+In this video you're going to learn how to use custom types.
+
+2
+00:00:02,960 --> 00:00:08,370
+Engraft well so we're going to see what it takes to create our own custom types allowing us to model
+
+3
+00:00:08,370 --> 00:00:11,470
+the data that makes up our application.
+
+4
+00:00:11,490 --> 00:00:16,140
+So if we're working with a blogging application we're going to have custom types for all of the different
+
+5
+00:00:16,140 --> 00:00:22,320
+types of data we have we might have a custom type to represent a user a another one to represent a post
+
+6
+00:00:22,530 --> 00:00:26,920
+and a third one to represent a comment where each has its own set of fields.
+
+7
+00:00:27,000 --> 00:00:29,900
+So a user would have something like a name and an email.
+
+8
+00:00:29,970 --> 00:00:35,340
+A post would have a title and a body and the comment would have something like the comment text and
+
+9
+00:00:35,340 --> 00:00:39,410
+maybe when the comment was created or who the comment was created.
+
+10
+00:00:39,420 --> 00:00:44,400
+But we've seen a little of how these custom types work when we messed around with queries using the
+
+11
+00:00:44,400 --> 00:00:46,620
+demo API earlier in the course.
+
+12
+00:00:46,710 --> 00:00:49,960
+We saw that some of our queries send back scalar types.
+
+13
+00:00:49,980 --> 00:00:56,610
+These three for example send back strings but other queries like me send back custom types allowing
+
+14
+00:00:56,610 --> 00:01:00,510
+us to send back what's essentially an object a set of fields.
+
+15
+00:01:00,600 --> 00:01:08,010
+So me for example if we explored in the schema sends back a custom type user This user has a set of
+
+16
+00:01:08,010 --> 00:01:09,220
+defined fields.
+
+17
+00:01:09,240 --> 00:01:13,530
+Here we have some scalar values and we also have some relational data.
+
+18
+00:01:13,530 --> 00:01:17,060
+So let's go ahead and see what it actually takes to create a custom type.
+
+19
+00:01:17,220 --> 00:01:22,980
+In the end of the day all we really need to do is define something new inside of our type definition
+
+20
+00:01:23,130 --> 00:01:28,890
+R-Type definition starts off with the type keyword and then we go on to pick a type name and this name
+
+21
+00:01:28,890 --> 00:01:30,230
+is completely up to us.
+
+22
+00:01:30,330 --> 00:01:36,690
+So if we're creating an application that models blog posts I might use post if I'm creating an application
+
+23
+00:01:36,690 --> 00:01:43,380
+that models products maybe I use product in this case the first custom type we create is going to model
+
+24
+00:01:43,410 --> 00:01:44,250
+a user.
+
+25
+00:01:44,310 --> 00:01:48,810
+So I'm going to call this one user and notice the uppercase first letter.
+
+26
+00:01:48,810 --> 00:01:52,920
+We are going to have an uppercase first letter for all of the types that we define in graph.
+
+27
+00:01:52,920 --> 00:01:55,320
+Q L now down below.
+
+28
+00:01:55,410 --> 00:01:56,130
+What do we do.
+
+29
+00:01:56,130 --> 00:01:58,760
+We define the fields that make up this type.
+
+30
+00:01:58,830 --> 00:02:05,880
+So what fields do all users have in this case we could say all users have a unique ID a name and an
+
+31
+00:02:05,910 --> 00:02:06,420
+email.
+
+32
+00:02:06,420 --> 00:02:11,390
+And that's exactly what we're going to set up three fields for the user type.
+
+33
+00:02:11,430 --> 00:02:16,640
+Now to kick this process off it looks very similar to what we did above with our queery definition.
+
+34
+00:02:16,670 --> 00:02:19,960
+So I'm going to specify a field that a user has.
+
+35
+00:02:20,040 --> 00:02:25,770
+Let's call this one ID then a colon space and I go on to pick the type for it.
+
+36
+00:02:25,770 --> 00:02:30,450
+So in this case we will use the ID type and I will add an exclamation mark on there.
+
+37
+00:02:30,450 --> 00:02:32,840
+This is a required field.
+
+38
+00:02:32,940 --> 00:02:37,490
+Now next up just hitting Enter we can add a second field onto all of our users.
+
+39
+00:02:37,510 --> 00:02:44,550
+This one it could be a name so name the value will be a string and this one will always exist as well.
+
+40
+00:02:44,630 --> 00:02:46,790
+And then we could add a couple more into the mix.
+
+41
+00:02:46,800 --> 00:02:53,070
+Let's add an email to all of our users will have that be a string and then we'll add an age on as well
+
+42
+00:02:53,250 --> 00:02:55,610
+and we'll allow the age to be optional.
+
+43
+00:02:55,620 --> 00:02:59,470
+So we'll set it equal to an int but I will not use an exclamation mark.
+
+44
+00:02:59,520 --> 00:03:00,310
+And there we go.
+
+45
+00:03:00,390 --> 00:03:02,910
+We have our very first type definition.
+
+46
+00:03:02,910 --> 00:03:07,560
+We have our user type and we have the four fields that make up a user.
+
+47
+00:03:07,560 --> 00:03:12,360
+Now we can actually take advantage of this type throughout our application and for the moment what we're
+
+48
+00:03:12,360 --> 00:03:16,830
+going to do is create a query that returns a user.
+
+49
+00:03:16,860 --> 00:03:23,220
+So let's go ahead and empty out all of our resolver methods and all of the queries we have set up and
+
+50
+00:03:23,220 --> 00:03:26,700
+we're going to create a brand new query and I'm going to call this one.
+
+51
+00:03:26,700 --> 00:03:27,550
+Me.
+
+52
+00:03:27,660 --> 00:03:33,600
+Now later on once we set up authentication me is going to return some information about you the logged
+
+53
+00:03:33,630 --> 00:03:39,050
+in user for the moment though we're just going to return some generic information about a user.
+
+54
+00:03:39,060 --> 00:03:42,300
+So right here we set up our query we're calling it me.
+
+55
+00:03:42,630 --> 00:03:48,720
+And now we move on to the type that me is going to end up sending back in the past we only ever used
+
+56
+00:03:48,720 --> 00:03:49,920
+scalar types.
+
+57
+00:03:49,950 --> 00:03:53,730
+So I would add string I'd add boolean int float ID.
+
+58
+00:03:53,730 --> 00:03:55,010
+Those sorts of things.
+
+59
+00:03:55,170 --> 00:04:01,610
+Now though we can use one of our custom types in this case user so we reference it by its name.
+
+60
+00:04:01,770 --> 00:04:08,090
+And once again we can decide if we want this to always come back or to allow it to be nullable.
+
+61
+00:04:08,100 --> 00:04:13,710
+So right now could be NULL if we add an exclamation mark on where saying that you're always going to
+
+62
+00:04:13,710 --> 00:04:15,900
+get a user back.
+
+63
+00:04:15,900 --> 00:04:20,850
+Let's go ahead and keep the exclamation mark in place letting us know that me is always going to return
+
+64
+00:04:20,910 --> 00:04:23,250
+something of the type user.
+
+65
+00:04:23,400 --> 00:04:25,950
+So we have our type definition all set up.
+
+66
+00:04:25,950 --> 00:04:29,660
+We have our query in place we have the custom type created.
+
+67
+00:04:29,700 --> 00:04:32,460
+Now all we need to do is set up a resolver.
+
+68
+00:04:32,670 --> 00:04:39,590
+And since we only have one query we're only going to have one resolver method right here me.
+
+69
+00:04:39,840 --> 00:04:42,600
+We're going to set it up and what are we going to do.
+
+70
+00:04:42,740 --> 00:04:47,730
+We are going to return something that matches up with the user type.
+
+71
+00:04:47,730 --> 00:04:54,930
+So in this case we're going to return an object with all of the fields that match up with the user fields.
+
+72
+00:04:54,930 --> 00:04:59,270
+Now this is typically where we would go off and we would actually fetch some data from the database.
+
+73
+00:04:59,280 --> 00:05:03,480
+But for the moment until we get to that part of the course we're going to stick with static data just
+
+74
+00:05:03,480 --> 00:05:04,790
+to find in this file.
+
+75
+00:05:04,860 --> 00:05:12,280
+So I can go ahead and return a new object and have the object properties match up with the user fields.
+
+76
+00:05:12,360 --> 00:05:14,170
+So I need the first three.
+
+77
+00:05:14,190 --> 00:05:16,060
+The last one is optional.
+
+78
+00:05:16,140 --> 00:05:17,890
+I'm going to set up the ID right here.
+
+79
+00:05:17,910 --> 00:05:21,080
+Matching up with the fields name exactly.
+
+80
+00:05:21,150 --> 00:05:28,110
+I'll give that a value of 1 2 3 0 9 8 and then we can add on the other fields like a name I will use
+
+81
+00:05:28,110 --> 00:05:35,330
+a different name like Mike and the email from Mike which I will have as Mike an example a dot com.
+
+82
+00:05:35,450 --> 00:05:38,770
+And finally the age the age is completely optional.
+
+83
+00:05:38,810 --> 00:05:41,090
+So I could actually go ahead and leave that off.
+
+84
+00:05:41,090 --> 00:05:42,590
+This is perfectly valid.
+
+85
+00:05:42,590 --> 00:05:48,360
+I could also choose to go ahead and add it on setting the age equal to something like twenty eight.
+
+86
+00:05:48,500 --> 00:05:49,320
+And there we go.
+
+87
+00:05:49,400 --> 00:05:53,310
+We have our very first query that returns a custom type.
+
+88
+00:05:53,330 --> 00:05:57,540
+Let's go ahead and save index dot J S and actually test this out.
+
+89
+00:05:57,560 --> 00:06:03,170
+I am going to refresh the schema to get the latest updates from the server and we can see that none
+
+90
+00:06:03,170 --> 00:06:04,850
+of these queries exist anymore.
+
+91
+00:06:04,850 --> 00:06:06,650
+So let's go ahead and delete all of them.
+
+92
+00:06:06,830 --> 00:06:10,970
+And we're going to use the one and only query we actually have me.
+
+93
+00:06:11,000 --> 00:06:16,910
+We're going to set up the query but remember that this alone is not enough when we are querying a data
+
+94
+00:06:16,910 --> 00:06:17,480
+in graph.
+
+95
+00:06:17,480 --> 00:06:22,670
+Q Well we have to be specific down to the individual scalar values.
+
+96
+00:06:22,700 --> 00:06:25,190
+So when the query return to scale or value.
+
+97
+00:06:25,190 --> 00:06:26,510
+This alone would be enough.
+
+98
+00:06:26,510 --> 00:06:31,580
+We saw that with all of these examples over here in this case though he is not returning a scale or
+
+99
+00:06:31,580 --> 00:06:32,130
+value.
+
+100
+00:06:32,180 --> 00:06:39,050
+It is not returning ID float ID Boullion or string it is returning something of the type user.
+
+101
+00:06:39,080 --> 00:06:46,050
+So if we have a non scalar value we have to provide a selection set for it like we did before.
+
+102
+00:06:46,070 --> 00:06:52,640
+So we open and close our curly braces and we get down to the actual scalar values we want maybe I just
+
+103
+00:06:52,640 --> 00:06:55,370
+want the ID in which case this alone is enough.
+
+104
+00:06:55,430 --> 00:06:57,210
+I can run the query and what do I get.
+
+105
+00:06:57,230 --> 00:07:00,170
+I get my user's ID back successfully.
+
+106
+00:07:00,350 --> 00:07:06,260
+I could also choose to grab all of the other fields on me I could grab the name I could grab the email
+
+107
+00:07:06,380 --> 00:07:10,760
+and I could even grab the age whether or not it's actually something that exists.
+
+108
+00:07:11,000 --> 00:07:13,440
+If I go ahead and run this query what do I get.
+
+109
+00:07:13,520 --> 00:07:14,630
+I get my ID.
+
+110
+00:07:14,660 --> 00:07:19,580
+Mike Mike for example dot com and age all printing to the screen.
+
+111
+00:07:19,610 --> 00:07:23,050
+Now if the age was not there at all what would we get for age.
+
+112
+00:07:23,060 --> 00:07:28,970
+We would get null so I'm going to go ahead and remove age completely from the object that we return.
+
+113
+00:07:29,120 --> 00:07:31,660
+I'll save the file over inside of graft.
+
+114
+00:07:31,660 --> 00:07:32,440
+Well playground.
+
+115
+00:07:32,450 --> 00:07:39,410
+All we have to do is rerun the exact same query and this time around we successfully get age as null
+
+116
+00:07:39,590 --> 00:07:41,270
+and that is indeed correct.
+
+117
+00:07:41,270 --> 00:07:46,130
+Now if we tried to leave off one of the other properties one of the properties that actually needs to
+
+118
+00:07:46,130 --> 00:07:49,320
+be there we would get an error related to that.
+
+119
+00:07:49,340 --> 00:07:56,550
+For example if we leave off email which has been flagged as something that we have to have we are indeed
+
+120
+00:07:56,550 --> 00:07:57,900
+going to get an error.
+
+121
+00:07:57,900 --> 00:08:01,070
+I run the script excuse me I run the query and what do I get.
+
+122
+00:08:01,080 --> 00:08:08,060
+I get an error cannot return NULL for non nullable field user dot email.
+
+123
+00:08:08,070 --> 00:08:13,230
+So here we are looking at the error structure and in general the important piece to the puzzle is the
+
+124
+00:08:13,230 --> 00:08:18,600
+message the English readable message allowing you to know exactly what went wrong here it's just saying
+
+125
+00:08:18,600 --> 00:08:21,250
+that you tried to return NULL for user e-mail.
+
+126
+00:08:21,300 --> 00:08:22,410
+That's not OK.
+
+127
+00:08:22,440 --> 00:08:27,690
+So we will be able to go into our code and actually address that whether it meant adding data here or
+
+128
+00:08:27,690 --> 00:08:30,300
+removing the requirement up above.
+
+129
+00:08:30,330 --> 00:08:35,730
+For now I am going to keep the requirement and I am going to continue to send an email back resulting
+
+130
+00:08:35,790 --> 00:08:39,090
+once again in a completely valid setup.
+
+131
+00:08:39,090 --> 00:08:43,290
+Now you'll notice throughout the course I haven't been using semi-colons to terminate my javascript
+
+132
+00:08:43,290 --> 00:08:48,000
+statements So for example I don't have a semi-colon here or here or here.
+
+133
+00:08:48,090 --> 00:08:51,110
+This is all a matter of personal style choice.
+
+134
+00:08:51,180 --> 00:08:53,950
+So semi-colons are optional in javascript.
+
+135
+00:08:54,030 --> 00:08:57,160
+We can rely on automatic semi-colon insertion.
+
+136
+00:08:57,180 --> 00:09:02,310
+Sure there are some places where these semi-colons still plays a role like in the for loop for example.
+
+137
+00:09:02,370 --> 00:09:08,040
+I'm still going to set up my for a loop with a semicolon in between like the one right here but when
+
+138
+00:09:08,040 --> 00:09:13,290
+it comes to actually terminating aligns with semi-colons it's all a stylistic choice.
+
+139
+00:09:13,290 --> 00:09:15,890
+I've been on teams that force you to use semi-colons.
+
+140
+00:09:15,900 --> 00:09:21,310
+I've been on other teams that force you to not use semi-colons when they're not necessary.
+
+141
+00:09:21,450 --> 00:09:23,750
+So I'm going to be sticking with this semi-colon lists.
+
+142
+00:09:23,760 --> 00:09:27,760
+Javascript I recommend giving it a try if you've never tried it before.
+
+143
+00:09:27,780 --> 00:09:31,440
+I've been hooked on it for about a year now and I am never going back.
+
+144
+00:09:31,440 --> 00:09:31,770
+All right.
+
+145
+00:09:31,770 --> 00:09:34,500
+With all of that said let's move on to the challenge for the video.
+
+146
+00:09:34,620 --> 00:09:39,690
+What you're going to do is create a brand new custom type then you're going to set up a query and resolver
+
+147
+00:09:39,720 --> 00:09:40,580
+for that.
+
+148
+00:09:40,620 --> 00:09:44,730
+So up above I'm going to leave some comments for what I'd like you to do.
+
+149
+00:09:44,730 --> 00:09:48,800
+So step one you're going to be creating a brand new post type.
+
+150
+00:09:48,840 --> 00:09:54,270
+This is a nother type we're going to need for our blogging application and you're going to add the following
+
+151
+00:09:54,270 --> 00:10:00,480
+fields ID title body and published to this post type.
+
+152
+00:10:00,480 --> 00:10:05,760
+Now all of them should be non nullable so they should all have that exclamation mark after the actual
+
+153
+00:10:05,850 --> 00:10:07,500
+scalar type definition.
+
+154
+00:10:07,800 --> 00:10:14,340
+And we can have the ID be an ID title and body can be a string and published can be a boolean.
+
+155
+00:10:14,340 --> 00:10:19,660
+Next up you're going to define a post query that returns a single post much like we did for me.
+
+156
+00:10:19,680 --> 00:10:21,850
+Returning a single user right here.
+
+157
+00:10:22,140 --> 00:10:23,110
+Step Five.
+
+158
+00:10:23,120 --> 00:10:30,000
+Excuse me for is to set up a resolver method to return some post data just like we did for me down below.
+
+159
+00:10:30,150 --> 00:10:34,220
+So you want to return an object that has all of these fields on it.
+
+160
+00:10:34,230 --> 00:10:36,930
+Step 5 is to actually test the query out.
+
+161
+00:10:36,990 --> 00:10:42,840
+So make sure to save your work head over into graft playground and make sure you can query for a post
+
+162
+00:10:42,870 --> 00:10:45,600
+and get some of the post fields back.
+
+163
+00:10:45,600 --> 00:10:48,330
+So take some time to knock this one out when you're done.
+
+164
+00:10:48,330 --> 00:10:49,670
+Make sure to test your work.
+
+165
+00:10:49,800 --> 00:10:53,310
+Pause the video when you're done come back and click play
+
+166
+00:10:56,870 --> 00:10:57,760
+how that one go.
+
+167
+00:10:57,770 --> 00:11:05,680
+I'm going to kick things off with my custom post type definitions or right here type upper case P post.
+
+168
+00:11:05,690 --> 00:11:10,880
+We then set up our curly braces and this is where we define all of the fields that make up a post.
+
+169
+00:11:10,880 --> 00:11:14,530
+First one Id almost all of the custom types we create.
+
+170
+00:11:14,540 --> 00:11:19,520
+Well actually not almost literally all of them are going to have an ID field they're going to have a
+
+171
+00:11:19,520 --> 00:11:26,060
+unique identifier so right here of the type ID and this one will be marked as non knowable.
+
+172
+00:11:26,060 --> 00:11:28,540
+Next up on our list we have the post's title.
+
+173
+00:11:28,580 --> 00:11:30,180
+A non at nullable string.
+
+174
+00:11:30,320 --> 00:11:32,630
+And the Post's body of the same type.
+
+175
+00:11:32,630 --> 00:11:39,080
+A non nullable string and last up we have whether or not the post is published that is via the published
+
+176
+00:11:39,080 --> 00:11:39,780
+property.
+
+177
+00:11:39,830 --> 00:11:42,890
+A non nullable boolean value.
+
+178
+00:11:42,890 --> 00:11:43,670
+Excellent.
+
+179
+00:11:43,820 --> 00:11:46,880
+So we have our post type definition all set up.
+
+180
+00:11:46,880 --> 00:11:49,710
+Now it's time to actually use it to do that.
+
+181
+00:11:49,730 --> 00:11:56,900
+We're going to set up a new query that was Step 3 so I am going to set up a query or for post never
+
+182
+00:11:56,900 --> 00:12:03,300
+turns a single post so I have to reference the custom type by name and I will make sure that it is not
+
+183
+00:12:03,300 --> 00:12:03,850
+nullable.
+
+184
+00:12:03,860 --> 00:12:06,170
+So I always get a post back.
+
+185
+00:12:06,170 --> 00:12:12,740
+Step 4 is to set up that resolver method to return some post data so down below.
+
+186
+00:12:12,740 --> 00:12:15,400
+We have to set up a resolver for all of our queries.
+
+187
+00:12:15,410 --> 00:12:16,790
+We don't have one for post.
+
+188
+00:12:16,790 --> 00:12:21,540
+Let's go ahead and create it right after the closing curly brace for the MI method.
+
+189
+00:12:21,650 --> 00:12:22,600
+I'll add a comma.
+
+190
+00:12:22,670 --> 00:12:26,080
+Move to the next line and set up a another method for post.
+
+191
+00:12:26,240 --> 00:12:29,660
+Once again ignoring the fact that there are arguments that get passed here.
+
+192
+00:12:29,690 --> 00:12:31,290
+But we're just not using them.
+
+193
+00:12:31,310 --> 00:12:34,720
+We'll actually start exploring those in the very next video.
+
+194
+00:12:34,790 --> 00:12:36,570
+For now though what do we have to do.
+
+195
+00:12:36,620 --> 00:12:42,600
+We have to return an object and this object needs to have all of those fields.
+
+196
+00:12:42,610 --> 00:12:44,030
+So we need an ID.
+
+197
+00:12:44,050 --> 00:12:47,500
+I'll use the idea of 0 9 2.
+
+198
+00:12:47,650 --> 00:12:53,080
+We need a title so title could be something like Cual 101.
+
+199
+00:12:53,170 --> 00:12:55,080
+A post about how to get started with Graph.
+
+200
+00:12:55,120 --> 00:12:56,990
+Well we need a body.
+
+201
+00:12:57,040 --> 00:12:59,760
+The body could be a string that's just completely empty.
+
+202
+00:12:59,770 --> 00:13:02,420
+Maybe I haven't started working on the post yet.
+
+203
+00:13:02,440 --> 00:13:07,660
+And lastly whether or not the post is published via the published property I don't have a body for this
+
+204
+00:13:07,660 --> 00:13:09,580
+one so will say it's not published.
+
+205
+00:13:09,580 --> 00:13:12,670
+I'll get the published value to false.
+
+206
+00:13:12,700 --> 00:13:19,450
+Now that we've successfully returned the information necessary we can actually save indexed J.S. refresh
+
+207
+00:13:19,480 --> 00:13:24,060
+the schema engraft UL playground and make a query for the post.
+
+208
+00:13:24,070 --> 00:13:27,100
+So right here we see it along side of me.
+
+209
+00:13:27,160 --> 00:13:31,370
+I'm going to tack it on after me trying to grab a post.
+
+210
+00:13:31,420 --> 00:13:34,840
+Remember that post does not send back a scalar type.
+
+211
+00:13:34,840 --> 00:13:37,450
+So we have to provide our selection set.
+
+212
+00:13:37,540 --> 00:13:40,810
+What scalar fields do I want from the post.
+
+213
+00:13:40,900 --> 00:13:48,010
+I want the ID I want the title I want the body and I want whether or not the post is published.
+
+214
+00:13:48,010 --> 00:13:49,120
+Perfect.
+
+215
+00:13:49,180 --> 00:13:54,100
+I'm going to collapse the schema panel run this query and what do I get.
+
+216
+00:13:54,140 --> 00:13:56,690
+I get all of the expected data on data.
+
+217
+00:13:56,690 --> 00:13:59,160
+I have me and post inside of post.
+
+218
+00:13:59,170 --> 00:14:05,930
+I have the correct values for all of the four fields requested if I chose to not access one like body
+
+219
+00:14:05,960 --> 00:14:06,890
+for example.
+
+220
+00:14:06,920 --> 00:14:08,020
+That would be gone.
+
+221
+00:14:08,030 --> 00:14:14,420
+I would just get the 3i actually accessed my ID my title and whether or not the post is published.
+
+222
+00:14:14,480 --> 00:14:20,240
+So at this point we can see how we can start to model our application in terms of these custom types
+
+223
+00:14:20,450 --> 00:14:23,720
+but there are still a lot more questions we need to answer.
+
+224
+00:14:23,720 --> 00:14:26,280
+For example how do I work with lists.
+
+225
+00:14:26,360 --> 00:14:28,570
+So how do I work with an array of posts.
+
+226
+00:14:28,580 --> 00:14:31,120
+How do I set up relationships between these.
+
+227
+00:14:31,140 --> 00:14:34,760
+A user owns posts and a Post has an author.
+
+228
+00:14:34,790 --> 00:14:37,700
+All of that is coming up in the next several videos.
+
+229
+00:14:37,700 --> 00:14:41,770
+We're going to continue to explore these custom type definitions.
+
+230
+00:14:41,840 --> 00:14:43,440
+For now though we are all done.
+
+231
+00:14:43,460 --> 00:14:46,600
+I'm going to remove the challenge comments from up above.
+
+232
+00:14:46,610 --> 00:14:49,850
+Save the file and I will see you in the next one.
+

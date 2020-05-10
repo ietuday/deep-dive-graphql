@@ -1,0 +1,752 @@
+1
+00:00:00,210 --> 00:00:04,700
+In this video we're going to turn our attention back towards actually creating mutations.
+
+2
+00:00:04,800 --> 00:00:08,430
+We're going to focus on creating mutations for updating data.
+
+3
+00:00:08,430 --> 00:00:14,490
+We need three in this video we'll be creating a mutation for updating our users in the next video will
+
+4
+00:00:14,490 --> 00:00:18,640
+be creating mutations for updating posts and comments.
+
+5
+00:00:18,690 --> 00:00:23,700
+So to kick things off let's go ahead and close all of the open files and just crack open the files we're
+
+6
+00:00:23,700 --> 00:00:25,210
+actually going to use.
+
+7
+00:00:25,290 --> 00:00:26,720
+I'm going to open mutation.
+
+8
+00:00:26,750 --> 00:00:27,540
+J S.
+
+9
+00:00:27,690 --> 00:00:34,950
+I'm going to open schema graft UL and also keep D-B dot J.S. open so it can refer to the actual object
+
+10
+00:00:34,950 --> 00:00:37,110
+structure in case we forget.
+
+11
+00:00:37,170 --> 00:00:42,590
+Now as always we're still going to start by updating our type definitions just because things are in
+
+12
+00:00:42,600 --> 00:00:45,860
+a different file doesn't mean we don't follow the same process.
+
+13
+00:00:45,870 --> 00:00:51,360
+We're still going to define the mutation first then we'll define the resolver for that mutation then
+
+14
+00:00:51,420 --> 00:00:53,760
+we'll actually test things out.
+
+15
+00:00:53,760 --> 00:00:58,020
+I'm going to go ahead and create our mutation right here and I'll call it something like.
+
+16
+00:00:58,020 --> 00:01:02,130
+Update user will set up the arguments in just a moment.
+
+17
+00:01:02,160 --> 00:01:08,010
+And this one like with our other two user related mutations is going to return a user is going to return
+
+18
+00:01:08,010 --> 00:01:11,890
+the user with those updated properties in place.
+
+19
+00:01:11,940 --> 00:01:18,420
+Now it comes to the actual arguments for update user and we're actually going to have to the first argument
+
+20
+00:01:18,450 --> 00:01:22,230
+is going to be the ID of the user you're trying to update.
+
+21
+00:01:22,380 --> 00:01:27,510
+And the second argument is going to be an object with all of the fields that you can actually update
+
+22
+00:01:27,550 --> 00:01:29,190
+and all of them are going to be optional.
+
+23
+00:01:29,190 --> 00:01:32,670
+So when you're updating a user you could choose to update their name.
+
+24
+00:01:32,670 --> 00:01:37,560
+Maybe you want to just update the email or the age or maybe you want to update all three.
+
+25
+00:01:37,560 --> 00:01:39,580
+So let's go ahead and actually set that up.
+
+26
+00:01:39,600 --> 00:01:43,230
+So this first argument ID is just going to have a scalar type.
+
+27
+00:01:43,230 --> 00:01:44,720
+Very easy to set up.
+
+28
+00:01:44,790 --> 00:01:50,310
+The second one though we're going to call something like data and the type for this is going to be one
+
+29
+00:01:50,310 --> 00:01:52,350
+of our custom input types.
+
+30
+00:01:52,350 --> 00:01:58,840
+Now unfortunately we can't reuse create user input exactly because name and email are both required.
+
+31
+00:01:58,950 --> 00:02:03,710
+If someone wants to update their age I don't want to force them to also update their name and email.
+
+32
+00:02:03,750 --> 00:02:06,530
+So we're going to modify this slightly below.
+
+33
+00:02:06,690 --> 00:02:09,650
+We're going to create a new input.
+
+34
+00:02:09,750 --> 00:02:15,600
+I'm going to call this one update user input and what we will have the same three fields all are going
+
+35
+00:02:15,600 --> 00:02:16,930
+to be completely optional.
+
+36
+00:02:17,040 --> 00:02:21,090
+So when you're updating share you could update the name if you do it's got to be a string.
+
+37
+00:02:21,090 --> 00:02:22,540
+If not that's fine too.
+
+38
+00:02:22,680 --> 00:02:25,610
+Same thing is true with e-mail.
+
+39
+00:02:25,660 --> 00:02:29,610
+And lastly of course with age which is always optional anyways.
+
+40
+00:02:29,860 --> 00:02:33,720
+So now we can actually use this input type as our type for data.
+
+41
+00:02:33,760 --> 00:02:41,330
+So right here we will reference that update user input making that a and nullable type.
+
+42
+00:02:41,380 --> 00:02:44,620
+So now we have this update user input mutation in place.
+
+43
+00:02:44,620 --> 00:02:47,180
+We can now go ahead and actually move to the mutation.
+
+44
+00:02:47,230 --> 00:02:51,520
+J.S. biol an anti resolver method for it over here.
+
+45
+00:02:51,520 --> 00:02:54,210
+I'm going to add that just below where we delete a user.
+
+46
+00:02:54,340 --> 00:02:58,770
+So right here we have create user then delete user just to keep things organized.
+
+47
+00:02:58,780 --> 00:03:04,660
+I will add update user right here and we're going to have all four of those arguments like we have for
+
+48
+00:03:04,690 --> 00:03:06,400
+every one of our resolver functions.
+
+49
+00:03:06,400 --> 00:03:13,540
+We have parent we have args which is going to be useful that contains both the ID and our data argument.
+
+50
+00:03:13,540 --> 00:03:17,850
+Then we have the context argument which we can just restructure to get the database.
+
+51
+00:03:17,860 --> 00:03:19,870
+And finally we have info.
+
+52
+00:03:19,870 --> 00:03:25,150
+The only one of these three arguments we haven't discussed at all but which will become very important
+
+53
+00:03:25,150 --> 00:03:29,260
+in just a couple of sections so now is our job to do a couple of things.
+
+54
+00:03:29,260 --> 00:03:35,780
+First up I want to locate that user so we can actually update things if we don't find a user with ID.
+
+55
+00:03:35,860 --> 00:03:41,200
+We're going to throw an error saying that the user you're trying to update does not exist to start we
+
+56
+00:03:41,200 --> 00:03:46,900
+can create a user variable where we're going to store the user we find if any and to grab the user we
+
+57
+00:03:46,900 --> 00:03:49,540
+will be calling find on D-B dot users.
+
+58
+00:03:49,540 --> 00:03:52,840
+So DB users dot find passing in our callback.
+
+59
+00:03:52,990 --> 00:03:56,590
+We get the individual user we return true when we find a match.
+
+60
+00:03:56,620 --> 00:04:02,270
+So right here that would be when the user's ID equals our args ID.
+
+61
+00:04:02,320 --> 00:04:03,450
+Excellent.
+
+62
+00:04:03,460 --> 00:04:08,200
+Now I've seen people create resolver functions where they never touch args and just reference it like
+
+63
+00:04:08,200 --> 00:04:08,530
+this.
+
+64
+00:04:08,530 --> 00:04:09,870
+Armscye ID.
+
+65
+00:04:09,940 --> 00:04:15,550
+I've also worked on projects where they do structure args so I might grab ID directly off of it.
+
+66
+00:04:15,580 --> 00:04:17,940
+I could also grab data if I wanted to.
+
+67
+00:04:17,950 --> 00:04:23,130
+In reality you can really go either way it's personally up to you it's a stylistic choice.
+
+68
+00:04:23,130 --> 00:04:25,090
+There is no right or wrong answer.
+
+69
+00:04:25,090 --> 00:04:30,660
+I've also seen folks leave ARGs in place like this and then deep structure it down below.
+
+70
+00:04:30,790 --> 00:04:32,330
+So I will create a contest.
+
+71
+00:04:32,590 --> 00:04:36,670
+I will structure both ID and data from args.
+
+72
+00:04:36,670 --> 00:04:39,130
+This works just fine as well.
+
+73
+00:04:39,130 --> 00:04:40,160
+There are three options.
+
+74
+00:04:40,160 --> 00:04:42,890
+Fauria and they're all perfectly fine.
+
+75
+00:04:43,060 --> 00:04:46,180
+Just to switch things up and explore other ways we can solve problems.
+
+76
+00:04:46,210 --> 00:04:47,830
+I'm going to stick with this approach.
+
+77
+00:04:47,880 --> 00:04:53,620
+So right here I will reference ID directly instead of needing to grab it off of args just making life
+
+78
+00:04:53,620 --> 00:04:55,150
+a little bit easier.
+
+79
+00:04:55,150 --> 00:04:58,100
+Now what we can do is check if there was no users.
+
+80
+00:04:58,120 --> 00:05:01,830
+If we did not find a match if no user what are we going to do.
+
+81
+00:05:01,840 --> 00:05:04,190
+As always we're just going to throw an error.
+
+82
+00:05:04,210 --> 00:05:05,700
+So throw new error.
+
+83
+00:05:05,920 --> 00:05:12,580
+User not found the exact message we printed when we didn't find a user when we tried to create a post
+
+84
+00:05:12,610 --> 00:05:16,180
+or when we tried to delete a user up above.
+
+85
+00:05:16,180 --> 00:05:21,040
+So now everything down below is only going to run when we actually found a user to update.
+
+86
+00:05:21,040 --> 00:05:25,810
+The next thing we're going to do is look at data to see which properties they actually want to update
+
+87
+00:05:25,840 --> 00:05:27,050
+and we're going to update them.
+
+88
+00:05:27,130 --> 00:05:34,210
+We'll start with the e-mail so if and then we're going to check if the type of data dot e-mail is indeed
+
+89
+00:05:34,240 --> 00:05:35,980
+equal to a string.
+
+90
+00:05:35,980 --> 00:05:40,120
+So we're going to make sure that it was actually provided and if it was provided the code inside of
+
+91
+00:05:40,120 --> 00:05:43,900
+here will make sure that the user object gets updated correctly.
+
+92
+00:05:43,900 --> 00:05:49,150
+Now for our other properties name and age there's nothing special we have to do but for email we are
+
+93
+00:05:49,150 --> 00:05:55,040
+going to verify that there is no other user that has the e-mail they're trying to switch to.
+
+94
+00:05:55,060 --> 00:06:00,190
+So to do that and we're going to add a little bit of duplicate code and we will clean this up very shortly.
+
+95
+00:06:00,220 --> 00:06:03,070
+So for the moment let's go ahead and check if the e-mail is taken.
+
+96
+00:06:03,070 --> 00:06:09,990
+Konst e-mail taken all I'm going to do is iterate over all of my users that's D-B dot users and I'm
+
+97
+00:06:10,030 --> 00:06:15,830
+going to use some to figure out if at least one of those users has that e-mail.
+
+98
+00:06:15,850 --> 00:06:18,430
+So right here we have our callback function.
+
+99
+00:06:18,460 --> 00:06:24,160
+We get that user and we're going to return true saying that the e-mail is taken if the users e-mail
+
+100
+00:06:24,400 --> 00:06:29,110
+equals data email the email they're trying to switch to.
+
+101
+00:06:29,460 --> 00:06:36,730
+Now we can add a little bit of conditional logic if e-mail taken is a truthy value so e-mail taken is
+
+102
+00:06:36,730 --> 00:06:38,580
+either true or false.
+
+103
+00:06:38,710 --> 00:06:39,700
+What are we going to do.
+
+104
+00:06:39,700 --> 00:06:42,760
+We're going to throw an error saying you cannot use that e-mail.
+
+105
+00:06:42,760 --> 00:06:50,690
+So right here throw new error I'll just say something along the lines of e-mail taken or email in use.
+
+106
+00:06:50,750 --> 00:06:55,070
+Now the code down below this will only run if there was no match.
+
+107
+00:06:55,070 --> 00:07:00,110
+So if the e-mail is not taken and in that case we're just going to set users on e-mail equal to data
+
+108
+00:07:00,150 --> 00:07:01,670
+dot e-mail.
+
+109
+00:07:01,790 --> 00:07:06,180
+Now we can move on to our other two properties which will be much easier to set up.
+
+110
+00:07:06,320 --> 00:07:07,760
+Let's do the name next.
+
+111
+00:07:07,760 --> 00:07:15,680
+So if type of data dot name is indeed equal to a string then we know it was provided and we can go ahead
+
+112
+00:07:15,680 --> 00:07:16,730
+and update it.
+
+113
+00:07:16,760 --> 00:07:20,780
+And for this one there is no additional verification that we actually have to go through.
+
+114
+00:07:20,870 --> 00:07:26,650
+All we need to do is set the users name property equal to data that name sir.
+
+115
+00:07:26,680 --> 00:07:30,690
+Here user name equals data dot name.
+
+116
+00:07:30,710 --> 00:07:36,440
+That brings us to the final property that you can update on the user which is indeed the age and with
+
+117
+00:07:36,440 --> 00:07:37,200
+the age.
+
+118
+00:07:37,220 --> 00:07:40,030
+There is another consideration to take into account.
+
+119
+00:07:40,310 --> 00:07:47,360
+Age can be null so we do want the user to be able to set it to either a number like 27 or 54 but we
+
+120
+00:07:47,360 --> 00:07:50,210
+also want them to be able to clear it setting an equal to null.
+
+121
+00:07:50,210 --> 00:07:51,290
+Both are valid.
+
+122
+00:07:51,350 --> 00:07:54,420
+So we're actually going to change our conditional logic a little bit.
+
+123
+00:07:54,440 --> 00:07:59,450
+We're still going to have an if statement and when this statement runs I'm still going to set user data
+
+124
+00:07:59,510 --> 00:08:02,850
+age equal to the data age value.
+
+125
+00:08:02,870 --> 00:08:05,010
+The difference is exactly when we do that.
+
+126
+00:08:05,120 --> 00:08:11,690
+So right here the condition of logic is checking the type of data age and only running this code when
+
+127
+00:08:11,690 --> 00:08:14,290
+it is not equal to undefined.
+
+128
+00:08:14,480 --> 00:08:21,140
+So if I leave age off of the data argument we're not going to do anything if I set it equal to null
+
+129
+00:08:21,170 --> 00:08:26,320
+or a number though this code will actually run updating the age appropriately.
+
+130
+00:08:26,330 --> 00:08:31,010
+Now you might say well could an ice set age equal to something other than an integer and null like a
+
+131
+00:08:31,010 --> 00:08:31,410
+string.
+
+132
+00:08:31,410 --> 00:08:36,980
+And the answer is no because the schema is going to invalidate that request before this resolver ever
+
+133
+00:08:37,010 --> 00:08:38,360
+even runs.
+
+134
+00:08:38,570 --> 00:08:43,490
+Now down below all we have to do is return the user and there we go.
+
+135
+00:08:43,490 --> 00:08:45,660
+We now have our update user mutation.
+
+136
+00:08:45,710 --> 00:08:46,640
+All done.
+
+137
+00:08:46,640 --> 00:08:49,240
+We have our actual mutation definition in typedef.
+
+138
+00:08:49,280 --> 00:08:52,910
+And we've created and filled out our resolver method.
+
+139
+00:08:52,970 --> 00:08:57,270
+The last thing to do is to actually update one of our users over NDB.
+
+140
+00:08:57,330 --> 00:09:01,630
+J.S. I'm going to go ahead and update this first user with the idea of one.
+
+141
+00:09:01,790 --> 00:09:07,010
+We'll run a few different updates updating various properties to make sure the method is actually working
+
+142
+00:09:07,220 --> 00:09:08,270
+as expected.
+
+143
+00:09:08,270 --> 00:09:12,890
+I'm going to switch over to Grath playground and we're going to create a nother tab.
+
+144
+00:09:12,890 --> 00:09:17,720
+Now if you're getting a little concerned about the vast number of times we have a little bit later in
+
+145
+00:09:17,720 --> 00:09:21,580
+the class we'll explore another tool that allows us to stay a bit more organized.
+
+146
+00:09:21,590 --> 00:09:23,580
+But for the moment this is still going to work.
+
+147
+00:09:23,750 --> 00:09:26,900
+I'm going to create a new tab and we'll run our update mutation.
+
+148
+00:09:26,900 --> 00:09:33,080
+So a new mutation we are going to use the new one we just created update user.
+
+149
+00:09:33,130 --> 00:09:34,390
+Now currently that's invalid.
+
+150
+00:09:34,390 --> 00:09:39,160
+If we refresh the schema it will become valid and we're going to provide the arguments it expects.
+
+151
+00:09:39,160 --> 00:09:41,920
+And we're also going to provide our selection set.
+
+152
+00:09:41,920 --> 00:09:48,820
+I'm going to grab the ID for the user the name the email and the age all of its scalar values.
+
+153
+00:09:48,820 --> 00:09:50,620
+Now we can choose to update it.
+
+154
+00:09:50,620 --> 00:09:53,400
+So remember there are two arguments we have our ID.
+
+155
+00:09:53,650 --> 00:09:59,620
+I'm going to update the user with the idea of one and we have our data which is an object on here we
+
+156
+00:09:59,620 --> 00:10:01,870
+can provide whatever fields we want.
+
+157
+00:10:01,960 --> 00:10:06,880
+Now currently we have a valid mutation I don't have to provide any of the fields in data.
+
+158
+00:10:06,910 --> 00:10:07,690
+I could run this.
+
+159
+00:10:07,690 --> 00:10:09,550
+And what happens well nothing happens.
+
+160
+00:10:09,550 --> 00:10:16,150
+Nothing gets updated but I get back is the exact same user that exists over here in the static data.
+
+161
+00:10:16,150 --> 00:10:19,570
+What's cool though is now we can start changing things so I'm going to change the name.
+
+162
+00:10:19,570 --> 00:10:24,430
+For example I will change the name to my full name and I'll also wipe the h.
+
+163
+00:10:24,430 --> 00:10:26,950
+So I'll set age equal to.
+
+164
+00:10:27,100 --> 00:10:27,800
+No.
+
+165
+00:10:28,090 --> 00:10:31,540
+Now if we run this new operation we can see we have those changes.
+
+166
+00:10:31,630 --> 00:10:35,830
+The users name is now an jimmied and their age has been cleared.
+
+167
+00:10:35,980 --> 00:10:41,600
+And we would see the exact same data if we ran one of our other queries like the users query.
+
+168
+00:10:41,800 --> 00:10:46,180
+Here I'm going to query for all of the users our first user has those changes.
+
+169
+00:10:46,180 --> 00:10:53,770
+We can see the name right here and jimmied and if I did add email and age in to the query what do we
+
+170
+00:10:53,770 --> 00:10:54,010
+get.
+
+171
+00:10:54,010 --> 00:10:57,590
+We get those back with the correct values age being NULL.
+
+172
+00:10:57,910 --> 00:11:01,740
+So now we have our update user mutation all set up.
+
+173
+00:11:01,810 --> 00:11:04,120
+We can update whatever we want whenever we want.
+
+174
+00:11:04,180 --> 00:11:08,350
+Let's go ahead and wrap testing up by trying to change the e-mail subject here.
+
+175
+00:11:08,380 --> 00:11:11,950
+I'm going to go ahead and change the e-mail to something like.
+
+176
+00:11:11,950 --> 00:11:14,280
+Test an example dot com.
+
+177
+00:11:14,290 --> 00:11:17,510
+This should work since no other user has that e-mail.
+
+178
+00:11:17,620 --> 00:11:22,900
+But if I tried to change it to something like Mike at example dot com it should fail since that email
+
+179
+00:11:22,900 --> 00:11:23,810
+is taken.
+
+180
+00:11:23,920 --> 00:11:28,840
+I'm going to switch it over to Mike an example dot com rerun our operation and what happens.
+
+181
+00:11:28,840 --> 00:11:30,820
+We get our error which is correct.
+
+182
+00:11:30,820 --> 00:11:33,970
+We get e-mail taken printing to the screen.
+
+183
+00:11:33,970 --> 00:11:37,210
+So there we go update user is indeed working as expected.
+
+184
+00:11:37,210 --> 00:11:41,280
+We have one of our three update mutations in place.
+
+185
+00:11:41,320 --> 00:11:46,120
+Now let's go into the next video where we're going to set up the other two including a challenge where
+
+186
+00:11:46,120 --> 00:11:48,340
+you're going to have to use what you've learned here.
+
+187
+00:11:48,340 --> 00:11:49,410
+I'm excited to get to that.
+
+188
+00:11:49,450 --> 00:11:51,820
+So let's jump right in to the next one.
+

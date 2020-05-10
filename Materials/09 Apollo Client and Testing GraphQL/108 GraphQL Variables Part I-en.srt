@@ -1,0 +1,1088 @@
+1
+00:00:00,210 --> 00:00:06,000
+In this video you're going to learn about you l variables which is going to give us a way to reuse and
+
+2
+00:00:06,000 --> 00:00:09,970
+better define our graft operations so to talk about this.
+
+3
+00:00:10,050 --> 00:00:12,900
+Let's head over to the user test file right here.
+
+4
+00:00:12,900 --> 00:00:16,180
+What do we define we define a create user mutation.
+
+5
+00:00:16,200 --> 00:00:17,220
+What's the problem.
+
+6
+00:00:17,220 --> 00:00:21,140
+All of the data that we're setting up it's hard coded right inside.
+
+7
+00:00:21,150 --> 00:00:26,410
+So if I wanted to create a user with different values I would have to define this over again.
+
+8
+00:00:26,520 --> 00:00:32,130
+And that's exactly what I do down below in a separate test case should not sign up on a user with an
+
+9
+00:00:32,160 --> 00:00:33,450
+invalid password.
+
+10
+00:00:33,450 --> 00:00:39,390
+Down here I define the mutation once again passing in the other data values.
+
+11
+00:00:39,390 --> 00:00:42,530
+So this is obviously a problem sends out its core.
+
+12
+00:00:42,530 --> 00:00:45,170
+Both are using the create user mutation.
+
+13
+00:00:45,300 --> 00:00:51,540
+It would be nice if there was a built in way to pass in the values we wanted to use and the answer is
+
+14
+00:00:51,630 --> 00:00:54,060
+there is now to start exploring this.
+
+15
+00:00:54,060 --> 00:00:59,170
+We can actually avoid our code altogether and head over to graft Well playground.
+
+16
+00:00:59,190 --> 00:01:04,650
+So what I'm going to do for the moment is shut down our test suite and start up our dev server.
+
+17
+00:01:04,650 --> 00:01:12,180
+So NPM run dev once the dev server is up we're going to head over to local host 4000 where we fired
+
+18
+00:01:12,180 --> 00:01:14,840
+off so many operations before.
+
+19
+00:01:14,850 --> 00:01:19,620
+Now the goal here is to work with an operation that does define some dynamic values.
+
+20
+00:01:19,710 --> 00:01:22,990
+So I'm going to use something like create user right here.
+
+21
+00:01:23,010 --> 00:01:27,440
+For example we create a user and we define that data right in line.
+
+22
+00:01:27,450 --> 00:01:30,180
+Instead we're going to use variables.
+
+23
+00:01:30,180 --> 00:01:35,150
+Now you might have noticed down below along side of HTP hatters which we have used.
+
+24
+00:01:35,280 --> 00:01:42,330
+We also have a variable's tab and this is where we can define the specific values we want to use like
+
+25
+00:01:42,330 --> 00:01:47,440
+a name value of G-S and a password value of read 1 2 3 4 5.
+
+26
+00:01:47,490 --> 00:01:49,710
+Now there are three steps to getting this done.
+
+27
+00:01:49,710 --> 00:01:54,540
+First up we have to define all variables that a given operation should support.
+
+28
+00:01:54,540 --> 00:01:59,600
+This includes their name and their type that's going to end up happening right here on line 1.
+
+29
+00:01:59,880 --> 00:02:03,430
+Then we're going to actually pass in values for those variables.
+
+30
+00:02:03,450 --> 00:02:08,250
+That's going to happen down here and we'll learn how to pass in variables from our code in a little
+
+31
+00:02:08,250 --> 00:02:09,220
+bit as well.
+
+32
+00:02:09,240 --> 00:02:10,910
+And then finally we're going to use it.
+
+33
+00:02:10,950 --> 00:02:14,790
+So we're going to use it right here where we currently have hard coded data.
+
+34
+00:02:14,790 --> 00:02:17,780
+So define it assign it and use it.
+
+35
+00:02:17,910 --> 00:02:23,040
+Let's go ahead and start by defining the variables that this given operation should support.
+
+36
+00:02:23,070 --> 00:02:27,080
+Now right here we can set those up using a set of parentheses.
+
+37
+00:02:27,150 --> 00:02:30,260
+We can then list out all of the variables we want to support.
+
+38
+00:02:30,360 --> 00:02:32,640
+Let's go ahead and start with just one.
+
+39
+00:02:32,760 --> 00:02:37,110
+We're going to have a variable that's going to store the name for the user.
+
+40
+00:02:37,110 --> 00:02:42,930
+We're going to create now all variables engraft QOL are prefixed with a dollar sign.
+
+41
+00:02:42,930 --> 00:02:47,980
+So if I wanted the variable name it would actually be a dollar sign name.
+
+42
+00:02:48,000 --> 00:02:53,720
+I could also have something like Dollar Sign age or dollar sign amount or dollar sign whatever.
+
+43
+00:02:53,730 --> 00:02:59,050
+In this case we're creating a variable for the name so dollar sign name it seems appropriate.
+
+44
+00:02:59,100 --> 00:03:04,920
+It could be called anything the name here is in no way associated with the name down below.
+
+45
+00:03:05,250 --> 00:03:09,720
+Now for all of these variables we also have to define the type we're expecting.
+
+46
+00:03:09,720 --> 00:03:16,500
+So we have access to all of our standard graphical types any type we can use in our application.
+
+47
+00:03:16,560 --> 00:03:22,500
+In this case it could be an integer or a Boolean or a float but in actuality we want a string here.
+
+48
+00:03:22,500 --> 00:03:27,350
+And I'm also going to mark that as non nullable meaning it needs to be provided.
+
+49
+00:03:27,390 --> 00:03:33,270
+Now we have the name of a variable but if I over over that you can see that variable name is never used.
+
+50
+00:03:33,270 --> 00:03:34,700
+That's creating an error.
+
+51
+00:03:34,860 --> 00:03:37,470
+We can fix that by getting rid of the string.
+
+52
+00:03:37,490 --> 00:03:39,150
+Jess down below.
+
+53
+00:03:39,150 --> 00:03:44,160
+So I'm going to remove the string as well as the quotes but I will leave the colon and the comma in
+
+54
+00:03:44,160 --> 00:03:48,310
+place and we're going to reference the variable by its name right here.
+
+55
+00:03:48,360 --> 00:03:51,040
+Dollar Sign name perfect.
+
+56
+00:03:51,060 --> 00:03:57,180
+So currently we have defined the variable we haven't assigned it a value yet and we have used it down
+
+57
+00:03:57,180 --> 00:03:57,800
+below.
+
+58
+00:03:57,900 --> 00:04:01,770
+Let's go ahead and actually assign a value to that name variable.
+
+59
+00:04:01,770 --> 00:04:06,210
+So right here we're going to set up an object key value pairs.
+
+60
+00:04:06,210 --> 00:04:12,720
+The key being the variable where assigning a value to and the value being the value for the variable.
+
+61
+00:04:12,720 --> 00:04:16,170
+Now it's important to note we leave the dollar sign off down below.
+
+62
+00:04:16,230 --> 00:04:22,680
+So name is going to end up working with this variable right here prefixing them with the dollar sign
+
+63
+00:04:22,680 --> 00:04:25,790
+that's something we only do in our graph Cuil code.
+
+64
+00:04:25,800 --> 00:04:28,020
+Now what value do we want to use for name we'll.
+
+65
+00:04:28,020 --> 00:04:31,010
+I'll go ahead and use something like Gunther.
+
+66
+00:04:31,100 --> 00:04:37,550
+So now we have a fresh name that is no longer in line we have extracted that into a variable.
+
+67
+00:04:37,670 --> 00:04:43,980
+And since the e-mail is already taken I'm going to go ahead and swap that out for something like Gunther
+
+68
+00:04:44,000 --> 00:04:45,490
+an example dotcom.
+
+69
+00:04:45,770 --> 00:04:48,380
+Let's go ahead and see if our variable works.
+
+70
+00:04:48,380 --> 00:04:52,670
+I'm going to knock that out by just clicking that play button and taking a look at the data that we
+
+71
+00:04:52,670 --> 00:04:53,850
+get back right here.
+
+72
+00:04:53,930 --> 00:04:55,400
+What do we get back for name.
+
+73
+00:04:55,400 --> 00:05:01,190
+We get back the value Gunther the exact value we passed in down below.
+
+74
+00:05:01,190 --> 00:05:04,970
+Now that we have this in place let's take things one step further.
+
+75
+00:05:05,030 --> 00:05:06,960
+We're going to pass in all of the data.
+
+76
+00:05:06,980 --> 00:05:10,690
+The name of the e-mail and the password using variables.
+
+77
+00:05:10,700 --> 00:05:16,640
+Now when it comes to the types that we use up above for our variable definitions and these are not limited
+
+78
+00:05:16,640 --> 00:05:22,280
+to just these scalar types we can actually reference any type that we ended up creating as well.
+
+79
+00:05:22,280 --> 00:05:26,530
+So over in our application let's crack open the source directory and open schema.
+
+80
+00:05:26,550 --> 00:05:27,710
+Dom Graff you Al.
+
+81
+00:05:27,710 --> 00:05:29,950
+Just to jog our memories down below.
+
+82
+00:05:30,110 --> 00:05:32,440
+We created a whole bunch of different types.
+
+83
+00:05:32,450 --> 00:05:36,820
+These can be used as the type for a given variable.
+
+84
+00:05:36,830 --> 00:05:38,940
+Now do you remember the create user mutation.
+
+85
+00:05:38,940 --> 00:05:45,020
+Well it's defined right here and we have the type of data set to create user input.
+
+86
+00:05:45,020 --> 00:05:51,740
+We can actually use create user input inside of graph Q L playground or inside of our test case as we'll
+
+87
+00:05:51,740 --> 00:05:53,020
+see in a little bit.
+
+88
+00:05:53,090 --> 00:05:56,330
+So we don't have to pass in three different variables.
+
+89
+00:05:56,330 --> 00:05:57,900
+We can just pass in the one.
+
+90
+00:05:58,190 --> 00:06:04,490
+So right over here we are going to get rid of name and we're going to create a variable like data and
+
+91
+00:06:04,490 --> 00:06:07,850
+then we're going to get its type from our definitions.
+
+92
+00:06:07,850 --> 00:06:09,660
+We're going to use create user input.
+
+93
+00:06:09,680 --> 00:06:13,650
+So right here that's going to be create user input.
+
+94
+00:06:13,790 --> 00:06:18,150
+We'll leave that as non-global making sure that it is indeed provided.
+
+95
+00:06:18,170 --> 00:06:23,660
+Now down below we no longer have a name variable and we actually don't want to provide this object at
+
+96
+00:06:23,660 --> 00:06:29,690
+all the value for data is going to come from dollar sign and data defined up above.
+
+97
+00:06:29,930 --> 00:06:33,530
+And the last thing we have to do is to actually assign it a value.
+
+98
+00:06:33,530 --> 00:06:38,960
+Right now we only assign a name a variable which is not actually supported.
+
+99
+00:06:39,020 --> 00:06:40,930
+I'm going to set up data instead.
+
+100
+00:06:41,060 --> 00:06:46,850
+That value is going to be an object and on that object we're gonna set up all of the things that that
+
+101
+00:06:46,850 --> 00:06:48,950
+type actually lists out.
+
+102
+00:06:49,130 --> 00:06:52,000
+So we can go ahead and find that down below right here.
+
+103
+00:06:52,010 --> 00:06:53,450
+Create user input.
+
+104
+00:06:53,450 --> 00:06:54,760
+We need a name string.
+
+105
+00:06:54,830 --> 00:06:57,620
+We need an email string and a password string.
+
+106
+00:06:57,620 --> 00:07:01,320
+So let's go ahead and set up all three name.
+
+107
+00:07:01,430 --> 00:07:06,020
+I'm going to go ahead and use something along the lines of Ben.
+
+108
+00:07:06,270 --> 00:07:13,670
+Then we can set up an e-mail for Ben I'm going to use Ben at example dot com.
+
+109
+00:07:13,670 --> 00:07:20,470
+And finally we'll set up a passwords are right here password a password Lissa's stick with red.
+
+110
+00:07:20,500 --> 00:07:22,520
+One two three four five.
+
+111
+00:07:22,550 --> 00:07:29,080
+So now we have all three values extracted out of the operation itself making what we have here highly
+
+112
+00:07:29,080 --> 00:07:29,910
+reusable.
+
+113
+00:07:29,920 --> 00:07:33,960
+We could pass in different user data to create.
+
+114
+00:07:33,980 --> 00:07:36,470
+Let's go ahead and fire this off and see what happens.
+
+115
+00:07:36,470 --> 00:07:38,230
+I fire it off and what do we get.
+
+116
+00:07:38,270 --> 00:07:42,390
+We get an issue about a unique constraint that means I must already have a ban.
+
+117
+00:07:42,470 --> 00:07:44,870
+Let's go ahead and try a different name.
+
+118
+00:07:44,900 --> 00:07:53,290
+I'll use something like Kevin for the name and Kevin at example dot com for the email perfect now we
+
+119
+00:07:53,290 --> 00:07:57,670
+can see that the user was clearly created as expected.
+
+120
+00:07:57,670 --> 00:08:03,220
+Now in using variables in a you playground it can be hard to see the real value we're getting.
+
+121
+00:08:03,220 --> 00:08:08,910
+We already were into reusing this so we're not really seeing a ton of benefit from switching to variables
+
+122
+00:08:09,280 --> 00:08:16,090
+but when we actually set up our operations on a client like a mobile or browser client or in a test
+
+123
+00:08:16,150 --> 00:08:21,900
+suite we can start to reuse operations that we originally had to define over and over again.
+
+124
+00:08:21,910 --> 00:08:28,720
+For example if we switch over to the user test suite we use create user multiple times in this file
+
+125
+00:08:28,870 --> 00:08:32,500
+with variables we can easily reuse that operation.
+
+126
+00:08:32,530 --> 00:08:35,940
+So we don't have to write it out over and over again.
+
+127
+00:08:35,950 --> 00:08:39,000
+And that's exactly what we're going to end up doing to start.
+
+128
+00:08:39,010 --> 00:08:43,270
+I'm going to define a variable right here outside of all of the test suites.
+
+129
+00:08:43,270 --> 00:08:47,620
+This is something that can be reuse that accessed and all of those test functions.
+
+130
+00:08:47,710 --> 00:08:53,080
+And I'm going to take our existing create user operation and use that as the starting point.
+
+131
+00:08:53,080 --> 00:08:56,460
+Now we are indeed going to define a variable right here.
+
+132
+00:08:56,680 --> 00:09:02,050
+We'll call this one data just like we did in graphical playground and the type for data will indeed
+
+133
+00:09:02,050 --> 00:09:06,030
+be of the type create user input non-global.
+
+134
+00:09:06,070 --> 00:09:07,150
+Excellent.
+
+135
+00:09:07,180 --> 00:09:11,440
+So now we have the exact same variable definition we had engraft UL playground.
+
+136
+00:09:11,440 --> 00:09:15,160
+And we can go ahead and switch up the operation itself right here.
+
+137
+00:09:15,260 --> 00:09:21,310
+I am going to remove all of those hard coded values and reference the variable instead then I'm going
+
+138
+00:09:21,310 --> 00:09:27,140
+to grab tokin the user's ID and also grab their name and their email.
+
+139
+00:09:27,160 --> 00:09:28,100
+Perfect.
+
+140
+00:09:28,300 --> 00:09:33,880
+With this in place we now have something that's truly reusable and we can take it into our operations
+
+141
+00:09:33,880 --> 00:09:35,020
+down below.
+
+142
+00:09:35,020 --> 00:09:36,020
+Perfect.
+
+143
+00:09:36,070 --> 00:09:37,210
+I'm going to start with.
+
+144
+00:09:37,210 --> 00:09:40,980
+Should create user our very first test case.
+
+145
+00:09:41,050 --> 00:09:47,110
+We're no longer going to define the entire operation inside of the individual test case.
+
+146
+00:09:47,140 --> 00:09:50,680
+All we're going to do is define the variable value.
+
+147
+00:09:50,680 --> 00:09:57,970
+So right here a new constant variables is going to equal an object in like we do down below.
+
+148
+00:09:58,060 --> 00:10:01,560
+We'll be setting up that data property will have name.
+
+149
+00:10:01,660 --> 00:10:04,880
+I'll stick with Andrew like I did in here.
+
+150
+00:10:04,990 --> 00:10:06,890
+We also have the email.
+
+151
+00:10:06,940 --> 00:10:10,320
+I'll use the same value Andrew at example dot com.
+
+152
+00:10:11,340 --> 00:10:14,300
+And finally we have the password.
+
+153
+00:10:14,400 --> 00:10:16,190
+I'll stick with my pass.
+
+154
+00:10:16,200 --> 00:10:17,790
+One two three.
+
+155
+00:10:17,790 --> 00:10:18,810
+Perfect.
+
+156
+00:10:18,810 --> 00:10:25,200
+Now we can remove this operation entirely from the test case and we can still reference the existing
+
+157
+00:10:25,200 --> 00:10:26,500
+one we have up above.
+
+158
+00:10:26,580 --> 00:10:30,750
+So create user is still a valid reference since it exists up here.
+
+159
+00:10:30,750 --> 00:10:35,270
+The only thing left to do is make sure that create user gets the correct variables.
+
+160
+00:10:35,410 --> 00:10:41,430
+We've defined all of those on this object and along side of the mutation property for the mutate method
+
+161
+00:10:41,650 --> 00:10:47,460
+that would be alongside of the query property for queries we can set up a variables property.
+
+162
+00:10:47,460 --> 00:10:52,590
+Right here we can define the variables we want to use by referencing that object.
+
+163
+00:10:52,840 --> 00:10:56,790
+And we're done now since we have a property and a variable with the same name.
+
+164
+00:10:56,800 --> 00:11:01,050
+We can use the ESX property shorthand and there we go.
+
+165
+00:11:01,060 --> 00:11:06,940
+We now have a shorter version of that test case where we don't have to redefine the operation every
+
+166
+00:11:06,940 --> 00:11:13,840
+single time we can truly focus on just making sure the operation works as expected given some set of
+
+167
+00:11:13,870 --> 00:11:19,120
+input data input defined on the variables variable up above.
+
+168
+00:11:19,120 --> 00:11:24,910
+Now that we have this in place let's go ahead and save the test file and make sure that the test suite
+
+169
+00:11:24,940 --> 00:11:26,050
+still passes.
+
+170
+00:11:26,050 --> 00:11:31,550
+So down below I'm going to shut down the dev server and run NPM run test.
+
+171
+00:11:31,600 --> 00:11:38,950
+This is going to run the show to create a new user test suite using the operation we defined up here.
+
+172
+00:11:38,950 --> 00:11:43,310
+And if everything works then we know that all we've done is we've refactored things.
+
+173
+00:11:43,420 --> 00:11:46,160
+We actually haven't to change the functionality.
+
+174
+00:11:46,210 --> 00:11:52,690
+It looks like we're all done 10 passing test cases with variables introduced into the mix.
+
+175
+00:11:52,690 --> 00:11:55,300
+Let's continue on down the test case list.
+
+176
+00:11:55,300 --> 00:12:01,930
+Right here we have get users get users actually doesn't have any dynamic values at all which means no
+
+177
+00:12:01,930 --> 00:12:03,790
+variables are required.
+
+178
+00:12:03,790 --> 00:12:10,380
+That means I can cut get users out bring that up above for the sole purpose of making it reusable.
+
+179
+00:12:10,450 --> 00:12:12,870
+Should another test case need to access it.
+
+180
+00:12:12,880 --> 00:12:17,270
+There is no need to define it inside of the Test Case function specifically.
+
+181
+00:12:17,530 --> 00:12:22,960
+We don't have to set up the variables property here since no variables are accepted down below that
+
+182
+00:12:22,960 --> 00:12:24,460
+we have log in.
+
+183
+00:12:24,460 --> 00:12:28,360
+In this case we have another operation that does have some dynamic data.
+
+184
+00:12:28,360 --> 00:12:33,070
+So in this case what we're going to start with log in as the starting point we are going to have to
+
+185
+00:12:33,070 --> 00:12:35,610
+tweak it to support a variable above.
+
+186
+00:12:35,680 --> 00:12:37,200
+Let's go ahead and get that done.
+
+187
+00:12:37,480 --> 00:12:40,380
+I'm going to copy the log in operation.
+
+188
+00:12:40,600 --> 00:12:41,650
+I'm going to bring it up.
+
+189
+00:12:41,660 --> 00:12:50,000
+Top and I'm going to change the indenting perfect and in this case we are going to set up a data variable
+
+190
+00:12:50,120 --> 00:12:51,410
+as expected.
+
+191
+00:12:51,410 --> 00:12:55,290
+Now the type for that exists over inside of our schema definition.
+
+192
+00:12:55,400 --> 00:12:57,240
+We have log in user input.
+
+193
+00:12:57,260 --> 00:12:59,320
+So that's what we want to use right here.
+
+194
+00:12:59,390 --> 00:13:08,020
+After a mutation will set up support for data that is log in user input as a non nullable variable.
+
+195
+00:13:08,150 --> 00:13:13,970
+Then down below instead of defining that right here we can go ahead and simply reference the variable
+
+196
+00:13:14,270 --> 00:13:17,020
+dollar sign data and we're done.
+
+197
+00:13:17,050 --> 00:13:23,840
+Now we can focus on taking things back down to the test case and using this log in operation and actually
+
+198
+00:13:23,840 --> 00:13:25,670
+passing in the data expected.
+
+199
+00:13:25,670 --> 00:13:34,600
+So down here in the test case itself I'm going to start by defining the variables Konst variables equals
+
+200
+00:13:34,600 --> 00:13:35,610
+an object.
+
+201
+00:13:35,710 --> 00:13:40,840
+We're going to set up data and we're going to configure the variables needed right here.
+
+202
+00:13:40,840 --> 00:13:43,190
+We are going to need email.
+
+203
+00:13:43,280 --> 00:13:49,550
+I'll use Jan at example dot com which is the seed database email then I'll mess up the password down
+
+204
+00:13:49,550 --> 00:13:50,160
+below.
+
+205
+00:13:51,000 --> 00:14:01,920
+We have a password value equal to read lowercase 0 9 8 exclamation mark at sign pound sign a dollar
+
+206
+00:14:01,920 --> 00:14:03,560
+sign and we're done.
+
+207
+00:14:03,630 --> 00:14:07,300
+Now we can remove the log and operation right here.
+
+208
+00:14:07,480 --> 00:14:11,370
+We can still reference log in since we have that variable up above.
+
+209
+00:14:11,470 --> 00:14:17,410
+And we're going to add the variables property on getting its value from the object right here.
+
+210
+00:14:17,410 --> 00:14:21,450
+Now that we have that in place we can move on to the next test case.
+
+211
+00:14:21,550 --> 00:14:25,520
+And in this case we will be reusing the create user mutation.
+
+212
+00:14:25,660 --> 00:14:30,340
+The test suite is running in the background but that shouldn't stop us from continuing on.
+
+213
+00:14:30,340 --> 00:14:33,310
+Let's go ahead and actually reuse create user.
+
+214
+00:14:33,310 --> 00:14:37,630
+That means we don't need to define this operation again will remove it in a second.
+
+215
+00:14:37,630 --> 00:14:40,460
+All we have to do is define our variables.
+
+216
+00:14:40,570 --> 00:14:41,700
+We're going to have data.
+
+217
+00:14:41,830 --> 00:14:46,870
+And in this case we have values for name email and password password being short.
+
+218
+00:14:46,870 --> 00:14:50,510
+Now I can actually just copy these directly out of the operation.
+
+219
+00:14:50,800 --> 00:14:58,030
+I'm going to cut them and paste them up above and we can remove the operation definition entirely.
+
+220
+00:14:58,030 --> 00:15:02,290
+Now in this case we're using double quotes and I like to stick with single quotes so I'll go ahead and
+
+221
+00:15:02,290 --> 00:15:03,490
+refactor that.
+
+222
+00:15:03,610 --> 00:15:06,370
+We have the string Andrew for name.
+
+223
+00:15:06,400 --> 00:15:13,150
+We have the string and you're at example dot com or email and we have pass as the value for password.
+
+224
+00:15:13,150 --> 00:15:14,980
+All we have to do is pass those in.
+
+225
+00:15:14,980 --> 00:15:21,700
+So right here passing in variables and now we are performing the exact same thing without needing to
+
+226
+00:15:21,730 --> 00:15:27,970
+redefine the operation we've already defined before the test case is rerunning and we're going to move
+
+227
+00:15:28,000 --> 00:15:33,400
+on it to the final test we have thatching the user's profile.
+
+228
+00:15:33,400 --> 00:15:38,390
+We still have 10 passing tests so all the work we've done so far has been for the good.
+
+229
+00:15:38,710 --> 00:15:43,500
+Let's go ahead and start by defining get profile outside of this test case.
+
+230
+00:15:43,510 --> 00:15:46,450
+Now this one doesn't require any variables at all.
+
+231
+00:15:46,450 --> 00:15:47,810
+Nothing is dynamic.
+
+232
+00:15:47,890 --> 00:15:50,080
+So there's no need to do a ton of refactoring.
+
+233
+00:15:50,080 --> 00:15:56,390
+I'm simply going to remove it I'm going to take that up top and I'm going to go ahead and paste it in.
+
+234
+00:15:56,400 --> 00:15:58,730
+Now you might say why even do that.
+
+235
+00:15:58,800 --> 00:16:02,370
+We weren't reusing this particular operation at all.
+
+236
+00:16:02,460 --> 00:16:05,250
+But there are other test cases we're going to end up adding.
+
+237
+00:16:05,250 --> 00:16:11,070
+For example I might want to make sure that I can't fetch a user's profile when I'm not logged in.
+
+238
+00:16:11,070 --> 00:16:16,460
+In that case I would expect it to throw an error by factoring out all of our operations.
+
+239
+00:16:16,470 --> 00:16:21,220
+We now have the option down the line to actually reuse them should we need to.
+
+240
+00:16:21,240 --> 00:16:23,870
+And we've currently already re-used a couple.
+
+241
+00:16:23,880 --> 00:16:28,590
+The last thing we're going to do in this video is actually take these operations and break them out
+
+242
+00:16:28,590 --> 00:16:30,790
+into a completely separate file.
+
+243
+00:16:30,810 --> 00:16:35,690
+We are already using them but there is no need to define them inside of the test suite.
+
+244
+00:16:35,760 --> 00:16:39,920
+So I'm going to bring them over to a new file in the tills directory.
+
+245
+00:16:40,020 --> 00:16:44,620
+Let's go ahead and make an operations file operations.
+
+246
+00:16:44,640 --> 00:16:48,780
+J S and in here we're going to take all four operations.
+
+247
+00:16:48,780 --> 00:16:53,670
+I'm going to start with the concert and create user and go all the way down to the closing back Tich
+
+248
+00:16:53,700 --> 00:16:55,200
+forget profile.
+
+249
+00:16:55,200 --> 00:16:59,880
+I'm going to cut those out and I'm going to bring them over to the operations file.
+
+250
+00:16:59,880 --> 00:17:01,940
+Now the only inport we need is.
+
+251
+00:17:01,930 --> 00:17:05,880
+GQ well up above to make sure things still work.
+
+252
+00:17:05,940 --> 00:17:07,170
+I'm going to grab.
+
+253
+00:17:07,320 --> 00:17:16,160
+Well from Appollo boost and once we have that all we have to do is export things so down below Let's
+
+254
+00:17:16,190 --> 00:17:17,970
+export everything.
+
+255
+00:17:18,170 --> 00:17:22,260
+We'll start off with create user then we have log in.
+
+256
+00:17:22,280 --> 00:17:24,050
+That is the third one we have.
+
+257
+00:17:24,050 --> 00:17:31,910
+Get users and we have get profile as well get users get profile and we can expand this file as we add
+
+258
+00:17:31,910 --> 00:17:34,370
+more operations into the mix.
+
+259
+00:17:34,370 --> 00:17:38,910
+Now we can import all of those over in the user test suite up above.
+
+260
+00:17:39,080 --> 00:17:46,660
+Let's go ahead and inport from the file that we just created right here in Port a bunch of stuff from
+
+261
+00:17:47,480 --> 00:17:51,400
+that's dot forward slash you tills forward slash operations.
+
+262
+00:17:51,430 --> 00:17:52,410
+What do we need.
+
+263
+00:17:52,570 --> 00:18:02,770
+Well first up we have create user then we have a get users we have log in and we have get profile all
+
+264
+00:18:02,770 --> 00:18:06,000
+for being imported from the other file.
+
+265
+00:18:06,010 --> 00:18:11,440
+Now we're going to save things for the last time in this video the test suite is going to every run
+
+266
+00:18:11,680 --> 00:18:14,320
+and we should have 10 passing test cases.
+
+267
+00:18:14,320 --> 00:18:19,600
+The advantage is that now we have all of our operations in a separate reusable file.
+
+268
+00:18:19,600 --> 00:18:20,440
+All right.
+
+269
+00:18:20,440 --> 00:18:23,340
+We can see that everything is working as expected.
+
+270
+00:18:23,410 --> 00:18:28,740
+So I'll see you in the next video where you're going to do something similar for the post test suite.
+
+271
+00:18:28,750 --> 00:18:30,120
+I'm excited to get to that.
+
+272
+00:18:30,130 --> 00:18:32,920
+So let's go ahead and jump right in to the next one.
+

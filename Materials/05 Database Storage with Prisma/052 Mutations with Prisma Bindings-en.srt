@@ -1,0 +1,924 @@
+1
+00:00:00,240 --> 00:00:05,580
+With Prisma Dom queery out of the way in this video you're going to learn how to use the methods available
+
+2
+00:00:05,580 --> 00:00:11,970
+on Prisma dot notation to perform mutations from right here inside of node j ass allowing you to create
+
+3
+00:00:12,000 --> 00:00:15,450
+update and delete data stored in the database.
+
+4
+00:00:15,540 --> 00:00:20,200
+So to kick things off let's go ahead and comment out the two queery calls we already have.
+
+5
+00:00:20,220 --> 00:00:25,320
+I am going to leave the code in place to serve as a reference but I don't want it to print every single
+
+6
+00:00:25,320 --> 00:00:26,710
+time we run the program.
+
+7
+00:00:26,730 --> 00:00:30,020
+The output is already going to be hard enough to actually read through.
+
+8
+00:00:30,180 --> 00:00:35,070
+So let's go ahead and kick things off by using Prisma dot mutation.
+
+9
+00:00:35,280 --> 00:00:42,300
+Now just like Prisma queery Prisma Dopp mutation is an object on there we have a method for every single
+
+10
+00:00:42,300 --> 00:00:46,740
+mutation available to you if you forget exactly what you have access to.
+
+11
+00:00:46,740 --> 00:00:50,150
+You can always pull up the schema in graphical playground.
+
+12
+00:00:50,160 --> 00:00:55,920
+Here we have mutations for creating Common's users in posts for updating comments users in posts and
+
+13
+00:00:55,920 --> 00:01:02,070
+for deleting comments users and posts so we can use any of these from right inside of our application
+
+14
+00:01:02,280 --> 00:01:04,740
+to actually make data changes.
+
+15
+00:01:04,770 --> 00:01:12,120
+For this example I'm going to go ahead and use create post to create a brand new post for a given user.
+
+16
+00:01:12,120 --> 00:01:17,130
+The arguments that get passed into your nutation methods are the same as the arguments that get passed
+
+17
+00:01:17,130 --> 00:01:18,390
+into your query methods.
+
+18
+00:01:18,390 --> 00:01:21,870
+The first argument is where we put our operation arguments.
+
+19
+00:01:21,870 --> 00:01:25,390
+The second argument is where we put our selection set.
+
+20
+00:01:25,410 --> 00:01:30,180
+Now we know that with the queries we did not need to provide any operation arguments and we know that
+
+21
+00:01:30,180 --> 00:01:32,300
+with our mutations we typically do.
+
+22
+00:01:32,340 --> 00:01:38,070
+For example if I want to create a user I have to provide some data about the user to be created and
+
+23
+00:01:38,070 --> 00:01:43,410
+if I want to create a post I have to provide some data about the post itself and some data about the
+
+24
+00:01:43,410 --> 00:01:46,440
+author that should own this post.
+
+25
+00:01:46,440 --> 00:01:52,440
+So we need to do all of that same stuff over here while we pass in to the first argument is an object.
+
+26
+00:01:52,440 --> 00:01:56,570
+This object is where we provide all of our operation arguments.
+
+27
+00:01:56,670 --> 00:02:01,080
+Now in the end of the day we're going to have one root argument data and we're going to have all of
+
+28
+00:02:01,080 --> 00:02:05,510
+our scalar fields right on there so we can set up a title for this new post.
+
+29
+00:02:05,520 --> 00:02:11,610
+I'll call this something along the lines of my new graph Cuil post is live.
+
+30
+00:02:11,610 --> 00:02:16,680
+Then we can set up the body for this particular post and for the body we are going to have a string
+
+31
+00:02:16,680 --> 00:02:18,990
+value as well and I'll use something like.
+
+32
+00:02:18,990 --> 00:02:21,440
+You can find the new course here.
+
+33
+00:02:23,240 --> 00:02:25,810
+After that we're going to set up the published value.
+
+34
+00:02:25,820 --> 00:02:28,120
+Should this post be published or not.
+
+35
+00:02:28,250 --> 00:02:32,140
+I'm going to go ahead and say that it is published so well set published to true.
+
+36
+00:02:32,360 --> 00:02:36,410
+And the last thing we have to provide is the author property.
+
+37
+00:02:36,410 --> 00:02:40,110
+So we have to determine if we want to create a new author.
+
+38
+00:02:40,160 --> 00:02:41,920
+That is the owner of this post.
+
+39
+00:02:42,000 --> 00:02:44,630
+Or be connected to an existing author.
+
+40
+00:02:44,660 --> 00:02:46,300
+And that's the approach we're going to take.
+
+41
+00:02:46,430 --> 00:02:53,200
+We'll be using correct and we are connecting it by id and then right here we are going to paste in the
+
+42
+00:02:53,200 --> 00:02:55,330
+ID for an author.
+
+43
+00:02:55,450 --> 00:02:59,230
+Now down below I actually have an idea for an author in the output.
+
+44
+00:02:59,260 --> 00:03:02,440
+I have the ID for the author with my name Andrew.
+
+45
+00:03:02,580 --> 00:03:09,370
+So I am going to grab this ID copy it to the clipboard and paste that right here as the string value.
+
+46
+00:03:09,410 --> 00:03:13,150
+You're more than welcome to use what ever author ID you like.
+
+47
+00:03:13,160 --> 00:03:16,690
+Feel free to grab any from your database and use that.
+
+48
+00:03:16,700 --> 00:03:18,590
+Now this takes care of the first argument.
+
+49
+00:03:18,590 --> 00:03:21,230
+We have all of the operation arguments expected.
+
+50
+00:03:21,290 --> 00:03:23,800
+We still have to provide that second argument though.
+
+51
+00:03:23,930 --> 00:03:30,260
+What comes back is a post to the new post that was created and we have to determine what data we want
+
+52
+00:03:30,440 --> 00:03:31,940
+related to that post.
+
+53
+00:03:31,940 --> 00:03:33,940
+We can grab things from the post itself.
+
+54
+00:03:33,950 --> 00:03:38,390
+We can also grab related data whether it's comments which doesn't make sense because no comments would
+
+55
+00:03:38,390 --> 00:03:41,690
+exist yet or some information about the author.
+
+56
+00:03:41,720 --> 00:03:47,180
+Let's go out and just grab some information about the post right here inside of curly braces.
+
+57
+00:03:47,180 --> 00:03:49,340
+I'm going to grab the posts ID.
+
+58
+00:03:49,520 --> 00:03:56,000
+I'm going to also grab the posts title the post body and the Post published status.
+
+59
+00:03:56,000 --> 00:03:56,960
+Excellent.
+
+60
+00:03:57,110 --> 00:04:01,150
+And now we have a very complete call to create post.
+
+61
+00:04:01,160 --> 00:04:08,680
+Now remember just like our queery methods the return value of create post is not the new post itself.
+
+62
+00:04:08,750 --> 00:04:10,380
+It's actually a promise.
+
+63
+00:04:10,400 --> 00:04:16,700
+So we have to once again use then to be able to do something when the promise resolves when it actually
+
+64
+00:04:16,700 --> 00:04:24,140
+one communicates with the Prisma API and to Prisma has time to communicate with the database only once
+
+65
+00:04:24,170 --> 00:04:25,190
+everything happens.
+
+66
+00:04:25,190 --> 00:04:29,650
+Do we want misfunction to run and when it runs we are going to get the data.
+
+67
+00:04:29,660 --> 00:04:33,580
+This is where we have the data that we've chosen to select for the moment.
+
+68
+00:04:33,620 --> 00:04:38,190
+Let's just go ahead and dump it to the console console dot log right here.
+
+69
+00:04:38,300 --> 00:04:40,200
+I'm going to log that out.
+
+70
+00:04:40,280 --> 00:04:42,200
+Printing the data object.
+
+71
+00:04:42,230 --> 00:04:43,170
+Excellent.
+
+72
+00:04:43,190 --> 00:04:48,040
+Now we can go ahead and save the file and check out the output in the console down below.
+
+73
+00:04:48,080 --> 00:04:50,810
+Here the program is restarting it in just a few moments.
+
+74
+00:04:50,810 --> 00:04:53,420
+We should have some data about our new post and there it is.
+
+75
+00:04:53,420 --> 00:04:59,600
+We have our auto generated post ID and then we have the title of the body and the published status that
+
+76
+00:04:59,600 --> 00:05:01,150
+we actually set.
+
+77
+00:05:01,190 --> 00:05:07,550
+Now from here we could fetch all of the posts for a user again and we should see the new posts showing
+
+78
+00:05:07,550 --> 00:05:08,040
+up.
+
+79
+00:05:08,060 --> 00:05:09,910
+So let's go ahead and do just that.
+
+80
+00:05:10,160 --> 00:05:14,420
+I am going to comment out the new create post method call down below.
+
+81
+00:05:14,480 --> 00:05:20,810
+Since I don't want to create a nother post when the file re runs and up above I am going to comment
+
+82
+00:05:21,080 --> 00:05:25,400
+our users query where we happen to fetch all of the posts for each user.
+
+83
+00:05:25,490 --> 00:05:28,960
+Grabbing the post ID and the post title.
+
+84
+00:05:28,970 --> 00:05:30,580
+I'm going to save the file.
+
+85
+00:05:30,620 --> 00:05:36,140
+The browser is restarting excuse me the terminal is restarting and right here you can see that for that
+
+86
+00:05:36,140 --> 00:05:38,690
+third user whose name is Andrew.
+
+87
+00:05:38,720 --> 00:05:41,250
+We have the new post that we just created.
+
+88
+00:05:41,270 --> 00:05:43,420
+We have our ID and we have our title.
+
+89
+00:05:43,430 --> 00:05:45,950
+My new graphic post is live.
+
+90
+00:05:45,950 --> 00:05:46,700
+So there we go.
+
+91
+00:05:46,700 --> 00:05:50,160
+We now have a way to mutate and data right inside of Node.
+
+92
+00:05:50,190 --> 00:05:54,980
+Jay asks what I want to take a moment to talk about is how we can actually change some of these calls
+
+93
+00:05:54,980 --> 00:05:55,490
+together.
+
+94
+00:05:55,490 --> 00:06:01,500
+Doing one thing after or before I do something else Sendero working with promises for all of them.
+
+95
+00:06:01,610 --> 00:06:04,490
+We can use promise chaining to get that done.
+
+96
+00:06:04,640 --> 00:06:08,860
+So let's demonstrate this by and commenting our create post call.
+
+97
+00:06:08,870 --> 00:06:13,580
+We're going to go ahead and actually run this the next time the file runs and then we're going to take
+
+98
+00:06:13,640 --> 00:06:17,560
+our users query and we're going to move that down below.
+
+99
+00:06:17,630 --> 00:06:24,110
+So let's do a bit of restructuring right here what we're going to do is after our call to data we are
+
+100
+00:06:24,110 --> 00:06:26,650
+going to make a nother call to Prisma.
+
+101
+00:06:26,690 --> 00:06:28,550
+Queery dot users.
+
+102
+00:06:28,610 --> 00:06:34,220
+Here we are going to pass in any operation arguments and we're going to provide the same selection set
+
+103
+00:06:34,370 --> 00:06:35,720
+we had up above.
+
+104
+00:06:35,720 --> 00:06:44,120
+So right here I can go ahead and provide my curly braces in there I can ask for the ID the name the
+
+105
+00:06:44,120 --> 00:06:50,930
+posts and for each post I can go ahead and grab the ID and the title exactly like I did up above.
+
+106
+00:06:50,960 --> 00:06:57,810
+Now since I am trying to use promise chaining I am going to return this promise from my then callback
+
+107
+00:06:57,860 --> 00:07:03,320
+method allowing me to add on a nother then method and this one is going to fire.
+
+108
+00:07:03,350 --> 00:07:05,660
+When our second promise is complete.
+
+109
+00:07:05,660 --> 00:07:13,590
+So right here we pass in our callback function we get our data and this will contain the output results.
+
+110
+00:07:13,680 --> 00:07:19,620
+Right here I am going to use the Jason docstring ify method to correctly allow that nested data to actually
+
+111
+00:07:19,620 --> 00:07:20,590
+show up.
+
+112
+00:07:20,610 --> 00:07:22,240
+So console dialog.
+
+113
+00:07:22,710 --> 00:07:26,270
+Jason docstring ify passing in our data.
+
+114
+00:07:26,490 --> 00:07:29,550
+Undefined and a number like two or four.
+
+115
+00:07:29,550 --> 00:07:30,700
+So there we go.
+
+116
+00:07:30,750 --> 00:07:34,620
+Now the first thing that's going to happen is that this code is going to run it's going to create the
+
+117
+00:07:34,620 --> 00:07:41,790
+post then this callback will run we'll dump the data to the console and only after Create post finishes
+
+118
+00:07:42,000 --> 00:07:47,670
+we will start the process of querying for all users and getting all of their posts which should include
+
+119
+00:07:47,670 --> 00:07:49,230
+that newly created post.
+
+120
+00:07:49,410 --> 00:07:54,220
+Then down below there we dump all of the user's data to the console.
+
+121
+00:07:54,240 --> 00:07:56,820
+So let's go ahead and comment out the one call up above.
+
+122
+00:07:56,820 --> 00:08:01,520
+We're not going to need to run that since we're running the exact same operation down below.
+
+123
+00:08:01,650 --> 00:08:06,390
+And from here I'm just going to change the actual contents of the post a little bit.
+
+124
+00:08:06,390 --> 00:08:08,220
+I'm going to wipe the body.
+
+125
+00:08:08,220 --> 00:08:09,980
+I'll just leave that empty.
+
+126
+00:08:10,080 --> 00:08:16,580
+I'm going to set this post to have a published value of false and I'll change up the title as well.
+
+127
+00:08:16,710 --> 00:08:22,610
+Let's say something like 101 graphical Well graphical 101 to be exact.
+
+128
+00:08:22,650 --> 00:08:23,640
+Perfect.
+
+129
+00:08:23,640 --> 00:08:28,680
+Now if we go ahead and save Prisma dot J.S. it should go through the process of performing those two
+
+130
+00:08:28,680 --> 00:08:29,430
+operations.
+
+131
+00:08:29,430 --> 00:08:35,480
+It should be one creating that new post into fetching all of the users along with their posts.
+
+132
+00:08:35,490 --> 00:08:42,120
+If I scroll up we can search for that green text which is where the new instance of our application
+
+133
+00:08:42,150 --> 00:08:44,720
+running starts we see the server is up.
+
+134
+00:08:44,820 --> 00:08:45,600
+Then what do we get.
+
+135
+00:08:45,600 --> 00:08:48,660
+We get our new post data coming from line 30.
+
+136
+00:08:48,660 --> 00:08:50,690
+Right here we have our ID.
+
+137
+00:08:50,790 --> 00:08:56,760
+We have our title our empty body and our published status of false down below that we have all of their
+
+138
+00:08:56,760 --> 00:08:59,640
+users as well as the posts for each.
+
+139
+00:08:59,640 --> 00:09:02,150
+Our first user victim has one post.
+
+140
+00:09:02,250 --> 00:09:09,000
+The second user the other victim has zero posts and now Andrew has two posts the one we created a few
+
+141
+00:09:09,000 --> 00:09:12,330
+minutes ago and the new one that we just set up.
+
+142
+00:09:12,330 --> 00:09:16,200
+So using promise chaining we can do one thing after another.
+
+143
+00:09:16,200 --> 00:09:21,930
+Now it's Challenge time for this challenge you're going to have to use both a mutation and a query.
+
+144
+00:09:21,930 --> 00:09:26,540
+Let's go ahead and kick things off by commenting out the code we have so far.
+
+145
+00:09:26,580 --> 00:09:31,740
+This did indeed run but I don't want it to run every single time I save the file down below.
+
+146
+00:09:31,750 --> 00:09:34,800
+I'm going to paste in the challenge comments.
+
+147
+00:09:34,800 --> 00:09:39,630
+So the big picture goal is to mess around with mutations like we did here.
+
+148
+00:09:39,630 --> 00:09:44,010
+You're going to first perform a mutation then perform a query.
+
+149
+00:09:44,130 --> 00:09:51,390
+What you're going to do is update that newly created post changing its body and then marking it as published.
+
+150
+00:09:51,390 --> 00:09:53,930
+So I created this post with the title of graph.
+
+151
+00:09:53,990 --> 00:09:58,830
+Well 101 I gave it an empty body and I marked it as not published.
+
+152
+00:09:58,830 --> 00:10:05,110
+You're going to be updating it marking it as published and changing its body text value.
+
+153
+00:10:05,160 --> 00:10:06,600
+Now from there what are you going to do.
+
+154
+00:10:06,600 --> 00:10:08,410
+Well that brings us to step 2.
+
+155
+00:10:08,430 --> 00:10:15,120
+You are going to fetch all posts scribing the ID title body and published values for each and you're
+
+156
+00:10:15,120 --> 00:10:20,790
+going to print them to the console and step three save the file and look at the output in the terminal
+
+157
+00:10:20,790 --> 00:10:21,640
+down below.
+
+158
+00:10:21,780 --> 00:10:28,350
+You want to view that list of posts and confirm that the post you changed actually had its body and
+
+159
+00:10:28,350 --> 00:10:31,380
+published values changed accordingly.
+
+160
+00:10:31,380 --> 00:10:33,910
+All right take some time to knock that one out.
+
+161
+00:10:34,020 --> 00:10:39,690
+And for this challenge I would like you to use a promise chaining exactly like we did up above.
+
+162
+00:10:39,690 --> 00:10:45,890
+We want to first actually update that post in only once the post has been updated.
+
+163
+00:10:45,900 --> 00:10:48,850
+Do we actually want to fetch post data.
+
+164
+00:10:48,930 --> 00:10:49,440
+All right.
+
+165
+00:10:49,440 --> 00:10:50,280
+Pause the video.
+
+166
+00:10:50,280 --> 00:10:54,160
+Test your work and when you're done come back and click play
+
+167
+00:10:57,840 --> 00:10:58,560
+how that go.
+
+168
+00:10:58,590 --> 00:11:01,740
+Hopefully you were able to knock that out without too much trouble.
+
+169
+00:11:01,740 --> 00:11:03,710
+We're going to kick things off with step 1.
+
+170
+00:11:03,710 --> 00:11:10,980
+Our mutation so I'll be using a Prisma dot mutation and for this one we will be using the update post
+
+171
+00:11:11,070 --> 00:11:11,990
+mutation.
+
+172
+00:11:12,210 --> 00:11:17,880
+Now we have to provide those two arguments are operation arguments and are selections set and we know
+
+173
+00:11:17,880 --> 00:11:23,460
+that when we're updating we do have to provide operation arguments in the case of updating a post which
+
+174
+00:11:23,460 --> 00:11:25,040
+we've explored already.
+
+175
+00:11:25,110 --> 00:11:30,260
+We have to first specify where to determine which post we actually want to update.
+
+176
+00:11:30,330 --> 00:11:34,260
+Then we specify data where we outline the data we would like to change.
+
+177
+00:11:34,320 --> 00:11:36,640
+We have to do the same thing over here.
+
+178
+00:11:36,660 --> 00:11:41,940
+Now I have the post ID sitting down below inside of the terminal though I could have also gone over
+
+179
+00:11:41,940 --> 00:11:44,560
+to the admin to grab that data.
+
+180
+00:11:44,580 --> 00:11:47,760
+I'm going to copy it to the clipboard since I'll be using it in a moment.
+
+181
+00:11:47,760 --> 00:11:51,190
+I'll be setting up an object for our operation arguments.
+
+182
+00:11:51,270 --> 00:11:59,670
+We are going to set up both where and then after where data and in where we are going to search by ID
+
+183
+00:11:59,800 --> 00:12:05,460
+sir right here in the ID of the post we're looking for is the one I just copied to the clipboard.
+
+184
+00:12:05,460 --> 00:12:09,850
+Now when it comes to what we want to change we pretty much want to change everything but the post title
+
+185
+00:12:10,020 --> 00:12:15,250
+I want to change the Post body I can change it to anything I'd like.
+
+186
+00:12:15,280 --> 00:12:17,760
+I'll say this is how to get started.
+
+187
+00:12:20,490 --> 00:12:23,800
+With graphics graphic well dot dot dot.
+
+188
+00:12:23,940 --> 00:12:30,120
+And I'm also going to change the published status so I am going to set published equal to true.
+
+189
+00:12:30,300 --> 00:12:31,370
+Excellent.
+
+190
+00:12:31,380 --> 00:12:33,720
+Now we can provide our selection set.
+
+191
+00:12:33,840 --> 00:12:38,070
+This comes back with the updated post so we can choose to grab whatever we like.
+
+192
+00:12:38,220 --> 00:12:41,650
+All I'm going to grab is just the idea of the post.
+
+193
+00:12:41,820 --> 00:12:42,600
+Perfect.
+
+194
+00:12:42,630 --> 00:12:47,330
+I didn't mention that you needed to grab anything or print anything so it's completely up to you.
+
+195
+00:12:47,330 --> 00:12:49,320
+What you ended up putting in there.
+
+196
+00:12:49,320 --> 00:12:55,300
+Next up we are going to use dot then to run some code after the post has been updated.
+
+197
+00:12:55,320 --> 00:12:58,890
+Right here we are going to get the post data back.
+
+198
+00:12:58,920 --> 00:13:02,850
+We could choose to print it to the console but that was by no means required.
+
+199
+00:13:02,850 --> 00:13:08,080
+From here we move on to Step 2 where we use a query to fetch all posts.
+
+200
+00:13:08,100 --> 00:13:16,530
+So I am going to use Prisma dot queery dot posts and I am going to return this promise so we can actually
+
+201
+00:13:16,530 --> 00:13:17,810
+chain them together.
+
+202
+00:13:18,090 --> 00:13:21,560
+Now I am going to call posts as a function which it is.
+
+203
+00:13:21,680 --> 00:13:26,670
+I'm going to pass a null for the operation arguments since we don't need to do anything special like
+
+204
+00:13:26,670 --> 00:13:27,600
+filter or sort.
+
+205
+00:13:27,600 --> 00:13:33,090
+The list of posts and then as the selection set I'm going to grab all of these scalar values listed
+
+206
+00:13:33,090 --> 00:13:33,870
+here.
+
+207
+00:13:33,870 --> 00:13:41,560
+So I want first up the ID then I'd like the title the body and the published value.
+
+208
+00:13:42,090 --> 00:13:45,300
+The last thing to do was to go ahead and use dot.
+
+209
+00:13:45,300 --> 00:13:51,690
+Then once again to run some code after that query has been completed and in our case what are we going
+
+210
+00:13:51,690 --> 00:13:52,280
+to do.
+
+211
+00:13:52,440 --> 00:13:54,380
+Well we're just going to get that data.
+
+212
+00:13:54,390 --> 00:14:00,330
+The list of posts and dump it to the console by dumping it to the council will actually be able to perform
+
+213
+00:14:00,330 --> 00:14:06,930
+in step 3 where we view the list of posts in the terminal and confirm that the post we changed actually
+
+214
+00:14:06,930 --> 00:14:08,960
+had those values updated.
+
+215
+00:14:08,970 --> 00:14:10,020
+Excellent.
+
+216
+00:14:10,020 --> 00:14:12,630
+Now with this in place our code is all done.
+
+217
+00:14:12,630 --> 00:14:15,210
+I can go ahead and save Prisma dot J.
+
+218
+00:14:15,210 --> 00:14:15,770
+S.
+
+219
+00:14:15,870 --> 00:14:20,900
+This is going to restart the application down below we can see a couple of different things happen.
+
+220
+00:14:20,910 --> 00:14:27,780
+The app restarted we got the server is up then we got our list of posts printing down below we have
+
+221
+00:14:27,780 --> 00:14:28,950
+our latest post.
+
+222
+00:14:28,950 --> 00:14:30,790
+This is the one we actually changed.
+
+223
+00:14:30,810 --> 00:14:32,070
+We have our brand new body.
+
+224
+00:14:32,070 --> 00:14:33,680
+This is how to get started with graphics.
+
+225
+00:14:33,710 --> 00:14:37,760
+Well and we have a published value of true Asso.
+
+226
+00:14:38,010 --> 00:14:45,930
+So using mutations inside of node j s is exactly the same as using mutations inside of Grath QOL playground
+
+227
+00:14:46,350 --> 00:14:52,440
+in the next video we're going to quickly convert this to use async await to make it much easier to do
+
+228
+00:14:52,440 --> 00:14:54,200
+one thing after another.
+
+229
+00:14:54,360 --> 00:15:00,320
+Since all of these Prisma methods support promises the conversion process is going to be very simple.
+
+230
+00:15:00,330 --> 00:15:01,500
+I'm excited to get to that.
+
+231
+00:15:01,500 --> 00:15:03,940
+So let's go ahead and jump right in.
+

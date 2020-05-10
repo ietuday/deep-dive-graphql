@@ -1,0 +1,256 @@
+1
+00:00:02,710 --> 00:00:03,810
+Welcome to the class.
+
+2
+00:00:03,820 --> 00:00:07,140
+Thanks so much for joining in Andrew and together.
+
+3
+00:00:07,180 --> 00:00:14,260
+We're going to explore what graft well is why it's useful and how we can use it to build better applications.
+
+4
+00:00:14,260 --> 00:00:16,530
+Now we'll get into all of that shortly.
+
+5
+00:00:16,540 --> 00:00:20,480
+I just want to take a moment in this one to talk about a couple of important things.
+
+6
+00:00:20,620 --> 00:00:25,030
+We're going to talk about how we'll be spending our time together so I'll break down what we're going
+
+7
+00:00:25,030 --> 00:00:27,180
+to cover in each part of the course.
+
+8
+00:00:27,280 --> 00:00:32,620
+And I'm also going to offer up a few tips and suggestions for getting the most out of a class
+
+9
+00:00:35,590 --> 00:00:38,800
+the course itself is broken up into two major parts.
+
+10
+00:00:38,800 --> 00:00:44,080
+In part one we're going to focus on learning the fundamentals of graft well and figuring out how we
+
+11
+00:00:44,080 --> 00:00:45,630
+can integrate it into Noad.
+
+12
+00:00:45,650 --> 00:00:51,790
+Jay ass so here we'll be focusing on the core building blocks those built in features learning how we
+
+13
+00:00:51,790 --> 00:00:55,780
+can build our own Grath applications from scratch.
+
+14
+00:00:55,780 --> 00:01:01,830
+Now that's part one and we'll be starting that in just a couple of videos in part two later in the class.
+
+15
+00:01:01,870 --> 00:01:07,480
+We'll transition into integrating what we learn about graft Well in part one with all of those real
+
+16
+00:01:07,480 --> 00:01:14,080
+features we'd expect from applications things like authentication database storage production deployments
+
+17
+00:01:14,170 --> 00:01:16,660
+automatic test suites and more.
+
+18
+00:01:16,720 --> 00:01:19,160
+By the end Yula the real application.
+
+19
+00:01:19,180 --> 00:01:20,350
+So part one.
+
+20
+00:01:20,440 --> 00:01:26,660
+Those building blocks part to integrating the building blocks to create a real world app.
+
+21
+00:01:26,800 --> 00:01:31,360
+All right let's go ahead and talk about a couple of tips and tricks for getting the most out of the
+
+22
+00:01:31,360 --> 00:01:32,190
+class.
+
+23
+00:01:34,490 --> 00:01:37,300
+This course was designed to be completely interactive.
+
+24
+00:01:37,310 --> 00:01:41,310
+So as you move through the videos I'm going to be typing code on the screen.
+
+25
+00:01:41,420 --> 00:01:46,230
+It's important that you have your text editor open and that you're typing that code out as well.
+
+26
+00:01:46,340 --> 00:01:51,410
+As we progressed through the videos we're going to end up building on our existing application and you
+
+27
+00:01:51,410 --> 00:01:54,980
+want to make sure you have all of the same features that I have.
+
+28
+00:01:54,980 --> 00:01:58,190
+Now this is sort of a monkey see monkey do situation.
+
+29
+00:01:58,310 --> 00:02:04,160
+That's great for when you're first exposed to a topic but it's not so great for retaining it or for
+
+30
+00:02:04,160 --> 00:02:07,620
+figuring out how to use it to solve problems on your own.
+
+31
+00:02:07,640 --> 00:02:12,370
+That's why throughout the class I have about 85 separate challenges.
+
+32
+00:02:12,380 --> 00:02:16,480
+These are little points in the video we're going to ask you to pause the video.
+
+33
+00:02:16,520 --> 00:02:22,320
+Solve a problem based off of what you learned then you can come back and watch me work through the solution.
+
+34
+00:02:22,340 --> 00:02:25,600
+It is essential that you follow through with both of these.
+
+35
+00:02:25,610 --> 00:02:31,010
+So if I write code you should be writing code and when there's time for a challenge break you should
+
+36
+00:02:31,010 --> 00:02:34,540
+actually take some time could try to solve the problem on your own.
+
+37
+00:02:34,730 --> 00:02:39,230
+That's going to make sure that when you're done the class you can actually use what you've learned here
+
+38
+00:02:39,230 --> 00:02:43,940
+to solve problems and build applications which is my goal for you.
+
+39
+00:02:44,120 --> 00:02:48,140
+All right let's take a quick moment to talk about getting help if you need it.
+
+40
+00:02:50,220 --> 00:02:53,750
+The last thing I want to talk about is how to get help if you get stuck.
+
+41
+00:02:53,760 --> 00:02:57,260
+So as you're moving through the course maybe your project fails.
+
+42
+00:02:57,270 --> 00:03:02,280
+In the video you can see my project working but when you run the project on your machine you get a cryptic
+
+43
+00:03:02,310 --> 00:03:03,650
+error message.
+
+44
+00:03:03,810 --> 00:03:08,960
+Or maybe you just need clarification on why we're using one technique and not something else.
+
+45
+00:03:09,120 --> 00:03:14,670
+Regardless of what your question is you can always ask a brand new question in the course of Q&amp;A to
+
+46
+00:03:14,670 --> 00:03:15,660
+get help.
+
+47
+00:03:15,660 --> 00:03:21,960
+When you do be sure to include as many details as possible as those go a long way towards us being able
+
+48
+00:03:21,960 --> 00:03:23,380
+to help you faster.
+
+49
+00:03:23,430 --> 00:03:29,670
+Things like screen shot code samples and error messages are going to allow us to track down and fix
+
+50
+00:03:29,670 --> 00:03:31,320
+the issue quickly.
+
+51
+00:03:31,320 --> 00:03:34,380
+Now there are two other ways you can get help even faster.
+
+52
+00:03:34,380 --> 00:03:37,680
+One is to browse the Q&amp;A for similar questions.
+
+53
+00:03:37,800 --> 00:03:41,720
+So we get dozens of questions every single day and they all have answers.
+
+54
+00:03:41,850 --> 00:03:46,830
+There might be a question similar to yours so you can get help in a matter of seconds as opposed to
+
+55
+00:03:46,830 --> 00:03:49,710
+having to wait a little bit for one of us to respond.
+
+56
+00:03:49,710 --> 00:03:55,830
+Last up if you're running into a problem and you suspect it's code related I do include the lecture
+
+57
+00:03:55,860 --> 00:04:01,740
+code as the zip download for each and every lecture here on you to me so you can always download the
+
+58
+00:04:01,740 --> 00:04:03,460
+code I wrote in the video.
+
+59
+00:04:03,540 --> 00:04:08,010
+You can then compare my code to yours and likely find the problem if not.
+
+60
+00:04:08,010 --> 00:04:11,350
+As always feel free to ask a question in the course.
+
+61
+00:04:11,390 --> 00:04:12,060
+Want.
+
+62
+00:04:12,240 --> 00:04:12,780
+All right.
+
+63
+00:04:12,780 --> 00:04:14,990
+That is it for this little welcome video.
+
+64
+00:04:15,060 --> 00:04:17,890
+Let's go ahead and jump right in to the next one.
+

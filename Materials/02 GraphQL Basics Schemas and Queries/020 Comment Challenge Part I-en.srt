@@ -1,0 +1,408 @@
+1
+00:00:00,250 --> 00:00:06,030
+This section is coming to a close and I'd like to wrap up this section with a series of challenge videos.
+
+2
+00:00:06,120 --> 00:00:10,770
+So it's either going to be two or three videos that's two or three challenges where you're going to
+
+3
+00:00:10,770 --> 00:00:13,750
+be required to use everything you've learned about graft.
+
+4
+00:00:13,800 --> 00:00:18,690
+Well in the course so far had some brand new functionality to our application.
+
+5
+00:00:18,690 --> 00:00:22,030
+The big picture goal is to create the new comment type.
+
+6
+00:00:22,030 --> 00:00:27,270
+It set up some data for it then create some queries and some relationships between the comment type
+
+7
+00:00:27,270 --> 00:00:28,560
+and our other types.
+
+8
+00:00:28,560 --> 00:00:31,920
+That's what we're going to end up accomplishing throughout all of these challenges.
+
+9
+00:00:31,920 --> 00:00:37,400
+But I'm going to break it up into individual chunks to keep things digestible and actually solvable.
+
+10
+00:00:37,530 --> 00:00:42,240
+So in this one we're not going to worry about any of the relationships we're just going to worry about
+
+11
+00:00:42,270 --> 00:00:44,240
+creating some dummy comment data.
+
+12
+00:00:44,310 --> 00:00:49,950
+Setting up a comment type and creating a new query that we can use to access all of the comments in
+
+13
+00:00:49,950 --> 00:00:50,920
+our application.
+
+14
+00:00:51,090 --> 00:00:53,990
+So right here there are a few steps for getting this done.
+
+15
+00:00:54,000 --> 00:00:55,710
+This is part one.
+
+16
+00:00:55,710 --> 00:01:00,530
+So step one set up a comment type with ID and text fields.
+
+17
+00:01:00,540 --> 00:01:07,320
+So we only need these two and both should be non nullable So the ID field of the type ID needs to exist
+
+18
+00:01:07,340 --> 00:01:10,970
+and the text field of the type string needs to exist.
+
+19
+00:01:10,980 --> 00:01:16,380
+Next up you're going to create for comments that match up with the comment type so you can create for
+
+20
+00:01:16,380 --> 00:01:22,680
+comments with whatever ID and text values you want just make sure the ID is unique and not used by any
+
+21
+00:01:22,680 --> 00:01:24,990
+of our users or posts.
+
+22
+00:01:24,990 --> 00:01:30,860
+Step 3 you're going to be setting up a comments query with a resolver that returns all of the comments.
+
+23
+00:01:30,930 --> 00:01:36,870
+So much like we have a user's query and a post's query you're going to be adding a comments query into
+
+24
+00:01:36,870 --> 00:01:43,500
+the mix and the final step for this first part is to run a query and get all four comments back.
+
+25
+00:01:43,500 --> 00:01:48,810
+So make sure that the query you've set up and all of the data is actually returning as expected.
+
+26
+00:01:48,810 --> 00:01:53,250
+Remember don't worry about any relationships between the comment or the user or the Post.
+
+27
+00:01:53,250 --> 00:01:55,350
+We'll talk about those in the next video.
+
+28
+00:01:55,430 --> 00:02:01,240
+For now we're just setting up the basic infrastructure to let us eventually set up those relationships.
+
+29
+00:02:01,350 --> 00:02:02,870
+So it takes some time to knock this one out.
+
+30
+00:02:02,880 --> 00:02:04,770
+Take as much time as you need.
+
+31
+00:02:04,770 --> 00:02:08,660
+Pause the video go through other videos if you forget how something works.
+
+32
+00:02:08,670 --> 00:02:14,100
+Feel free to use Google any resources out there are totally fair game for these challenges.
+
+33
+00:02:14,100 --> 00:02:21,680
+All right Bob the video when you're done come back and click play.
+
+34
+00:02:21,720 --> 00:02:22,320
+How did you do.
+
+35
+00:02:22,320 --> 00:02:25,890
+Hopefully you were able to knock that out without too much trouble.
+
+36
+00:02:25,890 --> 00:02:27,800
+Let's go ahead and dive right in.
+
+37
+00:02:27,810 --> 00:02:29,460
+I'm going to start with step one.
+
+38
+00:02:29,460 --> 00:02:31,230
+Setting up that comment type.
+
+39
+00:02:31,320 --> 00:02:36,500
+So down below in our type definitions we can add a brand new one a third one right here.
+
+40
+00:02:36,540 --> 00:02:40,380
+A third custom type type uppercase C comment.
+
+41
+00:02:40,530 --> 00:02:42,860
+And for this one remember we just need two fields.
+
+42
+00:02:42,870 --> 00:02:46,050
+We need our ID of the type ID.
+
+43
+00:02:46,150 --> 00:02:52,400
+And we're also going to add the text for the comment of the type String both being non nullable perfect.
+
+44
+00:02:52,480 --> 00:02:54,830
+That's all we had to do for step one.
+
+45
+00:02:54,850 --> 00:02:58,710
+Step two is to create a comments array with four comments.
+
+46
+00:02:58,720 --> 00:03:02,900
+So we need some sample data later on this data will come from a database right now.
+
+47
+00:03:02,920 --> 00:03:07,270
+These arrays are getting the job done as we explore the basics of graft well.
+
+48
+00:03:07,480 --> 00:03:14,450
+So Konst comments equals an array of objects and we're going to add four into the mix.
+
+49
+00:03:14,480 --> 00:03:20,380
+The idea for this first one could be something like 102 and I'll set up the text.
+
+50
+00:03:20,380 --> 00:03:22,580
+This worked well for me.
+
+51
+00:03:25,500 --> 00:03:27,340
+And then I'll say thanks.
+
+52
+00:03:27,630 --> 00:03:32,100
+The next comment I'll give you an idea of 103.
+
+53
+00:03:32,210 --> 00:03:34,610
+And for this one we'll say it's a reply to that comment.
+
+54
+00:03:34,610 --> 00:03:35,570
+So something like.
+
+55
+00:03:35,570 --> 00:03:37,770
+Glad you enjoyed it.
+
+56
+00:03:40,000 --> 00:03:50,930
+And then we'll add a couple of more into the mix right here Id 104 text value of this did not work and
+
+57
+00:03:50,930 --> 00:03:53,520
+then we'll add one final comment right here.
+
+58
+00:03:53,570 --> 00:03:55,290
+Id 105.
+
+59
+00:03:56,270 --> 00:03:57,430
+And then I'll say something like.
+
+60
+00:03:57,430 --> 00:03:58,670
+Text.
+
+61
+00:03:58,780 --> 00:03:59,750
+Never mind.
+
+62
+00:03:59,810 --> 00:04:01,580
+I got it to work.
+
+63
+00:04:01,670 --> 00:04:02,340
+Perfect.
+
+64
+00:04:02,480 --> 00:04:07,420
+So now we have some sample comment data that we can actually use when we're working with graphs well
+
+65
+00:04:07,610 --> 00:04:09,750
+and this brings us to step three.
+
+66
+00:04:09,830 --> 00:04:16,070
+We want to set up a comments queery and a resolver that returns all of the comments so all four comments
+
+67
+00:04:16,130 --> 00:04:17,480
+that I just created.
+
+68
+00:04:17,660 --> 00:04:21,290
+Let's go ahead and actually knock this out right here on the query typedef.
+
+69
+00:04:21,290 --> 00:04:25,910
+So we have users we have posts we are going to set up comments.
+
+70
+00:04:26,120 --> 00:04:31,820
+We are not going to set up any arguments and we are going to return an array what's inside of the array.
+
+71
+00:04:31,860 --> 00:04:35,320
+It has individual comments referencing the comment type.
+
+72
+00:04:35,340 --> 00:04:36,330
+Excellent.
+
+73
+00:04:36,330 --> 00:04:40,420
+Now the other part of step three was to create the resolver for this new query.
+
+74
+00:04:40,470 --> 00:04:44,590
+So down below in our query object we're going to have to set that up.
+
+75
+00:04:44,640 --> 00:04:46,440
+I'll set up comments right here.
+
+76
+00:04:47,260 --> 00:04:52,090
+We can set up all of those arguments to parent args context and info.
+
+77
+00:04:52,090 --> 00:04:56,980
+Even though we haven't used all of them and what are we going to do inside of here this one is super
+
+78
+00:04:56,980 --> 00:04:57,550
+simple.
+
+79
+00:04:57,550 --> 00:05:03,580
+All we do is we return the comments array we're going to return all the comments no matter what.
+
+80
+00:05:03,650 --> 00:05:05,890
+And that brings us to the final step.
+
+81
+00:05:05,890 --> 00:05:12,820
+Step Four which is to actually make a query using the new comments operation and see if that works as
+
+82
+00:05:12,820 --> 00:05:13,600
+expected.
+
+83
+00:05:13,780 --> 00:05:19,720
+So I'm going to go ahead and save index dot J s over here inside of localhost 4000 I'm going to crack
+
+84
+00:05:19,720 --> 00:05:28,130
+open a new tab will perform a query operation at the query that I'm going to use is comments there are
+
+85
+00:05:28,130 --> 00:05:30,330
+no arguments for this so I won't add any.
+
+86
+00:05:30,380 --> 00:05:33,060
+And then we can decide what we want from each comment.
+
+87
+00:05:33,080 --> 00:05:37,040
+I'm going to grab everything I'm going to grab the ID and I'm going to grab the text.
+
+88
+00:05:37,250 --> 00:05:38,420
+Let's refresh the schema.
+
+89
+00:05:38,420 --> 00:05:42,400
+To load in the latest right here we now have a perfectly valid query.
+
+90
+00:05:42,560 --> 00:05:43,760
+I can go ahead and run this.
+
+91
+00:05:43,770 --> 00:05:44,870
+And what do I get back.
+
+92
+00:05:44,870 --> 00:05:47,420
+As expected I get back my comments.
+
+93
+00:05:47,420 --> 00:05:50,500
+So right here I have the comments property n data.
+
+94
+00:05:50,570 --> 00:05:55,520
+It's an array of objects where each object represents an individual comment and each of these objects
+
+95
+00:05:55,520 --> 00:05:57,630
+has an ID and a text value.
+
+96
+00:05:57,650 --> 00:06:04,380
+We have all four comments that we set up Id 102 103 104 and 1 0 5.
+
+97
+00:06:04,400 --> 00:06:07,630
+So that brings us to the end of this first challenge.
+
+98
+00:06:07,670 --> 00:06:13,060
+We now have a comment type in place and it's working really well in the next video.
+
+99
+00:06:13,130 --> 00:06:17,960
+We're going to move on to the next part of this little challenge series where it's going to be up to
+
+100
+00:06:17,960 --> 00:06:23,030
+you to set up relationships between our comment type and the other types in our application.
+
+101
+00:06:23,030 --> 00:06:25,000
+I'm really excited to get to part two.
+
+102
+00:06:25,010 --> 00:06:27,640
+So let's go ahead and jump right in to the next video.
+

@@ -1,0 +1,404 @@
+1
+00:00:00,210 --> 00:00:06,960
+In this video you're going to learn how to use a library called Appollo client to send off graphic operations
+
+2
+00:00:06,960 --> 00:00:09,030
+to a graphical API.
+
+3
+00:00:09,240 --> 00:00:15,300
+The only way we've ever communicated with our application so far is using graphical playground.
+
+4
+00:00:15,300 --> 00:00:19,900
+Now this is a fantastic tool to use while you're building out your API.
+
+5
+00:00:19,980 --> 00:00:24,860
+It's also a great tool to use to explore an existing one that you're supposed to consume.
+
+6
+00:00:24,990 --> 00:00:29,800
+But when it comes to actually making requests from code we don't know how to do that.
+
+7
+00:00:29,880 --> 00:00:31,600
+And this would be really useful.
+
+8
+00:00:31,620 --> 00:00:37,170
+We're going to do this for example from our test cases where they test that tries to do something like
+
+9
+00:00:37,170 --> 00:00:41,910
+sign up a user then will assert the user was actually added to the database.
+
+10
+00:00:42,030 --> 00:00:46,900
+We also need to be able to do this if we're going to end up building a client for our application.
+
+11
+00:00:47,070 --> 00:00:53,070
+So we want to be able to fire off an operation like a query from javascript in the browser to fetch
+
+12
+00:00:53,070 --> 00:00:55,140
+some data and render it to the screen.
+
+13
+00:00:55,140 --> 00:00:57,840
+That's exactly what we're going to end up doing in this video.
+
+14
+00:00:57,840 --> 00:01:04,780
+By the end you'll be using Appollo client in the browser to fetch and render data from the graph API.
+
+15
+00:01:05,010 --> 00:01:10,130
+Now the first thing we're going to do temporarily is shut down our test suite using control-C.
+
+16
+00:01:10,230 --> 00:01:15,720
+I actually want to run the development server so I can communicate with our graph API and I'm going
+
+17
+00:01:15,720 --> 00:01:20,590
+to do that by running NPM run dev running our development environment.
+
+18
+00:01:20,760 --> 00:01:27,420
+And once that's up and running we're going to go ahead and collapse all directories and close all files
+
+19
+00:01:27,630 --> 00:01:30,660
+and we're going to create a new directory that will be playing around with.
+
+20
+00:01:30,660 --> 00:01:37,880
+In this video right here we can call this something like Appollo hyphen client perfect.
+
+21
+00:01:37,890 --> 00:01:41,840
+Now what goes inside of here is in essence going to be a really small Web site.
+
+22
+00:01:41,910 --> 00:01:47,310
+We're going to have an H TNL file that'll be pretty bare bones and we're also going to have some javascript
+
+23
+00:01:47,310 --> 00:01:54,150
+that runs and it's that javascript code that's actually going to fetch data from the API and render
+
+24
+00:01:54,150 --> 00:01:54,340
+it.
+
+25
+00:01:54,420 --> 00:01:56,740
+Let's go ahead and create this barebones Web site.
+
+26
+00:01:56,760 --> 00:02:00,960
+I'm going to make a source directory in the Apollo client folder.
+
+27
+00:02:01,110 --> 00:02:08,400
+Then inside of the source folder I'm going to add a single file index dot each TNL and this file is
+
+28
+00:02:08,400 --> 00:02:11,350
+going to be a bare bones DML document.
+
+29
+00:02:11,580 --> 00:02:18,060
+And with Visual Studio code I can actually type out each DML Colan five then click that little option
+
+30
+00:02:18,060 --> 00:02:21,390
+right there and that's going to generate a bare bones document.
+
+31
+00:02:21,390 --> 00:02:26,490
+We can use your more than welcome to just type this out if you're using a different editor or use any
+
+32
+00:02:26,490 --> 00:02:29,940
+barebones boilerplate HVM L5 doc.
+
+33
+00:02:29,940 --> 00:02:35,130
+Now all we're going to do for the moment is add a script tag and a single div.
+
+34
+00:02:35,130 --> 00:02:42,090
+So right here I'm going to create a div element and this is where we will end up rendering the published
+
+35
+00:02:42,150 --> 00:02:42,750
+posts.
+
+36
+00:02:42,750 --> 00:02:50,550
+So right here Id I'll set an id attribute equal to posts allowing us to target this from javascript.
+
+37
+00:02:50,550 --> 00:02:56,460
+Then down below I'm going to link in a javascript file that's where the Apollo client code will actually
+
+38
+00:02:56,460 --> 00:03:00,910
+run and that's where we will work on rendering something to the screen right here.
+
+39
+00:03:02,090 --> 00:03:07,250
+We're going to set up our script tag and use the source attribute to link in an external javascript
+
+40
+00:03:07,250 --> 00:03:07,920
+file.
+
+41
+00:03:08,000 --> 00:03:13,700
+And I'll also be setting up the type attribute setting its value equal to application forward slash
+
+42
+00:03:13,730 --> 00:03:20,860
+javascript and the source attribute can set equal to something like Dot forwards slash and right here.
+
+43
+00:03:20,870 --> 00:03:24,260
+We'll just use index dot J as perfect.
+
+44
+00:03:24,530 --> 00:03:28,550
+So now we have our index dot J.S. file linked in.
+
+45
+00:03:28,550 --> 00:03:30,340
+Let's go ahead and create it.
+
+46
+00:03:30,410 --> 00:03:33,190
+I'm going to add it to the source directory index.
+
+47
+00:03:33,190 --> 00:03:34,340
+Dot J s.
+
+48
+00:03:34,580 --> 00:03:39,160
+And from here we can just add a little Konsole dot Lague to make sure things are running.
+
+49
+00:03:39,170 --> 00:03:41,630
+This should show up.
+
+50
+00:03:41,750 --> 00:03:42,800
+Perfect.
+
+51
+00:03:42,800 --> 00:03:45,490
+Now we can go ahead and save both files.
+
+52
+00:03:45,590 --> 00:03:50,870
+And what we're going to do is actually start up this little development server and to do that we're
+
+53
+00:03:50,870 --> 00:03:56,120
+going to use a really great little tool called parsel parcel is a great little tool and you can learn
+
+54
+00:03:56,120 --> 00:04:01,700
+more about it by heading over to the browser and going to parcel J s dot org.
+
+55
+00:04:01,790 --> 00:04:03,950
+Now parsel is similar to web pack.
+
+56
+00:04:03,950 --> 00:04:05,770
+It is an application bundler.
+
+57
+00:04:05,840 --> 00:04:11,330
+So it's going to enable things like the import export syntax in the browser and that also runs babbel
+
+58
+00:04:11,330 --> 00:04:16,910
+by default so we can take advantage of modern javascript regardless of what browser we end up running
+
+59
+00:04:16,910 --> 00:04:17,220
+in.
+
+60
+00:04:17,330 --> 00:04:21,600
+It's an awesome little tool and it's going to allow us to get started with zero hassle.
+
+61
+00:04:21,800 --> 00:04:24,400
+So let's go ahead and crack open a new terminal.
+
+62
+00:04:24,400 --> 00:04:30,560
+We want to leave our server running in the background and we're going to CD in to the Apollo client
+
+63
+00:04:30,560 --> 00:04:34,610
+directory and from here we are going to set up parsel.
+
+64
+00:04:34,640 --> 00:04:36,150
+First up let's install it.
+
+65
+00:04:36,170 --> 00:04:41,100
+I'm going to run NPM in it from the Apollo client directory to generate a package.
+
+66
+00:04:41,120 --> 00:04:42,360
+Jason File.
+
+67
+00:04:42,390 --> 00:04:46,500
+I'll enter through every single question using the default option for each.
+
+68
+00:04:46,620 --> 00:04:46,940
+I'll hit.
+
+69
+00:04:46,960 --> 00:04:52,500
+Yes and now the file is created from here we can now install parsel using NPM.
+
+70
+00:04:52,510 --> 00:04:57,900
+Install the library name itself is called parsel hyphen bundler.
+
+71
+00:04:58,190 --> 00:05:01,810
+And we're going to grab the latest version one point nine point seven.
+
+72
+00:05:01,910 --> 00:05:07,060
+And I will use the same dev flag to save that as a development dependency.
+
+73
+00:05:07,130 --> 00:05:10,160
+No parsel doesn't require a configuration file.
+
+74
+00:05:10,160 --> 00:05:15,080
+In essence we're just going to be creating a single script in package Dom Jason and that's going to
+
+75
+00:05:15,080 --> 00:05:16,430
+start everything up.
+
+76
+00:05:16,430 --> 00:05:22,010
+It'll give us access to import export from index dot J S and that's a good thing because we're going
+
+77
+00:05:22,010 --> 00:05:29,090
+to be installing Appollo client shortly and in porting it so we can actually fire off a graft operation
+
+78
+00:05:29,270 --> 00:05:30,610
+from the browser.
+
+79
+00:05:30,620 --> 00:05:37,040
+Now over inside of package Dom Jason we can set up our script and it's super easy to use parsel right
+
+80
+00:05:37,040 --> 00:05:37,580
+here.
+
+81
+00:05:37,610 --> 00:05:42,440
+I'm actually going to delete the test script as we're not going to be creating a test suite for this
+
+82
+00:05:42,440 --> 00:05:44,050
+little client example.
+
+83
+00:05:44,210 --> 00:05:51,260
+I'm going to swap that out with the start script and only have to do is run the parsel command and provide
+
+84
+00:05:51,260 --> 00:05:53,580
+a path to our DML file.
+
+85
+00:05:53,660 --> 00:05:57,910
+In this case it is source forwards slash index dot TNL.
+
+86
+00:05:57,950 --> 00:05:58,720
+And there we go.
+
+87
+00:05:58,760 --> 00:05:59,660
+We're done.
+
+88
+00:05:59,720 --> 00:06:01,340
+I can now save that package.
+
+89
+00:06:01,370 --> 00:06:08,110
+Jason down below we can run NPM run it start to execute that start script.
+
+90
+00:06:08,110 --> 00:06:15,110
+And this is going to start up a web server here it's running on local host 6 4 to 1 4.
+
+91
+00:06:15,110 --> 00:06:19,650
+I'm going to navigate over to that you're going to have to navigate over to your specific port.
+
+92
+00:06:19,700 --> 00:06:24,680
+I can actually just use alt and click it to automatically open it up in the browser.
+
+93
+00:06:24,680 --> 00:06:30,290
+Now if I crack open the developer tools in the console I should be seeing my little console message
+
+94
+00:06:30,380 --> 00:06:31,700
+showing up and I am.
+
+95
+00:06:31,790 --> 00:06:33,790
+This should show up is printing.
+
+96
+00:06:34,010 --> 00:06:36,230
+So now we have a little barebones website.
+
+97
+00:06:36,230 --> 00:06:41,780
+We have an H DML file and a J S file in the index dot J S file.
+
+98
+00:06:41,780 --> 00:06:48,230
+We're going to remove our console dot Lague call and we're going to focus on importing Appollo client
+
+99
+00:06:48,350 --> 00:06:53,630
+and actually firing off a graphical operation to fetch some data from the server.
+
+100
+00:06:53,630 --> 00:06:55,870
+We're going to knock that out in the next video.
+
+101
+00:06:55,880 --> 00:06:57,970
+So let's go ahead and jump right into that.
+

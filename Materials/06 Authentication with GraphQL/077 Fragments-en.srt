@@ -1,0 +1,1104 @@
+1
+00:00:00,200 --> 00:00:04,920
+In this video you're going to learn how to solve the issue we discussed at the end of the last one where
+
+2
+00:00:04,920 --> 00:00:11,280
+if we don't ask for the ID inside of our query our code can actually run as expected because we're using
+
+3
+00:00:11,280 --> 00:00:13,390
+Parent ID right here.
+
+4
+00:00:13,470 --> 00:00:17,250
+So to fix that what we're going to end up doing is talking about fragments.
+
+5
+00:00:17,250 --> 00:00:22,080
+First we're going to talk about them engraft you play ground to see exactly what they can do for us
+
+6
+00:00:22,410 --> 00:00:27,840
+then we're going to integrate them into our Prisma application to actually solve the problem we're having
+
+7
+00:00:27,840 --> 00:00:28,380
+here.
+
+8
+00:00:28,620 --> 00:00:33,150
+So to kick things off let's go ahead and just add a little bit of code into any one of our queries or
+
+9
+00:00:33,150 --> 00:00:34,260
+mutations.
+
+10
+00:00:34,260 --> 00:00:36,450
+I'm going to stick with this one right here.
+
+11
+00:00:36,450 --> 00:00:42,930
+Our users queery a common complaint by new graphic developers is that we have to be so explicit with
+
+12
+00:00:42,930 --> 00:00:48,870
+the fields we want back there is no way for example to get all of these scalar fields for a user if
+
+13
+00:00:48,870 --> 00:00:52,160
+I want a field I have to explicitly list it out.
+
+14
+00:00:52,200 --> 00:00:56,620
+That means I do this in my queries I do this in mutations and subscriptions.
+
+15
+00:00:56,640 --> 00:01:00,180
+I'm constantly listing out the same stuff with fragments.
+
+16
+00:01:00,180 --> 00:01:01,830
+We no longer have to do that.
+
+17
+00:01:01,980 --> 00:01:08,790
+A fragment allows us to create a reusable selection set so we can define what we want once and we can
+
+18
+00:01:08,790 --> 00:01:11,320
+use it anywhere where we want those things.
+
+19
+00:01:11,430 --> 00:01:13,610
+So this is easiest to see in practice.
+
+20
+00:01:13,620 --> 00:01:19,470
+Let's go ahead and create a brand new fragment that fetches all of these scalar fields for a user.
+
+21
+00:01:19,470 --> 00:01:22,440
+That would be id name and email.
+
+22
+00:01:22,440 --> 00:01:26,190
+So right here we start with the fragment keyword.
+
+23
+00:01:26,230 --> 00:01:29,020
+After that we provide a name for this fragment.
+
+24
+00:01:29,020 --> 00:01:31,240
+You can think of this just like a variable name.
+
+25
+00:01:31,240 --> 00:01:37,810
+I'm going to pick something descriptive like user fields then we use the on keyword followed by the
+
+26
+00:01:37,810 --> 00:01:39,940
+type we are selecting from.
+
+27
+00:01:40,150 --> 00:01:44,080
+So with each fragment it has to be associated with a specific type.
+
+28
+00:01:44,110 --> 00:01:45,420
+In this case is it a user.
+
+29
+00:01:45,430 --> 00:01:46,210
+Is it a post.
+
+30
+00:01:46,210 --> 00:01:47,320
+Is it a comment.
+
+31
+00:01:47,350 --> 00:01:49,090
+It is going to be a user.
+
+32
+00:01:49,210 --> 00:01:52,570
+Then down below we list out all of the fields we want.
+
+33
+00:01:52,570 --> 00:01:57,150
+So I want ID name and email.
+
+34
+00:01:57,220 --> 00:02:03,370
+Now you can see that what we have here is a valid fragment because the user type does indeed have ID
+
+35
+00:02:03,400 --> 00:02:04,610
+name and email.
+
+36
+00:02:04,630 --> 00:02:10,420
+If I were to ask for something that the user type doesn't have like title we can see that causes an
+
+37
+00:02:10,420 --> 00:02:13,020
+error because we've been explicit about the type.
+
+38
+00:02:13,020 --> 00:02:18,720
+We are selecting from the can actually validate this operation before even performing it.
+
+39
+00:02:18,730 --> 00:02:22,210
+So let's go ahead and just grab ID name and email.
+
+40
+00:02:22,210 --> 00:02:23,920
+Now how do we actually use this.
+
+41
+00:02:23,920 --> 00:02:31,330
+Well anywhere we provide a selection set we can use the following syntax dot dot dot followed by the
+
+42
+00:02:31,330 --> 00:02:32,320
+fragment name.
+
+43
+00:02:32,320 --> 00:02:35,650
+So in this case that is user fields.
+
+44
+00:02:35,860 --> 00:02:40,780
+So in essence what we're doing is creating a variable here that we can use wherever we want to grab
+
+45
+00:02:40,780 --> 00:02:42,560
+these fields off of a user.
+
+46
+00:02:42,580 --> 00:02:45,160
+And if I actually fire this off what do I get I get.
+
+47
+00:02:45,190 --> 00:02:47,170
+Id name and email.
+
+48
+00:02:47,170 --> 00:02:48,680
+Showing up for both.
+
+49
+00:02:48,730 --> 00:02:54,730
+If I were to change this asking for just ID and name and I would fire that off you can see that the
+
+50
+00:02:54,730 --> 00:02:57,230
+results have updated correctly.
+
+51
+00:02:57,250 --> 00:03:03,100
+Now up above along side of our fragment we could go ahead and ask for other things like e-mail explicitly
+
+52
+00:03:03,100 --> 00:03:06,580
+so we can use a combination of the two in our fragments.
+
+53
+00:03:06,580 --> 00:03:12,970
+We could also ask for related data so I could grab all post IDs for example now.
+
+54
+00:03:13,000 --> 00:03:19,570
+For each user what am I getting I'm getting their ID their name their email and all of the post ID's.
+
+55
+00:03:19,690 --> 00:03:23,900
+If I actually fire that off we can see that is exactly what we end up getting.
+
+56
+00:03:23,920 --> 00:03:29,800
+So using fragments is going to allow us to avoid having to retype out the same old selection set over
+
+57
+00:03:29,830 --> 00:03:31,220
+and over again.
+
+58
+00:03:31,390 --> 00:03:37,120
+No inside of graft you playground this little demo client there's no way to share these between your
+
+59
+00:03:37,120 --> 00:03:38,800
+various queries and mutations.
+
+60
+00:03:38,800 --> 00:03:40,040
+But that's OK.
+
+61
+00:03:40,070 --> 00:03:45,750
+We're still going to be able to use fragments inside of our Prisma application to solve the problem.
+
+62
+00:03:45,790 --> 00:03:48,310
+We're running up against over in user data.
+
+63
+00:03:48,640 --> 00:03:51,560
+We can now integrate fragments into our application.
+
+64
+00:03:51,670 --> 00:03:58,330
+So when we provide our resolvers for fields like email we can also choose to provide a fragment.
+
+65
+00:03:58,330 --> 00:04:02,380
+And that's going to make sure that Prisma fetches certain data about.
+
+66
+00:04:02,410 --> 00:04:06,130
+In this case the user when a specific resolver runs.
+
+67
+00:04:06,130 --> 00:04:12,550
+So for this one we need the ID and with a fragment we can force Prisma to get the ID from the database.
+
+68
+00:04:12,670 --> 00:04:18,760
+Even if the client didn't request it to get this done we're going to make a few small structural changes.
+
+69
+00:04:18,760 --> 00:04:22,690
+First up e-mail is going to be an object not a function.
+
+70
+00:04:22,690 --> 00:04:26,920
+Now we're going to end up reusing this function exactly like we have it currently.
+
+71
+00:04:26,920 --> 00:04:31,600
+So I'm going to grab everything from the opening parentheses for our arguments list all the way to the
+
+72
+00:04:31,600 --> 00:04:33,570
+closing curly brace.
+
+73
+00:04:33,610 --> 00:04:39,090
+I'm going to remove it and we're going to set e-mail equal to an object instead on here.
+
+74
+00:04:39,100 --> 00:04:41,410
+We're going to provide two fields.
+
+75
+00:04:41,440 --> 00:04:48,100
+We're going to provide fragment which is going to be a string and we're going to provide resolve which
+
+76
+00:04:48,100 --> 00:04:51,270
+is going to be the exact same function we had before.
+
+77
+00:04:51,340 --> 00:04:54,880
+So we can just paste that in inside of the string.
+
+78
+00:04:54,910 --> 00:05:00,730
+We can now set up a fragment that Prisma is going to use and we can ask for the fields that we need
+
+79
+00:05:00,820 --> 00:05:03,100
+like in this case just the ID.
+
+80
+00:05:03,100 --> 00:05:07,930
+So right here we're going to create a fragment exactly like we did over here.
+
+81
+00:05:07,960 --> 00:05:13,050
+So fragment then we provide a name we can call this anything.
+
+82
+00:05:13,090 --> 00:05:18,530
+I'm going to call it user id on what type the user type.
+
+83
+00:05:18,690 --> 00:05:24,990
+And then inside of curly braces we provide the fields we want and in this case we just need the ID.
+
+84
+00:05:25,140 --> 00:05:32,790
+If I was using other fields like parent dot title or parent dot comment taxed I could ask for those
+
+85
+00:05:32,790 --> 00:05:34,250
+depending on the type.
+
+86
+00:05:34,320 --> 00:05:38,460
+In this case though the only one we need is indeed parent dot I.D..
+
+87
+00:05:38,640 --> 00:05:42,810
+Now you might be wondering why not also grab the email since we're using that here.
+
+88
+00:05:42,930 --> 00:05:47,240
+Well this resolver is only going to run if the client asked for the email.
+
+89
+00:05:47,280 --> 00:05:49,520
+So there's no need for us to ask for it.
+
+90
+00:05:49,830 --> 00:05:54,140
+Now with this in place we actually need to do a little refactoring.
+
+91
+00:05:54,360 --> 00:05:58,540
+Well Prisma does support fragments in this way.
+
+92
+00:05:58,590 --> 00:06:01,260
+It requires a little bit of configuration.
+
+93
+00:06:01,260 --> 00:06:04,830
+So we're not actually going to need to change anything inside of user dot J.
+
+94
+00:06:04,840 --> 00:06:09,810
+S. But we are going to have to make some configuration changes to how we're setting up the server to
+
+95
+00:06:09,810 --> 00:06:11,670
+add support for fragments.
+
+96
+00:06:11,670 --> 00:06:17,190
+This is definitely something we want to do as it is an essential feature when it comes to really locking
+
+97
+00:06:17,190 --> 00:06:19,470
+down your data to kick things off.
+
+98
+00:06:19,470 --> 00:06:24,870
+Let's go ahead and close all open editors and we are going to focus on just a couple of files.
+
+99
+00:06:24,900 --> 00:06:26,220
+Index dot J.
+
+100
+00:06:26,220 --> 00:06:29,400
+S. end Prisma dot J S.
+
+101
+00:06:29,490 --> 00:06:33,430
+Now and the end of the day the goal is to grab a single function from Prisma binding.
+
+102
+00:06:33,450 --> 00:06:36,000
+It's called extract fragment replacements.
+
+103
+00:06:36,000 --> 00:06:39,030
+It's a function and it gets called with our resolvers.
+
+104
+00:06:39,120 --> 00:06:44,850
+What it gives us back is something that we're going to pass into our Prisma constructor function here
+
+105
+00:06:45,150 --> 00:06:48,310
+and our graft Juelz server a constructor function.
+
+106
+00:06:48,330 --> 00:06:54,840
+Over here that's what's going to enable the syntax that we just used over inside of user J S.
+
+107
+00:06:54,990 --> 00:07:00,240
+Now in order to actually get this done we're going to have to do a small amount of refactoring because
+
+108
+00:07:00,240 --> 00:07:04,660
+our current application architecture doesn't actually make this possible.
+
+109
+00:07:04,680 --> 00:07:10,080
+The function that we're going to get needs to get called with resolvers those live over here but it
+
+110
+00:07:10,080 --> 00:07:14,610
+also needs to get passed into this constructor function in the other file.
+
+111
+00:07:14,610 --> 00:07:19,600
+Now maybe you say well we create things over here we export them and we import them over here.
+
+112
+00:07:19,740 --> 00:07:26,210
+But then we have a circular dependency where Prisma is importing index and index is importing Prisma.
+
+113
+00:07:26,280 --> 00:07:30,560
+And that's a problem with a small amount of refactoring though we can solve this problem.
+
+114
+00:07:30,690 --> 00:07:35,030
+But we're going to do is just create a separate file where our resolvers get defined.
+
+115
+00:07:35,070 --> 00:07:41,100
+We can then load that in where necessary and to start we're going to create a brand new file in the
+
+116
+00:07:41,100 --> 00:07:45,060
+resolvers directory called index Daten J ass.
+
+117
+00:07:45,090 --> 00:07:51,120
+This file is going to be in charge of getting that resolvers object built the exact same object we have
+
+118
+00:07:51,120 --> 00:07:52,000
+right here.
+
+119
+00:07:52,110 --> 00:07:56,890
+And we're going to be able to repurpose almost all of the code necessary for getting that done.
+
+120
+00:07:57,180 --> 00:08:01,470
+So the first thing we're going to do is grab all of our resolver in ports right here.
+
+121
+00:08:01,470 --> 00:08:09,120
+There are six query nutation subscription user post comment exactly like the six we have down below.
+
+122
+00:08:09,120 --> 00:08:14,760
+I'm going to cut these out and we're going to bring them over to this brand new file in here.
+
+123
+00:08:14,760 --> 00:08:17,090
+We're going to load in all of those resolvers.
+
+124
+00:08:17,130 --> 00:08:23,190
+Now it's important to note that this file we're importing from it's already in the resolvers directory.
+
+125
+00:08:23,250 --> 00:08:27,280
+So we have to do is remove resolvers from the path for all six.
+
+126
+00:08:27,450 --> 00:08:33,000
+Instead it'll just be daat forward slash and then the file name because the files are live in the same
+
+127
+00:08:33,000 --> 00:08:35,250
+directory as this file.
+
+128
+00:08:35,250 --> 00:08:40,560
+Now the next thing we're going to do is create a concept called resolvers and we're going to construct
+
+129
+00:08:40,620 --> 00:08:43,830
+that object the object that we have right here.
+
+130
+00:08:43,830 --> 00:08:45,740
+All we need to do is cut this out.
+
+131
+00:08:46,640 --> 00:08:52,190
+Then over inside of our other file We're going to paste it right in and from here we're just going to
+
+132
+00:08:52,190 --> 00:08:53,110
+export it.
+
+133
+00:08:53,120 --> 00:08:58,110
+So right here we can set up an export exporting resolvers.
+
+134
+00:08:58,160 --> 00:08:59,170
+Perfect.
+
+135
+00:08:59,180 --> 00:09:05,350
+So now our resolvers object is constructed in this file and we can inport it right over here.
+
+136
+00:09:05,360 --> 00:09:07,040
+Let's go ahead and actually get that done.
+
+137
+00:09:07,040 --> 00:09:16,410
+I am going to import resolvers from the file we just created that's dot forward slash resolvers then
+
+138
+00:09:16,440 --> 00:09:18,420
+forward slash index.
+
+139
+00:09:18,450 --> 00:09:19,400
+Perfect.
+
+140
+00:09:19,620 --> 00:09:24,110
+Now that we have this in place we can actually just remove the colon down below.
+
+141
+00:09:24,210 --> 00:09:29,190
+And the resolvers property is going to get its value from the resolvers variable up above.
+
+142
+00:09:29,370 --> 00:09:34,620
+And we know the resolvers variable is just the exact same object we were previously passing in.
+
+143
+00:09:34,890 --> 00:09:39,750
+So at this point we have not changed the functionality of our application at all.
+
+144
+00:09:39,750 --> 00:09:43,670
+It's still not going to work because we haven't set up support for fragments.
+
+145
+00:09:43,800 --> 00:09:48,960
+But we now have an application architecture that will actually let us set up support for fragments.
+
+146
+00:09:48,960 --> 00:09:50,170
+So let's get to that.
+
+147
+00:09:50,430 --> 00:09:56,150
+Over inside of index dot J S we're going to be grabbing that thing from Prisma binding that I mentioned.
+
+148
+00:09:56,160 --> 00:10:05,250
+So right here in inport statement we need to import extract fragment replacements.
+
+149
+00:10:05,250 --> 00:10:09,660
+This is the function I was talking about that we're going to end up calling passing in our resolvers
+
+150
+00:10:09,660 --> 00:10:10,290
+right here.
+
+151
+00:10:10,380 --> 00:10:12,180
+That comes from Prisma binding
+
+152
+00:10:15,150 --> 00:10:16,070
+awesome.
+
+153
+00:10:16,080 --> 00:10:17,160
+Now where are we going from here.
+
+154
+00:10:17,160 --> 00:10:21,270
+Well the next thing to do is to call this function and pass in the resolvers.
+
+155
+00:10:21,270 --> 00:10:25,500
+And since the resolvers are defined in this file it's going to be very easy down below.
+
+156
+00:10:25,590 --> 00:10:28,510
+All we're going to do is create a new variable.
+
+157
+00:10:28,730 --> 00:10:32,550
+I'm going to call this one fragment replacements.
+
+158
+00:10:33,390 --> 00:10:40,780
+And this is where we are going to call extract fragment replacements and we are going to pass in our
+
+159
+00:10:40,780 --> 00:10:42,730
+resolvers object.
+
+160
+00:10:42,760 --> 00:10:43,970
+Excellent.
+
+161
+00:10:43,990 --> 00:10:52,790
+Now we can actually export fragment replacements from this file and we can import it into both Prisma
+
+162
+00:10:53,120 --> 00:11:00,450
+J.S. and source forward slash index dot J S and we can pass them into the necessary constructor functions.
+
+163
+00:11:00,680 --> 00:11:06,470
+So all of the refactoring we did was to make this possible to make it possible to create our fragment
+
+164
+00:11:06,470 --> 00:11:12,020
+replacements in a separate file that can be imported and used inside of both of those.
+
+165
+00:11:12,020 --> 00:11:16,940
+Now the question has to be asked what exactly is fragment replacements.
+
+166
+00:11:16,940 --> 00:11:21,910
+This is nothing more than a list of all of the graph Cuil fragment definitions.
+
+167
+00:11:21,980 --> 00:11:26,100
+And in our case we have just that one in user dot J S.
+
+168
+00:11:26,210 --> 00:11:30,350
+So extract fragment replacements takes in all of our resolvers.
+
+169
+00:11:30,350 --> 00:11:36,140
+It goes through all of our resolvers including the user resolver and it extracts all of those fragments.
+
+170
+00:11:36,140 --> 00:11:41,070
+The one we set up and it returns them right here and fragment replacements.
+
+171
+00:11:41,090 --> 00:11:47,090
+This allows us to specify the fields that are required for the resolver function to run correctly.
+
+172
+00:11:47,090 --> 00:11:52,400
+In this case the email resolver function requires the ID from the user.
+
+173
+00:11:52,400 --> 00:11:56,030
+Now we can actually import this from those two files and we'll be all done.
+
+174
+00:11:56,030 --> 00:11:57,420
+Our future will work.
+
+175
+00:11:57,440 --> 00:12:03,430
+So over in Prisma and J.S. we are going to inport the fragment replacements
+
+176
+00:12:06,170 --> 00:12:08,930
+we're going to grab that from the following file.
+
+177
+00:12:08,990 --> 00:12:13,070
+Forward slash resolvers forward slash in their index.
+
+178
+00:12:13,160 --> 00:12:14,270
+Awesome.
+
+179
+00:12:14,270 --> 00:12:19,520
+Next up we have to make a change down below so we have new Prisma we have our constructor function.
+
+180
+00:12:19,640 --> 00:12:23,040
+We have to pass fragment replacements in.
+
+181
+00:12:23,090 --> 00:12:27,770
+Now the property that we're going to be setting up is also called fragment replacements so we can take
+
+182
+00:12:27,770 --> 00:12:33,050
+advantage of our Yes six properties shorthand right here we can just list it out.
+
+183
+00:12:33,050 --> 00:12:33,900
+Awesome.
+
+184
+00:12:33,980 --> 00:12:35,630
+That's actually it for this file.
+
+185
+00:12:35,630 --> 00:12:39,830
+The next thing we're going to do is exactly the same just an index dot J S.
+
+186
+00:12:40,010 --> 00:12:44,030
+So we're going to grab resolvers but we're also going to grab fragment replacements
+
+187
+00:12:46,590 --> 00:12:52,840
+down below we are going to set up that property as well alongside of type deaths resolvers and context.
+
+188
+00:12:52,860 --> 00:12:57,960
+So right here fragment replacements awesome.
+
+189
+00:12:58,270 --> 00:13:05,310
+Now our server and Prisma are both configured to actually use the fragment we set up in user Dhananjay
+
+190
+00:13:05,370 --> 00:13:05,990
+as.
+
+191
+00:13:06,070 --> 00:13:08,950
+And we should be able to test things out and see that they're working.
+
+192
+00:13:09,140 --> 00:13:14,020
+So over here what I'm going to do is remove the little fragment example we messed around with and we're
+
+193
+00:13:14,020 --> 00:13:16,380
+going to go back to our standard example.
+
+194
+00:13:16,450 --> 00:13:18,660
+We were asking for an ID and an e-mail.
+
+195
+00:13:18,670 --> 00:13:20,440
+In this case things worked.
+
+196
+00:13:20,440 --> 00:13:24,760
+If I rerun it I can see that yes I am still getting the e-mail for yes.
+
+197
+00:13:24,760 --> 00:13:31,480
+The problem before was that when I didn't ask for the ID resolver wasn't able to run correctly and we
+
+198
+00:13:31,480 --> 00:13:37,180
+got Knol for both emails if I fire things off with our new code in place we can see that we are able
+
+199
+00:13:37,180 --> 00:13:45,700
+to poll just Jess's e-mail out which is awesome by using fragments we can really create custom resolvers
+
+200
+00:13:45,880 --> 00:13:47,680
+that do something meaningful.
+
+201
+00:13:47,680 --> 00:13:53,320
+Now it's Challenge time and in this challenge it's going to be up to you to set up a Netherfield resolver
+
+202
+00:13:53,320 --> 00:13:56,600
+for user alongside of a user e-mail.
+
+203
+00:13:56,740 --> 00:14:01,930
+Now this one is going to be four posts and it's going to limit exactly what posts you can fetch from
+
+204
+00:14:01,930 --> 00:14:02,830
+a given user.
+
+205
+00:14:02,830 --> 00:14:07,390
+We don't want you to be able to fetch draft posts only public ones.
+
+206
+00:14:07,390 --> 00:14:13,840
+So right now if I were to change this query for example and also ask for the posts for each user I would
+
+207
+00:14:13,840 --> 00:14:15,430
+be able to grab whatever I wanted.
+
+208
+00:14:15,430 --> 00:14:22,980
+Id title and published and I'd be able to see both published and draft posts right here for example.
+
+209
+00:14:23,080 --> 00:14:26,530
+I am seeing post by just one which is not published.
+
+210
+00:14:26,530 --> 00:14:31,340
+I should not be able to view this when accessing a user's posts.
+
+211
+00:14:31,420 --> 00:14:32,910
+So that's what we're going to fix.
+
+212
+00:14:32,920 --> 00:14:39,130
+We're going to leave the only way to fetch draft posts to our my posts query which already does a great
+
+213
+00:14:39,130 --> 00:14:40,220
+job at that.
+
+214
+00:14:40,240 --> 00:14:42,100
+So let's talk about what I'd like you to do.
+
+215
+00:14:42,130 --> 00:14:45,960
+Right over here I have three steps for getting this one done.
+
+216
+00:14:45,970 --> 00:14:51,270
+The big picture goal once again limit the users posts to just showing the published ones.
+
+217
+00:14:51,280 --> 00:14:54,710
+Step one we have to set up a new field resolver down below.
+
+218
+00:14:54,790 --> 00:15:00,850
+So we're going to add the Post's property onto the user object and the Post's property itself is going
+
+219
+00:15:00,850 --> 00:15:04,210
+to be an object with fragment and resolve inside of it.
+
+220
+00:15:04,210 --> 00:15:10,240
+Step two is setting up the fragment So we need to set up a fragment that ensures we always have access
+
+221
+00:15:10,240 --> 00:15:15,010
+to the user's ID which we're going to need in step 3 so any to fragment.
+
+222
+00:15:15,010 --> 00:15:17,200
+Much like we have down below.
+
+223
+00:15:17,200 --> 00:15:20,760
+Step three is to actually fill out that resolver method.
+
+224
+00:15:20,890 --> 00:15:25,430
+You're going to be using the correct Prisma method to grab all posts.
+
+225
+00:15:25,450 --> 00:15:32,440
+So you're going to be using Prisma query posts and you want to limit the posts you're fetching to those
+
+226
+00:15:32,440 --> 00:15:35,800
+that are published and belong to that user.
+
+227
+00:15:35,920 --> 00:15:43,910
+So you want to make sure that the authors ID for the post matches up with the user id on parent Id never
+
+228
+00:15:43,910 --> 00:15:44,260
+remember.
+
+229
+00:15:44,260 --> 00:15:51,130
+The goal is to return an array of posts because that is exactly what the Post's field was set up to
+
+230
+00:15:51,130 --> 00:15:51,660
+be.
+
+231
+00:15:51,790 --> 00:15:53,220
+In schema Dom graft.
+
+232
+00:15:53,290 --> 00:15:58,290
+Well if I scroll down to my user type definition what do we have under posts.
+
+233
+00:15:58,300 --> 00:15:59,900
+We have an array of posts.
+
+234
+00:16:00,010 --> 00:16:02,130
+That's why we are using Prisma.
+
+235
+00:16:02,200 --> 00:16:04,480
+Queery dot posts.
+
+236
+00:16:04,660 --> 00:16:08,890
+Take as much time as you need to fill this out and then actually test your work.
+
+237
+00:16:08,890 --> 00:16:14,610
+So if you rerun the query over here you should no longer see published posts showing up.
+
+238
+00:16:14,710 --> 00:16:15,160
+All right.
+
+239
+00:16:15,160 --> 00:16:17,180
+Pause the video test your work.
+
+240
+00:16:17,230 --> 00:16:19,690
+Then when you're done come back and click play
+
+241
+00:16:23,810 --> 00:16:24,540
+how that go.
+
+242
+00:16:24,550 --> 00:16:25,780
+Let's get to it.
+
+243
+00:16:25,790 --> 00:16:29,530
+I'm going to kick things off by creating the field resolver down below.
+
+244
+00:16:29,540 --> 00:16:35,540
+Now I could go ahead and set it up right here before email or after email the order isn't important.
+
+245
+00:16:35,630 --> 00:16:37,600
+I'm just going to go ahead and put it first.
+
+246
+00:16:37,730 --> 00:16:44,950
+So we need a new object and on this object we are going to have fragment that's going to be a string
+
+247
+00:16:45,190 --> 00:16:49,240
+and we're also going to have resolve which is going to be a function.
+
+248
+00:16:49,420 --> 00:16:53,310
+And let's go ahead and start with the fragment that brings us to step 2.
+
+249
+00:16:53,530 --> 00:16:57,640
+So I need to make sure that I always have access to the user's ID.
+
+250
+00:16:57,640 --> 00:17:02,100
+Otherwise I won't be able to figure out if a given post belongs to this user.
+
+251
+00:17:02,110 --> 00:17:05,540
+So right here we are going to set up a fragment fragment.
+
+252
+00:17:05,650 --> 00:17:12,600
+User ID on user grabbing just their IDs since that's the only field we actually need.
+
+253
+00:17:12,610 --> 00:17:17,350
+Next up down below what we're gonna go ahead and do is set up all of our arguments so we're going to
+
+254
+00:17:17,350 --> 00:17:18,430
+have parent.
+
+255
+00:17:18,760 --> 00:17:20,510
+We are going to have args.
+
+256
+00:17:20,600 --> 00:17:21,730
+We're going to have context.
+
+257
+00:17:21,730 --> 00:17:28,870
+I will just d structure Prisma off of there and finally we're going to have info now from here.
+
+258
+00:17:28,870 --> 00:17:29,860
+What are we going to do.
+
+259
+00:17:29,860 --> 00:17:37,780
+Well we're gonna move on to Step Three and fetch those posts so I'm going to return Prisma dot queery
+
+260
+00:17:37,840 --> 00:17:40,890
+dot posts and what are we going to fetch.
+
+261
+00:17:40,930 --> 00:17:48,200
+We are going to fetch all posts that belong to this users are right here for our operation arguments.
+
+262
+00:17:48,250 --> 00:17:54,550
+We are going to set up where I'm going to start by limiting it to the published posts so I'm looking
+
+263
+00:17:54,550 --> 00:17:59,230
+for just posts where published is equal to true.
+
+264
+00:17:59,410 --> 00:18:05,800
+Then from there we are going to go ahead and limit it by the author as well making sure the author ID
+
+265
+00:18:06,160 --> 00:18:09,410
+matches up with the value in Parent ID.
+
+266
+00:18:09,490 --> 00:18:10,170
+Awesome.
+
+267
+00:18:10,330 --> 00:18:12,560
+And with this in place we are all done.
+
+268
+00:18:12,580 --> 00:18:16,520
+I can actually remove the challenge comments and test things out.
+
+269
+00:18:16,660 --> 00:18:20,500
+I'm going to save user genius and let the application restart.
+
+270
+00:18:20,680 --> 00:18:27,860
+I'll head over to graft you playground and fire off the exact same operation and when I do so what happens.
+
+271
+00:18:28,030 --> 00:18:29,640
+That data goes away.
+
+272
+00:18:29,650 --> 00:18:36,910
+No longer are we seeing that draft posts it's published posts all the way down for all of my users and
+
+273
+00:18:36,910 --> 00:18:38,560
+that is fantastic.
+
+274
+00:18:38,590 --> 00:18:42,910
+That's where we're going to stop for this one our authentication system is almost complete.
+
+275
+00:18:42,910 --> 00:18:45,070
+There are only a few videos left.
+
+276
+00:18:45,070 --> 00:18:47,660
+So let's go ahead and continue on in the next one.
+

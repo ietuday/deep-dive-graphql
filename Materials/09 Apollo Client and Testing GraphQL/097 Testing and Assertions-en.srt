@@ -1,0 +1,1200 @@
+1
+00:00:00,330 --> 00:00:05,390
+In this video you're going to learn how to test real Javascript functions using jest.
+
+2
+00:00:05,400 --> 00:00:08,030
+So the focus is going to be on these test cases.
+
+3
+00:00:08,040 --> 00:00:13,470
+We're going to talk about what exactly you're supposed to do inside of them and how exactly everything
+
+4
+00:00:13,530 --> 00:00:15,890
+related to this test function works.
+
+5
+00:00:15,960 --> 00:00:21,420
+We'll figure out how to make a test fail and how to make a test pass allowing us to assert that the
+
+6
+00:00:21,420 --> 00:00:24,930
+code we're testing is actually working as expected.
+
+7
+00:00:24,930 --> 00:00:29,550
+Now if we're going to write some test cases we actually need some code to test and for the moment we're
+
+8
+00:00:29,550 --> 00:00:34,510
+going to continue to hold off on testing our actual graph application.
+
+9
+00:00:34,530 --> 00:00:39,490
+There's a bit more that's going to go into that setup process and don't worry we will get to that soon.
+
+10
+00:00:39,510 --> 00:00:45,300
+For now we're just going to create some new functions and write test cases for those over in the source
+
+11
+00:00:45,360 --> 00:00:46,220
+directory.
+
+12
+00:00:46,380 --> 00:00:51,540
+Let's go ahead and make a new file in the Utilities folder and I'm going to call this something like
+
+13
+00:00:51,570 --> 00:00:53,210
+user Dhananjay ass.
+
+14
+00:00:53,310 --> 00:00:58,890
+And then here we're going to define a couple of functions that will end up writing test cases for the
+
+15
+00:00:58,890 --> 00:01:00,840
+first function which we're gonna create.
+
+16
+00:01:00,840 --> 00:01:02,580
+I'll define a concert for it.
+
+17
+00:01:02,700 --> 00:01:05,410
+It's going to be called Get a first name.
+
+18
+00:01:05,560 --> 00:01:09,450
+Now as the name suggests it's going to be a very simple function.
+
+19
+00:01:09,450 --> 00:01:16,000
+The function is going to take in a string a full name and it will return just the first name.
+
+20
+00:01:16,140 --> 00:01:22,110
+And I can use the split functionality to split the string by the space that returns an array and I'll
+
+21
+00:01:22,110 --> 00:01:23,810
+just grab the first item.
+
+22
+00:01:23,820 --> 00:01:25,260
+So right here.
+
+23
+00:01:25,260 --> 00:01:26,520
+Return.
+
+24
+00:01:26,520 --> 00:01:29,500
+I'll be using full name dot split.
+
+25
+00:01:29,640 --> 00:01:35,850
+So here I'm going to split on these space then this is going to be an array so I can grab the first
+
+26
+00:01:35,850 --> 00:01:39,070
+item by grabbing it by index using 0.
+
+27
+00:01:39,150 --> 00:01:39,770
+So there we go.
+
+28
+00:01:39,810 --> 00:01:45,120
+Just a very simple function that we can test to explore how testing works.
+
+29
+00:01:45,120 --> 00:01:50,750
+Now we're going to use export to make sure that other files can load this in and we are going to export.
+
+30
+00:01:50,760 --> 00:01:51,980
+The only thing we have.
+
+31
+00:01:51,980 --> 00:01:55,550
+Get first name perfect.
+
+32
+00:01:55,560 --> 00:02:01,170
+Now let's go ahead and actually write a test case for this function to make sure it works as expected
+
+33
+00:02:01,680 --> 00:02:05,490
+over inside of the user test js file.
+
+34
+00:02:05,550 --> 00:02:08,320
+I'm going to start by deleting all of the test cases.
+
+35
+00:02:08,340 --> 00:02:13,440
+These ones have dummy names and we're going to create a test case for the function we just define right
+
+36
+00:02:13,440 --> 00:02:14,280
+here.
+
+37
+00:02:14,280 --> 00:02:21,060
+We'll be calling the test function once again passing in a string name and a function and we can pick
+
+38
+00:02:21,060 --> 00:02:28,050
+a name and for the names I typically start off with should saying something like should log in user
+
+39
+00:02:28,170 --> 00:02:36,810
+or in this case should return first name when given full name.
+
+40
+00:02:36,810 --> 00:02:41,200
+Now it's really up to you to determine how long you want your test name to be.
+
+41
+00:02:41,310 --> 00:02:45,540
+Usually it's some sort of short sentence or small set of words.
+
+42
+00:02:45,630 --> 00:02:50,800
+Now inside of the test function itself it's our job to execute.
+
+43
+00:02:51,000 --> 00:02:55,430
+Get first name and ensure we get the expected results back.
+
+44
+00:02:55,590 --> 00:02:58,850
+So the first thing we have to do is inport it up above.
+
+45
+00:02:58,890 --> 00:03:01,540
+We are going to inport the things we're trying to test.
+
+46
+00:03:01,560 --> 00:03:06,990
+So right here I'm going to import one of the named exports Well actually the only one.
+
+47
+00:03:06,990 --> 00:03:12,680
+Get first name then we're going to grab that from the following file.
+
+48
+00:03:12,750 --> 00:03:19,380
+That's going to be dot dot to get out of the tests folder where this file lives from there in the root
+
+49
+00:03:19,380 --> 00:03:20,030
+of the project.
+
+50
+00:03:20,040 --> 00:03:22,470
+We're going to go into the source directory.
+
+51
+00:03:22,650 --> 00:03:28,040
+Then we're going to go into the Tools Folder and finally we have the little dummy file we created.
+
+52
+00:03:28,050 --> 00:03:31,440
+We have user dot J as perfect.
+
+53
+00:03:31,440 --> 00:03:34,290
+So we've created a simple function and export at it.
+
+54
+00:03:34,290 --> 00:03:38,250
+We've then imported that simple function into our test suite.
+
+55
+00:03:38,290 --> 00:03:42,690
+Now we can use it inside of the test case right here.
+
+56
+00:03:42,690 --> 00:03:48,800
+I'm going to go ahead and call it saving the result so I can make sure the result is correct right here.
+
+57
+00:03:48,840 --> 00:03:57,750
+Konst first name equals or at least should equal whatever comes back from calling get first name.
+
+58
+00:03:57,870 --> 00:04:00,940
+And I'll just pass in my full name Andrew Mead.
+
+59
+00:04:00,990 --> 00:04:03,740
+So here we are calling the code we're trying to test.
+
+60
+00:04:03,870 --> 00:04:09,270
+Then we're getting a value back and the next thing we're going to do is make sure the value we got back
+
+61
+00:04:09,330 --> 00:04:10,670
+is what we expected.
+
+62
+00:04:10,770 --> 00:04:14,410
+In this case I would expect first name to be the string.
+
+63
+00:04:14,450 --> 00:04:17,290
+Andrew assuming that things went well.
+
+64
+00:04:17,340 --> 00:04:23,100
+The question is how do we tell just whether or not a given test case should pass.
+
+65
+00:04:23,100 --> 00:04:25,870
+It all has to do with this function right here.
+
+66
+00:04:25,890 --> 00:04:32,760
+The one we pass as the second argument to test if this function throws an error the test fails if it
+
+67
+00:04:32,760 --> 00:04:35,610
+doesn't throw an error the test succeeds.
+
+68
+00:04:35,610 --> 00:04:41,150
+Right now this test and the code it calls is never throwing in errors so things are going well.
+
+69
+00:04:41,160 --> 00:04:46,890
+We have our test case passing if I were to save the file and let the test suite rerun.
+
+70
+00:04:46,890 --> 00:04:49,470
+Let's go ahead and throw an error and see what happens.
+
+71
+00:04:49,470 --> 00:04:57,030
+So right here throw new error and I am just going to provide some sort of error message.
+
+72
+00:04:57,060 --> 00:05:01,240
+This should trigger a failure as an example.
+
+73
+00:05:01,440 --> 00:05:07,410
+Now if I go ahead and save things when jest runs this function the function is indeed going to throw
+
+74
+00:05:07,410 --> 00:05:13,340
+an error Jeste is gonna see that and it's going to say OK that test case should be considered a failure.
+
+75
+00:05:13,590 --> 00:05:20,100
+If I go ahead and save the test suite down below things rerun and we can see we now have a single test
+
+76
+00:05:20,100 --> 00:05:22,230
+case and it is indeed failing.
+
+77
+00:05:22,380 --> 00:05:28,020
+If I scroll up in the output we can see that the test case no longer has a checkmark next to it.
+
+78
+00:05:28,200 --> 00:05:31,340
+And we even have some information about why the test failed.
+
+79
+00:05:31,340 --> 00:05:35,550
+In this case this should trigger a failure is the message right here.
+
+80
+00:05:35,670 --> 00:05:41,310
+That message is coming from our only test case should return first name when given full name.
+
+81
+00:05:41,490 --> 00:05:45,470
+So if we don't throw an error things should succeed if we throw an error.
+
+82
+00:05:45,480 --> 00:05:48,740
+Things should be considered a failure in this case.
+
+83
+00:05:48,810 --> 00:05:54,270
+We can use a little bit of conditional logic to determine whether or not I should throw an error when
+
+84
+00:05:54,270 --> 00:05:55,850
+would I want to throw an error.
+
+85
+00:05:55,860 --> 00:06:05,050
+I would want to throw an error if right here the value for first name is not equal to the string.
+
+86
+00:06:05,200 --> 00:06:11,630
+Andrew if the value is anything but that we know there's a problem with get first name it's not working
+
+87
+00:06:11,630 --> 00:06:12,710
+as expected.
+
+88
+00:06:12,710 --> 00:06:22,010
+So right here I would throw an error throw new error and I would say something like expected the string
+
+89
+00:06:22,350 --> 00:06:23,150
+Andrew.
+
+90
+00:06:23,240 --> 00:06:24,250
+Perfect.
+
+91
+00:06:24,260 --> 00:06:30,560
+Now if we actually save the file We're going to see our test case succeed because the function is indeed
+
+92
+00:06:30,560 --> 00:06:31,900
+working as expected.
+
+93
+00:06:32,030 --> 00:06:34,670
+And we got the result we actually wanted.
+
+94
+00:06:34,670 --> 00:06:40,280
+Now this test case is going to make sure that if that function changes in the future it's still working
+
+95
+00:06:40,280 --> 00:06:41,330
+as expected.
+
+96
+00:06:41,330 --> 00:06:45,920
+So let's say later on someone comes through and they're not really sure what the function does and they
+
+97
+00:06:45,920 --> 00:06:46,820
+mess it up.
+
+98
+00:06:46,820 --> 00:06:50,920
+Now that's a bit hard to believe sense at the moment it's a very simple function.
+
+99
+00:06:50,930 --> 00:06:56,380
+But as our code gets more complex testing becomes more and more important.
+
+100
+00:06:56,390 --> 00:07:02,210
+So right here all I'm going to do is split on an empty string and that's going to split on every single
+
+101
+00:07:02,210 --> 00:07:03,050
+character.
+
+102
+00:07:03,200 --> 00:07:09,560
+So if I go ahead and save the code the test suite is going to rerun testing our new version of get first
+
+103
+00:07:09,560 --> 00:07:12,280
+name and down below we do indeed have an error.
+
+104
+00:07:12,290 --> 00:07:15,080
+We can see that our test case failed.
+
+105
+00:07:15,110 --> 00:07:18,480
+It did not get back the result that was expected.
+
+106
+00:07:18,740 --> 00:07:25,130
+So by throwing errors from test cases we can go ahead and say that one thing succeeded or one thing
+
+107
+00:07:25,130 --> 00:07:25,600
+failed.
+
+108
+00:07:25,610 --> 00:07:31,990
+Now in this case we do want to bring our get first name function back to a nice working state.
+
+109
+00:07:32,090 --> 00:07:38,900
+So I will split on a space and what I want to talk about now before we add any more test cases is how
+
+110
+00:07:38,900 --> 00:07:45,680
+we can make these assertions a bit easier just actually provides us with a series of tools for doing
+
+111
+00:07:45,680 --> 00:07:51,190
+all sorts of interesting things we can for example ensure that one value equals another.
+
+112
+00:07:51,260 --> 00:07:54,910
+Or I can ensure that an array as a given item inside of it.
+
+113
+00:07:55,010 --> 00:08:00,500
+Let's head back over to the geste documentation and in that sidebar we're going to scroll to the bottom
+
+114
+00:08:00,500 --> 00:08:06,890
+once again and the page we're looking for is expect this contains a whole bunch of information about
+
+115
+00:08:06,890 --> 00:08:10,000
+the expect function that Jeste provides.
+
+116
+00:08:10,010 --> 00:08:12,650
+So similar to how Jeste provides test.
+
+117
+00:08:12,650 --> 00:08:19,310
+Jess also provides expect and it comes with all sorts of different methods that we can use to make very
+
+118
+00:08:19,310 --> 00:08:23,410
+interesting assertions I can expect one value to be another.
+
+119
+00:08:23,510 --> 00:08:29,960
+I can expect that a given function has been called I can expect some value to have been returned or
+
+120
+00:08:29,960 --> 00:08:33,560
+I could expect a number to be greater than some other number.
+
+121
+00:08:33,560 --> 00:08:38,480
+There are a lot of interesting assertions here and for each we can click it to learn exactly how it
+
+122
+00:08:38,480 --> 00:08:40,290
+works in this one.
+
+123
+00:08:40,340 --> 00:08:41,140
+We're going to start with.
+
+124
+00:08:41,140 --> 00:08:44,420
+To be to be is an equality assertion.
+
+125
+00:08:44,420 --> 00:08:48,430
+So it is going to check that one value equals another and down below.
+
+126
+00:08:48,430 --> 00:08:55,880
+They use it to assert that the ounces property on the can object defined up here equals 12.
+
+127
+00:08:55,880 --> 00:08:56,750
+Now it does.
+
+128
+00:08:56,810 --> 00:08:59,500
+So this test case would pass if it didn't.
+
+129
+00:08:59,540 --> 00:09:01,230
+The test case would fail.
+
+130
+00:09:01,400 --> 00:09:07,250
+We can use the exact same code in our test case to replace our existing assertion.
+
+131
+00:09:07,250 --> 00:09:12,170
+So in our test cases we're not going to be adding if conditionals and we're not going to be manually
+
+132
+00:09:12,200 --> 00:09:16,820
+throwing errors all of that obviously works but it's not ideal.
+
+133
+00:09:16,820 --> 00:09:24,140
+Instead we're going to be using expect now with expect we are going to call it as a function and we
+
+134
+00:09:24,140 --> 00:09:30,110
+are going to pass to it the value we're making an assertion about in this case we're making an assertion
+
+135
+00:09:30,200 --> 00:09:34,790
+about first name so right here I will pass in first name.
+
+136
+00:09:34,790 --> 00:09:40,180
+Next up we use one of the methods available on expect and those were all listed in the documentation.
+
+137
+00:09:40,190 --> 00:09:47,150
+We saw things like to be for example and that's the one that will end up using now to be also takes
+
+138
+00:09:47,150 --> 00:09:52,400
+in an argument which the documentation defines it takes in a value to compare.
+
+139
+00:09:52,400 --> 00:09:58,660
+So in this case we are going to pass in the value we're expecting that is the string Andrew.
+
+140
+00:09:58,850 --> 00:10:04,360
+So this code does the exact same thing as this code but with less work and less maintenance.
+
+141
+00:10:04,370 --> 00:10:10,460
+If I go ahead and save the user test suite once again things are indeed going to pass.
+
+142
+00:10:10,460 --> 00:10:15,470
+Let's go ahead and break the function one more time by removing the space and saving the file and I
+
+143
+00:10:15,470 --> 00:10:21,170
+would expect things to be failing and they are now the reason I wanted to trigger that failure once
+
+144
+00:10:21,170 --> 00:10:21,680
+again.
+
+145
+00:10:21,680 --> 00:10:27,380
+Aside from proving that things do indeed fail is to show you that just provides us with much better
+
+146
+00:10:27,380 --> 00:10:33,680
+error messages than we would be able to easily write on our own up above under the test case name we
+
+147
+00:10:33,680 --> 00:10:38,540
+have a whole bunch of information about why exactly things failed in this case.
+
+148
+00:10:38,540 --> 00:10:45,990
+We can see the expected value was during Andrew but the actual received value was the string a.
+
+149
+00:10:46,040 --> 00:10:52,910
+And that's obviously not identical to the test case failed the code inside of expect through an error
+
+150
+00:10:52,940 --> 00:10:57,690
+for us allowing us to avoid having to do all of that work manually.
+
+151
+00:10:57,860 --> 00:11:03,380
+So when we use geste And when we use expect it's going to be really easy to write our test cases.
+
+152
+00:11:03,500 --> 00:11:06,740
+I'm going to add that space back in save the file.
+
+153
+00:11:06,830 --> 00:11:10,800
+We can then remove our commented out code and there we go.
+
+154
+00:11:10,910 --> 00:11:13,180
+We have our very first test case.
+
+155
+00:11:13,280 --> 00:11:18,940
+We run the function we're trying to test we then assert something about how that function operated.
+
+156
+00:11:18,950 --> 00:11:22,980
+Now we might write multiple test cases for functions in our application.
+
+157
+00:11:23,000 --> 00:11:24,980
+We'll certainly be doing that for the graph.
+
+158
+00:11:25,150 --> 00:11:28,770
+Kulap Let's go ahead and write one more test case together.
+
+159
+00:11:28,850 --> 00:11:33,920
+Then there's a challenge for you to write a couple of new test cases for a different function we'll
+
+160
+00:11:33,920 --> 00:11:34,760
+be defining.
+
+161
+00:11:34,760 --> 00:11:40,460
+Let's go ahead and add that second test case by calling test once again passing in our string name and
+
+162
+00:11:40,460 --> 00:11:46,820
+the function to actually run this test case is going to ensure that when I pass in just the first name
+
+163
+00:11:46,880 --> 00:11:49,260
+to get first name I get the first name back.
+
+164
+00:11:49,400 --> 00:11:52,520
+So in our database some users might provide the full name.
+
+165
+00:11:52,550 --> 00:11:54,830
+Others might just provide their first name.
+
+166
+00:11:54,830 --> 00:11:56,950
+Either way we need that code to work.
+
+167
+00:11:56,960 --> 00:12:01,790
+So I want to write multiple test cases passing in different values right here.
+
+168
+00:12:01,880 --> 00:12:07,230
+Should returner first name when given a first name.
+
+169
+00:12:07,310 --> 00:12:08,690
+Excellent.
+
+170
+00:12:08,690 --> 00:12:12,680
+Now inside of the function we can start by calling get first name.
+
+171
+00:12:12,680 --> 00:12:20,520
+So Konst first name equals whatever comes back from calling and get first name and we'll pass in just
+
+172
+00:12:20,550 --> 00:12:21,780
+a first name.
+
+173
+00:12:21,810 --> 00:12:23,810
+I'm going to go ahead and use jet.
+
+174
+00:12:24,090 --> 00:12:29,550
+Now in this case I can write an assertion and making sure that first name is what I would expect right
+
+175
+00:12:29,550 --> 00:12:36,180
+here expect first name I'm going to use to be.
+
+176
+00:12:36,180 --> 00:12:40,660
+Once again it is the main assertion we'll be using throughout this section.
+
+177
+00:12:40,680 --> 00:12:45,200
+I am going to assert that the value I got back was the string gen.
+
+178
+00:12:45,270 --> 00:12:47,510
+If it's not that's a problem if it is.
+
+179
+00:12:47,550 --> 00:12:49,250
+That's great right here.
+
+180
+00:12:49,320 --> 00:12:51,370
+We can save the user test suite.
+
+181
+00:12:51,390 --> 00:12:54,900
+And down below we now have two passing test cases.
+
+182
+00:12:54,900 --> 00:13:01,110
+We were able to verify that indeed get first name function works as expected regardless of whether or
+
+183
+00:13:01,110 --> 00:13:04,660
+not a full name or just a first name is provided.
+
+184
+00:13:04,680 --> 00:13:08,940
+Now it's going to be up to you to write a test case for another function that we're going to end up
+
+185
+00:13:08,940 --> 00:13:15,720
+defining over inside of user dot J as will define the function together and you'll write the test cases
+
+186
+00:13:15,720 --> 00:13:17,240
+on your own right here.
+
+187
+00:13:17,250 --> 00:13:21,570
+We're going to create a function called is valid password.
+
+188
+00:13:21,630 --> 00:13:27,120
+This is going to take in a password and return true if it's valid and false otherwise then we'll write
+
+189
+00:13:27,120 --> 00:13:30,210
+some test cases that assert it's working as expected.
+
+190
+00:13:30,210 --> 00:13:36,810
+Right here we're going to take in just a single argument password and we're going to return a boolean.
+
+191
+00:13:36,900 --> 00:13:39,600
+So let's go ahead and set up the function itself.
+
+192
+00:13:39,600 --> 00:13:41,950
+Let's start by checking the length of the password.
+
+193
+00:13:41,970 --> 00:13:46,110
+So I'm going to make sure that the length is greater than or equal to 8 characters.
+
+194
+00:13:46,110 --> 00:13:54,240
+So all return TRUE saying the password is valid when the password dot length is greater than or equal
+
+195
+00:13:54,240 --> 00:13:55,040
+to 8.
+
+196
+00:13:55,050 --> 00:13:59,470
+So if your password is seven characters or less you're going to get false back from the function.
+
+197
+00:13:59,520 --> 00:14:03,270
+Your passwords are not valid if it's greater than or equal to eight characters.
+
+198
+00:14:03,270 --> 00:14:06,050
+You'll get true back saying the password is valid.
+
+199
+00:14:06,060 --> 00:14:07,140
+Which is great.
+
+200
+00:14:07,230 --> 00:14:08,830
+Let's also add another check.
+
+201
+00:14:08,910 --> 00:14:15,030
+I'm going to use the logical and operator to also confirm that your password doesn't contain the word
+
+202
+00:14:15,030 --> 00:14:19,330
+password which is very insecure though quite common right here.
+
+203
+00:14:19,410 --> 00:14:22,350
+We'll go ahead and do that using the string includes method.
+
+204
+00:14:22,470 --> 00:14:30,350
+So first up password then dot includes we're going to see if it includes the string password.
+
+205
+00:14:30,360 --> 00:14:32,310
+If it does that's a problem.
+
+206
+00:14:32,310 --> 00:14:35,080
+Now currently we have the opposite behavior.
+
+207
+00:14:35,190 --> 00:14:39,060
+This is going to say the passwords valid when it does include password.
+
+208
+00:14:39,060 --> 00:14:44,790
+We can flip that by using the logical not operator flipping true to false or false to true.
+
+209
+00:14:45,120 --> 00:14:46,990
+Now this is also case sensitive.
+
+210
+00:14:47,100 --> 00:14:52,200
+So if you had upper case P password and your password includes would not catch that.
+
+211
+00:14:52,200 --> 00:14:57,630
+We can fix that by converting password to lowercase before we use includes right here.
+
+212
+00:14:57,630 --> 00:15:02,730
+That would be password dot to lower case then dot includes.
+
+213
+00:15:02,730 --> 00:15:09,030
+So by chaining these together we now have a more secure version of is valid password and that's it for
+
+214
+00:15:09,030 --> 00:15:16,400
+this function down below we can export it by exporting it along side of get first name.
+
+215
+00:15:16,660 --> 00:15:22,450
+And once we have that in place we can save this file head over to our user test suite and we're going
+
+216
+00:15:22,450 --> 00:15:25,480
+to talk about the test cases that you're going to be creating.
+
+217
+00:15:25,480 --> 00:15:28,510
+Let's go one test case at a time to keep things simple.
+
+218
+00:15:28,510 --> 00:15:29,220
+The first one.
+
+219
+00:15:29,230 --> 00:15:32,770
+Create a test case called a should reject a password.
+
+220
+00:15:32,770 --> 00:15:34,630
+Shorter than eight characters.
+
+221
+00:15:34,750 --> 00:15:41,380
+And as the name suggests you're going to be importing and using our is valid password function.
+
+222
+00:15:41,470 --> 00:15:47,830
+You're going to pass in a password that's too short and you're going to use the to be assertion to expect
+
+223
+00:15:47,830 --> 00:15:50,670
+that the value you get back is false.
+
+224
+00:15:50,680 --> 00:15:53,610
+So take some time to knock that one out then test your work.
+
+225
+00:15:53,650 --> 00:15:57,970
+Save the file and you should see three passing test cases down below.
+
+226
+00:15:57,970 --> 00:15:59,710
+Then come back and click play
+
+227
+00:16:03,040 --> 00:16:06,850
+how that girl Ahman and kick things off by calling the test function.
+
+228
+00:16:06,850 --> 00:16:08,540
+We have our test name picked out.
+
+229
+00:16:08,560 --> 00:16:14,830
+Should reject password shorter than eight characters.
+
+230
+00:16:16,050 --> 00:16:21,550
+We're gonna set up our test function and we are indeed going to be calling the method that's exported
+
+231
+00:16:21,590 --> 00:16:22,260
+over here.
+
+232
+00:16:22,320 --> 00:16:24,300
+So we'll have to import it over here.
+
+233
+00:16:24,300 --> 00:16:27,750
+Opt-Out is valid password.
+
+234
+00:16:27,750 --> 00:16:29,720
+Now we can use it down below.
+
+235
+00:16:29,720 --> 00:16:33,590
+I am going to create a variable is valid.
+
+236
+00:16:33,590 --> 00:16:39,770
+That will be a boolean and I'm going to get its value from whatever comes back from calling is valid
+
+237
+00:16:39,770 --> 00:16:41,590
+password.
+
+238
+00:16:41,620 --> 00:16:47,770
+Now in this case we're going to pass in a password that is too short like ABC 1 2 3 which is only six
+
+239
+00:16:47,830 --> 00:16:48,880
+characters.
+
+240
+00:16:48,880 --> 00:16:56,980
+I'm going to expect that I get false back right here expecting that the is valid variable has a value
+
+241
+00:16:57,010 --> 00:17:00,610
+equal to using the to be method false.
+
+242
+00:17:00,670 --> 00:17:01,630
+Perfect.
+
+243
+00:17:01,630 --> 00:17:03,670
+Let's go ahead and test things out.
+
+244
+00:17:03,700 --> 00:17:08,550
+I'm going to save my work and Down below I do indeed have a passing test case.
+
+245
+00:17:08,560 --> 00:17:15,550
+Now if we were to pass in a password that's too long or if this code was messed up let's say it was
+
+246
+00:17:15,550 --> 00:17:20,140
+2 instead of 8 we would see an error down below as expected.
+
+247
+00:17:20,320 --> 00:17:24,660
+Let's bring things back to their working state and talk about the next test case.
+
+248
+00:17:24,670 --> 00:17:29,260
+I'd like you to create for the is valid password function right here.
+
+249
+00:17:29,290 --> 00:17:35,090
+That's going to be a test case called should reject a password that contains the word password.
+
+250
+00:17:35,170 --> 00:17:39,850
+So you're going to pass in a password that contains the full word password.
+
+251
+00:17:39,940 --> 00:17:44,830
+And once again that should indeed be considered a failure that's not a valid password.
+
+252
+00:17:44,890 --> 00:17:47,800
+And we want to assert that that's the value we get back.
+
+253
+00:17:47,980 --> 00:17:49,750
+So take some time to knock this one out.
+
+254
+00:17:49,750 --> 00:17:54,030
+Test your work by saving the file and when you're done come back and click Play
+
+255
+00:17:57,320 --> 00:17:57,840
+All right.
+
+256
+00:17:57,850 --> 00:17:58,660
+How that go.
+
+257
+00:17:58,690 --> 00:18:02,950
+I'm going to kick things off by calling the test function and passing in that name.
+
+258
+00:18:02,980 --> 00:18:10,340
+Should reject a password that contains word password.
+
+259
+00:18:10,390 --> 00:18:16,870
+Excellent we can then set up our function and we can move on to actually calling is valid password right
+
+260
+00:18:16,870 --> 00:18:17,070
+here.
+
+261
+00:18:17,080 --> 00:18:24,690
+Konst is valid getting the value from calling is valid password this time we're not going to check the
+
+262
+00:18:24,690 --> 00:18:30,180
+length so we're going to use 8 characters or more we're checking that the password based validation
+
+263
+00:18:30,300 --> 00:18:31,480
+works right here.
+
+264
+00:18:31,530 --> 00:18:38,670
+ABC then the word password with an uppercase P then 0 9 8 that should be considered a failure and once
+
+265
+00:18:38,670 --> 00:18:45,220
+again I'm going to expect that is valid is indeed false to be false.
+
+266
+00:18:45,290 --> 00:18:50,820
+Perfect's if I go ahead and run things I would expect a forth passing test case and that is exactly
+
+267
+00:18:50,820 --> 00:18:51,800
+what we have.
+
+268
+00:18:51,810 --> 00:18:58,350
+Now comes the final test case where we actually ensure that things work when you meet all of the criteria
+
+269
+00:18:58,470 --> 00:19:00,420
+of a valid password right here.
+
+270
+00:19:00,420 --> 00:19:04,770
+A new test case should correctly validate a valid password.
+
+271
+00:19:04,890 --> 00:19:10,860
+So we want eight characters or more without the word password inside of it takes some time to write
+
+272
+00:19:10,860 --> 00:19:15,300
+that test case look out for that fifth passing test case down below.
+
+273
+00:19:15,300 --> 00:19:20,520
+Then come back and click play.
+
+274
+00:19:20,520 --> 00:19:21,030
+All right.
+
+275
+00:19:21,030 --> 00:19:21,850
+How'd that go.
+
+276
+00:19:21,870 --> 00:19:23,520
+Let's go ahead and kick things off.
+
+277
+00:19:23,520 --> 00:19:25,810
+We're going to call test passing in our name.
+
+278
+00:19:25,840 --> 00:19:31,870
+Should correctly validate a valid password.
+
+279
+00:19:31,910 --> 00:19:33,410
+We'll pass in our function.
+
+280
+00:19:33,440 --> 00:19:38,510
+And we're going to get on to calling is valid password once again so Konst is valid.
+
+281
+00:19:38,540 --> 00:19:39,720
+That is the result.
+
+282
+00:19:40,100 --> 00:19:42,170
+We'll then call is valid password.
+
+283
+00:19:42,170 --> 00:19:44,590
+Passing in a valid password.
+
+284
+00:19:44,750 --> 00:19:46,370
+I'm going to use.
+
+285
+00:19:46,370 --> 00:19:47,210
+Let's use.
+
+286
+00:19:47,200 --> 00:19:51,770
+Test 1 2 3 0 9 8 exclamation mark.
+
+287
+00:19:51,860 --> 00:19:55,210
+Then we're going to assert that the value we get back is true.
+
+288
+00:19:55,310 --> 00:20:01,340
+So I would expect is valid to indeed be using to be true.
+
+289
+00:20:01,340 --> 00:20:02,050
+Perfect.
+
+290
+00:20:02,090 --> 00:20:02,800
+And there we go.
+
+291
+00:20:02,870 --> 00:20:09,010
+Our final test case in place we have all of the edge cases tested for this function.
+
+292
+00:20:09,050 --> 00:20:13,990
+And if I save the file we have a fifth passing test case which is fantastic.
+
+293
+00:20:14,120 --> 00:20:19,460
+Now that we have the test suite up and running all the tests are written we can verify our code works
+
+294
+00:20:19,520 --> 00:20:22,460
+as expected in just a fraction of a second.
+
+295
+00:20:22,580 --> 00:20:28,010
+So later on if any changes were made to these functions or they were expanded on we would be able to
+
+296
+00:20:28,010 --> 00:20:31,420
+validate that they do indeed at least work as expected.
+
+297
+00:20:31,670 --> 00:20:38,210
+So in this video we explored how we can create test cases that test real javascript code in the next
+
+298
+00:20:38,210 --> 00:20:42,200
+one we're going to start to learn what we need to learn in order to test our graph.
+
+299
+00:20:42,200 --> 00:20:45,020
+Q Well application I'm excited to get to that.
+
+300
+00:20:45,020 --> 00:20:47,850
+So let's go ahead and jump right in to the next one.
+

@@ -1,0 +1,708 @@
+1
+00:00:00,300 --> 00:00:05,670
+In this video we're going to do a bit of refactoring that's going to allow us to write tests for our
+
+2
+00:00:05,670 --> 00:00:08,580
+operations that require authentication.
+
+3
+00:00:08,580 --> 00:00:11,070
+So we're going to figure out how to set all of that up.
+
+4
+00:00:11,190 --> 00:00:17,490
+And we're also going to break out our test cases into multiple test suites so multiple test files.
+
+5
+00:00:17,640 --> 00:00:22,970
+That's going to allow us to stay organized as the amount of tests that we have.
+
+6
+00:00:22,970 --> 00:00:28,440
+GROSS Now if we're going to define multiple test suites which we're going to do we're going to need
+
+7
+00:00:28,440 --> 00:00:32,940
+to make sure that all of the setup code we have in this file is reusable.
+
+8
+00:00:32,940 --> 00:00:40,520
+For example right here we have all of the code that creates the seed data as well as wipes old data.
+
+9
+00:00:40,530 --> 00:00:43,820
+This is only going to work for the user test suite.
+
+10
+00:00:43,830 --> 00:00:49,590
+So if I was to create another test file the database wouldn't be seated correctly to make sure that
+
+11
+00:00:49,590 --> 00:00:56,600
+we can reuse this code a crossed test suites all we're going to do is define that in a separate file.
+
+12
+00:00:56,640 --> 00:00:59,370
+We're going to define our async function over there.
+
+13
+00:00:59,550 --> 00:01:05,580
+Then we'll inport the async function into test files like this one and pass that function into before
+
+14
+00:01:05,580 --> 00:01:07,570
+each like we're doing now to start.
+
+15
+00:01:07,590 --> 00:01:11,010
+Let's go ahead and create a new folder in the tests directory.
+
+16
+00:01:11,010 --> 00:01:16,830
+This is going to contain some utilities that are test suites we'll use things that should be reused
+
+17
+00:01:16,830 --> 00:01:19,290
+across the test suites like this.
+
+18
+00:01:19,290 --> 00:01:25,650
+We can call this folder something like tills and in there for the moment we will create a single file
+
+19
+00:01:25,770 --> 00:01:27,330
+for seeding the database.
+
+20
+00:01:27,360 --> 00:01:36,210
+I'll call this is database dot J S and we're going to do is create an export a single asynchronous function.
+
+21
+00:01:36,330 --> 00:01:39,780
+And the good news is that we already have that function code.
+
+22
+00:01:39,930 --> 00:01:43,100
+It's this function passed in two before each.
+
+23
+00:01:43,290 --> 00:01:49,770
+So I'm going to take the async function all the way from the async keyword to the closing curly brace
+
+24
+00:01:49,800 --> 00:01:51,140
+and cut that out.
+
+25
+00:01:51,150 --> 00:01:56,040
+It should just leave R before each call with no arguments being provided.
+
+26
+00:01:56,040 --> 00:02:03,780
+And then over in the database I will create a seed database function getting its value from what I grabbed
+
+27
+00:02:04,050 --> 00:02:06,500
+over in the other file from here.
+
+28
+00:02:06,600 --> 00:02:07,830
+We need to do two things.
+
+29
+00:02:07,830 --> 00:02:13,920
+We have to grab the necessary imports for this file to work and we also want to export the function
+
+30
+00:02:14,010 --> 00:02:18,610
+so it can be used in our test suites like user dot test dot J.
+
+31
+00:02:18,620 --> 00:02:20,900
+S. Let's start with the imports.
+
+32
+00:02:20,910 --> 00:02:25,080
+Right here we need Prisma as well as the B crypt library.
+
+33
+00:02:25,080 --> 00:02:26,160
+I'll start with B script.
+
+34
+00:02:26,160 --> 00:02:30,420
+So I'm going to import B script from the following B script J.
+
+35
+00:02:30,420 --> 00:02:35,610
+S. Then I will import Prisma from our own file right here.
+
+36
+00:02:35,610 --> 00:02:36,670
+That would be dot dot.
+
+37
+00:02:36,660 --> 00:02:38,470
+Take it out of the utils folder.
+
+38
+00:02:38,520 --> 00:02:45,210
+Forward slash dot dot to get out of the tests directory and from there forward slash source forward
+
+39
+00:02:45,210 --> 00:02:46,710
+slash Prisma.
+
+40
+00:02:46,710 --> 00:02:51,120
+So in the end of the day we're just loading in the same in inport we needed over here to get things
+
+41
+00:02:51,120 --> 00:02:52,110
+working.
+
+42
+00:02:52,200 --> 00:02:57,300
+Now over in the C database file we can go ahead and export the function we defined.
+
+43
+00:02:57,330 --> 00:03:06,750
+So down below at the bottom export in curly braces we are going to export seed database and we're going
+
+44
+00:03:06,750 --> 00:03:09,230
+to export that as the default.
+
+45
+00:03:09,240 --> 00:03:10,200
+Perfect.
+
+46
+00:03:10,200 --> 00:03:16,140
+Now that we have this in place we can import this function from our test suite and use it.
+
+47
+00:03:16,140 --> 00:03:18,100
+Let's go ahead and do just that.
+
+48
+00:03:18,390 --> 00:03:26,010
+I'm going to save the seed database file over in user dot test that J s we can remove the B script inport
+
+49
+00:03:26,070 --> 00:03:30,630
+as it's no longer being used and we can add an import for the database.
+
+50
+00:03:30,630 --> 00:03:40,110
+So right here in Port seed database from the following file that forward slash utility forward slash
+
+51
+00:03:40,140 --> 00:03:41,430
+seed database.
+
+52
+00:03:41,490 --> 00:03:42,500
+Excellent.
+
+53
+00:03:42,510 --> 00:03:48,830
+Now we can take this function and pass it into before each seed database and we're done.
+
+54
+00:03:48,960 --> 00:03:54,540
+We have the exact same functionality we had before but now it's refactored to be reusable.
+
+55
+00:03:54,570 --> 00:04:00,630
+And if I were to save this test suite down below we can see that the test cases are rerunning and right
+
+56
+00:04:00,630 --> 00:04:03,960
+here we still have five passing tests.
+
+57
+00:04:03,990 --> 00:04:09,450
+This is going to make it easy to define a nother test file which is what we're going to do right now.
+
+58
+00:04:09,630 --> 00:04:16,910
+So in the tests directory itself we are going to create a new file alongside of user dot test dot J
+
+59
+00:04:16,920 --> 00:04:24,420
+S and we can call this something like post dot test dot J S and this is where we can put our test cases
+
+60
+00:04:24,630 --> 00:04:30,960
+specifically related to posts by having separate test files each focused on something specific.
+
+61
+00:04:30,960 --> 00:04:36,540
+It's going to be easier to figure out exactly where a given test case lives and now out of the five
+
+62
+00:04:36,540 --> 00:04:39,740
+test cases we currently have in the user test suite.
+
+63
+00:04:39,750 --> 00:04:41,610
+One of them is post specific.
+
+64
+00:04:41,610 --> 00:04:45,480
+That's the third one right here should expose published posts.
+
+65
+00:04:45,480 --> 00:04:51,210
+This does seem to fit the post test suite more than the user test suite so I'm going to cut out this
+
+66
+00:04:51,210 --> 00:04:56,090
+call to test and I'm going to bring it over to the post test file.
+
+67
+00:04:56,100 --> 00:05:02,320
+Now we are going to have to initialize this test suite in a similar way we initialize the one over here.
+
+68
+00:05:02,340 --> 00:05:08,580
+There are a few things we have to get done but for the test case is going to work as expected over inside
+
+69
+00:05:08,580 --> 00:05:10,740
+of post.com test dot J S.
+
+70
+00:05:10,770 --> 00:05:15,480
+Let's go ahead and knock that out up top by adding a few imports into the mix.
+
+71
+00:05:15,480 --> 00:05:22,530
+First up I'm going to import to the crosshatch Pylea Phil cross hyphen fetch a forward slash poly fill.
+
+72
+00:05:22,590 --> 00:05:27,990
+Next up I'm going to import Appollo boost sends We will indeed be creating a client in here in Port
+
+73
+00:05:29,330 --> 00:05:32,880
+Appollo boost as well as the named export.
+
+74
+00:05:32,880 --> 00:05:37,090
+GQ well from the Apollo boost library.
+
+75
+00:05:37,110 --> 00:05:38,110
+Excellent.
+
+76
+00:05:38,130 --> 00:05:43,200
+And the last thing we're going to grab for the moment is the seed database function we created so I
+
+77
+00:05:43,200 --> 00:05:51,270
+can inport right here seed database from the following file that we just define dot forward slash tills
+
+78
+00:05:51,270 --> 00:05:54,450
+forward slash seed database.
+
+79
+00:05:54,450 --> 00:05:58,950
+Now there are two things we have to do before this test case is going to work.
+
+80
+00:05:58,950 --> 00:06:06,870
+We have to initialize a new client in and set up before each so Konst client equals we're going to use
+
+81
+00:06:06,870 --> 00:06:15,180
+new with Appollo boost passing in our options object and setting up that you are evaluated TTP colon
+
+82
+00:06:15,460 --> 00:06:20,280
+lowered slash forward slash localhost on port four thousand.
+
+83
+00:06:20,280 --> 00:06:21,360
+Perfect.
+
+84
+00:06:21,360 --> 00:06:28,680
+Now that we have the client initialized the last thing left to do is to call before each end to pass
+
+85
+00:06:28,680 --> 00:06:31,960
+in the seed database function.
+
+86
+00:06:32,040 --> 00:06:33,100
+Excellent.
+
+87
+00:06:33,120 --> 00:06:38,820
+Now that we have this in place this test suite is set up similar to this one and both are now going
+
+88
+00:06:38,820 --> 00:06:39,500
+to work.
+
+89
+00:06:39,510 --> 00:06:43,750
+Now before we save our test suites there is one command line argument.
+
+90
+00:06:43,770 --> 00:06:46,630
+We're going to have to add on to the just command.
+
+91
+00:06:46,650 --> 00:06:48,510
+Currently we're using watch.
+
+92
+00:06:48,510 --> 00:06:50,770
+Let's head over to the documentation.
+
+93
+00:06:50,880 --> 00:06:53,730
+Scroll down and talk about the other one we're going to use.
+
+94
+00:06:53,730 --> 00:06:57,950
+We can find it under just Selye options down below.
+
+95
+00:06:57,990 --> 00:07:01,940
+We have a huge list of all of the options available to us.
+
+96
+00:07:02,010 --> 00:07:10,140
+The one that we're looking for in alphabetical order is run in-band running bende allows us to run tests
+
+97
+00:07:10,170 --> 00:07:16,560
+in multiple test suites without trying to run them at the exact same time for us that would be a pretty
+
+98
+00:07:16,560 --> 00:07:20,340
+big problem since they're Polt interacting with that database.
+
+99
+00:07:20,340 --> 00:07:27,690
+So all we have to do now that we have asynchronous tasks in multiple suites is to add on hyphen hyphen
+
+100
+00:07:27,780 --> 00:07:29,500
+around in band.
+
+101
+00:07:29,520 --> 00:07:34,950
+And remember when you change your command line arguments you have to restart jast in order for those
+
+102
+00:07:34,950 --> 00:07:35,710
+to be used.
+
+103
+00:07:35,750 --> 00:07:36,860
+So down below.
+
+104
+00:07:36,960 --> 00:07:43,560
+I'm going to use control C to shut down that test suite then I'm going to save both of my test suite
+
+105
+00:07:43,620 --> 00:07:51,870
+files and I will rerun NPM run test to start it up once again with the run in band option being used.
+
+106
+00:07:51,900 --> 00:07:58,260
+Now if we do this we should have two test suites one with four Tests and one with one test and all five
+
+107
+00:07:58,260 --> 00:08:01,760
+Tests should indeed be passing down below.
+
+108
+00:08:01,760 --> 00:08:03,700
+It is running through the test suite.
+
+109
+00:08:03,770 --> 00:08:04,900
+We can see one finished.
+
+110
+00:08:04,910 --> 00:08:09,620
+Then the second to finished and right here we have the results we were hoping for.
+
+111
+00:08:09,620 --> 00:08:15,160
+So at this point we have these systems set up to easily create multiple test suites.
+
+112
+00:08:15,150 --> 00:08:21,410
+All we have to do is in port a couple of things set up a client and and before each into the mix.
+
+113
+00:08:21,440 --> 00:08:27,080
+Now in the second half of this video we're going to figure out how to send an authentication token along
+
+114
+00:08:27,080 --> 00:08:33,050
+with our operations whether we're using clients query or client dot mutate.
+
+115
+00:08:33,050 --> 00:08:34,680
+Now here's the catch.
+
+116
+00:08:34,700 --> 00:08:42,230
+We actually don't provide the header the JWT authentication token in the query or mutate call.
+
+117
+00:08:42,260 --> 00:08:47,000
+And actually all needs to get configured when we originally set up the client.
+
+118
+00:08:47,030 --> 00:08:53,000
+So what we're going to do is stick with one client for unauthenticated requests and we'll be creating
+
+119
+00:08:53,030 --> 00:08:58,670
+a separate client for when we want to authenticate with a specific J W.T..
+
+120
+00:08:58,940 --> 00:09:01,700
+Now this is going to require a little extra code.
+
+121
+00:09:01,700 --> 00:09:08,210
+So before we do any of that we're going to take the creation of our new client here and here and we're
+
+122
+00:09:08,210 --> 00:09:10,950
+going to break that out into a new file as well.
+
+123
+00:09:11,060 --> 00:09:15,890
+Currently yes they're doing the same thing but it's not that much code you could easily make the case
+
+124
+00:09:15,890 --> 00:09:17,720
+to just leave these in place.
+
+125
+00:09:17,720 --> 00:09:23,530
+But since we will be adding more code on there to configure authentication I'm going to refactor it
+
+126
+00:09:23,540 --> 00:09:31,730
+right now we'll create a new file in the tills directory and I'm going to create a new file called Get
+
+127
+00:09:32,150 --> 00:09:33,030
+client.
+
+128
+00:09:33,050 --> 00:09:35,060
+This is going to get a brand new client.
+
+129
+00:09:35,090 --> 00:09:37,290
+So get client dot J S.
+
+130
+00:09:37,430 --> 00:09:41,260
+We're going to create a function called Get client.
+
+131
+00:09:41,390 --> 00:09:44,090
+And this will be a simple arrow function.
+
+132
+00:09:44,090 --> 00:09:49,370
+It doesn't need to be marked as a sync sends we're not going to be using any asynchronous code inside
+
+133
+00:09:49,370 --> 00:09:50,870
+of here in this function.
+
+134
+00:09:50,930 --> 00:09:54,950
+We're going to do is return a new instance of Appollo boost.
+
+135
+00:09:54,950 --> 00:09:57,980
+Essentially exactly what we do right here.
+
+136
+00:09:57,980 --> 00:10:00,310
+So I'm going to copy the highlighted code.
+
+137
+00:10:00,590 --> 00:10:07,100
+I'm going to bring it over to get client and I am going to return what I just copied so here you call
+
+138
+00:10:07,100 --> 00:10:10,930
+get client and you get a new instance of Appollo boost back.
+
+139
+00:10:11,150 --> 00:10:14,210
+Now we are going to have to import Appollo boost if we're using it.
+
+140
+00:10:14,210 --> 00:10:23,030
+So up above inport Apollo boost and we're going to grab that from the Apollo boost module and next up
+
+141
+00:10:23,030 --> 00:10:25,710
+we will indeed export this function as well.
+
+142
+00:10:25,730 --> 00:10:30,110
+Alex boarded as the default so get client as default.
+
+143
+00:10:30,110 --> 00:10:31,090
+Perfect.
+
+144
+00:10:31,340 --> 00:10:38,150
+Now that we have this in place we can use this file with a new get client function in both of our test
+
+145
+00:10:38,210 --> 00:10:41,380
+suites allowing us to remove this code right here.
+
+146
+00:10:41,390 --> 00:10:49,400
+Let's go ahead and start with the user test file so I can in Port get a client from the file we just
+
+147
+00:10:49,400 --> 00:10:53,980
+created daat forward slash you tills forward slash get client.
+
+148
+00:10:53,990 --> 00:10:55,670
+Then I can use it down below.
+
+149
+00:10:55,820 --> 00:11:02,150
+So instead of manually creating the new instance of Appollo boost I will just call get client I'm going
+
+150
+00:11:02,150 --> 00:11:04,640
+to call it with no arguments since it takes none.
+
+151
+00:11:04,630 --> 00:11:06,780
+And I'll get the new client back.
+
+152
+00:11:06,980 --> 00:11:10,910
+That's also going to allow me to remove that inport up above.
+
+153
+00:11:10,910 --> 00:11:16,300
+We still want to import GQ L from Apollo boost though so the line as a whole will stay in place.
+
+154
+00:11:16,490 --> 00:11:21,560
+Now that we have this file refactored we can save things and down below the test suite should still
+
+155
+00:11:21,560 --> 00:11:22,660
+be passing.
+
+156
+00:11:22,670 --> 00:11:26,050
+We're going to do the exact same thing over in this file.
+
+157
+00:11:26,070 --> 00:11:32,300
+I'm going to start by modifying my import statement for moving Appollo boost.
+
+158
+00:11:32,330 --> 00:11:33,200
+Then I'll grab.
+
+159
+00:11:33,200 --> 00:11:42,290
+Get client so inport get client from that forward slash utils forward slash get client and last up what
+
+160
+00:11:42,290 --> 00:11:43,090
+are we going to do.
+
+161
+00:11:43,160 --> 00:11:48,570
+We're going to call that function getting the return value and storing it on the client variable.
+
+162
+00:11:48,680 --> 00:11:55,970
+So right here I can save the post test suite and that test suite should have its one test case passing
+
+163
+00:11:55,970 --> 00:11:56,840
+down below.
+
+164
+00:11:56,870 --> 00:12:02,730
+It looks like everything is going well so far to passing test suites by passing tests.
+
+165
+00:12:02,750 --> 00:12:08,120
+So all we've done is we've created a function that's responsible for generating the new instance of
+
+166
+00:12:08,120 --> 00:12:09,530
+Appollo boost.
+
+167
+00:12:09,530 --> 00:12:14,440
+Now what we're going to do is accept an optional authentication token.
+
+168
+00:12:14,630 --> 00:12:20,450
+So the authentication token is something that we're going to have to define and we need what we need
+
+169
+00:12:20,450 --> 00:12:24,130
+the ID of the user in order to generate it.
+
+170
+00:12:24,170 --> 00:12:30,650
+So the authentication token itself is actually going to get generated over inside of seed database data.
+
+171
+00:12:30,720 --> 00:12:31,050
+J.
+
+172
+00:12:31,050 --> 00:12:37,050
+S in here we get the user's ID back from our call to create user.
+
+173
+00:12:37,190 --> 00:12:43,620
+We have to use that to generate a new authentication token then we're going to export it from this file.
+
+174
+00:12:43,670 --> 00:12:46,480
+So it can actually be used in our test cases.
+
+175
+00:12:46,490 --> 00:12:53,270
+For example if I want to fetch my user profile in a test case I'm going to need JWT in order to get
+
+176
+00:12:53,270 --> 00:12:58,240
+that done in order to authenticate as our seed database user.
+
+177
+00:12:58,280 --> 00:13:03,010
+We're going to set all of that up in the next video so stay tuned and I will see you then.
+

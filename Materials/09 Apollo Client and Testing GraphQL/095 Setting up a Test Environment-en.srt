@@ -1,0 +1,240 @@
+1
+00:00:00,210 --> 00:00:05,710
+It's time to start setting up our automated test suite for our graphical application.
+
+2
+00:00:05,730 --> 00:00:12,030
+Now in this video in particular we're going to focus on creating a third environment so we have a development
+
+3
+00:00:12,030 --> 00:00:12,750
+environment.
+
+4
+00:00:12,750 --> 00:00:18,090
+We have a production environment and if we're going to be setting up an automated test suite we also
+
+5
+00:00:18,090 --> 00:00:20,670
+want a test environment in place.
+
+6
+00:00:20,670 --> 00:00:25,650
+Now if you're wondering why we need a test environment and a separate place in the database for our
+
+7
+00:00:25,650 --> 00:00:31,500
+test data it's because our test suite this automatic process that we're going to set up it's going to
+
+8
+00:00:31,500 --> 00:00:34,060
+be interacting with the database quite a bit.
+
+9
+00:00:34,080 --> 00:00:39,360
+We're going to be setting up dummy test data so that the code we run can actually get data back and
+
+10
+00:00:39,360 --> 00:00:42,230
+we can assert that everything is working correctly.
+
+11
+00:00:42,270 --> 00:00:46,950
+This is going to happen over and over again and we're going to be manipulating the database a whole
+
+12
+00:00:46,950 --> 00:00:47,550
+bunch.
+
+13
+00:00:47,640 --> 00:00:52,560
+So it's best to not interfere with our production or our development data.
+
+14
+00:00:52,560 --> 00:00:56,470
+Now the good news is that deploying is going to be a super simple process.
+
+15
+00:00:56,520 --> 00:01:00,690
+We're going to make a new environment very similar to the dev environment.
+
+16
+00:01:00,690 --> 00:01:06,270
+So let's go ahead and kick things off by creating a new file in the config directory called Test dot
+
+17
+00:01:06,360 --> 00:01:07,580
+NVI.
+
+18
+00:01:07,590 --> 00:01:12,630
+Now to start we can actually just grab the contents of dev Dom Ian V.
+
+19
+00:01:12,690 --> 00:01:15,730
+So I'm going to copy these three lines to the clipboard.
+
+20
+00:01:16,020 --> 00:01:19,290
+I'm going to bring them over to the test environment file.
+
+21
+00:01:19,380 --> 00:01:23,240
+And the only line we're going to change is the Prisma endpoint.
+
+22
+00:01:23,250 --> 00:01:29,120
+Now if you remember from much earlier in the class there's actually two things that the Prisma endpoint
+
+23
+00:01:29,130 --> 00:01:29,990
+specifies.
+
+24
+00:01:30,000 --> 00:01:37,060
+Aside from the actual You Arel the service end of the stage and by default both are default.
+
+25
+00:01:37,080 --> 00:01:42,030
+That's why we see default dollar sign default in our development database.
+
+26
+00:01:42,030 --> 00:01:49,440
+This is the default service and the default stage what we're going to do is override those values.
+
+27
+00:01:49,440 --> 00:01:56,220
+So for Devcon EMV as an example I could set up a forward slash default for the service name then forward
+
+28
+00:01:56,220 --> 00:01:58,500
+slash default for the stage name.
+
+29
+00:01:58,620 --> 00:02:02,660
+And this would be exactly the same as the code we have right here.
+
+30
+00:02:02,700 --> 00:02:08,060
+These are identical because default is the default over intestate envy.
+
+31
+00:02:08,250 --> 00:02:10,530
+I'm going to use forward slash default.
+
+32
+00:02:10,560 --> 00:02:13,590
+So we'll stick with the default service name.
+
+33
+00:02:13,710 --> 00:02:16,190
+But then for the stage name I'll switch that up.
+
+34
+00:02:16,200 --> 00:02:18,450
+Calling it something like Test.
+
+35
+00:02:18,450 --> 00:02:21,770
+So now we have two separate places in the database.
+
+36
+00:02:21,780 --> 00:02:24,930
+One for development data and one for test data.
+
+37
+00:02:24,960 --> 00:02:26,470
+And this is a good thing.
+
+38
+00:02:26,490 --> 00:02:30,940
+Now that's the only change we actually need to make it to the test NVI file.
+
+39
+00:02:31,050 --> 00:02:35,620
+From here we're actually ready to deploy our test environment to Prisma.
+
+40
+00:02:35,640 --> 00:02:41,850
+So from the terminal Let's go ahead and use the CD command to navigate into the Prisma directory.
+
+41
+00:02:42,030 --> 00:02:44,580
+And from here we're going to use Prisma deploy.
+
+42
+00:02:44,580 --> 00:02:51,570
+That's going to be Prisma the deploy we are going to provide the e argument so we can provide the path
+
+43
+00:02:51,570 --> 00:02:54,710
+to the configuration file we want to use which is this one.
+
+44
+00:02:54,870 --> 00:02:58,020
+So that would be a dot dot to get out of the Prisma folder.
+
+45
+00:02:58,020 --> 00:03:01,740
+Forward slash config to go into that directory then forward slash.
+
+46
+00:03:01,740 --> 00:03:03,430
+Test dot envie.
+
+47
+00:03:03,600 --> 00:03:04,520
+Excellent.
+
+48
+00:03:04,770 --> 00:03:08,370
+Let's go ahead and actually round this to deploy the test environment.
+
+49
+00:03:08,370 --> 00:03:13,020
+As always it's going to go through the process of communicating to our Prisma server.
+
+50
+00:03:13,110 --> 00:03:18,260
+Right here we can see all of the stuff it did and sense it is a brand new stage.
+
+51
+00:03:18,300 --> 00:03:22,260
+We can see that it created everything that's necessary and down at the bottom.
+
+52
+00:03:22,290 --> 00:03:26,520
+Everything went well it successfully applied those changes.
+
+53
+00:03:26,520 --> 00:03:28,870
+And over inside of PGE admin.
+
+54
+00:03:29,070 --> 00:03:32,590
+If I right click the schemas list and click refresh.
+
+55
+00:03:32,730 --> 00:03:33,680
+We now have a new one.
+
+56
+00:03:33,720 --> 00:03:36,330
+We had default dollar sign test.
+
+57
+00:03:36,380 --> 00:03:39,660
+This is where we're going to have all of our test data.
+
+58
+00:03:39,660 --> 00:03:45,240
+That data is going to be manipulated automatically via code and that code is something we're going to
+
+59
+00:03:45,240 --> 00:03:51,410
+work on creating next in the next video will configure that tool will be using for our test suite.
+
+60
+00:03:51,420 --> 00:03:53,590
+So let's go ahead and jump right in.
+

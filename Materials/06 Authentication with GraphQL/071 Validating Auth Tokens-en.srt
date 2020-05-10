@@ -1,0 +1,980 @@
+1
+00:00:00,240 --> 00:00:05,880
+In the last couple of videos we've set up a sign up and a lag in a mutation both of which send back
+
+2
+00:00:05,910 --> 00:00:07,660
+and authentication tokin.
+
+3
+00:00:07,800 --> 00:00:13,020
+In this video we're going to figure out how to actually use that to authenticate users.
+
+4
+00:00:13,020 --> 00:00:18,690
+So we're going to figure out one how this token can get passed from the client to the no Jay s server
+
+5
+00:00:18,900 --> 00:00:25,200
+and to how the no js server can actually use this token to perform some sort of authentication.
+
+6
+00:00:25,200 --> 00:00:31,610
+Now the first mutation that we're going to modify in order to actually accept tokens is that we create
+
+7
+00:00:31,620 --> 00:00:34,960
+post mutation which is sitting inside of mutation.
+
+8
+00:00:35,140 --> 00:00:42,410
+Ass right now like all of our other mutations queries and subscriptions It doesn't require any authentication
+
+9
+00:00:42,420 --> 00:00:44,380
+it's all sitting out in the open.
+
+10
+00:00:44,400 --> 00:00:45,380
+We're going to fix that.
+
+11
+00:00:45,390 --> 00:00:50,670
+We're also going to remove the author argument since you shouldn't be able to create a post for any
+
+12
+00:00:50,670 --> 00:00:51,420
+author.
+
+13
+00:00:51,450 --> 00:00:56,760
+You should only be able to create a post for the author you're actually logged in ads.
+
+14
+00:00:56,850 --> 00:00:58,020
+Now not all of this out.
+
+15
+00:00:58,020 --> 00:01:02,030
+The first thing we have to do is get the token from the client to the server to start.
+
+16
+00:01:02,040 --> 00:01:05,670
+What I'm going to do is copy the token to the clipboard.
+
+17
+00:01:05,670 --> 00:01:08,330
+I have a token from the last video when I logged in.
+
+18
+00:01:08,460 --> 00:01:15,270
+If you don't have one just log in or sign up a user and grab one and we're going to move over to our
+
+19
+00:01:15,270 --> 00:01:22,680
+create post nutation And here we're going to provide the auth token via an H TTP Hetter.
+
+20
+00:01:22,860 --> 00:01:28,830
+Now HTP headers allow us to pass those values from client to server and server to client.
+
+21
+00:01:28,830 --> 00:01:32,880
+And regardless of what platform you're using you can set headers for your requests.
+
+22
+00:01:32,880 --> 00:01:38,250
+So if you're working with an iOS client or an android client or a web client you can set headers for
+
+23
+00:01:38,250 --> 00:01:39,220
+all of those.
+
+24
+00:01:39,450 --> 00:01:44,130
+And the structure we're going to use is actually the same structure that Prisma uses.
+
+25
+00:01:44,130 --> 00:01:49,190
+Over here where we have our authorization header and then we have our barer token.
+
+26
+00:01:49,350 --> 00:01:55,800
+Now this set up is by no means specific to Prisma and is a very common structure for authentication
+
+27
+00:01:55,800 --> 00:01:59,190
+headers and that is exactly what we're going to end up using as well.
+
+28
+00:01:59,400 --> 00:02:03,540
+So over inside of localhost 4000 we're going to set up our object.
+
+29
+00:02:03,690 --> 00:02:06,390
+We're going to set up our key value pair.
+
+30
+00:02:06,560 --> 00:02:14,430
+The key authorization the value is barer space and then the token that we copied to the clipboard and
+
+31
+00:02:14,430 --> 00:02:15,100
+there we go.
+
+32
+00:02:15,210 --> 00:02:20,720
+This is actually all we need to do to get the token from the client to the server.
+
+33
+00:02:20,720 --> 00:02:26,280
+Now we need to figure out how we can get access to our J W from inside of Node.
+
+34
+00:02:26,310 --> 00:02:26,640
+J.
+
+35
+00:02:26,640 --> 00:02:34,170
+S. I want to be able to access it inside of my individual mutation resolvers since some mutations require
+
+36
+00:02:34,170 --> 00:02:39,900
+authentication like create Post and others won't like loggin to do this we're actually going to make
+
+37
+00:02:39,900 --> 00:02:42,790
+a change to the context for our server.
+
+38
+00:02:42,960 --> 00:02:48,060
+So if you remember we haven't touched it in a while we have this context object right here.
+
+39
+00:02:48,060 --> 00:02:54,080
+We provide various things those things get passed in as the value for this third argument.
+
+40
+00:02:54,200 --> 00:03:00,570
+What we're going to do is switch this up a little bit the context property can actually also be set
+
+41
+00:03:00,570 --> 00:03:01,850
+to a function.
+
+42
+00:03:01,890 --> 00:03:06,630
+This function then returns the object much like the object we have set up here.
+
+43
+00:03:06,630 --> 00:03:13,110
+So I can actually cut this object out copying it to the clipboard and I'm going to set context equal
+
+44
+00:03:13,110 --> 00:03:18,000
+to a function then I'm going to return the exact object we had before.
+
+45
+00:03:18,000 --> 00:03:23,580
+So at this point we actually haven't changed the functionality at all but we have set ourselves up to
+
+46
+00:03:23,580 --> 00:03:29,910
+be able to make an important change which is to be able to access our request headers which is where
+
+47
+00:03:29,910 --> 00:03:32,700
+our authorization token actually lives.
+
+48
+00:03:32,700 --> 00:03:36,970
+Let's go ahead and pull up the documentation to clarify exactly why this is important.
+
+49
+00:03:37,080 --> 00:03:40,010
+So I'm going to head over to the documentation for a graphic.
+
+50
+00:03:40,080 --> 00:03:46,260
+Well yoga I have the hub page sitting right here in my history and we're gonna scroll down a little
+
+51
+00:03:46,260 --> 00:03:48,690
+bit to look at the various options we can provide.
+
+52
+00:03:48,690 --> 00:03:55,290
+So after the initial examples we have our API and we have our context documentation right here.
+
+53
+00:03:55,290 --> 00:03:58,310
+We can use an object or a function.
+
+54
+00:03:58,320 --> 00:04:03,900
+Now this contains custom data being passed through to your resolver chain so all of our resolver methods
+
+55
+00:04:03,930 --> 00:04:05,360
+get this data.
+
+56
+00:04:05,370 --> 00:04:11,780
+It can be provided as an object which we've already seen or as a function with the following signature.
+
+57
+00:04:11,780 --> 00:04:19,580
+Here this function actually gets called by graft UL yoga with an argument the request object.
+
+58
+00:04:19,590 --> 00:04:22,130
+This is where we can access our head hurts.
+
+59
+00:04:22,140 --> 00:04:27,450
+So what we're going to do is grab this request and we're going to pass it through.
+
+60
+00:04:27,510 --> 00:04:31,760
+I'm going to add that on as a another context property.
+
+61
+00:04:31,770 --> 00:04:37,260
+Now before we mess around with this mutation J S let's just see exactly what lives on there.
+
+62
+00:04:37,320 --> 00:04:39,460
+I'm going to use Konsole dot Lague.
+
+63
+00:04:39,470 --> 00:04:45,240
+I am going to dump a request to the council then we're going to start the server up and we're just going
+
+64
+00:04:45,240 --> 00:04:47,420
+to run one of our operations.
+
+65
+00:04:47,520 --> 00:04:49,840
+I can run any of the operations I like.
+
+66
+00:04:49,860 --> 00:04:52,160
+I'm just going to run this one it's going fail.
+
+67
+00:04:52,200 --> 00:04:56,570
+Since the author IDs don't match up with anything in the database but that's OK.
+
+68
+00:04:56,790 --> 00:05:02,950
+I'm going to let it fail over in the terminal on going to scroll up just before the error and we can
+
+69
+00:05:02,950 --> 00:05:09,970
+see what outputs from this console dialog statement and as you'll see it is a ton quite literally a
+
+70
+00:05:10,000 --> 00:05:11,610
+ton of information.
+
+71
+00:05:11,620 --> 00:05:18,520
+It has everything that makes up that request including as I found right here are raw headers and are
+
+72
+00:05:18,550 --> 00:05:22,670
+parsed headers and this is the information that we need to access.
+
+73
+00:05:22,690 --> 00:05:26,100
+Now we don't want to dig through this entire object to find what we need.
+
+74
+00:05:26,230 --> 00:05:28,870
+It's really actually pretty simple to find what we need.
+
+75
+00:05:28,870 --> 00:05:33,720
+It is request datt request dot headers.
+
+76
+00:05:33,730 --> 00:05:38,220
+This contains all of the headers which is where our token lives.
+
+77
+00:05:38,380 --> 00:05:44,130
+So if we go ahead and save things once again we can scroll to the bottom of the terminal and then going
+
+78
+00:05:44,130 --> 00:05:49,530
+to rerun this operation which will once again fail and then I'm going to look at the output that gets
+
+79
+00:05:49,530 --> 00:05:52,100
+printed and now it's much more manageable.
+
+80
+00:05:52,110 --> 00:05:53,250
+It is just an object.
+
+81
+00:05:53,250 --> 00:05:55,880
+It starts here and it ends right here.
+
+82
+00:05:56,010 --> 00:05:58,170
+Now there are plenty of headers we didn't set.
+
+83
+00:05:58,170 --> 00:06:04,020
+Most of these are actually set by graphical playground itself but we do indeed have our authorization
+
+84
+00:06:04,020 --> 00:06:06,300
+hetter with our Jason Webb token.
+
+85
+00:06:06,300 --> 00:06:11,250
+So this is where we can grab that token parse it and verify it.
+
+86
+00:06:11,250 --> 00:06:16,030
+Now we're not going to do that in this function we're actually going to remove that console that log.
+
+87
+00:06:16,140 --> 00:06:19,960
+We are done with this file we can save it and close it.
+
+88
+00:06:19,980 --> 00:06:23,970
+All of that is going to happen in the individual methods.
+
+89
+00:06:23,970 --> 00:06:27,920
+Now we're going to have a whole bunch of different methods that require authentication.
+
+90
+00:06:27,930 --> 00:06:32,120
+So for each of those methods we're going to have to get better value.
+
+91
+00:06:32,220 --> 00:06:36,990
+We're going to have to parse out the token then we're going to have to verify the token.
+
+92
+00:06:37,020 --> 00:06:37,860
+You get the idea.
+
+93
+00:06:37,860 --> 00:06:39,660
+It goes on and on and on.
+
+94
+00:06:39,660 --> 00:06:41,330
+There are a few steps we have to do.
+
+95
+00:06:41,340 --> 00:06:46,230
+I don't want to write out this code for every single nutation query and subscription that we want to
+
+96
+00:06:46,470 --> 00:06:49,140
+actually set up to require authentication.
+
+97
+00:06:49,140 --> 00:06:53,760
+So I'm going to create a simple utility function that handles all of that's for us.
+
+98
+00:06:53,820 --> 00:06:58,970
+We can write the code once in that function and we can reuse it anywhere we want to set up authentication.
+
+99
+00:06:59,160 --> 00:07:03,840
+Now to do this what I'm going to do is create a Noojee rectory in the source folder.
+
+100
+00:07:03,840 --> 00:07:09,770
+So a new directory alongside have generated and alongside of resolvers I'm going to call this utils
+
+101
+00:07:10,080 --> 00:07:14,370
+in here we're going to have a few files eventually that will contain some utility methods.
+
+102
+00:07:14,370 --> 00:07:22,170
+For now we're just going to have one and I'm going to call this get user id dot J as in here we're going
+
+103
+00:07:22,170 --> 00:07:28,150
+to define a single function get user ID and that's where we're going to abstract all of this logic.
+
+104
+00:07:28,170 --> 00:07:32,280
+So let's create the function and right here will actually define it.
+
+105
+00:07:32,300 --> 00:07:34,240
+Konst get user ID.
+
+106
+00:07:34,420 --> 00:07:39,090
+Well talk about its arguments and what exactly it's going to do and return in a little bit.
+
+107
+00:07:39,130 --> 00:07:46,130
+For now let's go ahead and export it an import it from the other file so export right here get a user
+
+108
+00:07:46,130 --> 00:07:48,530
+ID as default.
+
+109
+00:07:48,530 --> 00:07:56,140
+I'm going to save this file go over to mutation dot J S and inport it up above the top of the file in
+
+110
+00:07:56,160 --> 00:08:02,620
+Port get user ID which we just set up from in the following file.
+
+111
+00:08:02,620 --> 00:08:05,050
+Now this file is in the resolvers directory.
+
+112
+00:08:05,110 --> 00:08:08,440
+So I'm going to use dot dot to go up to the source folder.
+
+113
+00:08:08,650 --> 00:08:14,380
+From there I'm going to use forward slash utils to go into the utility directory then forward slash
+
+114
+00:08:14,380 --> 00:08:17,620
+get user ID to actually load in that file.
+
+115
+00:08:17,620 --> 00:08:24,640
+So now we have access to get user ID and we can take advantage of that down below inside of create post
+
+116
+00:08:24,730 --> 00:08:25,480
+right here.
+
+117
+00:08:25,480 --> 00:08:33,190
+We're actually going to end up calling it Konst user ID as the method name suggests excuse me the function
+
+118
+00:08:33,190 --> 00:08:37,050
+name get user ID is going to return a user ID.
+
+119
+00:08:37,270 --> 00:08:41,970
+I'm going to call it get user ID and we're going to pass to it.
+
+120
+00:08:42,010 --> 00:08:45,280
+The new piece of context that we just set up.
+
+121
+00:08:45,360 --> 00:08:50,860
+So I am going to do structure request and I am going to pass that in.
+
+122
+00:08:50,980 --> 00:08:51,950
+Perfect.
+
+123
+00:08:51,970 --> 00:08:56,650
+Now what's going to happen is that function can be in charge of actually doing all of these steps.
+
+124
+00:08:56,740 --> 00:08:59,110
+And that's what we're going to get to in just a second.
+
+125
+00:08:59,170 --> 00:09:04,990
+Now that we're passing an argument to get user id Let's go ahead and actually name that over here request
+
+126
+00:09:05,800 --> 00:09:09,510
+and the first thing we're going to do is pull off the raw header value.
+
+127
+00:09:09,610 --> 00:09:16,240
+So I'm going to create a constant this constant can be called something like Hatter and we're going
+
+128
+00:09:16,240 --> 00:09:17,590
+to get the header value.
+
+129
+00:09:17,590 --> 00:09:24,010
+So we already saw where the headers live it's on request dot request dot headers and on there we have
+
+130
+00:09:24,040 --> 00:09:26,180
+authorization that's the one we want.
+
+131
+00:09:27,090 --> 00:09:27,980
+Perfect.
+
+132
+00:09:27,990 --> 00:09:33,630
+Now if you're wondering why we have request twice that is because in the whole request there is a request
+
+133
+00:09:33,660 --> 00:09:34,530
+and a response.
+
+134
+00:09:34,550 --> 00:09:40,190
+There's actually two pieces to each quote unquote request and that's where the redundancy comes from.
+
+135
+00:09:40,200 --> 00:09:44,730
+It can be a little confusing at first but honestly this is the only place where ever even going to use
+
+136
+00:09:44,730 --> 00:09:45,050
+it.
+
+137
+00:09:45,060 --> 00:09:47,550
+So if we understand it here you're good to go.
+
+138
+00:09:47,550 --> 00:09:48,440
+Now what's next.
+
+139
+00:09:48,440 --> 00:09:49,870
+Well we have that letter.
+
+140
+00:09:49,980 --> 00:09:52,680
+Let's go ahead and see if anything was actually there.
+
+141
+00:09:52,710 --> 00:09:56,160
+So I'm going to set up an if statement if there was no header.
+
+142
+00:09:56,160 --> 00:09:56,880
+What are we going to do.
+
+143
+00:09:56,880 --> 00:10:03,690
+Well as you can probably guess we're going to go ahead and throw an error so right here if no header
+
+144
+00:10:04,290 --> 00:10:11,910
+we are going to throw a new error authentication required.
+
+145
+00:10:12,050 --> 00:10:14,570
+So we're going to say that to perform this action.
+
+146
+00:10:14,690 --> 00:10:17,090
+You have to be authenticated.
+
+147
+00:10:17,090 --> 00:10:23,030
+Now obviously this error is only going to get thrown if we call and get user ID which we're only going
+
+148
+00:10:23,030 --> 00:10:29,250
+to call from mutation queery and subscription resolvers where we actually care about authentication.
+
+149
+00:10:29,390 --> 00:10:35,510
+I'm never going to call get user ID from something like my log in mutation where authentication isn't
+
+150
+00:10:35,570 --> 00:10:36,560
+important.
+
+151
+00:10:36,800 --> 00:10:38,650
+Now we're not quite done inside of here.
+
+152
+00:10:38,660 --> 00:10:44,660
+We still have to parse this string to get rid of the bearer and the space that we want to verify this
+
+153
+00:10:44,660 --> 00:10:46,000
+token using j.
+
+154
+00:10:46,010 --> 00:10:47,930
+W.T. verify.
+
+155
+00:10:48,050 --> 00:10:50,200
+So let's go ahead and knock that out right here.
+
+156
+00:10:50,250 --> 00:10:53,210
+I'm going to create a concert and we're going to call this one token.
+
+157
+00:10:53,210 --> 00:10:55,240
+The goal is to extract the token value.
+
+158
+00:10:55,250 --> 00:11:00,260
+So leaving off barer and the space and there are a ton of different ways you could get this done.
+
+159
+00:11:00,260 --> 00:11:05,870
+My personal favorite is to just use the string method on a header replace.
+
+160
+00:11:06,140 --> 00:11:12,290
+I'm going to replace barer space with an empty string which successfully just removes it.
+
+161
+00:11:12,290 --> 00:11:17,540
+There are so many other approaches you could have taken as well header dot split for example I could
+
+162
+00:11:17,540 --> 00:11:19,490
+split that string on the space.
+
+163
+00:11:19,490 --> 00:11:21,140
+So now I have an array of two items.
+
+164
+00:11:21,140 --> 00:11:25,130
+The first is the string bearer and the second is my string token.
+
+165
+00:11:25,130 --> 00:11:30,130
+Then I could grab that second item by index that would work as a replacement for this too.
+
+166
+00:11:30,230 --> 00:11:32,870
+I'm going to stick with the replace approach though.
+
+167
+00:11:32,870 --> 00:11:34,650
+Personal preference.
+
+168
+00:11:34,730 --> 00:11:41,660
+Now that we have the token we want to verify it which means that we need to use JWT verify and if we're
+
+169
+00:11:41,660 --> 00:11:43,610
+going to use it we've got to import it.
+
+170
+00:11:43,610 --> 00:11:52,750
+So over the top of the file inport the JWT from Jason Webb tokin then down below we're actually going
+
+171
+00:11:52,750 --> 00:11:53,720
+to call it.
+
+172
+00:11:53,740 --> 00:11:56,710
+So we are going to get back our decoded data.
+
+173
+00:11:57,130 --> 00:11:58,520
+We are going to call J.
+
+174
+00:11:58,530 --> 00:12:00,870
+W.T. dot verify.
+
+175
+00:12:01,030 --> 00:12:03,790
+And we're going to pass to two arguments.
+
+176
+00:12:03,790 --> 00:12:11,170
+The first being our token and the second being our secret we need to use the same secret our tokens
+
+177
+00:12:11,170 --> 00:12:13,070
+were created with that was.
+
+178
+00:12:13,090 --> 00:12:17,240
+This is a secret for both sign up and log in.
+
+179
+00:12:17,500 --> 00:12:23,830
+So I'm going to copy that string to the clipboard bring it over to get user ID and paste it right inside
+
+180
+00:12:23,830 --> 00:12:24,550
+of here.
+
+181
+00:12:24,550 --> 00:12:31,060
+So now if the token was a failure for whatever reason this would have throw in an error causing the
+
+182
+00:12:31,060 --> 00:12:37,810
+get user ID function to stop if we are continuing on then that means things went well and we can actually
+
+183
+00:12:37,810 --> 00:12:39,900
+just return the user IDs.
+
+184
+00:12:39,910 --> 00:12:47,440
+I'm going to return on our decoded object which we've printed before one property from the payload user
+
+185
+00:12:47,650 --> 00:12:48,460
+ID.
+
+186
+00:12:48,550 --> 00:12:49,550
+Perfect.
+
+187
+00:12:49,570 --> 00:12:51,370
+So let's go over this big picture.
+
+188
+00:12:51,370 --> 00:12:54,520
+We grab the header if there was no header we stop.
+
+189
+00:12:54,520 --> 00:12:55,480
+That's a problem.
+
+190
+00:12:55,480 --> 00:13:01,120
+If there was a hammer we remove the beginning piece that contains barer and then we try to verify the
+
+191
+00:13:01,120 --> 00:13:04,660
+token if token verification fails we stop.
+
+192
+00:13:04,660 --> 00:13:12,060
+Lastly if everything worked we returned the user ID so we can save get user ID and over in mutation.
+
+193
+00:13:12,160 --> 00:13:12,430
+J.
+
+194
+00:13:12,430 --> 00:13:19,090
+S. We can now take advantage of the fact that we have the user id of the authenticated user and we're
+
+195
+00:13:19,090 --> 00:13:20,790
+going to use that right here.
+
+196
+00:13:20,980 --> 00:13:25,090
+No longer are we going to accept an author ID getting passed in.
+
+197
+00:13:25,090 --> 00:13:30,700
+Instead we're going to use the user id of the authenticated user.
+
+198
+00:13:30,700 --> 00:13:32,910
+Now we can save mutation J.
+
+199
+00:13:32,940 --> 00:13:35,770
+As and over inside of schema dot graph.
+
+200
+00:13:35,770 --> 00:13:39,540
+Q Well I am going to change the Create post mutation.
+
+201
+00:13:39,730 --> 00:13:43,610
+We have our create post input and that's defined down below.
+
+202
+00:13:43,870 --> 00:13:49,450
+This no longer needs the author ID so we can actually remove it completely when we are creating a post.
+
+203
+00:13:49,450 --> 00:13:53,780
+We just need the title the body and the published fields.
+
+204
+00:13:53,980 --> 00:13:59,650
+So let's go ahead and save all of our files and we're actually ready to test things out and make sure
+
+205
+00:13:59,860 --> 00:14:06,280
+authentication is all set up over inside of a local host 4000 ongoing going to refresh that schema and
+
+206
+00:14:06,280 --> 00:14:08,010
+my request should become invalid.
+
+207
+00:14:08,010 --> 00:14:12,010
+It should complain that we're providing author but author doesn't exist and that's exactly what we're
+
+208
+00:14:12,010 --> 00:14:12,940
+seeing.
+
+209
+00:14:12,940 --> 00:14:16,760
+I'm going to remove the author field which is no longer necessary.
+
+210
+00:14:16,810 --> 00:14:23,350
+Now my request is valid and we're going to go ahead and fire that off with the Tokin in place.
+
+211
+00:14:23,350 --> 00:14:26,450
+Now I'm going to change the title to keep it original.
+
+212
+00:14:26,500 --> 00:14:30,690
+This is with JWT in place.
+
+213
+00:14:30,790 --> 00:14:33,000
+I'm going to fire this off and what do we get.
+
+214
+00:14:33,010 --> 00:14:35,960
+We got a successful post creation.
+
+215
+00:14:36,010 --> 00:14:41,680
+The post was created successfully because we provided a valid authentication token.
+
+216
+00:14:41,860 --> 00:14:45,060
+And you'll notice that it associated it with the correct user.
+
+217
+00:14:45,070 --> 00:14:50,530
+So based off of the information embedded in that token it was able to figure out which user is actually
+
+218
+00:14:50,530 --> 00:14:51,930
+being authenticated.
+
+219
+00:14:51,970 --> 00:14:55,080
+And it did indeed create the post for Andrew.
+
+220
+00:14:55,300 --> 00:14:58,490
+Now if I were to leave off this header or I were to change it.
+
+221
+00:14:58,540 --> 00:15:01,330
+Let me go ahead and just add a queue up front.
+
+222
+00:15:01,330 --> 00:15:07,040
+For example things are now going to fail by adding that one character we've messed up the signature
+
+223
+00:15:07,050 --> 00:15:08,410
+for the JWT.
+
+224
+00:15:08,500 --> 00:15:12,330
+And if I run it you can see we're getting invalid token back which is great.
+
+225
+00:15:12,370 --> 00:15:18,310
+So it's only if we provide a token and it's valid that we're actually going to see things work.
+
+226
+00:15:18,310 --> 00:15:22,350
+So to test the last case let's go ahead and highlight everything down below.
+
+227
+00:15:22,390 --> 00:15:25,010
+I'm going to cut it out removing all headers.
+
+228
+00:15:25,060 --> 00:15:27,840
+I'm going to fire that off though we can see that this time around.
+
+229
+00:15:27,850 --> 00:15:28,750
+It also fails.
+
+230
+00:15:28,750 --> 00:15:32,830
+We're getting our authentication required message showing up.
+
+231
+00:15:33,070 --> 00:15:38,530
+So now that we have authentication set up it's actually not going to be that difficult to add it for
+
+232
+00:15:38,590 --> 00:15:40,360
+other mutation resolvers.
+
+233
+00:15:40,480 --> 00:15:46,750
+In the end of the day all we really need to do is grab a request from the context call our get user
+
+234
+00:15:46,750 --> 00:15:49,670
+id method and then do something with the ID.
+
+235
+00:15:49,690 --> 00:15:53,590
+There will be a challenge in the next video where you have to do just that.
+
+236
+00:15:53,590 --> 00:15:55,650
+So that's where we're going to stop for this one.
+
+237
+00:15:55,780 --> 00:15:59,900
+We have the basic infrastructure for authentication in place.
+
+238
+00:15:59,950 --> 00:16:00,700
+What do we do.
+
+239
+00:16:00,700 --> 00:16:05,720
+Well we provided a header when we made our initial request inside of our code.
+
+240
+00:16:05,740 --> 00:16:11,960
+We changed index dot J asked to make sure the headers got passed through to the context from there.
+
+241
+00:16:11,980 --> 00:16:18,490
+Are individual mutation resolvers were able to pass the request object down to get user ID that parses
+
+242
+00:16:18,560 --> 00:16:21,600
+and verifies the token and everything works really well.
+
+243
+00:16:21,610 --> 00:16:21,990
+All right.
+
+244
+00:16:22,000 --> 00:16:26,530
+I'll see you in the next video where it's going to be up to you to add authentication to some of our
+
+245
+00:16:26,530 --> 00:16:27,790
+other mutations.
+

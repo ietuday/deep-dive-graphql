@@ -1,0 +1,464 @@
+1
+00:00:00,150 --> 00:00:06,950
+So far we spent this section putting no yes right between our client and the Prisma graphical API.
+
+2
+00:00:06,960 --> 00:00:11,970
+So we have our server sitting in the middle and this is going to be useful because once again it's going
+
+3
+00:00:11,970 --> 00:00:17,640
+to allow us to authenticate and validate requests before actually reading and writing from the database
+
+4
+00:00:17,880 --> 00:00:23,850
+so we can use the node server to check if someone has permission to read or write some data before the
+
+5
+00:00:23,850 --> 00:00:26,200
+operation is actually performed.
+
+6
+00:00:26,370 --> 00:00:30,960
+Now the problem with our current set up is that this is not enforceable because the client can just
+
+7
+00:00:30,960 --> 00:00:32,970
+directly communicate with Prisma.
+
+8
+00:00:32,970 --> 00:00:37,850
+We can for example go to localhost 4 4 6 6 and mess with the database.
+
+9
+00:00:37,890 --> 00:00:43,880
+All we want there is no need to go through our node J.S. graphical API.
+
+10
+00:00:44,100 --> 00:00:50,060
+So what we need to do is cut off this channel for the client and force the client to use this channel
+
+11
+00:00:50,070 --> 00:00:55,170
+so we want to force the client to pass all requests through node and that's what we're going to end
+
+12
+00:00:55,170 --> 00:00:56,580
+up doing to do this.
+
+13
+00:00:56,640 --> 00:01:02,280
+We set up what's known as a Prisma secret and then the end of the day it's nothing more than a password.
+
+14
+00:01:02,370 --> 00:01:05,690
+You need that password in order to communicate with Prisma.
+
+15
+00:01:05,730 --> 00:01:11,040
+So we're going to set that password up on our node back end and the Prisma back end.
+
+16
+00:01:11,040 --> 00:01:15,980
+So in Prisma says What's the secret node will be able to respond correctly.
+
+17
+00:01:16,110 --> 00:01:21,150
+We're not going to give anyone else that information so any client out there won't know the secret and
+
+18
+00:01:21,150 --> 00:01:26,140
+it won't be able to communicate directly with Prisma it will have to go through node j.
+
+19
+00:01:26,200 --> 00:01:28,280
+S. So in the end of the day yes.
+
+20
+00:01:28,380 --> 00:01:31,900
+Any client in the world would be able to interact with our node.
+
+21
+00:01:31,920 --> 00:01:33,470
+JS API.
+
+22
+00:01:33,540 --> 00:01:39,570
+But that's OK because we are going to authenticate and validate those requests before we ever touch
+
+23
+00:01:39,780 --> 00:01:40,740
+the database.
+
+24
+00:01:40,740 --> 00:01:44,310
+So this is the strategy that we're going to use to lock down our data.
+
+25
+00:01:44,310 --> 00:01:49,770
+Let's go ahead and actually implement it back inside the Visual Studio code we can do this by first
+
+26
+00:01:49,860 --> 00:01:56,310
+closing all of our open editors and cracking open just two files on the Prisma side of things.
+
+27
+00:01:56,310 --> 00:02:00,120
+We're going to open up Prisma Dajuan now on the No.
+
+28
+00:02:00,120 --> 00:02:04,190
+J S side of things we're going to open up Prisma dot J S.
+
+29
+00:02:04,350 --> 00:02:09,390
+So we're going to configure a secret over here and to make sure that our connection from node is still
+
+30
+00:02:09,390 --> 00:02:10,020
+works.
+
+31
+00:02:10,020 --> 00:02:16,200
+We're going to add the same secret onto this options object we pass into our constructor per Prisma
+
+32
+00:02:16,260 --> 00:02:17,250
+binding.
+
+33
+00:02:17,250 --> 00:02:22,590
+So let's go ahead and get that done over here and Prisma ADOT why M-L we're going to set up a new property
+
+34
+00:02:22,620 --> 00:02:23,500
+secret.
+
+35
+00:02:23,670 --> 00:02:25,570
+And the name here is important.
+
+36
+00:02:25,890 --> 00:02:29,880
+And then we pick a value we can pick whatever value we like.
+
+37
+00:02:29,880 --> 00:02:35,150
+I'm going to go ahead and use something like this is my super secret text.
+
+38
+00:02:35,190 --> 00:02:35,980
+Perfect.
+
+39
+00:02:36,000 --> 00:02:38,280
+You can use any string value you like.
+
+40
+00:02:38,280 --> 00:02:44,010
+You can also use a password generator to generate something stronger and later on in the class you will
+
+41
+00:02:44,010 --> 00:02:49,240
+learn how to pull this value out of the code and use it in an environment variable instead.
+
+42
+00:02:49,260 --> 00:02:52,470
+But for now we do have our secret configured.
+
+43
+00:02:52,470 --> 00:02:56,160
+We can go ahead and save this file and redeploy Prisma.
+
+44
+00:02:56,160 --> 00:02:59,010
+So I'm going to shut down gnomon from graphics.
+
+45
+00:02:59,040 --> 00:02:59,840
+Well Prisma.
+
+46
+00:02:59,830 --> 00:03:06,840
+I'm going to change directories into the Prisma folder and once again we are going to use Prisma deploy
+
+47
+00:03:07,380 --> 00:03:08,550
+now once we run this.
+
+48
+00:03:08,610 --> 00:03:14,880
+We will actually have completely locked down Prisma and anyone who wants to communicate with it is going
+
+49
+00:03:14,880 --> 00:03:20,250
+to need to provide a password and we can prove this by trying to communicate with it without providing
+
+50
+00:03:20,250 --> 00:03:21,480
+that password.
+
+51
+00:03:21,510 --> 00:03:28,620
+So I'm going to use C.D dot dot to go back to our project route and NPM start to start up that application
+
+52
+00:03:28,830 --> 00:03:29,670
+once again.
+
+53
+00:03:29,940 --> 00:03:35,820
+Now if we head over to graft UL playground we could try to make a request for example I can go all the
+
+54
+00:03:35,820 --> 00:03:39,460
+way over to the left and make a user's query to the node.
+
+55
+00:03:39,480 --> 00:03:46,910
+J.S. graphical API when I do that what happens we can see we get an error your token is invalid.
+
+56
+00:03:46,920 --> 00:03:50,600
+It might have expired or you might be using a token from a different project.
+
+57
+00:03:50,600 --> 00:03:56,220
+So here it's letting us know that we could not connect and we're going to see the exact same thing if
+
+58
+00:03:56,220 --> 00:03:58,770
+we try to connect directly to Prisma.
+
+59
+00:03:58,770 --> 00:04:04,020
+So over here I'm connecting directly to Prisma using localhost 4 4 6 6.
+
+60
+00:04:04,110 --> 00:04:08,910
+If I tried to perform any operation we're going to get the exact same thing.
+
+61
+00:04:08,940 --> 00:04:15,110
+Now obviously we do still want to be able to communicate with Prisma but on our terms just the No.
+
+62
+00:04:15,220 --> 00:04:15,920
+Yes.
+
+63
+00:04:16,110 --> 00:04:23,580
+So let's go ahead and actually get that done by providing this same secret in Prisma J S on the object
+
+64
+00:04:23,580 --> 00:04:26,110
+we pass to the Prisma constructor function.
+
+65
+00:04:26,250 --> 00:04:33,360
+We need to provide a property called secret whose string value matches up with the secret we picked
+
+66
+00:04:33,630 --> 00:04:34,340
+over here.
+
+67
+00:04:34,440 --> 00:04:36,900
+I have this is my super secret text.
+
+68
+00:04:36,990 --> 00:04:39,570
+I'm going to add the exact same thing over here.
+
+69
+00:04:39,570 --> 00:04:43,880
+This is my super secret text.
+
+70
+00:04:43,920 --> 00:04:49,370
+Now we are going to be able to communicate with Prisma via No J ass.
+
+71
+00:04:49,470 --> 00:04:53,170
+I'm going to save the file and we're going to test things out once again.
+
+72
+00:04:53,310 --> 00:04:56,130
+First I will try localhost 4 4 6 6.
+
+73
+00:04:56,130 --> 00:05:00,510
+This should still fail and it does great and I'm going to try.
+
+74
+00:05:00,520 --> 00:05:01,400
+No James.
+
+75
+00:05:01,420 --> 00:05:03,000
+This should now work.
+
+76
+00:05:03,040 --> 00:05:06,660
+I fire things off and it does indeed work.
+
+77
+00:05:06,670 --> 00:05:07,720
+So there we have it.
+
+78
+00:05:07,780 --> 00:05:11,460
+We now have a way to force all communication to go through node j.
+
+79
+00:05:11,510 --> 00:05:16,270
+S and this is useful because once again we're going to be setting up things like authentication and
+
+80
+00:05:16,270 --> 00:05:17,380
+validation.
+
+81
+00:05:17,380 --> 00:05:21,410
+We want to force all requests to pass through node.
+
+82
+00:05:21,460 --> 00:05:27,310
+Now given our current setup it's impossible to use local host for 4 6 6 and there are still plenty of
+
+83
+00:05:27,310 --> 00:05:29,770
+reasons we might want to do that for development.
+
+84
+00:05:29,770 --> 00:05:35,890
+Maybe we add a new model or some new fields and we want to explore them over in the Prisma API before
+
+85
+00:05:35,890 --> 00:05:37,750
+we try to integrate them into node.
+
+86
+00:05:38,020 --> 00:05:44,650
+So it might still be useful to be able to interact with Prisma using localhost for 4 6 6 and we can
+
+87
+00:05:44,650 --> 00:05:52,860
+do so securely by providing an authorization token and this is done by setting up an H TTP Hetter.
+
+88
+00:05:53,050 --> 00:05:58,470
+So down below we have an HTP Hatter's area and this is nothing more than a little bit of Jason.
+
+89
+00:05:58,510 --> 00:06:01,990
+So we provide an object that we have key value pairs.
+
+90
+00:06:01,990 --> 00:06:06,020
+We have the header name and then we have the header value.
+
+91
+00:06:06,070 --> 00:06:11,440
+We can set up an authorization barer token it to get all of this to work securely.
+
+92
+00:06:11,440 --> 00:06:22,010
+So right here is the key for the header is authorization it the value is barer space followed by a token.
+
+93
+00:06:22,200 --> 00:06:25,470
+Now the token that we have to provide is not our secret.
+
+94
+00:06:25,470 --> 00:06:31,290
+It's actually a token that Prisma can generate for us and we generate it by running a single command.
+
+95
+00:06:31,290 --> 00:06:34,950
+So once again I am going to shut down our server.
+
+96
+00:06:34,950 --> 00:06:42,600
+I'm going to C.D into Prisma and all I'm going to do is run it Prisma space tokin Prisma token is going
+
+97
+00:06:42,600 --> 00:06:47,640
+to generate an authorization token that we can use for standard HTP requests.
+
+98
+00:06:47,640 --> 00:06:53,700
+It's something that can be put inside of a header allowing us to authenticate that we do have access
+
+99
+00:06:53,790 --> 00:06:54,860
+to the API.
+
+100
+00:06:55,140 --> 00:06:58,050
+If I run this command it is going to spit out a token.
+
+101
+00:06:58,050 --> 00:07:00,400
+We're going to copy that value to the clipboard.
+
+102
+00:07:00,480 --> 00:07:03,180
+So right here I have my really long token value.
+
+103
+00:07:03,270 --> 00:07:09,360
+Make sure to grab all of it as it might spread out to two or more lines and then I'm going to do is
+
+104
+00:07:09,360 --> 00:07:13,430
+take it over to graft and playground and paste it right here.
+
+105
+00:07:13,440 --> 00:07:14,880
+After a space.
+
+106
+00:07:14,970 --> 00:07:20,310
+So there needs to be a space between the word bearer and your token value.
+
+107
+00:07:20,310 --> 00:07:24,630
+Now if we fire off the request we're going to see that this time around it succeeds.
+
+108
+00:07:24,630 --> 00:07:31,500
+So given our configuration we can now securely access Prisma from node j asked by providing the secret
+
+109
+00:07:31,500 --> 00:07:37,900
+here and we can still use graphical playground by setting up an authorization token.
+
+110
+00:07:38,130 --> 00:07:44,190
+So at this point Prisma is secure no one who doesn't have access to the secret is going to be able to
+
+111
+00:07:44,280 --> 00:07:45,630
+access our project.
+
+112
+00:07:45,630 --> 00:07:46,870
+And that's a good thing.
+
+113
+00:07:46,950 --> 00:07:51,540
+We're forcing all requests to go through node with this in place.
+
+114
+00:07:51,540 --> 00:07:57,900
+It is time to continue on with this section and get into the meat of the section which is authentication
+
+115
+00:07:58,130 --> 00:08:03,370
+in the next video we're going to start working on this process which I am super excited to get to.
+
+116
+00:08:03,480 --> 00:08:06,210
+So let's go ahead and jump right in to the next one.
+

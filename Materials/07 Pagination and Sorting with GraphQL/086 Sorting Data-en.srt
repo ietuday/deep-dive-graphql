@@ -1,0 +1,960 @@
+1
+00:00:00,210 --> 00:00:03,170
+In this video you're going to focus on sorting your data.
+
+2
+00:00:03,180 --> 00:00:08,700
+So whenever you get an array back you're going to be able to specify in which order it should come back.
+
+3
+00:00:08,700 --> 00:00:15,390
+So for comments as an example you might want to get the most recently created comments first or maybe
+
+4
+00:00:15,390 --> 00:00:20,700
+you want to get comments by their text sorting them alphabetically regardless of what order you want
+
+5
+00:00:20,700 --> 00:00:22,090
+to get things back in.
+
+6
+00:00:22,200 --> 00:00:24,120
+Prisma gives us a way to get this done.
+
+7
+00:00:24,120 --> 00:00:31,830
+So in reality all we have to do is pass through an argument just like we did with Skip first and after
+
+8
+00:00:32,220 --> 00:00:37,500
+now we head over to the graft playground instance for Prisma and we can figure out exactly how to do
+
+9
+00:00:37,500 --> 00:00:39,940
+that by cracking open the schema.
+
+10
+00:00:40,170 --> 00:00:44,020
+Let's go to the schema for our posts queery which is right here.
+
+11
+00:00:44,160 --> 00:00:51,840
+And to get this done we use the ORDER BY argument an ORDER BY in the end of the day has its type post
+
+12
+00:00:51,870 --> 00:00:59,340
+order by input of ENM and down below we have a list of all of the different ways we can sort for each
+
+13
+00:00:59,340 --> 00:01:01,190
+property on our model.
+
+14
+00:01:01,200 --> 00:01:06,960
+There are two options sorting by that property in ascending or descending order.
+
+15
+00:01:06,960 --> 00:01:12,020
+It doesn't make a whole lot of sense to sort by id sense that's a randomly generated value.
+
+16
+00:01:12,030 --> 00:01:15,650
+So let's start with our strings we have title and body.
+
+17
+00:01:15,660 --> 00:01:22,610
+When we sort of string in ascending order we go from A to Z in descending order we go from Z to a.
+
+18
+00:01:22,710 --> 00:01:29,010
+So we can use that for all of our string based fields for booleans if we sort in ascending order.
+
+19
+00:01:29,070 --> 00:01:31,620
+We start with false and go to true.
+
+20
+00:01:31,740 --> 00:01:36,370
+If we are in a descending order we start with true and go to false.
+
+21
+00:01:36,510 --> 00:01:42,260
+If we sort our dates in ascending order we go from the oldest to the most recent.
+
+22
+00:01:42,330 --> 00:01:47,290
+If we sort in a descending order we go from the most recent to the oldest.
+
+23
+00:01:47,340 --> 00:01:50,050
+Let's go ahead and actually mess around with this.
+
+24
+00:01:50,100 --> 00:01:55,110
+So we are going to use the order by property right over here on our posts.
+
+25
+00:01:55,110 --> 00:01:58,680
+Query and for the moment I am going to remove all other arguments.
+
+26
+00:01:58,680 --> 00:02:00,720
+So we're actually seeing all data.
+
+27
+00:02:00,720 --> 00:02:06,360
+I'm going to set up the order by argument and we're going to pick what we want to sort by let's start
+
+28
+00:02:06,360 --> 00:02:07,360
+with the title.
+
+29
+00:02:07,380 --> 00:02:10,890
+We can sort in either ascending or descending order.
+
+30
+00:02:10,890 --> 00:02:12,850
+I'm going to go with ascending first.
+
+31
+00:02:12,900 --> 00:02:15,230
+So that would go from A to Z.
+
+32
+00:02:15,240 --> 00:02:17,750
+Now if I actually fire this off what do we see.
+
+33
+00:02:17,820 --> 00:02:25,220
+We can see that our posts by Andrew show up before our posts by Jess post by is the same.
+
+34
+00:02:25,230 --> 00:02:28,820
+The first difference is an A and A J A comes first.
+
+35
+00:02:28,830 --> 00:02:33,360
+So those are up top and jays are down below at the very bottom.
+
+36
+00:02:33,360 --> 00:02:38,300
+We have updated post by Andrew because that's a U which does indeed come after P.
+
+37
+00:02:38,310 --> 00:02:44,880
+Now if we wanted to sort in the other direction all we would need to do is use descending instead of
+
+38
+00:02:44,900 --> 00:02:45,710
+a sending.
+
+39
+00:02:45,750 --> 00:02:46,990
+And if I fire that off.
+
+40
+00:02:47,100 --> 00:02:51,300
+Now we have the order going from Z to a at the bottom.
+
+41
+00:02:51,300 --> 00:02:55,480
+With this in place we can sort by one of our other properties we have available to us.
+
+42
+00:02:55,500 --> 00:03:02,100
+For example I could put our unpublished posts first by sorting by the published Beeld.
+
+43
+00:03:02,310 --> 00:03:07,250
+If we go published in an ascending fashion it's going to go from false to true.
+
+44
+00:03:07,350 --> 00:03:12,630
+So we'll have our one unpublished post up top and all of our published ones down below.
+
+45
+00:03:12,780 --> 00:03:19,200
+If I reverse that by going in a descending order now I have all of my published posts up top with my
+
+46
+00:03:19,200 --> 00:03:22,150
+one unpublished post down below.
+
+47
+00:03:22,170 --> 00:03:26,500
+We can also sort by when a given record was updated or created.
+
+48
+00:03:26,640 --> 00:03:29,520
+Let's go ahead and sort by the created value.
+
+49
+00:03:29,580 --> 00:03:31,610
+Now just to make it a bit clearer what's happening.
+
+50
+00:03:31,620 --> 00:03:36,730
+I'm also going to fetch that value so we can actually see the data showing up.
+
+51
+00:03:36,960 --> 00:03:42,390
+And if I fire off the operation without making any changes I can see that the date is indeed showing
+
+52
+00:03:42,390 --> 00:03:43,700
+up which is great.
+
+53
+00:03:43,710 --> 00:03:46,950
+Now let's actually sort based on it right here.
+
+54
+00:03:46,950 --> 00:03:53,490
+I'm going to order by the created at field and we're going to start in an a sending fashion now by fire
+
+55
+00:03:53,490 --> 00:03:58,620
+that off this is actually the order that things are stored by default in the database since new records
+
+56
+00:03:58,620 --> 00:03:59,910
+are added at the bottom.
+
+57
+00:04:00,120 --> 00:04:03,880
+So the first post we have here is the oldest one.
+
+58
+00:04:03,900 --> 00:04:09,060
+This was the first one created and the most recently created one is down below.
+
+59
+00:04:09,150 --> 00:04:14,310
+So we go from dates further in the past to dates in the more recent past.
+
+60
+00:04:14,310 --> 00:04:18,480
+Now if we actually look at the time stamps I can see this one was created at two.
+
+61
+00:04:18,570 --> 00:04:20,550
+This one was created at three.
+
+62
+00:04:20,550 --> 00:04:23,610
+Then we start to get into posts being created every second.
+
+63
+00:04:23,700 --> 00:04:26,440
+This one at 22 23 26.
+
+64
+00:04:26,520 --> 00:04:31,870
+As an example we can always reverse that order by sorting in a descending fashion.
+
+65
+00:04:31,890 --> 00:04:38,430
+This is going to take us from the most recently created posts to posts created further in the past.
+
+66
+00:04:38,430 --> 00:04:44,550
+So down below we have this one created at 2:00 p.m. then up above we have one created at 3pm and we
+
+67
+00:04:44,550 --> 00:04:47,650
+have our most recent post sitting way up at the top.
+
+68
+00:04:47,700 --> 00:04:52,980
+And this is likely the order you would want to use for some sort of home page where you got most recent
+
+69
+00:04:53,070 --> 00:04:54,910
+posts at the very top.
+
+70
+00:04:55,170 --> 00:05:01,200
+Now that we've seen how this argument works all we really need to do is integrate it into our queries
+
+71
+00:05:01,440 --> 00:05:02,770
+in schema graph.
+
+72
+00:05:02,770 --> 00:05:08,550
+Q Well we have four queries that we're going to set up with this argument and that's going to allow
+
+73
+00:05:08,610 --> 00:05:13,980
+the client to order whether it's users posts my posts or comments.
+
+74
+00:05:13,980 --> 00:05:15,900
+Now this is where things get interesting.
+
+75
+00:05:15,920 --> 00:05:21,000
+We're going to start with our users query and we're going to set up an argument called Order By.
+
+76
+00:05:21,060 --> 00:05:25,920
+But what type are we going to use the type that presumably uses isn't enough.
+
+77
+00:05:26,010 --> 00:05:32,200
+It is post order by input and it lists out all of the various ways a post can be ordered.
+
+78
+00:05:32,340 --> 00:05:35,550
+So we have a couple of options when it comes to our users.
+
+79
+00:05:35,550 --> 00:05:38,110
+Users also have order by.
+
+80
+00:05:38,190 --> 00:05:44,670
+And we also have something similar instead of post order by in but it's a user order by input with a
+
+81
+00:05:44,670 --> 00:05:47,550
+long list of potential enough values.
+
+82
+00:05:47,730 --> 00:05:51,370
+So we have two ways we can implement this into our app.
+
+83
+00:05:51,400 --> 00:05:57,160
+One I can just copy and paste this code creating a new name over here.
+
+84
+00:05:57,210 --> 00:06:03,070
+The downside of that is that as our models change I'm going to have to manually update that ina.
+
+85
+00:06:03,150 --> 00:06:04,880
+There's actually a better approach.
+
+86
+00:06:05,040 --> 00:06:13,380
+We can use an import like statement to pull stuff out of our generated Prisma engraft file including
+
+87
+00:06:13,380 --> 00:06:14,960
+those Inam definitions.
+
+88
+00:06:15,000 --> 00:06:18,510
+So we don't have to define them over and over again.
+
+89
+00:06:18,660 --> 00:06:23,040
+They can automatically be pulled from the generated graphic schema.
+
+90
+00:06:23,040 --> 00:06:25,500
+Now there is a library that makes all of this possible.
+
+91
+00:06:25,500 --> 00:06:27,840
+So let's take a quick moment to pull it up.
+
+92
+00:06:27,870 --> 00:06:33,630
+If you google Prisma followed by the library name graphical hyphen inport that's going to bring you
+
+93
+00:06:33,630 --> 00:06:39,690
+over to the correct place where looking for the repository page here we can learn a bit about how this
+
+94
+00:06:39,690 --> 00:06:42,690
+tool works as well as learn how to set it up.
+
+95
+00:06:42,690 --> 00:06:48,120
+Now the good news is that it comes built in with our yoga server so we do not need to do any manual
+
+96
+00:06:48,120 --> 00:06:49,060
+configuration.
+
+97
+00:06:49,060 --> 00:06:51,230
+All we have to do is use it.
+
+98
+00:06:51,300 --> 00:06:53,430
+And down below there's an example of that.
+
+99
+00:06:53,610 --> 00:06:58,890
+We start off with what looks like a standard import statement just like the ones we've used in the course
+
+100
+00:06:59,100 --> 00:07:04,320
+but you notice we have the hash sign or the pound symbol whatever you want to call it up front.
+
+101
+00:07:04,320 --> 00:07:07,230
+And this is actually what starts a comment in our graph.
+
+102
+00:07:07,230 --> 00:07:13,560
+Q Well files so this commented outline is going to get parsed by the library and it's going to pull
+
+103
+00:07:13,560 --> 00:07:19,320
+in what's necessary since graft you l doesn't officially support any sort of inport statement and needs
+
+104
+00:07:19,320 --> 00:07:20,940
+to be hidden behind the comment.
+
+105
+00:07:21,000 --> 00:07:23,550
+So the file can be parsed correctly.
+
+106
+00:07:23,550 --> 00:07:25,350
+Let's go ahead and actually use this.
+
+107
+00:07:25,350 --> 00:07:29,920
+So in this case they are pulling in post from some other graphic file.
+
+108
+00:07:29,970 --> 00:07:37,200
+In our case we're going to pull in user order by input from the other files so right here we start off
+
+109
+00:07:37,200 --> 00:07:46,070
+with our hash sign then we inport then we list out the thing we want in this case it is user order by
+
+110
+00:07:46,460 --> 00:07:53,330
+input and we're going to grab that from inside of quotes where we have to provide the path that is dot
+
+111
+00:07:53,330 --> 00:08:00,830
+forward slash generated forward slash the file name Prisma dot graph.
+
+112
+00:08:00,830 --> 00:08:07,110
+Q Well now if you want to figure out what you can grab from that file you can always open the file up.
+
+113
+00:08:07,230 --> 00:08:14,180
+If we search for user order by input we can look for the definition.
+
+114
+00:08:14,250 --> 00:08:18,290
+Right here we have that definition along with two uses of it.
+
+115
+00:08:18,300 --> 00:08:22,980
+So yes we could type all of this out in our file but that's completely unnecessary.
+
+116
+00:08:22,980 --> 00:08:25,650
+Instead we can just import it.
+
+117
+00:08:25,740 --> 00:08:31,830
+So now we actually have access to user order by input in this file and we're going to set it up right
+
+118
+00:08:31,830 --> 00:08:32,810
+here.
+
+119
+00:08:32,940 --> 00:08:35,870
+We're going to add a new argument to the user's query.
+
+120
+00:08:35,940 --> 00:08:44,010
+I am going to call it order by and its type will be user order by input and we will leave that as completely
+
+121
+00:08:44,040 --> 00:08:44,610
+optional.
+
+122
+00:08:44,610 --> 00:08:47,240
+Much like our other arguments and there we go.
+
+123
+00:08:47,400 --> 00:08:52,570
+Now we have our schema dot graph Q L file all set up.
+
+124
+00:08:52,620 --> 00:08:58,650
+If we save this file we can move over into our query database file and all we have to do is pass it
+
+125
+00:08:58,680 --> 00:08:59,130
+through.
+
+126
+00:08:59,130 --> 00:09:05,020
+So right here we are going to pass through order by getting the value from args.
+
+127
+00:09:05,130 --> 00:09:07,040
+Ordered by and we're done.
+
+128
+00:09:07,080 --> 00:09:12,780
+We now have the ability to sort our users using our node J.S. application.
+
+129
+00:09:12,780 --> 00:09:14,520
+Let's go ahead and test things out.
+
+130
+00:09:14,520 --> 00:09:16,940
+I'm going to head over to graph school playground.
+
+131
+00:09:16,950 --> 00:09:21,020
+I'm going to switch over to the user's query the only one that currently supports.
+
+132
+00:09:21,030 --> 00:09:22,110
+Order by.
+
+133
+00:09:22,200 --> 00:09:24,780
+And I'm going to remove all other arguments.
+
+134
+00:09:24,780 --> 00:09:28,610
+So the only argument we're going to set up is order by.
+
+135
+00:09:28,710 --> 00:09:32,540
+And we're going to automatically see a list of all of those values.
+
+136
+00:09:32,550 --> 00:09:36,720
+All the potential ways we can sort a user showing up.
+
+137
+00:09:36,720 --> 00:09:38,960
+Now I'm going to go ahead and sort my users.
+
+138
+00:09:38,970 --> 00:09:40,930
+Let's sort them by name.
+
+139
+00:09:40,950 --> 00:09:44,040
+So right here I'll go name in an ascending fashion.
+
+140
+00:09:44,040 --> 00:09:47,880
+So going from a at the top to Z at the bottom.
+
+141
+00:09:47,970 --> 00:09:50,290
+Now if I go ahead and fire that off what do we see.
+
+142
+00:09:50,370 --> 00:09:56,090
+We see that we have Andrew then Jen then Jess and at the bottom we have Sarah.
+
+143
+00:09:56,220 --> 00:10:02,940
+And if I switch that over to a descending order we have Sarah then Jess then Jen then Andrew which is
+
+144
+00:10:02,940 --> 00:10:04,060
+fantastic.
+
+145
+00:10:04,080 --> 00:10:09,420
+So now one of our four queries does indeed have sorting built in.
+
+146
+00:10:09,420 --> 00:10:15,570
+Now if we wanted to grab something else using this port statement the syntax is actually slightly different
+
+147
+00:10:15,570 --> 00:10:17,670
+than what we've learned about so far.
+
+148
+00:10:17,760 --> 00:10:22,810
+If we wanted to grab a second thing we would just provide a comma separated list.
+
+149
+00:10:22,830 --> 00:10:32,890
+So right here comma space something else and then we could grab some third item as an example.
+
+150
+00:10:32,910 --> 00:10:37,690
+So here we just have a comma separated list of all of the things you want to grab from that file.
+
+151
+00:10:37,710 --> 00:10:39,680
+In this case though we just have one.
+
+152
+00:10:39,780 --> 00:10:44,370
+Now the reason I'm telling you that you can grab multiple things using this syntax is because you're
+
+153
+00:10:44,370 --> 00:10:47,270
+going to have to do just that for your challenge.
+
+154
+00:10:47,280 --> 00:10:48,380
+In this video.
+
+155
+00:10:48,480 --> 00:10:52,820
+So let's talk about exactly what I'd like you to do and I have some challenge comments.
+
+156
+00:10:52,830 --> 00:11:00,030
+I'm going to paste in right here right here the goal is to add sorting for posts my posts and comments.
+
+157
+00:11:00,030 --> 00:11:06,020
+So step 1 you're going to set up the order by argument for each with the correct imported ENM.
+
+158
+00:11:06,120 --> 00:11:11,810
+So if you want to figure out what that ENM is called You can always refer to the schema for the graph.
+
+159
+00:11:11,850 --> 00:11:14,190
+Well Prisma instance they're all listed here.
+
+160
+00:11:14,220 --> 00:11:17,290
+For example you just have to go to the other three.
+
+161
+00:11:17,580 --> 00:11:18,720
+And that's just step one.
+
+162
+00:11:18,720 --> 00:11:21,360
+Changing our schema digraph file.
+
+163
+00:11:21,450 --> 00:11:27,600
+Step 2 you have to update all of those resolvers down below to pass through that argument as well.
+
+164
+00:11:27,600 --> 00:11:29,660
+Currently they're all passing through first.
+
+165
+00:11:29,670 --> 00:11:33,730
+But after you just have to set up support for order by last up.
+
+166
+00:11:33,750 --> 00:11:40,600
+Test your work try to sort each of those by something and make sure the sorting is actually functional.
+
+167
+00:11:40,770 --> 00:11:41,210
+All right.
+
+168
+00:11:41,220 --> 00:11:42,990
+Take some time to knock that out.
+
+169
+00:11:42,990 --> 00:11:45,950
+Test your work then come back and click play
+
+170
+00:11:50,160 --> 00:11:50,850
+how that go.
+
+171
+00:11:50,880 --> 00:11:54,880
+We're going to kick things off step one over inside of schema dot graphics.
+
+172
+00:11:54,960 --> 00:11:57,430
+Well now I'm going to start with posts.
+
+173
+00:11:57,450 --> 00:11:59,190
+So right here we're going to set up.
+
+174
+00:11:59,220 --> 00:12:00,600
+Order By.
+
+175
+00:12:00,940 --> 00:12:09,990
+I am going to provide the correct ENM name which is going to be Post order by input and that's something
+
+176
+00:12:09,990 --> 00:12:11,870
+that we're going to import from over here.
+
+177
+00:12:11,860 --> 00:12:18,250
+So right here we're going to have post order by input in our input statement.
+
+178
+00:12:18,280 --> 00:12:21,550
+Remember it is a comma separated list.
+
+179
+00:12:21,550 --> 00:12:25,110
+Next up we can go ahead and grab the inport for my posts.
+
+180
+00:12:25,120 --> 00:12:30,280
+Now there's actually nothing special about my posts since it just posts so right here there's nothing
+
+181
+00:12:30,280 --> 00:12:30,990
+to grap.
+
+182
+00:12:31,060 --> 00:12:31,690
+Order by
+
+183
+00:12:34,650 --> 00:12:40,140
+once again post order by input which is in the same type for each.
+
+184
+00:12:40,140 --> 00:12:43,030
+Because both are based off of the same model.
+
+185
+00:12:43,050 --> 00:12:48,800
+In the end of the day we just have one that shows published posts and another that shows Drats down
+
+186
+00:12:48,980 --> 00:12:53,070
+below that we're gonna set up our final one which is comments right here.
+
+187
+00:12:53,070 --> 00:13:02,060
+Order by for this one we are going to have to import something new Kamen to order a by input.
+
+188
+00:13:02,060 --> 00:13:03,950
+I'm going to use it down below.
+
+189
+00:13:03,950 --> 00:13:10,510
+Copy the name and import it up above a comma after our last one and then a space and I'll paste it in.
+
+190
+00:13:10,520 --> 00:13:16,490
+Now we have all of the necessary arguments set up and that actually wraps up step 1.
+
+191
+00:13:16,490 --> 00:13:20,730
+We can move onto Step 2 which is just to pass the arguments through.
+
+192
+00:13:20,750 --> 00:13:27,240
+So down below for my posts I am going to pass through order by args dot.
+
+193
+00:13:27,260 --> 00:13:28,430
+Order by.
+
+194
+00:13:28,580 --> 00:13:31,700
+And I am going to do the exact same thing for my other two.
+
+195
+00:13:31,700 --> 00:13:36,200
+I can just take this line and copy it to the clipboard and bring it down below.
+
+196
+00:13:36,200 --> 00:13:41,600
+We're going to add it right here for posts and then down below for comments as well.
+
+197
+00:13:41,600 --> 00:13:42,450
+Perfect.
+
+198
+00:13:42,500 --> 00:13:47,300
+I just gotta clean up those commas for comments and we are all done.
+
+199
+00:13:47,300 --> 00:13:49,890
+Now that we have this in place step two is done.
+
+200
+00:13:49,970 --> 00:13:52,410
+We can go ahead and test our work.
+
+201
+00:13:52,610 --> 00:13:54,670
+I'm going to remove the challenge comments.
+
+202
+00:13:54,830 --> 00:14:00,400
+Save the file and head over to local host 4000 to see if all of this actually works.
+
+203
+00:14:00,410 --> 00:14:02,850
+I'm going to move over to my posts query.
+
+204
+00:14:03,050 --> 00:14:10,340
+I'll refresh the schema and if I crack open the schema viewer for posts I should see order by and I'd
+
+205
+00:14:10,340 --> 00:14:13,050
+do it showing up down below and up above.
+
+206
+00:14:13,220 --> 00:14:17,240
+I also have it for my posts and comments which is great.
+
+207
+00:14:17,300 --> 00:14:19,040
+Let's go ahead and actually use them.
+
+208
+00:14:19,040 --> 00:14:27,000
+So right here I'm going to remove all other arguments and I am going to sort by the descending created
+
+209
+00:14:27,030 --> 00:14:37,080
+out values in order by created at we're going to go in a descending fashion and if I fire that off that's
+
+210
+00:14:37,080 --> 00:14:38,960
+exactly what we end up getting.
+
+211
+00:14:38,970 --> 00:14:45,990
+We have the newest created posts up top and we have the oldest posts in the database down below which
+
+212
+00:14:45,990 --> 00:14:47,160
+is perfect.
+
+213
+00:14:47,160 --> 00:14:49,760
+Now let's go ahead and sort our comments.
+
+214
+00:14:49,770 --> 00:14:55,140
+I'm going to use the exact same thing so I can just head over to the comments query.
+
+215
+00:14:55,200 --> 00:15:01,410
+I'm going to go ahead and remove all of the existing arguments and use order by sorting by created at
+
+216
+00:15:01,420 --> 00:15:05,410
+and actually let's go in an ascending fashion this time.
+
+217
+00:15:05,910 --> 00:15:09,240
+And if I fire that off I have all of my comments showing up.
+
+218
+00:15:09,240 --> 00:15:16,080
+So in this case I have the oldest ones up top and the newest ones down below right here.
+
+219
+00:15:16,080 --> 00:15:20,330
+This comment was created at 3 p.m. 20 minutes.
+
+220
+00:15:20,340 --> 00:15:22,910
+This was 3 p.m. 38 minutes.
+
+221
+00:15:22,950 --> 00:15:27,000
+So we have the oldest followed by the newest As we move down the list.
+
+222
+00:15:27,000 --> 00:15:30,130
+We could always reverse that by using descending.
+
+223
+00:15:30,180 --> 00:15:31,590
+And now we have the opposite order.
+
+224
+00:15:31,590 --> 00:15:33,710
+Last up is my posts.
+
+225
+00:15:33,840 --> 00:15:36,860
+I'm going to move over to my posts all the way at the end.
+
+226
+00:15:36,990 --> 00:15:41,970
+We're going to remove all of those pagination related arguments and we're just going to set up order
+
+227
+00:15:41,970 --> 00:15:43,870
+by right here.
+
+228
+00:15:43,950 --> 00:15:46,700
+Let's go ahead and order by the titles.
+
+229
+00:15:46,710 --> 00:15:52,090
+I will sort by title and I'm going to go ahead and go in an a sending fashion.
+
+230
+00:15:52,470 --> 00:15:53,180
+Perfect.
+
+231
+00:15:53,280 --> 00:15:54,950
+If I fire that off what do we get.
+
+232
+00:15:54,960 --> 00:15:56,150
+We get our posts.
+
+233
+00:15:56,160 --> 00:15:58,070
+We have posts by Jess.
+
+234
+00:15:58,110 --> 00:15:59,950
+Then down below we go in order.
+
+235
+00:15:59,970 --> 00:16:02,700
+So we go from 1 to 5.
+
+236
+00:16:02,700 --> 00:16:08,680
+Now the reason that we're seeing just posts by Jack is because this is a query that requires authentication.
+
+237
+00:16:08,820 --> 00:16:15,420
+But if we switch that over to a descending order we can see things in reverse going from 5 down to 1.
+
+238
+00:16:15,420 --> 00:16:16,240
+So there we go.
+
+239
+00:16:16,260 --> 00:16:22,190
+We now have sorting in place for all of our queries which is a step in the right direction.
+
+240
+00:16:22,200 --> 00:16:27,170
+I'm excited to continue on with this section so stay tuned and I'll see you in the next video.
+

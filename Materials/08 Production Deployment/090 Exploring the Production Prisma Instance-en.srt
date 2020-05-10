@@ -1,0 +1,340 @@
+1
+00:00:00,180 --> 00:00:05,070
+In this video we're going to explore the service that we deployed in the last one.
+
+2
+00:00:05,100 --> 00:00:07,900
+Now we actually just click the service name.
+
+3
+00:00:07,980 --> 00:00:14,160
+It's going to bring us over to a page for that service and this page has a few great features.
+
+4
+00:00:14,160 --> 00:00:17,030
+First up we can actually view our data right here.
+
+5
+00:00:17,030 --> 00:00:22,450
+Users posts and comments though currently we're not seeing any because we haven't created any.
+
+6
+00:00:22,470 --> 00:00:24,600
+But don't worry we will create some.
+
+7
+00:00:24,600 --> 00:00:28,980
+In this video and the other page we have is our metrics page.
+
+8
+00:00:29,040 --> 00:00:33,950
+This gives us some information about our server and how things are doing so we can keep track of its
+
+9
+00:00:33,950 --> 00:00:34,800
+health.
+
+10
+00:00:34,800 --> 00:00:41,430
+We also have our deployment history so we can see that we only have one deployment up there and if we
+
+11
+00:00:41,430 --> 00:00:47,310
+actually click that we can dive into the details of what exactly happened from that deployment.
+
+12
+00:00:47,310 --> 00:00:53,460
+The other thing we have access to in these services page is this playground link.
+
+13
+00:00:53,490 --> 00:00:56,890
+This is actually going to crack open a new tab.
+
+14
+00:00:57,030 --> 00:01:03,820
+And that's going to load a graph QOL playground instance for our production service.
+
+15
+00:01:03,840 --> 00:01:09,820
+This is just another great feature of using Prisma cloud it can automatically open an instance of graft.
+
+16
+00:01:09,880 --> 00:01:16,680
+Well playground and it's also injecting the authorization header automatically via the you R-AL we can
+
+17
+00:01:16,680 --> 00:01:17,840
+see that down below.
+
+18
+00:01:17,850 --> 00:01:23,580
+It's been added which means that we can securely make requests maybe we just want to see what data we
+
+19
+00:01:23,580 --> 00:01:27,520
+have in our production database or maybe we want to change some data.
+
+20
+00:01:27,540 --> 00:01:34,170
+Regardless we can do that easily by just clicking that playground link and making some requests from
+
+21
+00:01:34,170 --> 00:01:35,390
+this instance.
+
+22
+00:01:35,400 --> 00:01:39,120
+Now this is actually going to read and write from our production database.
+
+23
+00:01:39,120 --> 00:01:42,060
+Currently there is no data inside of there.
+
+24
+00:01:42,060 --> 00:01:43,320
+Let's go ahead and change that.
+
+25
+00:01:43,320 --> 00:01:51,140
+So right here I'm going to start with a query we are going to query for all users and for each user
+
+26
+00:01:51,150 --> 00:01:54,320
+We're going to grab their ID and their name.
+
+27
+00:01:54,330 --> 00:01:59,860
+Now if I go ahead and fire that off what do I get back I get back an empty array as expected.
+
+28
+00:02:00,000 --> 00:02:07,050
+Well we're going to do now is create a second tab and in this tab we're going to use one of our mutations
+
+29
+00:02:07,260 --> 00:02:08,090
+down below.
+
+30
+00:02:08,190 --> 00:02:10,960
+We have our create user mutation.
+
+31
+00:02:11,160 --> 00:02:17,520
+Now it's important to note that all of the queries mutations and subscriptions we're seeing here match
+
+32
+00:02:17,520 --> 00:02:24,240
+up exactly with the ones we were seeing at local host 4 4 6 6 over here.
+
+33
+00:02:24,240 --> 00:02:27,710
+I have the exact same stuff available to me.
+
+34
+00:02:27,780 --> 00:02:34,410
+All we're going to do from our production service is create a users are right here for create user We
+
+35
+00:02:34,410 --> 00:02:38,820
+provide some data we have to provide a name and email and a password.
+
+36
+00:02:38,820 --> 00:02:40,920
+And that's exactly what we're going to do.
+
+37
+00:02:41,220 --> 00:02:43,370
+So I will create a mutation.
+
+38
+00:02:43,710 --> 00:02:46,120
+This one is for create user.
+
+39
+00:02:46,380 --> 00:02:52,260
+We are going to set up that arguments list and we're also going to set up our selection set for the
+
+40
+00:02:52,260 --> 00:02:53,630
+newly created user.
+
+41
+00:02:53,640 --> 00:02:56,790
+Let's just grab their ID and their name.
+
+42
+00:02:56,790 --> 00:02:59,400
+Now we have to fill out that arguments list.
+
+43
+00:02:59,430 --> 00:03:03,410
+We're going to have data data is going to have a name.
+
+44
+00:03:03,450 --> 00:03:07,320
+I'm going to create a user that represents me so I'll just use Andrew.
+
+45
+00:03:07,710 --> 00:03:09,160
+We're going to have an e-mail.
+
+46
+00:03:09,180 --> 00:03:13,500
+I will stick with Andrew at example dot com.
+
+47
+00:03:13,500 --> 00:03:17,180
+And lastly we are also going to have a password.
+
+48
+00:03:17,310 --> 00:03:21,850
+I'm going to pick a password like a red one two three four five.
+
+49
+00:03:21,870 --> 00:03:22,750
+Perfect.
+
+50
+00:03:22,890 --> 00:03:26,520
+Now that we have this in place we can actually fire off that mutation.
+
+51
+00:03:26,580 --> 00:03:29,320
+And what do we get back we get back a confirmation.
+
+52
+00:03:29,430 --> 00:03:35,280
+Letting us know that everything went well and if I were to fire off my query once again this new user
+
+53
+00:03:35,310 --> 00:03:38,640
+should show up and if I do that what do we get.
+
+54
+00:03:38,670 --> 00:03:42,600
+We now have one object inside of that user's array.
+
+55
+00:03:42,600 --> 00:03:49,710
+So we have just successfully written and read from that production database and we can prove it by viewing
+
+56
+00:03:49,710 --> 00:03:59,080
+the data over NPG admin over NPG admin ongoing to right click schemas end of refresh the schemas list.
+
+57
+00:03:59,340 --> 00:04:02,190
+And what do we see we see are new ones showing up.
+
+58
+00:04:02,190 --> 00:04:09,060
+We have Andrew Meade blogging app dollar sign Prod. So we have the service name and the stage.
+
+59
+00:04:09,060 --> 00:04:15,120
+And if I expand that we can explore our data down below we have tables in there we have a few different
+
+60
+00:04:15,120 --> 00:04:18,930
+tables but the only one that's populated is the user table.
+
+61
+00:04:19,050 --> 00:04:24,420
+So I'm going to right click and view all rows and what do we get in just a second.
+
+62
+00:04:24,420 --> 00:04:27,490
+I should have my one user showing up and there it is.
+
+63
+00:04:27,570 --> 00:04:34,120
+We have the name Andrew the e-mail the e-mail and the password currently shown in plain text.
+
+64
+00:04:34,140 --> 00:04:39,210
+Now the password is in plain text for the moment because we didn't go through our node app the node
+
+65
+00:04:39,210 --> 00:04:42,080
+app is where the data actually gets hashed.
+
+66
+00:04:42,150 --> 00:04:48,900
+Once we set the node app up for production as well we'll have hashed passwords once again but we do
+
+67
+00:04:48,900 --> 00:04:55,680
+indeed now have a way to view our production data and also access it in graphical playground which is
+
+68
+00:04:55,710 --> 00:04:58,520
+a fantastic step in the right direction.
+
+69
+00:04:58,530 --> 00:05:02,940
+Now if we go back to cloud we can actually view this data there as well.
+
+70
+00:05:02,940 --> 00:05:06,940
+Remember we have that data browser tab for our service.
+
+71
+00:05:07,020 --> 00:05:10,020
+If I click on that we have the one user showing up.
+
+72
+00:05:10,020 --> 00:05:16,300
+We have the field name we have the graphic field type which is really cool and unique to Prisma cloud.
+
+73
+00:05:16,380 --> 00:05:17,330
+And then we have our data.
+
+74
+00:05:17,330 --> 00:05:20,040
+So over here we have all of the data showing up.
+
+75
+00:05:20,190 --> 00:05:26,130
+Now if we actually double click this user it brings up an editor so we can even change the fields using
+
+76
+00:05:26,190 --> 00:05:31,300
+this service alone making it a decent replacement for PGE admin.
+
+77
+00:05:31,350 --> 00:05:37,860
+When you're deploying using Prisma cloud just one more great reason to use this service.
+
+78
+00:05:37,930 --> 00:05:40,730
+Right that's where we're going to stop for this one.
+
+79
+00:05:40,740 --> 00:05:43,840
+We're going to continue on in the very next video.
+
+80
+00:05:43,920 --> 00:05:47,710
+And the focus is on that third thing we have to do.
+
+81
+00:05:47,850 --> 00:05:51,330
+We still have to host our node J.S. application.
+
+82
+00:05:51,420 --> 00:05:54,180
+We have the production database up and running.
+
+83
+00:05:54,180 --> 00:05:59,520
+We have our service deployed to the Prisma docker container but our No.
+
+84
+00:05:59,600 --> 00:06:02,350
+Ass app is only accessible locally.
+
+85
+00:06:02,370 --> 00:06:06,030
+So let's go ahead and fix that by jumping right in to the next one.
+

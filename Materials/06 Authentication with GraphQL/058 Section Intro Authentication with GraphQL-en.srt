@@ -1,0 +1,52 @@
+1
+00:00:02,290 --> 00:00:07,350
+Welcome to Section 6 in this section we're going to focus on authentication.
+
+2
+00:00:07,420 --> 00:00:13,150
+So right now our database exists but it's wide open anyone can come through and read any record they
+
+3
+00:00:13,150 --> 00:00:15,290
+want and they can manipulate them too.
+
+4
+00:00:15,460 --> 00:00:17,760
+They could just come through and delete everything.
+
+5
+00:00:17,770 --> 00:00:19,560
+Obviously that's not what we want.
+
+6
+00:00:19,570 --> 00:00:24,940
+So in this section we're going to start by setting up authentication then we're going to focus on putting
+
+7
+00:00:24,940 --> 00:00:27,520
+some of our data behind authentication.
+
+8
+00:00:27,640 --> 00:00:32,680
+So there'll be some stuff you could still access if you're not authenticated like published posts but
+
+9
+00:00:32,680 --> 00:00:35,940
+pretty much everything else is going to require authentication.
+
+10
+00:00:36,070 --> 00:00:41,680
+If you want to access your drafts or if you want to do something like manipulate a comment or a post
+
+11
+00:00:41,920 --> 00:00:46,810
+you're going to have to authenticate so we can confirm you actually have the ability to do that.
+
+12
+00:00:46,840 --> 00:00:51,180
+For example I shouldn't be able to edit a post that you create.
+
+13
+00:00:51,400 --> 00:00:56,300
+All right let's go ahead and dive into the section and figure out how we can set up authentication.
+

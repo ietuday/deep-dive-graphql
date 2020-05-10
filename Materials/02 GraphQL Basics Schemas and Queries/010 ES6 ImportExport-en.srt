@@ -1,0 +1,1052 @@
+1
+00:00:00,180 --> 00:00:05,880
+In this video you're going to learn about the E-6 import export syntax which like require is going to
+
+2
+00:00:05,880 --> 00:00:09,640
+allow us to break up our application into multiple distinct files.
+
+3
+00:00:09,750 --> 00:00:15,900
+So instead of having one huge file we can break up our app into many smaller files each concerned with
+
+4
+00:00:15,900 --> 00:00:18,830
+some sort of specific logical goal.
+
+5
+00:00:18,840 --> 00:00:24,840
+This is also going to allow us to load in code from third party libraries we install which is something
+
+6
+00:00:24,840 --> 00:00:31,740
+we'll be doing in the very next video when we install and use a graph QOL library for the moment though
+
+7
+00:00:31,800 --> 00:00:36,500
+we're going to play around with this new syntax with a couple of local dummy files.
+
+8
+00:00:36,630 --> 00:00:42,510
+So right here in the source directory I'd like to create a new file we can call it something like my
+
+9
+00:00:42,510 --> 00:00:49,490
+a module Dhananjay s and this file is going to contain some code that's necessary for index dodgiest
+
+10
+00:00:49,650 --> 00:00:50,270
+to run.
+
+11
+00:00:50,460 --> 00:00:56,660
+So maybe I have a few functions or some objects or strings or whatever that I need to export over here.
+
+12
+00:00:56,760 --> 00:00:58,370
+And inport over here.
+
+13
+00:00:58,380 --> 00:01:00,490
+How exactly would we get that done.
+
+14
+00:01:00,570 --> 00:01:04,900
+To kick things off let's say that we want to actually create this string in my module.
+
+15
+00:01:04,920 --> 00:01:06,910
+So I want to define the string over here.
+
+16
+00:01:06,990 --> 00:01:08,240
+I want to export it.
+
+17
+00:01:08,250 --> 00:01:13,360
+I then want to be able to import the string into this file and actually print it using council dot Lague.
+
+18
+00:01:13,380 --> 00:01:14,750
+How would we get that done.
+
+19
+00:01:14,970 --> 00:01:16,670
+Let's start from a nice clean slate.
+
+20
+00:01:16,680 --> 00:01:22,020
+Nothing in either file and we're going to start by adding some content to my module that J S under is
+
+21
+00:01:22,020 --> 00:01:27,690
+going to create a new variable to store my message Konst message equals.
+
+22
+00:01:27,810 --> 00:01:34,650
+Then right here we're going to define our message some message from my module.
+
+23
+00:01:34,680 --> 00:01:35,510
+J S.
+
+24
+00:01:35,580 --> 00:01:36,570
+Perfect.
+
+25
+00:01:36,580 --> 00:01:38,850
+Now we actually have to export it.
+
+26
+00:01:38,850 --> 00:01:42,240
+Creating the variable alone is not enough.
+
+27
+00:01:42,300 --> 00:01:45,450
+We can use the export statement to get that done.
+
+28
+00:01:45,450 --> 00:01:46,460
+How do we do that.
+
+29
+00:01:46,470 --> 00:01:48,360
+We start with export.
+
+30
+00:01:48,360 --> 00:01:55,380
+Then we set up a pair of curly braces and we list out comma separated all of the things we wanted to
+
+31
+00:01:55,380 --> 00:01:56,370
+export.
+
+32
+00:01:56,370 --> 00:01:59,050
+In this case there's just a single variable in the file.
+
+33
+00:01:59,130 --> 00:02:04,320
+So all we would do is list out message if we had another variable called name.
+
+34
+00:02:04,350 --> 00:02:07,890
+I could add comma space name to export that as well.
+
+35
+00:02:08,040 --> 00:02:10,290
+But in this case just one thing to export.
+
+36
+00:02:10,290 --> 00:02:13,950
+So I'll add just one thing in the curly braces.
+
+37
+00:02:13,950 --> 00:02:15,390
+Now this file is actually done.
+
+38
+00:02:15,390 --> 00:02:19,970
+We've created our variable and we've exported it in indexed at J S.
+
+39
+00:02:19,980 --> 00:02:22,100
+We're now going to import that file.
+
+40
+00:02:22,140 --> 00:02:26,010
+Grab that variable and then do something simple like print it to the screen.
+
+41
+00:02:26,160 --> 00:02:30,260
+Though later on we'll be exporting and importing functions and calling those functions.
+
+42
+00:02:30,330 --> 00:02:33,240
+The import statement has four major components.
+
+43
+00:02:33,240 --> 00:02:35,120
+The first is just the inport keyword.
+
+44
+00:02:35,120 --> 00:02:40,650
+So right here in part after that we're going to open and close a set of curly braces and we're going
+
+45
+00:02:40,650 --> 00:02:43,580
+to list all of the things we actually want to inport.
+
+46
+00:02:43,590 --> 00:02:49,560
+So if I was exporting 60 different things over here I might not actually need all 60 things over here
+
+47
+00:02:49,950 --> 00:02:51,990
+so I can list out just the stuff I want.
+
+48
+00:02:52,020 --> 00:02:53,690
+We only have one thing to choose from.
+
+49
+00:02:53,760 --> 00:02:55,520
+And I am going to go ahead and grab it.
+
+50
+00:02:55,560 --> 00:03:02,430
+So I'll list out the variable right here message exactly matching up with what was export it message.
+
+51
+00:03:02,430 --> 00:03:05,040
+Now you'll notice that this line has become gray.
+
+52
+00:03:05,070 --> 00:03:08,070
+That's because we're actually not using message down below.
+
+53
+00:03:08,160 --> 00:03:11,140
+It's just letting us know that we've imported something we're not using.
+
+54
+00:03:11,160 --> 00:03:17,100
+We'll fix that in a moment when we actually use the message variable after the closing curly brace.
+
+55
+00:03:17,100 --> 00:03:22,720
+We have to provide the froma keyword and specify where we're getting message from.
+
+56
+00:03:22,770 --> 00:03:26,170
+In this case we're getting it from the my module file.
+
+57
+00:03:26,190 --> 00:03:32,220
+So right here I'm going to open and close a set of single quotes and we're going to define a relative
+
+58
+00:03:32,220 --> 00:03:37,160
+path from index dot J S to the correct module file.
+
+59
+00:03:37,200 --> 00:03:39,570
+So we'll start with daat forward slash.
+
+60
+00:03:39,570 --> 00:03:44,630
+This is going to bring us to the same directory as index dot J S which is the source directory.
+
+61
+00:03:44,790 --> 00:03:50,210
+Since my module sits in the source directory I can access it right here my module.
+
+62
+00:03:50,310 --> 00:03:51,700
+J ass.
+
+63
+00:03:51,810 --> 00:03:54,760
+Now you can actually leave off the dot J.S. extension.
+
+64
+00:03:54,840 --> 00:03:57,570
+It's the default extension and it's not necessary.
+
+65
+00:03:57,660 --> 00:04:01,280
+So don't forward slash my module gets the job done.
+
+66
+00:04:01,650 --> 00:04:05,620
+Now we have this thing imported but to make sure we're actually getting the correct value.
+
+67
+00:04:05,640 --> 00:04:06,900
+Let's go ahead and use it.
+
+68
+00:04:07,050 --> 00:04:11,570
+Cancel dialog printing the message variable to the console.
+
+69
+00:04:11,580 --> 00:04:15,770
+You notice that when I added this line this line got syntax highlighting.
+
+70
+00:04:15,930 --> 00:04:19,900
+Since the content we're importing is actually being used.
+
+71
+00:04:20,130 --> 00:04:22,350
+Let's go ahead and run this file down below.
+
+72
+00:04:22,350 --> 00:04:27,250
+NPM run start is going to run our script passing it through Babel.
+
+73
+00:04:27,260 --> 00:04:28,350
+And what do I get.
+
+74
+00:04:28,410 --> 00:04:32,550
+I get the correct message some message from my module.
+
+75
+00:04:32,550 --> 00:04:33,880
+Dot J S.
+
+76
+00:04:33,900 --> 00:04:34,890
+So there we go.
+
+77
+00:04:34,890 --> 00:04:42,060
+We've seen our first import and export statement successfully working allowing us to break up our application
+
+78
+00:04:42,210 --> 00:04:44,100
+into multiple files.
+
+79
+00:04:44,140 --> 00:04:48,060
+This particular type of export is known as a named export.
+
+80
+00:04:48,060 --> 00:04:50,340
+So right here I'll leave a little note.
+
+81
+00:04:50,340 --> 00:04:56,470
+The unnamed export and it's called the named export because it has a name.
+
+82
+00:04:56,530 --> 00:05:01,360
+There is a specific name or exporting and you have to import it by the same name.
+
+83
+00:05:01,360 --> 00:05:08,220
+The nice thing with a named expert is we can have as many as we like have as many as needed.
+
+84
+00:05:08,230 --> 00:05:15,050
+So for example right here I could set up a nother Konst name I could set it equal to the string.
+
+85
+00:05:15,050 --> 00:05:18,580
+Andrew you can use your own name and we could export that to.
+
+86
+00:05:18,700 --> 00:05:20,140
+I could add that on to the list.
+
+87
+00:05:20,140 --> 00:05:23,260
+So after message a space name.
+
+88
+00:05:23,410 --> 00:05:29,410
+Now this file is exporting to think it would be perfectly fine if indexed out J just needed one of them.
+
+89
+00:05:29,410 --> 00:05:34,540
+This is still valid code but we can also choose to grab that second one if we wanted to as well.
+
+90
+00:05:34,570 --> 00:05:39,280
+We grab it by its name then we could add another use of it down below.
+
+91
+00:05:39,280 --> 00:05:42,760
+Council dot Lague printing the name to the council.
+
+92
+00:05:42,790 --> 00:05:48,760
+So now we're exporting two named exports we're importing both of them and we're using both just printing
+
+93
+00:05:48,760 --> 00:05:49,420
+them.
+
+94
+00:05:49,480 --> 00:05:53,700
+If I save both files and I rerun things from the terminal What do we get.
+
+95
+00:05:53,740 --> 00:05:55,480
+We get two messages printing.
+
+96
+00:05:55,480 --> 00:05:57,330
+We have some message from module dot.
+
+97
+00:05:57,350 --> 00:06:00,550
+J.S. first then we have Andrew Sacket.
+
+98
+00:06:00,820 --> 00:06:07,480
+Aside from the name and export there is one other type of export we can have and that is the default
+
+99
+00:06:07,860 --> 00:06:08,770
+export.
+
+100
+00:06:08,800 --> 00:06:14,440
+The difference between the two types of exports is that the default export has no name.
+
+101
+00:06:14,570 --> 00:06:18,590
+And you can only have one you can only have one.
+
+102
+00:06:18,820 --> 00:06:21,650
+So let's actually see this in action down below.
+
+103
+00:06:21,660 --> 00:06:27,250
+All I'm going to do is create a third string so Konst I'll call this something like location and I'll
+
+104
+00:06:27,250 --> 00:06:30,490
+just said it equal to a string that has my current city in it.
+
+105
+00:06:30,490 --> 00:06:33,520
+I'm currently in Philadelphia so I'll toss that right there.
+
+106
+00:06:33,820 --> 00:06:39,320
+Now to actually export this as the default export we have to modify our export statement.
+
+107
+00:06:39,490 --> 00:06:42,580
+But I'm going to do is set it up like I would for a named export.
+
+108
+00:06:42,700 --> 00:06:44,730
+So comma space location.
+
+109
+00:06:45,100 --> 00:06:50,100
+Then we're going to tag it as the default by using as default.
+
+110
+00:06:50,170 --> 00:06:56,530
+Afterwards when we tag it as the default we are choosing that one as our default export since we can
+
+111
+00:06:56,530 --> 00:06:57,720
+only have one.
+
+112
+00:06:57,790 --> 00:07:02,450
+I couldn't tag message as the default and also tag location as the default.
+
+113
+00:07:02,470 --> 00:07:04,630
+I have to pick just one at most.
+
+114
+00:07:04,630 --> 00:07:09,520
+Obviously we already saw you don't need a default export but if you are going to choose to use it you
+
+115
+00:07:09,520 --> 00:07:11,920
+can pick just one value.
+
+116
+00:07:11,920 --> 00:07:13,330
+Now this file is all done.
+
+117
+00:07:13,390 --> 00:07:16,890
+We've successfully set this up as the default export.
+
+118
+00:07:17,050 --> 00:07:23,170
+Let's go ahead and move into index dot J.S. and see exactly what it takes to grab that value and use
+
+119
+00:07:23,170 --> 00:07:23,460
+it.
+
+120
+00:07:23,500 --> 00:07:29,080
+We're going to modify our inport statement and when we want to grab the default export we actually give
+
+121
+00:07:29,080 --> 00:07:32,480
+it a name right here after the inport keyword.
+
+122
+00:07:32,590 --> 00:07:37,630
+So I can pick whatever name I want something like my current location.
+
+123
+00:07:37,810 --> 00:07:39,040
+Then we add a comma.
+
+124
+00:07:39,070 --> 00:07:45,160
+If we're also providing named exports so this would be example of an import statement that grabs all
+
+125
+00:07:45,190 --> 00:07:48,720
+types we grab named we grab the defaults.
+
+126
+00:07:48,730 --> 00:07:51,150
+We could also choose to do something like this.
+
+127
+00:07:51,230 --> 00:07:58,500
+Import my current location from forward slash my module.
+
+128
+00:07:58,500 --> 00:08:02,520
+In this case we don't need the comma because we're not grabbing any named exports.
+
+129
+00:08:02,520 --> 00:08:04,420
+We're just grabbing the default export.
+
+130
+00:08:04,440 --> 00:08:07,110
+This would be perfectly valid as well.
+
+131
+00:08:07,110 --> 00:08:12,240
+In our case let's stick with that first line where we grab all three we've successfully loaded that
+
+132
+00:08:12,300 --> 00:08:15,730
+in and I'm going to go ahead and use it down below counsil dialog.
+
+133
+00:08:15,810 --> 00:08:19,490
+My current location.
+
+134
+00:08:19,560 --> 00:08:25,290
+Now you'll notice that the name I chose for the variable over here does not match up with the name over
+
+135
+00:08:25,290 --> 00:08:25,890
+here.
+
+136
+00:08:26,010 --> 00:08:31,440
+This is because unlike a named export the default export has no name.
+
+137
+00:08:31,440 --> 00:08:33,510
+We are importing it by its role.
+
+138
+00:08:33,570 --> 00:08:39,380
+It is because it's the default export that we're able to get the correct value over here.
+
+139
+00:08:39,390 --> 00:08:41,460
+Let's go ahead and save all of our files.
+
+140
+00:08:41,490 --> 00:08:45,870
+I'm going to rerun things from the terminal and we should see our third message printing.
+
+141
+00:08:45,870 --> 00:08:51,900
+I have the first two correctly and I have the new third message correctly printing Philadelphia to the
+
+142
+00:08:51,900 --> 00:08:52,500
+screen.
+
+143
+00:08:52,500 --> 00:08:58,680
+Now remember for these examples I chose to export strings just to keep things simple but in most cases
+
+144
+00:08:58,680 --> 00:09:00,240
+we would be exporting a function.
+
+145
+00:09:00,240 --> 00:09:02,580
+So let's see an example of that too.
+
+146
+00:09:02,610 --> 00:09:04,880
+I'm going to go ahead and set up a fourth export.
+
+147
+00:09:04,880 --> 00:09:08,280
+So right here Konst and I'm going to call this one.
+
+148
+00:09:08,280 --> 00:09:15,060
+Something like get greeting get greeting is going to be a function I'll use an arrow function and we
+
+149
+00:09:15,060 --> 00:09:19,510
+are going to take an argument I'm going to take in some sort of name.
+
+150
+00:09:19,680 --> 00:09:22,290
+Now down below what is the function itself going to do.
+
+151
+00:09:22,380 --> 00:09:25,860
+Well I'm going to do is return a template string.
+
+152
+00:09:25,860 --> 00:09:29,740
+This string is going to use the name to generate some sort of generic greeting.
+
+153
+00:09:29,770 --> 00:09:31,650
+Others have something simple like.
+
+154
+00:09:31,830 --> 00:09:35,790
+Welcome to the course followed by the person's name.
+
+155
+00:09:35,790 --> 00:09:37,960
+So right here I'll add their name in.
+
+156
+00:09:38,160 --> 00:09:38,810
+There we go.
+
+157
+00:09:38,880 --> 00:09:40,540
+A very simple function.
+
+158
+00:09:40,590 --> 00:09:42,940
+We take an argument we return a string.
+
+159
+00:09:43,290 --> 00:09:45,680
+Now we can set this up as a named export.
+
+160
+00:09:45,690 --> 00:09:46,430
+Down below.
+
+161
+00:09:46,440 --> 00:09:48,210
+Let's go ahead and do just that.
+
+162
+00:09:48,210 --> 00:09:55,680
+So right here get greeting with a comma afterwards you now have a completely valid export statement.
+
+163
+00:09:55,800 --> 00:09:57,190
+I can save this file.
+
+164
+00:09:57,240 --> 00:10:00,830
+We can actually load in get greeting and call it over here.
+
+165
+00:10:00,870 --> 00:10:07,390
+First up let's go ahead and load it in get greeting then let's go ahead and use it.
+
+166
+00:10:07,740 --> 00:10:14,520
+So I'm going to call cancel that log to print something I'm going to print the return value that comes
+
+167
+00:10:14,520 --> 00:10:20,740
+back from calling get greeting and since Get greeting does take a name I will pass a name in.
+
+168
+00:10:20,940 --> 00:10:24,030
+I'm just going to pass in the name of Jessica.
+
+169
+00:10:24,030 --> 00:10:26,910
+So I would expect in the end of the day to see the message.
+
+170
+00:10:26,940 --> 00:10:29,990
+Welcome to the course with Jessica printing.
+
+171
+00:10:30,000 --> 00:10:33,630
+I'm going to save index dot J.S. rerun things from the terminal.
+
+172
+00:10:33,690 --> 00:10:35,010
+And what do we end up getting.
+
+173
+00:10:35,010 --> 00:10:36,090
+We get just that.
+
+174
+00:10:36,090 --> 00:10:38,290
+Welcome to the course Jessica.
+
+175
+00:10:38,550 --> 00:10:44,490
+So using the import and export statements we can share values between our files and this is something
+
+176
+00:10:44,490 --> 00:10:49,940
+we're going to be doing throughout the entire course in this video we took a basic look at the syntax.
+
+177
+00:10:50,040 --> 00:10:54,160
+We'll see more and more real world examples as we move through the class.
+
+178
+00:10:54,270 --> 00:11:00,390
+We'll also see examples where we load in things like functions from third party libraries.
+
+179
+00:11:00,390 --> 00:11:05,640
+Now it's Challenge time and for this challenge you're going to be creating a new file like my module
+
+180
+00:11:05,830 --> 00:11:09,750
+you're going to set up and export a couple of things you're going to use them in this file.
+
+181
+00:11:09,750 --> 00:11:14,570
+And that'll make sure we actually understand how import and export work down below.
+
+182
+00:11:14,610 --> 00:11:17,100
+I have a few comments for how to get this done.
+
+183
+00:11:17,160 --> 00:11:22,080
+So for almost all challenges in this course I am going to give you a list of steps you need to complete
+
+184
+00:11:22,350 --> 00:11:25,010
+to make sure we're all at least on the same page.
+
+185
+00:11:25,020 --> 00:11:27,500
+This is just a general guideline.
+
+186
+00:11:27,540 --> 00:11:31,440
+The actual details of the code are not something I'm ever going to give you in the steps.
+
+187
+00:11:31,440 --> 00:11:33,560
+That's the whole point of the challenge.
+
+188
+00:11:33,570 --> 00:11:34,560
+So here's the goal.
+
+189
+00:11:34,560 --> 00:11:39,690
+The goal is to create a brand new file export a couple of functions and then import and use them over
+
+190
+00:11:39,690 --> 00:11:40,200
+here.
+
+191
+00:11:40,350 --> 00:11:45,080
+So step one you're going to create a brand new file called Math dot Jay ass in there.
+
+192
+00:11:45,080 --> 00:11:47,060
+You're going to define two functions.
+
+193
+00:11:47,070 --> 00:11:50,300
+First we're going to define an add function.
+
+194
+00:11:50,310 --> 00:11:53,090
+This should take in two arguments and return the sum.
+
+195
+00:11:53,100 --> 00:11:55,040
+So add them up return the result.
+
+196
+00:11:55,230 --> 00:12:00,180
+Step three in that same file you're also going to define a subtract function.
+
+197
+00:12:00,180 --> 00:12:04,340
+So you'll take in two arguments you'll subtract them and return the result.
+
+198
+00:12:04,390 --> 00:12:09,970
+Step 4 you're going to set up the add function as the default export and you're going to set up the
+
+199
+00:12:09,970 --> 00:12:13,330
+subtract function as a named export.
+
+200
+00:12:13,350 --> 00:12:19,650
+Step 6 from this file index Dhananjay as you are going to import both of those functions and then you're
+
+201
+00:12:19,650 --> 00:12:21,990
+going to use them to add up to numbers.
+
+202
+00:12:22,000 --> 00:12:27,330
+Print the result subtract two numbers and print the result making sure you're getting everything correct.
+
+203
+00:12:27,330 --> 00:12:32,670
+The last thing to do is to actually run your file and ensure that you see the results for your addition
+
+204
+00:12:32,880 --> 00:12:35,670
+and subtraction operations.
+
+205
+00:12:35,670 --> 00:12:38,170
+All right take some time to pause the video.
+
+206
+00:12:38,280 --> 00:12:42,410
+Knock this out then go ahead and test your work when you're done.
+
+207
+00:12:42,510 --> 00:12:43,980
+Come back and click play
+
+208
+00:12:47,510 --> 00:12:48,170
+how that go.
+
+209
+00:12:48,170 --> 00:12:52,040
+Let's go ahead and kick things off with step 1 or we're going to create that brand new file.
+
+210
+00:12:52,040 --> 00:12:58,520
+So in the source folder a new file called Mathcad J S and in there we're going to define both add and
+
+211
+00:12:58,520 --> 00:13:01,670
+subtract so Konst add equals.
+
+212
+00:13:01,670 --> 00:13:06,270
+Now when it comes to the actual details of some of these challenges it's not too important if you used
+
+213
+00:13:06,290 --> 00:13:10,630
+something like the function or if you used something like the Arrow function.
+
+214
+00:13:10,670 --> 00:13:15,770
+If I didn't specify it in the challenge itself you could really go either way just fine.
+
+215
+00:13:15,800 --> 00:13:20,300
+I'm going to go ahead and use an arrow function though and I am going to use the shorthand syntax for
+
+216
+00:13:20,300 --> 00:13:26,450
+this simple function so I'm taking into arguments a and b and then I am going to implicitly return the
+
+217
+00:13:26,450 --> 00:13:30,170
+result of a plus b and I'll do the same thing for subtract.
+
+218
+00:13:30,170 --> 00:13:38,510
+So right here Konst subtract I'm taking into arguments a and b or Z and Y or one into whatever you chose
+
+219
+00:13:38,510 --> 00:13:42,500
+to call them is perfectly fine a minus B.
+
+220
+00:13:42,860 --> 00:13:50,120
+Now that covers step 2 and step 3 step 4 and 5 we want to set up add as the default export and subtract
+
+221
+00:13:50,150 --> 00:13:52,160
+as the named export.
+
+222
+00:13:52,160 --> 00:13:54,260
+So I'll use an export statement down below.
+
+223
+00:13:55,190 --> 00:14:04,040
+Inside of curly braces will set up and as default then a comma space and we'll set up subtract as a
+
+224
+00:14:04,070 --> 00:14:05,110
+named export.
+
+225
+00:14:05,120 --> 00:14:07,520
+So we just provide its name and there we go.
+
+226
+00:14:07,670 --> 00:14:14,780
+Everything in math that J S is all wrapped up and ready to go over inside of index Dhananjay as we can
+
+227
+00:14:14,780 --> 00:14:16,410
+move on to the last two steps.
+
+228
+00:14:16,430 --> 00:14:20,100
+We want to inport both of those new functions and then actually used them.
+
+229
+00:14:20,120 --> 00:14:21,070
+So right here.
+
+230
+00:14:21,230 --> 00:14:27,210
+Index dot J as a wipe all of the current file contents aside from the challenge steps.
+
+231
+00:14:27,290 --> 00:14:30,160
+I'm going to use inport to grab both of those things.
+
+232
+00:14:30,230 --> 00:14:33,800
+We start off with the default export if we're actually going to grab it.
+
+233
+00:14:33,830 --> 00:14:34,650
+Which I am.
+
+234
+00:14:34,820 --> 00:14:36,340
+I can call this whatever we like.
+
+235
+00:14:36,350 --> 00:14:38,760
+I could call it ad but since it's the default.
+
+236
+00:14:38,780 --> 00:14:43,990
+I could also call it my add function which I'll do just to prove the point.
+
+237
+00:14:44,390 --> 00:14:49,720
+Then a comma space if we are going to provide some named exports we want as well which we are.
+
+238
+00:14:49,880 --> 00:14:54,740
+And in this case we just have one called subtract awesome last up.
+
+239
+00:14:54,770 --> 00:14:56,000
+Where are these coming from.
+
+240
+00:14:56,090 --> 00:14:58,410
+Well they're coming from the file we just created.
+
+241
+00:14:58,430 --> 00:15:01,130
+So in single quotes duck forward slash.
+
+242
+00:15:01,130 --> 00:15:06,590
+Which gets us to the source directory then the files sitting in and right inside of there so math we
+
+243
+00:15:06,590 --> 00:15:12,510
+don't need to add the JSA extension since Jesus is the default extension it's going to look for.
+
+244
+00:15:12,680 --> 00:15:15,900
+Now we can use both of them counsil dialog.
+
+245
+00:15:15,920 --> 00:15:19,880
+I'm going to call my add function.
+
+246
+00:15:19,880 --> 00:15:21,690
+I'm going to pass in two numbers.
+
+247
+00:15:21,710 --> 00:15:29,450
+I'll add up one end to minus two resulting in minus one and then I'll do another council log call for
+
+248
+00:15:29,450 --> 00:15:32,560
+my subtract function call right here.
+
+249
+00:15:32,660 --> 00:15:35,850
+I'm going to take 10 and I am going to subtract two.
+
+250
+00:15:35,870 --> 00:15:37,830
+The result being eight.
+
+251
+00:15:37,910 --> 00:15:40,120
+Finally you needed to test your work.
+
+252
+00:15:40,160 --> 00:15:45,800
+So if I rerun things from the terminal I should see minus 1 and 8 and that is exactly what I end up
+
+253
+00:15:45,830 --> 00:15:46,390
+getting.
+
+254
+00:15:46,550 --> 00:15:47,360
+So there we go.
+
+255
+00:15:47,420 --> 00:15:49,950
+That is our first semi real world challenge.
+
+256
+00:15:50,000 --> 00:15:54,650
+The challenges as these ones have shown are going to get a bit harder as we go along.
+
+257
+00:15:54,650 --> 00:15:58,120
+It's going to give you more to do to test your skills.
+
+258
+00:15:58,280 --> 00:16:03,920
+With this in place though we now know the basics of the import and export syntax and we're all done
+
+259
+00:16:04,100 --> 00:16:06,380
+for this video in the next video.
+
+260
+00:16:06,440 --> 00:16:11,780
+We're actually going to install graphics UL and we're going to load it into our project so we can get
+
+261
+00:16:11,780 --> 00:16:16,130
+started down the path of creating our very own graphical API.
+
+262
+00:16:16,130 --> 00:16:17,350
+I'm excited to get to that.
+
+263
+00:16:17,370 --> 00:16:20,110
+So let's go ahead and jump right in to the next one.
+

@@ -1,0 +1,1040 @@
+1
+00:00:00,240 --> 00:00:05,550
+You've spent a bit of time learning about graphics Well queries and you now have a great project structure
+
+2
+00:00:05,550 --> 00:00:10,340
+in place in this video we're actually going to set up a graphical API.
+
+3
+00:00:10,410 --> 00:00:16,560
+So by the end you will have a real graphical API server up and running and you'll have your own instance
+
+4
+00:00:16,560 --> 00:00:22,200
+of graphical playground that you can use to actually make sample queries to the server that you've set
+
+5
+00:00:22,200 --> 00:00:23,130
+up.
+
+6
+00:00:23,130 --> 00:00:28,860
+Now remember that using graphical playground is just a temporary way to make sure our server is working
+
+7
+00:00:28,860 --> 00:00:34,620
+as expected when we perform various operations on it in a real world situation.
+
+8
+00:00:34,620 --> 00:00:37,980
+These queries would come from something like a mobile device.
+
+9
+00:00:37,980 --> 00:00:40,140
+Another server or a web browser.
+
+10
+00:00:40,200 --> 00:00:42,920
+And we'll talk about exactly how we can get all of that done.
+
+11
+00:00:42,990 --> 00:00:50,340
+Later in the course for now we just want to get a graphical API set up before we install any NPM libraries.
+
+12
+00:00:50,340 --> 00:00:51,960
+It's important to note that graph.
+
+13
+00:00:52,050 --> 00:00:57,780
+Well the graph query language is just a specification for how all of this stuff should work.
+
+14
+00:00:57,780 --> 00:01:00,720
+For example how should queries work in the end of the day.
+
+15
+00:01:00,720 --> 00:01:06,900
+It's not an implementation so it's up to individual developers to take this document that describes
+
+16
+00:01:06,900 --> 00:01:14,040
+graphs well and actually implemented for that environment whether it's Android iOS javascript node Python's
+
+17
+00:01:14,040 --> 00:01:20,700
+C go Lang or whatever we need implementations of graft well to use it in those environments.
+
+18
+00:01:20,700 --> 00:01:24,480
+So for our purposes we have to find an implementation of the graph.
+
+19
+00:01:24,480 --> 00:01:28,060
+Q Well spec that actually works with no J ass.
+
+20
+00:01:28,080 --> 00:01:33,630
+Now that might seem like a weird concept but it's actually the exact same thing we have with javascript
+
+21
+00:01:33,630 --> 00:01:34,550
+itself.
+
+22
+00:01:34,590 --> 00:01:39,010
+We have the ECMAScript specification describing how javascript should work.
+
+23
+00:01:39,120 --> 00:01:41,010
+Then we have various implementations.
+
+24
+00:01:41,010 --> 00:01:48,690
+For example chrome and node use the V8 engine we have Mozilla using spidermonkey we have Microsoft using
+
+25
+00:01:48,690 --> 00:01:49,430
+Chikara.
+
+26
+00:01:49,590 --> 00:01:54,090
+So those are three implementations of the JavaScript spec in our case.
+
+27
+00:01:54,090 --> 00:01:57,260
+We just have to find an implementation that works with node.
+
+28
+00:01:57,600 --> 00:02:01,140
+Now you can actually view the spec itself over in the browser.
+
+29
+00:02:01,140 --> 00:02:06,270
+If you had over to Facebook data get hub I O forward slash graph.
+
+30
+00:02:06,420 --> 00:02:12,060
+Well we can view all of the versions of the spec we're just going to crack open the latest release really
+
+31
+00:02:12,060 --> 00:02:13,610
+quick.
+
+32
+00:02:13,720 --> 00:02:14,510
+And what do we get.
+
+33
+00:02:14,530 --> 00:02:16,500
+We get a really long document.
+
+34
+00:02:16,510 --> 00:02:21,460
+This document describes in detail how graphic you all should work you know what you're not going to
+
+35
+00:02:21,460 --> 00:02:22,170
+find here.
+
+36
+00:02:22,240 --> 00:02:27,640
+You're not going to find any no J.S. code you're not going to find any Python code or any code other
+
+37
+00:02:27,640 --> 00:02:28,350
+than graft.
+
+38
+00:02:28,430 --> 00:02:32,190
+Well this describes the graph query language.
+
+39
+00:02:32,200 --> 00:02:34,860
+It's up to developers for those other languages.
+
+40
+00:02:34,870 --> 00:02:39,530
+Python Java and node to actually create their own implementations.
+
+41
+00:02:39,730 --> 00:02:41,760
+Now at the end of the day what does that really mean.
+
+42
+00:02:41,770 --> 00:02:45,900
+It just means that we might have multiple options to pick from when we're using graph.
+
+43
+00:02:46,000 --> 00:02:50,470
+Well in a specific environment there might be multiple clients for iOS.
+
+44
+00:02:50,470 --> 00:02:56,500
+There might be and are multiple servers for node j s the tool that we're going to be using to get grant
+
+45
+00:02:56,500 --> 00:02:59,880
+Cuil up and running on Node Adjaye as is graphed well.
+
+46
+00:02:59,890 --> 00:03:03,210
+Yoga which we can install down in the terminal.
+
+47
+00:03:03,280 --> 00:03:06,390
+You're more than welcome to use the yarn package manager with this course.
+
+48
+00:03:06,400 --> 00:03:08,260
+I'm going to be sticking with NPM.
+
+49
+00:03:08,260 --> 00:03:18,440
+So NPM install which can be shortened to NPM I add the module graph QOL hyphen yoga and I'll be specifying
+
+50
+00:03:18,440 --> 00:03:25,730
+a specific version the latest at one point fourteen point ten we can go ahead and run this installation
+
+51
+00:03:25,760 --> 00:03:27,750
+and once it's done what are we going to do.
+
+52
+00:03:27,830 --> 00:03:32,380
+We're going to pull up the docs and we're actually going to set it up an index dot J ass.
+
+53
+00:03:32,510 --> 00:03:38,030
+That means we're not going to need any of this code any of this code we had to learn about import export.
+
+54
+00:03:38,210 --> 00:03:45,290
+So I'm going to wipe index dot J S and I'm also going to delete math Dhananjay ass and the my module
+
+55
+00:03:45,670 --> 00:03:46,870
+Yes file.
+
+56
+00:03:46,970 --> 00:03:50,780
+You're more than welcome to keep them around if you want but they're not going to make it into the final
+
+57
+00:03:50,780 --> 00:03:52,440
+version of this application.
+
+58
+00:03:52,570 --> 00:03:55,530
+They were added for demonstration purposes only.
+
+59
+00:03:55,730 --> 00:03:56,360
+Awesome.
+
+60
+00:03:56,390 --> 00:03:59,000
+So we have graphical yoga installed.
+
+61
+00:03:59,000 --> 00:04:02,690
+Let's go ahead and pull up the documentation so you know where that lives as well.
+
+62
+00:04:02,690 --> 00:04:05,170
+I'm going to Google the library name a graph.
+
+63
+00:04:05,170 --> 00:04:10,400
+Q Well yoga and we're looking for the get hub documentation page that's this first one right here.
+
+64
+00:04:10,580 --> 00:04:13,830
+Now the question has to be asked why use this particular tool.
+
+65
+00:04:13,940 --> 00:04:19,040
+Well I use this for all of my personal and professional client projects for two main reasons.
+
+66
+00:04:19,070 --> 00:04:25,000
+One is that it provides the most advanced features set allowing us to tap into everything graphed UL
+
+67
+00:04:25,070 --> 00:04:26,180
+has to offer.
+
+68
+00:04:26,180 --> 00:04:32,400
+The second is that it comes with a very easy set up process so we can get up and running very quickly.
+
+69
+00:04:32,450 --> 00:04:37,370
+But we can also use the same tool to build the advanced API as with all of the real world features we'd
+
+70
+00:04:37,370 --> 00:04:43,730
+expect like subscriptions authentication and more now on this page in particular we can learn a bit
+
+71
+00:04:43,730 --> 00:04:48,770
+about how to actually set up graph Well yoga although we'll be working through that in this video.
+
+72
+00:04:48,920 --> 00:04:52,130
+And we can also learn about other ways it can be configured and used.
+
+73
+00:04:52,130 --> 00:04:56,690
+There are various options available to us and we'll explore a lot of these throughout the course as
+
+74
+00:04:56,690 --> 00:05:03,200
+well where I'd like to start though is by moving into index dot J.S. and getting a barebones version
+
+75
+00:05:03,230 --> 00:05:09,290
+of graft UL yoga up and running I'm going to collapse the terminal and we're going to start by using
+
+76
+00:05:09,290 --> 00:05:12,280
+an inport statement to grab something off of the graph.
+
+77
+00:05:12,280 --> 00:05:18,250
+Q Well yoga library we're going to grab the tool that allows us to create a brand new server right here
+
+78
+00:05:18,260 --> 00:05:23,190
+that is a named export and it's called Grath QOL server.
+
+79
+00:05:23,210 --> 00:05:26,300
+No the capitalization here as that is important.
+
+80
+00:05:26,570 --> 00:05:29,940
+After we have the closing curly brace we use from.
+
+81
+00:05:30,050 --> 00:05:32,290
+And then we provide where it's coming from.
+
+82
+00:05:32,360 --> 00:05:38,180
+And it was a local file we would start with Dot forward slash sense it's an NPM library we installed.
+
+83
+00:05:38,180 --> 00:05:42,590
+We just provide the library name craft Cuil hyphen yoga.
+
+84
+00:05:42,620 --> 00:05:43,230
+Awesome.
+
+85
+00:05:43,250 --> 00:05:46,490
+And that's actually all we need to import in order to get graft.
+
+86
+00:05:46,520 --> 00:05:48,530
+Well yoga up and running.
+
+87
+00:05:48,530 --> 00:05:52,380
+Now there are two things we have to define before we can start our server.
+
+88
+00:05:52,400 --> 00:06:00,070
+The first are type definitions and the second are the resolvers for our API.
+
+89
+00:06:00,200 --> 00:06:01,850
+These are both very important things.
+
+90
+00:06:01,850 --> 00:06:05,220
+So let's take a moment to talk about what each are to start.
+
+91
+00:06:05,240 --> 00:06:11,090
+I want to talk about type definitions also known as your application schema the application schema is
+
+92
+00:06:11,090 --> 00:06:11,940
+super important.
+
+93
+00:06:11,960 --> 00:06:17,930
+It's where we define very important things like all of the operations that can be performed on the API.
+
+94
+00:06:18,020 --> 00:06:20,930
+And what are custom data types look like.
+
+95
+00:06:20,960 --> 00:06:26,180
+Let's bring this back to a real world example by heading back into the graft Well playground for the
+
+96
+00:06:26,180 --> 00:06:32,690
+demo API that I set up here if we opened the schema tab What were we greeted with we were greeted with
+
+97
+00:06:32,690 --> 00:06:35,390
+all of the operations we could perform in this case.
+
+98
+00:06:35,390 --> 00:06:39,290
+We only know about the query operation and we only have queries listed here.
+
+99
+00:06:39,350 --> 00:06:42,040
+We have seven different queries that can be performed.
+
+100
+00:06:42,140 --> 00:06:47,480
+All of these were defined in the schema and we're going to learn how we can set up our own queries to
+
+101
+00:06:48,100 --> 00:06:51,330
+the schema also defines what our data looks like.
+
+102
+00:06:51,410 --> 00:06:53,040
+So our custom data types.
+
+103
+00:06:53,150 --> 00:06:57,430
+When we queried for me for example what we got back was a user.
+
+104
+00:06:57,530 --> 00:07:01,070
+A user had a specific set of fields of various types.
+
+105
+00:07:01,070 --> 00:07:04,480
+This is also defined in our application schema.
+
+106
+00:07:04,650 --> 00:07:06,320
+So the schema is super important.
+
+107
+00:07:06,320 --> 00:07:08,900
+It is a very big piece to the puzzle.
+
+108
+00:07:08,900 --> 00:07:14,530
+We also have our application resolvers and your resolvers are nothing more than a set of functions.
+
+109
+00:07:14,600 --> 00:07:20,540
+We're going to define functions that run for each of the operations that can be performed on our API.
+
+110
+00:07:20,540 --> 00:07:27,200
+So for example the dentally API I created a function for the hello query for the course query for the
+
+111
+00:07:27,200 --> 00:07:34,250
+course instr. query and for the ME query those functions know what to do when that query runs.
+
+112
+00:07:34,250 --> 00:07:37,790
+They know how to get and return the correct data.
+
+113
+00:07:37,790 --> 00:07:43,540
+So these functions will eventually be where we query data from a real database write data or do whatever
+
+114
+00:07:43,540 --> 00:07:47,260
+is necessary depending on what operation got performed.
+
+115
+00:07:47,480 --> 00:07:49,370
+So we have our type definition.
+
+116
+00:07:49,480 --> 00:07:54,220
+This describes the operations and the data structures we have the resolvers.
+
+117
+00:07:54,270 --> 00:07:59,150
+These are the functions that actually run when various operations are performed.
+
+118
+00:07:59,150 --> 00:08:02,180
+Let's kick things off with our type definitions right here.
+
+119
+00:08:02,210 --> 00:08:08,060
+I'm going to create a new Konst called type DAPs and I'm going to set it equal to a template string.
+
+120
+00:08:08,210 --> 00:08:12,430
+So here I'm using the back tickey to the left of the one key on my keyboard.
+
+121
+00:08:12,590 --> 00:08:15,410
+Now what goes inside of here is Grath Well code.
+
+122
+00:08:15,570 --> 00:08:21,090
+So we define our schema in regular old graph and we're going to start learning that syntax right now
+
+123
+00:08:21,510 --> 00:08:25,430
+what we're going to end up doing is defining just a single query.
+
+124
+00:08:25,470 --> 00:08:31,020
+So we're going to set up our application so we can query for Hello nothing else to do that.
+
+125
+00:08:31,050 --> 00:08:33,970
+We start by defining the query type.
+
+126
+00:08:34,050 --> 00:08:39,720
+That's one of the three built in types when we use the query type we can define the queries for our
+
+127
+00:08:39,720 --> 00:08:40,580
+application.
+
+128
+00:08:40,800 --> 00:08:47,410
+So type followed by uppercase Q query which has to match exactly since it's built in.
+
+129
+00:08:47,820 --> 00:08:50,450
+And then we set up our curly braces.
+
+130
+00:08:50,460 --> 00:08:51,870
+Now what do we do inside of here.
+
+131
+00:08:51,870 --> 00:08:55,050
+We define all of the queries we want to support.
+
+132
+00:08:55,050 --> 00:08:59,950
+So in the case of the demo app I had seven queries I had seven things to find in here.
+
+133
+00:08:59,970 --> 00:09:05,560
+We're going to stick with just a single thing a single query called hello to divide the query.
+
+134
+00:09:05,580 --> 00:09:07,790
+We start off with the query name.
+
+135
+00:09:07,830 --> 00:09:10,570
+In this case hello to I'll type hello out.
+
+136
+00:09:10,710 --> 00:09:18,720
+Then we add a colon a space and we define the type that should come back when this query is executed.
+
+137
+00:09:18,720 --> 00:09:23,180
+So we've explored the string type a quite a bit and we're going to stick with that for the moment.
+
+138
+00:09:23,190 --> 00:09:29,150
+So right here after our colon space that's uppercase as string.
+
+139
+00:09:29,250 --> 00:09:35,120
+Now that we have this in place we have a completely valid type definition for our API.
+
+140
+00:09:35,160 --> 00:09:39,410
+While it is a simple one it is indeed going to get the job done.
+
+141
+00:09:39,420 --> 00:09:44,920
+Now we can leave string like this if we want NULL to be able to be an option for the return value.
+
+142
+00:09:45,090 --> 00:09:50,370
+We can always add on an exclamation mark to say that hello is always going to return a string and that's
+
+143
+00:09:50,370 --> 00:09:51,260
+it I'm going to do.
+
+144
+00:09:51,270 --> 00:09:54,450
+So we're always going to get a string back.
+
+145
+00:09:54,450 --> 00:10:00,690
+The only other thing we have to do is to define our resolvers since we only have a single operation.
+
+146
+00:10:00,690 --> 00:10:01,760
+A single query.
+
+147
+00:10:01,830 --> 00:10:05,420
+We're only going to end up defining a single function right here.
+
+148
+00:10:05,550 --> 00:10:12,820
+I'm going to create the resolvers object so Konst resolvers equals a new object.
+
+149
+00:10:12,930 --> 00:10:18,460
+And in general the structure of this object is going to mirror the structure up above.
+
+150
+00:10:18,600 --> 00:10:23,130
+So we will start with an upper case Q query property.
+
+151
+00:10:23,130 --> 00:10:28,820
+This is also going to be an object and on there we're going to define various methods.
+
+152
+00:10:28,920 --> 00:10:32,030
+One method for each query we've set up.
+
+153
+00:10:32,070 --> 00:10:36,740
+We only have one query so we're only going to define one method and the names need to match.
+
+154
+00:10:36,750 --> 00:10:37,860
+So down below.
+
+155
+00:10:38,130 --> 00:10:44,430
+Hello I'm going to go ahead and use the 6 method definition to define this method and all we have to
+
+156
+00:10:44,430 --> 00:10:45,980
+do is return a string.
+
+157
+00:10:45,990 --> 00:10:49,560
+We have to return what the expected value is.
+
+158
+00:10:49,560 --> 00:10:52,830
+So let's use return to return a brand new string.
+
+159
+00:10:52,950 --> 00:10:57,010
+And I'm going to say this is my first query.
+
+160
+00:10:57,030 --> 00:10:58,140
+Perfect.
+
+161
+00:10:58,140 --> 00:11:03,360
+Now this resolver function does get called with some arguments and we are going to explore those later.
+
+162
+00:11:03,360 --> 00:11:05,950
+They're really important for real world applications.
+
+163
+00:11:06,030 --> 00:11:11,730
+For the moment though we're going to ignore all of those arguments just returning a static string.
+
+164
+00:11:11,760 --> 00:11:12,580
+Now that is it.
+
+165
+00:11:12,690 --> 00:11:14,910
+We have our one operation set up.
+
+166
+00:11:14,910 --> 00:11:20,190
+We have the code necessary to get data back when that operation is performed and we can go ahead and
+
+167
+00:11:20,190 --> 00:11:23,880
+actually start up our server and query for that data.
+
+168
+00:11:23,880 --> 00:11:24,740
+How do we do that.
+
+169
+00:11:24,810 --> 00:11:27,540
+We do that with two lines of code down below.
+
+170
+00:11:27,540 --> 00:11:33,640
+First up we have to declare a server so Konst server and we're going to create a new instance of graph
+
+171
+00:11:33,640 --> 00:11:36,030
+Q L server which re-imported up above.
+
+172
+00:11:36,030 --> 00:11:39,900
+So new graphics UL server end.
+
+173
+00:11:39,930 --> 00:11:45,540
+This does expect an object as its argument and there are two properties we have to define.
+
+174
+00:11:45,600 --> 00:11:47,680
+We have to define type deaths.
+
+175
+00:11:47,760 --> 00:11:50,340
+Passing an R type definitions.
+
+176
+00:11:50,550 --> 00:11:55,860
+And we also have to define the resolvers property passing in our resolvers.
+
+177
+00:11:56,020 --> 00:12:01,590
+Since the property name matches up with a variable with the same name we can use the object property
+
+178
+00:12:01,590 --> 00:12:06,120
+shorthand like this passing in type deaths and resolvers.
+
+179
+00:12:06,120 --> 00:12:11,680
+The last thing to do is to use a method on server to start everything up right here.
+
+180
+00:12:11,740 --> 00:12:14,390
+Server dot start.
+
+181
+00:12:14,550 --> 00:12:18,240
+We are going to pass to it a callback function.
+
+182
+00:12:18,240 --> 00:12:21,600
+This function runs when the server is actually up and running.
+
+183
+00:12:21,680 --> 00:12:26,400
+I know we're going to do is use a cute little council that like to print a message.
+
+184
+00:12:26,490 --> 00:12:30,300
+The server is up perfect as we go.
+
+185
+00:12:30,300 --> 00:12:32,670
+It is time to run our application.
+
+186
+00:12:32,770 --> 00:12:35,050
+I am going to crack open the terminal.
+
+187
+00:12:35,280 --> 00:12:41,090
+I'm going to clear the terminal output and use NPM run start to start things up.
+
+188
+00:12:41,280 --> 00:12:48,500
+Now by default graph Cuil yoga is going to try to start up the application on local host port 4000.
+
+189
+00:12:48,570 --> 00:12:51,460
+So let's head over there in the browser.
+
+190
+00:12:51,490 --> 00:12:58,580
+I'll make a new tab localhost port 4000 and what we're going to end up seeing is an instance of Grafx
+
+191
+00:12:58,580 --> 00:13:01,450
+UL playground for the Brynne new API.
+
+192
+00:13:01,470 --> 00:13:02,650
+We've set up.
+
+193
+00:13:02,700 --> 00:13:07,300
+Now we can see that it's trying to save all of the requests from our other instance.
+
+194
+00:13:07,410 --> 00:13:15,320
+Oh we need to do is close down all of these tabs then in a new tab which points to localhost four thousand.
+
+195
+00:13:15,350 --> 00:13:17,170
+We're going to create our query.
+
+196
+00:13:17,210 --> 00:13:21,790
+I am going to query for hello which is the only thing that exists.
+
+197
+00:13:21,830 --> 00:13:24,090
+I'm going to click that play button and what do we get.
+
+198
+00:13:24,110 --> 00:13:25,150
+We get our message.
+
+199
+00:13:25,160 --> 00:13:29,130
+This is my first query showing up and this is fantastic.
+
+200
+00:13:29,150 --> 00:13:35,810
+We were able to set up our very own albeit simple graphics UL API and we were actually able to make
+
+201
+00:13:35,810 --> 00:13:37,600
+a query to the API.
+
+202
+00:13:37,700 --> 00:13:40,200
+Getting the correct data back.
+
+203
+00:13:40,250 --> 00:13:44,990
+Now that we have these servers set up it would actually be very easy to add other operations that someone
+
+204
+00:13:44,990 --> 00:13:45,950
+could perform.
+
+205
+00:13:45,950 --> 00:13:48,110
+We can add another query for example.
+
+206
+00:13:48,140 --> 00:13:49,730
+I am going to hit enter.
+
+207
+00:13:49,900 --> 00:13:55,390
+Set up a name a query colon space and we're going to have this one return a string as well.
+
+208
+00:13:55,400 --> 00:13:59,320
+All we need to do to get this to work is to define a resolver for name.
+
+209
+00:13:59,450 --> 00:14:04,130
+So right here after the hello method I will define the name method.
+
+210
+00:14:04,130 --> 00:14:08,510
+We're not going to worry about any of the arguments for the moment and I am just going to return my
+
+211
+00:14:08,510 --> 00:14:09,740
+name as a string.
+
+212
+00:14:09,800 --> 00:14:11,290
+Andrew Mead.
+
+213
+00:14:11,300 --> 00:14:13,310
+Now we can save the script.
+
+214
+00:14:13,310 --> 00:14:17,660
+I can go ahead and use control C to shut down the server.
+
+215
+00:14:17,840 --> 00:14:22,220
+The up arrow key to reload that last command and enter to rerun it.
+
+216
+00:14:22,310 --> 00:14:28,410
+Then we can refresh things over in the browser and we can query for that new field right after hello.
+
+217
+00:14:28,490 --> 00:14:30,570
+We're going to query for name.
+
+218
+00:14:30,590 --> 00:14:35,720
+Now I can click that play button or I can use command enter to rerun the current query.
+
+219
+00:14:35,720 --> 00:14:41,140
+That would be I believe control Antar for Windows users and right here we have the latest information.
+
+220
+00:14:41,150 --> 00:14:44,870
+I had L-L and I have name to wrap up this video.
+
+221
+00:14:44,900 --> 00:14:48,990
+I would like you to add two more queries to our application.
+
+222
+00:14:49,100 --> 00:14:54,790
+So right here you're going to add a query for location which is going to return a string.
+
+223
+00:14:54,800 --> 00:14:57,080
+Just has your location as the string.
+
+224
+00:14:57,110 --> 00:15:03,080
+You could say something like your city name for example and you're going to set up a bio query which
+
+225
+00:15:03,110 --> 00:15:07,420
+also returns a string and just add a quick sentence about yourself.
+
+226
+00:15:07,520 --> 00:15:13,610
+So take some time to add the typedef for both of those queries and the resolver functions for each.
+
+227
+00:15:13,610 --> 00:15:15,220
+Then restart your server.
+
+228
+00:15:15,380 --> 00:15:21,320
+Run a new query from graph playground requesting both of those fields and make sure you get the correct
+
+229
+00:15:21,350 --> 00:15:22,240
+data.
+
+230
+00:15:22,250 --> 00:15:24,110
+Take a quick moment to pause the video.
+
+231
+00:15:24,110 --> 00:15:25,080
+Knock that out.
+
+232
+00:15:25,100 --> 00:15:27,900
+Test your work and when you're done click play
+
+233
+00:15:31,300 --> 00:15:34,900
+all right how that one go I'm going to kick things off with my type definitions.
+
+234
+00:15:34,900 --> 00:15:36,040
+That's where I like to start.
+
+235
+00:15:36,070 --> 00:15:42,760
+So I will define the location query which will return a string and I'll define the bio query which will
+
+236
+00:15:42,760 --> 00:15:44,080
+also return a string.
+
+237
+00:15:44,140 --> 00:15:47,120
+We'll get away from strings only in just a second.
+
+238
+00:15:47,230 --> 00:15:52,620
+Then we're going to remove those challenge comments and I am going to move on to the resolver definitions.
+
+239
+00:15:52,690 --> 00:15:59,100
+So down below after name comma enter we have to define two new methods for our two new queries.
+
+240
+00:15:59,260 --> 00:16:04,570
+First up location not worrying about any of the arguments for the moment and just returning a static
+
+241
+00:16:04,570 --> 00:16:05,220
+string.
+
+242
+00:16:05,320 --> 00:16:09,550
+For me that would be still Philadelphia after location comma.
+
+243
+00:16:09,550 --> 00:16:12,760
+Enter for one more method for bio.
+
+244
+00:16:12,760 --> 00:16:14,400
+We're going to set up that method.
+
+245
+00:16:14,440 --> 00:16:16,830
+I'm going to return a quick bio.
+
+246
+00:16:16,840 --> 00:16:21,250
+I'll live in Philly and teach on you to me.
+
+247
+00:16:21,250 --> 00:16:23,080
+Very exciting stuff.
+
+248
+00:16:23,080 --> 00:16:26,210
+Now we can go ahead and actually save indexed at Jats.
+
+249
+00:16:26,530 --> 00:16:32,590
+I can restart my server and we can refresh the browser to make our brand new query.
+
+250
+00:16:32,920 --> 00:16:35,170
+Right here we have hello we have name.
+
+251
+00:16:35,230 --> 00:16:42,010
+I am going to add on location and I am going to add on bio command enter to rerun the query and what
+
+252
+00:16:42,010 --> 00:16:42,670
+do we get.
+
+253
+00:16:42,670 --> 00:16:46,540
+We get all four fields returning the correct data.
+
+254
+00:16:46,630 --> 00:16:50,790
+If I crack open the schema we can see that we are getting exactly what we would expect.
+
+255
+00:16:50,800 --> 00:16:54,740
+We have all of the four queries we set up described right here.
+
+256
+00:16:55,090 --> 00:17:00,480
+So now we have a set up we can continue to expand on and what I want to talk about in the next video.
+
+257
+00:17:00,490 --> 00:17:03,170
+Are the other types we can use in Grath.
+
+258
+00:17:03,210 --> 00:17:07,130
+Well it's not all just about strings we have numbers in booleans too.
+
+259
+00:17:07,270 --> 00:17:09,020
+We're going to tackle that in the next one.
+
+260
+00:17:09,130 --> 00:17:11,880
+So stay tuned and I'll see you soon.
+

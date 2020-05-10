@@ -1,0 +1,648 @@
+1
+00:00:00,150 --> 00:00:05,250
+In this video we're going to continue to lock down our data and the focus here is going to be on some
+
+2
+00:00:05,310 --> 00:00:11,070
+less than obvious ways someone can get access to data that they shouldn't be able to access.
+
+3
+00:00:11,070 --> 00:00:15,390
+We spent a considerable amount of time locking down our individual queries.
+
+4
+00:00:15,390 --> 00:00:21,390
+For example my posts requires authentication while others like posts do not.
+
+5
+00:00:21,390 --> 00:00:28,320
+Now there's actually a way for someone to get the draft posts for any user without being authenticated.
+
+6
+00:00:28,440 --> 00:00:32,500
+And that's by just providing a selection set over here for example.
+
+7
+00:00:32,520 --> 00:00:38,130
+I'm grabbing all of the users using a user's query and for each user I'm asking for their I.D. their
+
+8
+00:00:38,130 --> 00:00:39,460
+name and their email.
+
+9
+00:00:39,480 --> 00:00:42,290
+Then all I do is ask for their posts as well.
+
+10
+00:00:42,300 --> 00:00:47,060
+Here I'm asking for the title The ID and the published status for each.
+
+11
+00:00:47,250 --> 00:00:52,350
+Now if I actually fire that off without being authenticated in any way what do I get.
+
+12
+00:00:52,380 --> 00:00:54,120
+I get everything back right here.
+
+13
+00:00:54,120 --> 00:00:58,140
+I can see that one post by Jess which is not published.
+
+14
+00:00:58,140 --> 00:01:03,140
+Post by Jess one with a published value of false and that's a problem.
+
+15
+00:01:03,330 --> 00:01:09,450
+So we're going to focus on locking down data when we have all of these crazy selections sets we want
+
+16
+00:01:09,450 --> 00:01:13,620
+to make sure there are no loopholes in our authentication system.
+
+17
+00:01:13,620 --> 00:01:17,360
+Now we're also going to learn how we can lock down specific fields for example.
+
+18
+00:01:17,400 --> 00:01:23,790
+It's a terrible idea to expose all users email addresses to the outside world so we're going to address
+
+19
+00:01:23,850 --> 00:01:25,650
+that as well.
+
+20
+00:01:25,650 --> 00:01:30,460
+Now to actually get this done to lock down the email and to hide draft posts.
+
+21
+00:01:30,510 --> 00:01:34,370
+We're not going to be making any significant change to the user's query.
+
+22
+00:01:34,530 --> 00:01:37,940
+This actually isn't a problem with the user's query.
+
+23
+00:01:38,010 --> 00:01:44,430
+It's a problem with how users are resolved we would run into the exact same issues if we were getting
+
+24
+00:01:44,430 --> 00:01:48,330
+a user via posts for example or comments.
+
+25
+00:01:48,330 --> 00:01:50,750
+So right here I have comments.
+
+26
+00:01:50,760 --> 00:01:58,710
+I then get access to the user via author and from here I could just grab their posts I could grab the
+
+27
+00:01:58,710 --> 00:02:06,240
+ID I could grab title and I could grab a published and once again I'm going to be able to see information
+
+28
+00:02:06,240 --> 00:02:12,390
+that I shouldn't be able to see down below where we have yes we have a post that is not published showing
+
+29
+00:02:12,390 --> 00:02:15,220
+up a little further down the list.
+
+30
+00:02:17,370 --> 00:02:17,930
+There it is.
+
+31
+00:02:18,030 --> 00:02:20,190
+Right here we have that data visible.
+
+32
+00:02:20,280 --> 00:02:25,370
+So once again not a problem with the users it's a problem with our selection sets.
+
+33
+00:02:25,480 --> 00:02:31,170
+Anytime we can select information about a user We can also dive in and grab things like posts leaving
+
+34
+00:02:31,260 --> 00:02:33,130
+us open to vulnerabilities.
+
+35
+00:02:33,180 --> 00:02:34,920
+How are we going to address this.
+
+36
+00:02:34,950 --> 00:02:41,520
+We're going to address this by making some changes to user data J S and customizing how some of our
+
+37
+00:02:41,520 --> 00:02:46,040
+fields like posts and email are actually resolved.
+
+38
+00:02:46,050 --> 00:02:51,090
+Now if we just wanted to hide the email altogether that would be pretty easy all we would need to do
+
+39
+00:02:51,090 --> 00:02:57,820
+is go over to schema doc graphics UL find our user type and just delete the email field.
+
+40
+00:02:57,900 --> 00:03:03,240
+Someone would still be able to create a user passing an email in but whenever it came to selecting a
+
+41
+00:03:03,240 --> 00:03:07,240
+user you would never be able to pull that e-mail value back.
+
+42
+00:03:07,290 --> 00:03:12,840
+If I were to save the program I could go ahead and rerun my query and it would actually fail because
+
+43
+00:03:12,840 --> 00:03:15,960
+we're grabbing I e-mail and e-mail doesn't exist.
+
+44
+00:03:15,960 --> 00:03:18,660
+If I were to remove e-mail and fire it off again.
+
+45
+00:03:18,750 --> 00:03:20,310
+Now things work.
+
+46
+00:03:20,310 --> 00:03:25,140
+The problem is that this is not the approach we want to take because that would also affect things like
+
+47
+00:03:25,140 --> 00:03:29,010
+our Me query which could be useful for generating a profile page.
+
+48
+00:03:29,010 --> 00:03:34,360
+So in reality I don't always want to hide the email I just want to hide the email.
+
+49
+00:03:34,380 --> 00:03:38,710
+If you're viewing a user other than yourself the authenticated user.
+
+50
+00:03:38,730 --> 00:03:40,120
+So how are we going to do that.
+
+51
+00:03:40,320 --> 00:03:44,370
+Well the first thing I'm going to do is make e-mail nullable.
+
+52
+00:03:44,460 --> 00:03:49,290
+So when you're selecting an e-mail sometimes you'll get a string if you're lived in as that user.
+
+53
+00:03:49,290 --> 00:03:51,040
+Other times you'll get no.
+
+54
+00:03:51,120 --> 00:03:54,190
+If you're trying to pull the e-mail for every user out there.
+
+55
+00:03:54,360 --> 00:03:55,630
+So that's the first step.
+
+56
+00:03:55,650 --> 00:04:00,910
+Just removing that exclamation mark opening the door for us to not provide the e-mail.
+
+57
+00:04:00,990 --> 00:04:03,010
+Under certain situations.
+
+58
+00:04:03,030 --> 00:04:11,400
+Now over inside of user J ass we can actually customize what happens when the user's email field is
+
+59
+00:04:11,400 --> 00:04:12,390
+resolved.
+
+60
+00:04:12,390 --> 00:04:18,030
+Right here like we've done in the past previously in the course I'm going to be naming one of the fields
+
+61
+00:04:18,030 --> 00:04:21,840
+in this case email and we're going to set it up as a resolver function.
+
+62
+00:04:21,840 --> 00:04:24,060
+We're going to have our same arguments parent.
+
+63
+00:04:24,180 --> 00:04:25,510
+We're going to have args.
+
+64
+00:04:25,590 --> 00:04:30,750
+We're going to have our contacts and we're going to have info and in here we can write some code to
+
+65
+00:04:30,750 --> 00:04:34,710
+determine whether or not we should send the e-mail back.
+
+66
+00:04:34,710 --> 00:04:40,900
+Now at its core we're going to return from this resolver either a string an email or NULL.
+
+67
+00:04:40,920 --> 00:04:46,080
+So if we actually just a return call I can save the program and we can see what happens when we run
+
+68
+00:04:46,080 --> 00:04:48,420
+our users query and ask for the email.
+
+69
+00:04:48,450 --> 00:04:51,750
+What do I get back I get back null for both users.
+
+70
+00:04:51,900 --> 00:04:57,810
+If I were to go ahead and return a string like testing one two three and see if the program we would
+
+71
+00:04:57,810 --> 00:05:04,440
+see the e-mail value as testing one two three for just right here and down below for anger as well.
+
+72
+00:05:04,440 --> 00:05:10,320
+So we don't want to return a static string we want to return the user's actual email and to get access
+
+73
+00:05:10,320 --> 00:05:11,930
+to all of this information.
+
+74
+00:05:11,940 --> 00:05:17,460
+Remember we have parent so in this case parent is that user object.
+
+75
+00:05:17,460 --> 00:05:24,780
+And what we're going to do is one check out this user is authenticated and then to see if the authenticated
+
+76
+00:05:24,840 --> 00:05:32,040
+users I.D. matches up with parent dot I.D. if it does then we know a user is trying to select their
+
+77
+00:05:32,040 --> 00:05:33,730
+own e-mail and that's fine.
+
+78
+00:05:33,810 --> 00:05:38,100
+If it doesn't match up we know they're trying to select a different user's e-mail.
+
+79
+00:05:38,190 --> 00:05:39,020
+And that's a problem.
+
+80
+00:05:39,030 --> 00:05:40,650
+So right here what are we going to do.
+
+81
+00:05:40,650 --> 00:05:50,460
+Well we are going to use get user ID first up what's important inport get a user ID from I got to go
+
+82
+00:05:50,460 --> 00:05:56,820
+up a folder I've got to go into utilities and the file is get a user ID then right here I'm going to
+
+83
+00:05:56,820 --> 00:06:04,950
+go ahead and grab off of context request and we are going to set it up our call like we have every single
+
+84
+00:06:04,950 --> 00:06:12,210
+time before Konst user ID equals we will call get user ID and I will pass to it two arguments.
+
+85
+00:06:12,210 --> 00:06:16,260
+The first is request and the second is false.
+
+86
+00:06:16,260 --> 00:06:21,530
+We are not going to require off here if you're not authenticated you're just going to get Knol back.
+
+87
+00:06:21,540 --> 00:06:25,440
+You're not going to be able to see the e-mail for this user.
+
+88
+00:06:25,440 --> 00:06:29,880
+So now that we have this in place we can actually set up our conditional logic down below.
+
+89
+00:06:30,000 --> 00:06:34,980
+And the first thing we're going to do is check if your that user or not the data we're going to need
+
+90
+00:06:34,980 --> 00:06:36,730
+to make this assertion lives on.
+
+91
+00:06:36,730 --> 00:06:41,310
+Parent if you forget what that looks like we can just console log parent.
+
+92
+00:06:41,310 --> 00:06:47,150
+I'm going to save user dot J.S. fire off an operation that would actually triggered this like my users
+
+93
+00:06:47,190 --> 00:06:47,770
+query.
+
+94
+00:06:47,850 --> 00:06:51,090
+And over in the terminal we now have a bunch of stuff printing.
+
+95
+00:06:51,180 --> 00:06:57,400
+Right here we have the start of the second time this resolver gets called that is for user Andrew.
+
+96
+00:06:57,660 --> 00:07:01,090
+Then up above we have the start of that first time it gets called.
+
+97
+00:07:01,110 --> 00:07:04,280
+Here we have the parent object for G-S.
+
+98
+00:07:04,350 --> 00:07:07,450
+So Parent ID parent die name parent.
+
+99
+00:07:07,500 --> 00:07:12,810
+Email parent dot posts all of the fields we selected over here.
+
+100
+00:07:12,810 --> 00:07:15,270
+Now how do we use this information to help us.
+
+101
+00:07:15,270 --> 00:07:17,870
+Well we set up some if statements right here.
+
+102
+00:07:17,910 --> 00:07:23,640
+We are going to set up an if statement and we are going to determine if the user is authenticated and
+
+103
+00:07:23,640 --> 00:07:30,720
+if the authenticated users I.D. matches up with the ID of the person where resolving so right here is
+
+104
+00:07:30,720 --> 00:07:38,840
+there a user ID then with the logical and operator does that user id equal parent id.
+
+105
+00:07:38,850 --> 00:07:41,350
+Now if that is the case what are we going to do.
+
+106
+00:07:41,400 --> 00:07:47,180
+Well we're going to send back the e-mail and the e-mail as we can see lives on parent dot e-mail.
+
+107
+00:07:47,190 --> 00:07:54,060
+So right here I'm going to return parent dot e-mail by returning parent e-mail this resolver is doing
+
+108
+00:07:54,060 --> 00:07:56,800
+nothing it's just passing the value through.
+
+109
+00:07:56,820 --> 00:08:03,670
+Now we can add on or else clause if there is no user ID or they don't match what are we going to do.
+
+110
+00:08:03,670 --> 00:08:08,660
+Well we're just going to return NULL hiding whatever value was on parent id.
+
+111
+00:08:08,860 --> 00:08:15,090
+So if I'm logged in as gests I am going to see her e-mail if I'm logged in as Jess and I fetch in Jeru.
+
+112
+00:08:15,130 --> 00:08:18,770
+The IDs aren't going to match up and we won't see his e-mail.
+
+113
+00:08:18,790 --> 00:08:22,890
+Now we can actually save user data J.S. and test things out.
+
+114
+00:08:23,170 --> 00:08:28,810
+I'm going to fire off our operation over here and we have Knol for the email field of both Jess and
+
+115
+00:08:28,810 --> 00:08:29,630
+Andrew.
+
+116
+00:08:29,860 --> 00:08:35,080
+If I go all the way over to one of my other queries though like the me query I should still be able
+
+117
+00:08:35,080 --> 00:08:37,540
+to see her e-mail when I fire this off.
+
+118
+00:08:37,540 --> 00:08:42,150
+And right here I can see the e-mail is still showing up which is awesome.
+
+119
+00:08:42,160 --> 00:08:47,350
+Now I could even take my authentication headers and bring them over to one of my other requests like
+
+120
+00:08:47,350 --> 00:08:54,520
+the users request if I use those down below I should be able to see Jess's e-mail which I can and Andrew's
+
+121
+00:08:54,520 --> 00:08:58,550
+e-mail should be hidden which it is and that is fantastic.
+
+122
+00:08:58,570 --> 00:09:04,090
+We now have a way to individually hide those fields based off of whether or not you're authenticated
+
+123
+00:09:04,090 --> 00:09:05,200
+as some user.
+
+124
+00:09:05,230 --> 00:09:10,450
+Now this is a great approach but there's actually a serious flaw with our current code and it might
+
+125
+00:09:10,450 --> 00:09:15,880
+not be obvious unless you run into the edge case to illustrate this and to dive into the meat of what
+
+126
+00:09:15,880 --> 00:09:17,110
+I want to talk about.
+
+127
+00:09:17,110 --> 00:09:21,160
+We're going to simplify our query so no longer am I going to ask for posts.
+
+128
+00:09:21,190 --> 00:09:26,290
+I'm just going to ask for ID name and e-mail and if I fire off the request we get exactly what we would
+
+129
+00:09:26,290 --> 00:09:30,040
+expect for just the person I'm authenticated as I get.
+
+130
+00:09:30,040 --> 00:09:32,370
+Id name and email for Andrew.
+
+131
+00:09:32,370 --> 00:09:34,920
+Someone I'm not authenticated as I get.
+
+132
+00:09:34,930 --> 00:09:36,960
+Id name and no.
+
+133
+00:09:37,240 --> 00:09:39,870
+Now what actually happens when this query fires off.
+
+134
+00:09:39,910 --> 00:09:43,410
+Well the first thing that happens is that it heads over to the query.
+
+135
+00:09:43,480 --> 00:09:49,620
+J.S. file and the user's method runs the one that's associated with this query.
+
+136
+00:09:49,630 --> 00:09:51,450
+Now what does this really return.
+
+137
+00:09:51,610 --> 00:09:54,190
+Well it returns for every user.
+
+138
+00:09:54,190 --> 00:10:01,230
+Whatever information was selected in this case we've decided to select ID name and email.
+
+139
+00:10:01,300 --> 00:10:08,200
+If I were to leave off name and just ask for ID and e-mail it would no longer be getting name back.
+
+140
+00:10:08,200 --> 00:10:10,790
+Now what happens after this method runs.
+
+141
+00:10:10,870 --> 00:10:14,600
+Well it runs our individual field resolvers if any are set up.
+
+142
+00:10:14,620 --> 00:10:17,110
+So over here it would run e-mail.
+
+143
+00:10:17,200 --> 00:10:19,790
+It would pass in as the value for a parent.
+
+144
+00:10:19,810 --> 00:10:26,590
+One of the individual items that came back over here that means the information on parent depends on
+
+145
+00:10:26,590 --> 00:10:29,020
+the selection set of the client.
+
+146
+00:10:29,020 --> 00:10:34,990
+And that's a problem because we are using things like parent and Dot I.D. which are not guaranteed to
+
+147
+00:10:34,990 --> 00:10:36,130
+exist.
+
+148
+00:10:36,130 --> 00:10:39,740
+So in the current situation just asking for the ID and the email.
+
+149
+00:10:39,760 --> 00:10:41,890
+Once again things go very well.
+
+150
+00:10:41,920 --> 00:10:46,390
+If I were to just ask for every user's e-mail though what happens.
+
+151
+00:10:46,390 --> 00:10:51,190
+We no longer get Jess's e-mail because we did not ask for the ID.
+
+152
+00:10:51,250 --> 00:10:53,650
+So this actually fails.
+
+153
+00:10:53,800 --> 00:10:55,560
+So we're not getting the e-mail.
+
+154
+00:10:55,600 --> 00:10:56,590
+And that's a problem.
+
+155
+00:10:56,590 --> 00:10:57,980
+I'm logged in as Jess.
+
+156
+00:10:58,000 --> 00:11:02,130
+I should be able to see her e-mail data for one field.
+
+157
+00:11:02,130 --> 00:11:07,590
+Should it change because a nother field is being selected or unselected that's a problem.
+
+158
+00:11:07,630 --> 00:11:13,330
+We're going to address this issue in the next video when we learn about graft fragments and don't worry
+
+159
+00:11:13,570 --> 00:11:19,330
+there will be challenges where you're going to need to customize field resolvers as well like we did
+
+160
+00:11:19,330 --> 00:11:21,270
+with the user e-mail field.
+
+161
+00:11:21,280 --> 00:11:22,450
+All of that is coming up.
+
+162
+00:11:22,450 --> 00:11:26,240
+So let's go ahead and jump right into the next one and learn all about fragments.
+

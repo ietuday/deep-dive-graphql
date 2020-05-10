@@ -1,0 +1,860 @@
+1
+00:00:00,210 --> 00:00:03,720
+In this video you're going to learn about the other types that come with graphs.
+
+2
+00:00:03,720 --> 00:00:10,290
+Well it is not just strings despite what you might think based half of what we've actually used so far.
+
+3
+00:00:10,290 --> 00:00:15,330
+There are actually five main types that I want to talk about in this video right here.
+
+4
+00:00:15,330 --> 00:00:21,030
+We're going to list out all five and you can always refer to the PTF guide for this video to get the
+
+5
+00:00:21,030 --> 00:00:24,220
+exact list so you don't have to write all of this down.
+
+6
+00:00:24,420 --> 00:00:30,810
+The first type we have is the string the string type as we've already seen in stores are string based
+
+7
+00:00:30,810 --> 00:00:31,740
+data.
+
+8
+00:00:31,770 --> 00:00:35,510
+We also have a Boolean for storing boolean values.
+
+9
+00:00:35,520 --> 00:00:41,100
+This is great for things like an is published field where the value is either the boolean true or the
+
+10
+00:00:41,100 --> 00:00:43,370
+boolean false engraft.
+
+11
+00:00:43,380 --> 00:00:47,130
+Well we can also represent numbers and there are two types for that.
+
+12
+00:00:47,130 --> 00:00:49,810
+First up we have the INT for storing integers.
+
+13
+00:00:49,860 --> 00:00:56,760
+So for storing whole numbers like you're age 27 or something like the number of products you have in
+
+14
+00:00:56,760 --> 00:01:03,420
+stock maybe you have 14 somewhere in the warehouse after and we have float a nother way to represent
+
+15
+00:01:03,450 --> 00:01:04,440
+our numbers.
+
+16
+00:01:04,440 --> 00:01:12,150
+This is great for numbers with decimal points like a GPA 3.1 7 for example or something like a ratings
+
+17
+00:01:12,210 --> 00:01:17,750
+system where a product has been rated four point seven stars by customers.
+
+18
+00:01:17,820 --> 00:01:23,550
+Last up we have the idea that is capital I capital D and this is a bit unique to graph.
+
+19
+00:01:23,550 --> 00:01:30,240
+Q Well it's used to represent unique identifiers in the end of the day it is very similar to a string
+
+20
+00:01:30,450 --> 00:01:34,550
+but we'll explore the differences as we progress through the course.
+
+21
+00:01:34,590 --> 00:01:41,130
+Now these five types are known as the five scalar types inside of graph.
+
+22
+00:01:41,170 --> 00:01:48,660
+Q A a scalar value is just a single discrete value so a scalar type is a type that stores a single value
+
+23
+00:01:48,930 --> 00:01:54,280
+whether that value is a string a boolean an int a float or an ID.
+
+24
+00:01:54,330 --> 00:02:00,420
+This is the opposite of a non scalar type like an object or an array which is a collection of discrete
+
+25
+00:02:00,420 --> 00:02:01,170
+values.
+
+26
+00:02:01,170 --> 00:02:06,500
+So with an object we have many properties with an array we could have many elements in that array will
+
+27
+00:02:06,510 --> 00:02:08,880
+be covering objects and arrays very soon.
+
+28
+00:02:08,880 --> 00:02:13,650
+For the moment though in this video I just want to focus on these five types and we're going to do that
+
+29
+00:02:13,680 --> 00:02:16,880
+by setting up five queries one for each type.
+
+30
+00:02:16,920 --> 00:02:22,470
+Let's go ahead and remove our existing four queries from R-Type definitions and from the resolvers down
+
+31
+00:02:22,470 --> 00:02:23,200
+below.
+
+32
+00:02:23,280 --> 00:02:28,680
+And we're going to set up five new ones and all five of these are going to be things that could describe
+
+33
+00:02:28,740 --> 00:02:29,760
+a person.
+
+34
+00:02:29,760 --> 00:02:35,640
+So for example we're going to have an idea a unique identifier for that person and the type is going
+
+35
+00:02:35,640 --> 00:02:37,140
+to be the ID type.
+
+36
+00:02:37,140 --> 00:02:43,770
+So uppercase I uppercase D now for almost all of the fields we set up we are going to want to use the
+
+37
+00:02:43,770 --> 00:02:49,890
+exclamation mark saying that this is something that should always return an ID as opposed to being able
+
+38
+00:02:49,890 --> 00:02:56,430
+to return NULL now after Id We might have something like name and in the case of name we could use the
+
+39
+00:02:56,430 --> 00:02:57,150
+string type.
+
+40
+00:02:57,150 --> 00:02:59,240
+We've already explored before.
+
+41
+00:02:59,460 --> 00:03:04,280
+After name let's say we want to represent the person's age as an integer.
+
+42
+00:03:04,290 --> 00:03:11,670
+So right here age colon space upper case I end with an exclamation mark on the end.
+
+43
+00:03:11,670 --> 00:03:17,160
+Next up we can use a boolean to represent whether or not that given person is employed.
+
+44
+00:03:17,160 --> 00:03:21,410
+So right here we could set up the field employed.
+
+45
+00:03:21,640 --> 00:03:26,770
+I could have its value be a boolean and we'll use an exclamation mark to make sure we always get a boolean
+
+46
+00:03:26,770 --> 00:03:27,340
+back.
+
+47
+00:03:27,340 --> 00:03:30,250
+They're either unemployed or you are employed.
+
+48
+00:03:30,430 --> 00:03:35,950
+Now below that we are going to have our final value and this is going to be the G.P.A..
+
+49
+00:03:35,950 --> 00:03:43,000
+Now the G.P.A. is going to be stored as a float because my GPA could be something like 3.1 7 for example
+
+50
+00:03:43,410 --> 00:03:47,440
+and I'm actually going to leave the exclamation mark off if I'm not a student.
+
+51
+00:03:47,470 --> 00:03:48,920
+I'm not going to have a GPA.
+
+52
+00:03:49,030 --> 00:03:51,310
+So it's OK if I get Knol back.
+
+53
+00:03:51,340 --> 00:03:59,710
+This basically says it's OK if I get Knol but if I am sending back a non null value it has to be a float.
+
+54
+00:03:59,740 --> 00:04:02,690
+So we have all five queries set up.
+
+55
+00:04:02,800 --> 00:04:05,360
+Let's go ahead and create resolvers for each.
+
+56
+00:04:05,410 --> 00:04:11,760
+I'm going to start with a method for ID after Id have name after name.
+
+57
+00:04:11,780 --> 00:04:17,730
+We have age then we have employed our boolean value.
+
+58
+00:04:17,820 --> 00:04:24,500
+And finally we have G.P.A. The one that is optional so we could return NULL from here if we wanted to.
+
+59
+00:04:24,560 --> 00:04:30,290
+Now for the moment you'll notice that we have individual resolver methods for individual properties
+
+60
+00:04:30,290 --> 00:04:32,030
+on something like a user.
+
+61
+00:04:32,030 --> 00:04:33,370
+This is only temporary.
+
+62
+00:04:33,380 --> 00:04:38,690
+Once we learn about our custom types where we can actually model a user a post a comment or whatever
+
+63
+00:04:38,690 --> 00:04:42,820
+else makes sense for our application we'll be reducing the number of resolvers.
+
+64
+00:04:42,920 --> 00:04:45,020
+So this is just a temporary thing.
+
+65
+00:04:45,080 --> 00:04:46,850
+We will address this shortly.
+
+66
+00:04:46,910 --> 00:04:51,100
+For the moment though to mess around with all of the scalar types we have access to.
+
+67
+00:04:51,200 --> 00:04:53,570
+Let's go ahead and return what each expects.
+
+68
+00:04:53,570 --> 00:04:55,960
+So in ID I am going to return a string.
+
+69
+00:04:55,960 --> 00:04:57,680
+ABC 1 2 3.
+
+70
+00:04:57,740 --> 00:05:01,960
+I could also choose to return a number like the number 12 for example.
+
+71
+00:05:02,060 --> 00:05:06,580
+But in the end of the day that will get converted over to a string so it will look more like this.
+
+72
+00:05:06,680 --> 00:05:11,000
+I'm going to stick with an actual string ABC one two three for name.
+
+73
+00:05:11,000 --> 00:05:14,900
+We are obviously returning a string something we've done plenty of times before.
+
+74
+00:05:14,960 --> 00:05:17,570
+Not much to say there for age.
+
+75
+00:05:17,570 --> 00:05:19,820
+We're going to go ahead and return an integer.
+
+76
+00:05:19,880 --> 00:05:23,320
+So I'm going to return twenty seven for employed.
+
+77
+00:05:23,330 --> 00:05:24,820
+We want to return a boolean.
+
+78
+00:05:24,950 --> 00:05:28,420
+So I would return true if I was employed or false.
+
+79
+00:05:28,430 --> 00:05:33,020
+If I was currently unemployed I am self-employed which is definitely a type of employment.
+
+80
+00:05:33,020 --> 00:05:35,310
+So I'm going to go ahead and return true.
+
+81
+00:05:35,450 --> 00:05:38,440
+Last up we have our G.P.A. now with the G.P.A..
+
+82
+00:05:38,450 --> 00:05:41,800
+Yes we could return something like 3.1.
+
+83
+00:05:41,810 --> 00:05:48,890
+Perfectly valid a perfectly valid float but we could also choose to return NULL because remember for
+
+84
+00:05:48,890 --> 00:05:52,230
+this type definition we left off the exclamation mark.
+
+85
+00:05:52,280 --> 00:05:58,580
+This is saying I expect a float back but it would also be fine if you gave me no this is saying I expect
+
+86
+00:05:58,580 --> 00:06:00,980
+a boolean back end because of the exclamation mark.
+
+87
+00:06:00,980 --> 00:06:03,070
+It's saying you have to return a boolean.
+
+88
+00:06:03,140 --> 00:06:04,340
+You can't return it.
+
+89
+00:06:04,340 --> 00:06:08,790
+No since I currently don't have any sort of GPA I'm not in school right now.
+
+90
+00:06:08,810 --> 00:06:11,380
+I am going to go ahead and return now.
+
+91
+00:06:11,510 --> 00:06:17,360
+Now that we have all five set up under both our type definitions and our resolvers Let's go ahead and
+
+92
+00:06:17,360 --> 00:06:20,810
+save the file restart our server and test things out.
+
+93
+00:06:20,810 --> 00:06:22,330
+I'm going to shut the server down.
+
+94
+00:06:22,460 --> 00:06:24,240
+I'm going to start it up once again.
+
+95
+00:06:24,410 --> 00:06:26,810
+Over inside of the Graf school playground.
+
+96
+00:06:26,810 --> 00:06:29,980
+I will give things a quick refresh just to update that schema.
+
+97
+00:06:30,260 --> 00:06:32,280
+And we're going to update our query.
+
+98
+00:06:32,360 --> 00:06:36,930
+I want I.D. I'd like name spelled correctly of course.
+
+99
+00:06:36,930 --> 00:06:38,790
+I would also like age.
+
+100
+00:06:38,790 --> 00:06:40,590
+Then we have employed.
+
+101
+00:06:40,680 --> 00:06:42,840
+And finally we have G.P.A..
+
+102
+00:06:42,960 --> 00:06:44,630
+I'm going to fire that query off.
+
+103
+00:06:44,630 --> 00:06:48,040
+And what do I get back I get back all of the correct values ID.
+
+104
+00:06:48,090 --> 00:06:49,700
+We have our string name.
+
+105
+00:06:49,740 --> 00:06:58,470
+We have Andrew age we have the integer 27 employed we have true and for GPA we have knowl for GPA.
+
+106
+00:06:58,470 --> 00:07:00,820
+Remember we could have also returned a float.
+
+107
+00:07:00,840 --> 00:07:06,890
+So over here I could return something like three point zero one that would get the job done.
+
+108
+00:07:06,930 --> 00:07:11,240
+If I save the file and restart the server we can actually query for that data.
+
+109
+00:07:11,370 --> 00:07:16,800
+So it's perfectly fine to have all but as we can see now it's also perfectly fine to actually return
+
+110
+00:07:16,890 --> 00:07:17,720
+that float.
+
+111
+00:07:17,970 --> 00:07:18,900
+So there we have it.
+
+112
+00:07:18,930 --> 00:07:23,180
+These are the five scalar types that we can work with inside of graft.
+
+113
+00:07:23,250 --> 00:07:25,960
+Well now is your challenge for the video.
+
+114
+00:07:26,040 --> 00:07:30,240
+I'd like you to go ahead and add a couple more into the mix up above.
+
+115
+00:07:30,240 --> 00:07:32,970
+I have a few comments for one I'd like you to do.
+
+116
+00:07:33,000 --> 00:07:39,390
+So right here you are going to be creating a query definition a query definition and a resolver a resolver
+
+117
+00:07:39,600 --> 00:07:42,240
+for each of these five properties.
+
+118
+00:07:42,240 --> 00:07:45,430
+Now in this case let's say we're modeling an e-commerce store.
+
+119
+00:07:45,510 --> 00:07:47,280
+So we have titles for our products.
+
+120
+00:07:47,280 --> 00:07:52,800
+We have prices release years ratings and whether or not that product is in stock and we want to represent
+
+121
+00:07:52,800 --> 00:07:55,450
+all of these using some of our Scheller types.
+
+122
+00:07:55,650 --> 00:07:59,330
+So the title for example is going to be a simple string for the product name.
+
+123
+00:07:59,460 --> 00:08:01,240
+And this one is going to be required.
+
+124
+00:08:01,260 --> 00:08:03,750
+You have to have a title for the price.
+
+125
+00:08:03,750 --> 00:08:06,790
+We're going to say this is a number represented as a float.
+
+126
+00:08:06,840 --> 00:08:09,530
+So the price could be nine point nine nine.
+
+127
+00:08:09,750 --> 00:08:13,790
+We're also going to have an optional release year represented as an integer.
+
+128
+00:08:13,830 --> 00:08:17,820
+So whether or not it makes sense for your product is up for you to decide because it is in the end of
+
+129
+00:08:17,820 --> 00:08:19,220
+the day optional.
+
+130
+00:08:19,440 --> 00:08:27,680
+We also have a rating which is a number stored as a float your rating might be 5 point 0 or 3.6 4.
+
+131
+00:08:27,750 --> 00:08:29,070
+And it's also optional.
+
+132
+00:08:29,100 --> 00:08:33,710
+So when your product first goes up we're not going to return a rating like 5 or 0.
+
+133
+00:08:33,780 --> 00:08:34,490
+We're going to return.
+
+134
+00:08:34,490 --> 00:08:37,140
+No just saying there is no ratings yet.
+
+135
+00:08:37,440 --> 00:08:39,320
+Last up in stock that's a boolean.
+
+136
+00:08:39,330 --> 00:08:45,160
+If it's true the products in stock if it's false the product is not in stock now it's up to you how
+
+137
+00:08:45,160 --> 00:08:46,580
+do you want to approach this.
+
+138
+00:08:46,590 --> 00:08:51,710
+You are more than welcome to keep all of these in place and then add these along side.
+
+139
+00:08:51,780 --> 00:08:57,960
+You can also go ahead and just clear all of your queries and all of your resolver functions and build
+
+140
+00:08:57,960 --> 00:08:58,930
+up from scratch.
+
+141
+00:08:58,950 --> 00:09:00,780
+Either way it gets the job done.
+
+142
+00:09:00,810 --> 00:09:03,570
+So take some time to knock this out and test your work.
+
+143
+00:09:03,600 --> 00:09:09,910
+Save the file restart the server and actually query for all five of these over inside of the graph.
+
+144
+00:09:09,990 --> 00:09:10,920
+Playground.
+
+145
+00:09:10,940 --> 00:09:11,610
+All right.
+
+146
+00:09:11,610 --> 00:09:12,540
+Pause the video.
+
+147
+00:09:12,600 --> 00:09:15,920
+Knock this out and when you're done come back and click play
+
+148
+00:09:19,400 --> 00:09:20,060
+How'd that go.
+
+149
+00:09:20,060 --> 00:09:24,220
+Let's kick things off by setting up our query definitions for all five.
+
+150
+00:09:24,230 --> 00:09:29,030
+So first up we have title title is going to return the value of a string.
+
+151
+00:09:29,090 --> 00:09:29,880
+It's required.
+
+152
+00:09:29,900 --> 00:09:32,400
+So I'll toss an exclamation mark on the end.
+
+153
+00:09:32,660 --> 00:09:39,300
+We also have price price is going to be stored as a float and price is also not optional.
+
+154
+00:09:39,300 --> 00:09:42,530
+So I'm going to be putting an exclamation mark on there too.
+
+155
+00:09:42,540 --> 00:09:46,430
+We then have the release year the release year is completely optional.
+
+156
+00:09:46,470 --> 00:09:49,520
+When it is provided though it's going to be represented as an integer.
+
+157
+00:09:49,520 --> 00:09:56,520
+So right here and next up we have the products aerating the products rading is stored as a float.
+
+158
+00:09:56,520 --> 00:09:58,020
+This is also optional.
+
+159
+00:09:58,080 --> 00:10:04,370
+So I'm going to type float with no exclamation mark at the end allowing NULL to be the value for rating.
+
+160
+00:10:04,710 --> 00:10:09,350
+Last up we have in-stock a product either is or is not in stock.
+
+161
+00:10:09,360 --> 00:10:11,350
+This one is going to be required.
+
+162
+00:10:11,360 --> 00:10:13,090
+Boullion excellent.
+
+163
+00:10:13,260 --> 00:10:18,750
+So we have all five type definitions now we can actually move on to the resolvers down below.
+
+164
+00:10:18,750 --> 00:10:24,030
+So we're going to start off with title and for title I'm going to return some sort of product name.
+
+165
+00:10:24,030 --> 00:10:29,340
+I'm going to return a string and I'll just use a book on my desk as the product that is in the War of
+
+166
+00:10:29,370 --> 00:10:29,790
+Art.
+
+167
+00:10:29,820 --> 00:10:34,560
+It's a great book about your inner creative battles and overcoming that stuff to get back to work and
+
+168
+00:10:34,560 --> 00:10:37,440
+get productive and release the stuff that you want to release.
+
+169
+00:10:37,440 --> 00:10:38,410
+It's a great book.
+
+170
+00:10:38,610 --> 00:10:42,690
+After the title we're going to set up the price now for the price.
+
+171
+00:10:42,690 --> 00:10:43,920
+This could be anything.
+
+172
+00:10:43,920 --> 00:10:45,550
+I don't know what this book actually cost.
+
+173
+00:10:45,570 --> 00:10:47,910
+Let's just go ahead and say it costs 13 bucks.
+
+174
+00:10:47,910 --> 00:10:54,830
+So I will return at twelve point nine nine after the price we have our release year release year.
+
+175
+00:10:57,570 --> 00:11:01,770
+I could dig into the book and see what the Release Year is but I'm going to go ahead and just return
+
+176
+00:11:01,770 --> 00:11:08,160
+a null sense remember the release year is completely optional so returning NULL is valid after release
+
+177
+00:11:08,160 --> 00:11:10,040
+year we have our rating for the book.
+
+178
+00:11:10,050 --> 00:11:11,650
+I definitely enjoyed this one.
+
+179
+00:11:11,670 --> 00:11:14,670
+So let's say that it has a 5 star ratings are right here.
+
+180
+00:11:14,670 --> 00:11:17,040
+I'm going to return five.
+
+181
+00:11:17,100 --> 00:11:17,880
+The last one.
+
+182
+00:11:17,880 --> 00:11:21,360
+Whether or not the book is in stock in stock.
+
+183
+00:11:21,630 --> 00:11:26,620
+I'm going to go ahead and say This book is in stock so I will return true as opposed to false.
+
+184
+00:11:26,640 --> 00:11:33,240
+For the book being out-of-stock now we have all five set up we can remove the challenge comments.
+
+185
+00:11:33,240 --> 00:11:37,470
+I'm going to go ahead and save this file down below.
+
+186
+00:11:37,520 --> 00:11:42,960
+We will restart things from the terminal and then we're going to query for all five and graph playground
+
+187
+00:11:43,010 --> 00:11:44,530
+if we get the correct data back.
+
+188
+00:11:44,540 --> 00:11:45,610
+We're all done.
+
+189
+00:11:45,620 --> 00:11:48,470
+So right here we're going to change up that query a little bit.
+
+190
+00:11:48,470 --> 00:11:52,500
+First up I will refresh the page to grab the latest schema.
+
+191
+00:11:53,330 --> 00:11:55,700
+I'm going to access the title.
+
+192
+00:11:55,970 --> 00:12:02,330
+I'm also going to grab the price I'll grab the release year even though we know the release year is
+
+193
+00:12:02,330 --> 00:12:04,270
+going to be a null value.
+
+194
+00:12:04,340 --> 00:12:10,040
+After that we have the rating for the book and then whether or not the book is in stock if I execute
+
+195
+00:12:10,040 --> 00:12:11,560
+that query what do I get back.
+
+196
+00:12:11,570 --> 00:12:14,240
+I get back all of the data that I just set up.
+
+197
+00:12:14,240 --> 00:12:15,650
+We have our title the war of our.
+
+198
+00:12:15,680 --> 00:12:17,690
+We got our price twelve ninety nine.
+
+199
+00:12:17,690 --> 00:12:18,860
+We don't have a release here.
+
+200
+00:12:18,860 --> 00:12:22,970
+We have our five star rating and the book is indeed in stock.
+
+201
+00:12:22,970 --> 00:12:23,770
+So there we go.
+
+202
+00:12:23,930 --> 00:12:28,650
+You now know about all of the five Scheller types that we can work with inside of graft.
+
+203
+00:12:28,730 --> 00:12:34,040
+Well we're going to cover next is how we can create custom types to model the real world things that
+
+204
+00:12:34,040 --> 00:12:35,370
+make up our application.
+
+205
+00:12:35,510 --> 00:12:39,430
+So in this case we might have a product custom type for all of these five fields.
+
+206
+00:12:39,560 --> 00:12:44,000
+In the case of the fields we had earlier we would have something like a user custom type and that's
+
+207
+00:12:44,000 --> 00:12:47,240
+going to make it way easier to maintain and scale our applications.
+
+208
+00:12:47,390 --> 00:12:54,200
+No longer will we need five functions for five simple pieces of data we'll be able to return everything
+
+209
+00:12:54,200 --> 00:12:57,800
+that a custom type has with just a single resolver.
+
+210
+00:12:57,800 --> 00:13:02,930
+Now we're going to get to that in two videos time in the next video which could be considered something
+
+211
+00:13:02,930 --> 00:13:03,880
+like a bonus.
+
+212
+00:13:03,920 --> 00:13:08,390
+I'm going to show you how we can automatically restart our server whenever we make any changes to our
+
+213
+00:13:08,390 --> 00:13:09,630
+application code.
+
+214
+00:13:09,800 --> 00:13:13,810
+So we don't have to manually restart it every single time we make a change.
+
+215
+00:13:13,940 --> 00:13:15,530
+Let's go ahead and jump right into that.
+

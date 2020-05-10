@@ -1,0 +1,1000 @@
+1
+00:00:00,170 --> 00:00:05,040
+In this video we're going to continue to explore mutations and we're going to turn our attention towards
+
+2
+00:00:05,040 --> 00:00:11,520
+creating mutations that delete data in this video in particular we'll be creating a delete user mutation
+
+3
+00:00:11,520 --> 00:00:17,330
+which deletes a user in the next video will be creating the delete posts and delete comment.
+
+4
+00:00:17,340 --> 00:00:22,520
+Mutation and of course there will be a challenge requiring you to use what you've learned here.
+
+5
+00:00:22,740 --> 00:00:28,380
+Let's go ahead and kick things off though by figuring out what it would take to delete a user when deleting
+
+6
+00:00:28,380 --> 00:00:28,740
+data.
+
+7
+00:00:28,740 --> 00:00:34,350
+It's important to be mindful of not just the actual thing you're trying to delete but also associated
+
+8
+00:00:34,350 --> 00:00:35,050
+data.
+
+9
+00:00:35,100 --> 00:00:38,480
+So let's say we're trying to delete this first user with the idea of one.
+
+10
+00:00:38,610 --> 00:00:44,880
+Yes we can remove this object from the array but we should also be removing all posts created by that
+
+11
+00:00:44,880 --> 00:00:48,070
+user and all comments created by that user.
+
+12
+00:00:48,090 --> 00:00:50,460
+Otherwise we're going to have some invalid data.
+
+13
+00:00:50,550 --> 00:00:55,650
+We would have something like this post which tries to reference this author but that author would no
+
+14
+00:00:55,650 --> 00:00:56,540
+longer exist.
+
+15
+00:00:56,550 --> 00:01:01,770
+Assuming we actually deleted this object here so well it is a pretty straightforward process.
+
+16
+00:01:01,770 --> 00:01:05,910
+We do have to be considerate of the other data in our application.
+
+17
+00:01:05,910 --> 00:01:10,770
+Let's go ahead and kick things off by creating the new mutation down below just below.
+
+18
+00:01:10,770 --> 00:01:12,000
+Create user.
+
+19
+00:01:12,000 --> 00:01:15,020
+I'm going to create the mutation and delete user.
+
+20
+00:01:15,020 --> 00:01:19,240
+We're going to set up the arguments for this and we're also going to set up our return type.
+
+21
+00:01:19,320 --> 00:01:25,050
+What I'm going to do is just return the user that was deleted and the only thing we need to delete a
+
+22
+00:01:25,050 --> 00:01:27,090
+user is the user's ID.
+
+23
+00:01:27,090 --> 00:01:34,220
+So right here we only need a single argument ID of the type ID and will make that a non nullable argument.
+
+24
+00:01:34,230 --> 00:01:37,450
+You have to provide it in order for us to do anything.
+
+25
+00:01:37,540 --> 00:01:43,180
+So now that we have the delete user mutation defined we can actually create the resolver down below.
+
+26
+00:01:44,050 --> 00:01:46,800
+Right here we have create user just below it.
+
+27
+00:01:46,810 --> 00:01:50,130
+I'm going to add delete user.
+
+28
+00:01:50,350 --> 00:01:52,050
+We're going to set up all four arguments.
+
+29
+00:01:52,060 --> 00:01:54,580
+This method is still going to get called with all four.
+
+30
+00:01:54,580 --> 00:02:03,940
+We have parent args context and info and now what we're going to do is use args dot ID to successfully
+
+31
+00:02:04,030 --> 00:02:10,390
+clear everything out and then we're going to return the user that was actually deleted the first thing
+
+32
+00:02:10,390 --> 00:02:14,200
+we want to do is try to find the user that's supposed to be deleted.
+
+33
+00:02:14,290 --> 00:02:18,910
+If there is no user to actually delete We want to throw an error because we're not going to have a user
+
+34
+00:02:18,940 --> 00:02:21,550
+to return from this operation.
+
+35
+00:02:21,550 --> 00:02:29,160
+So right here I am going to start by getting the index of the user using the find index array method.
+
+36
+00:02:29,260 --> 00:02:30,640
+So we have Konst.
+
+37
+00:02:30,700 --> 00:02:38,140
+I'll call this one something like user index and find index method is identical to find although find
+
+38
+00:02:38,200 --> 00:02:44,830
+returns the actual element in the array find index returns the index of that element in the array.
+
+39
+00:02:44,830 --> 00:02:51,850
+So right here I am going to call users dot find index to find the index and in this case we are going
+
+40
+00:02:51,850 --> 00:02:57,930
+to pass in our callback function and we're going to return true when we actually find the match.
+
+41
+00:02:58,000 --> 00:03:06,010
+So we get this call for each individual user and I am going to return true if the user's ID equals the
+
+42
+00:03:06,010 --> 00:03:07,390
+args ID.
+
+43
+00:03:07,390 --> 00:03:12,400
+If those are equal We're going to return TRUE saying we've found the match and the index will be stored
+
+44
+00:03:12,400 --> 00:03:13,090
+here.
+
+45
+00:03:13,270 --> 00:03:18,210
+If there is no match user index ends up being negative 1.
+
+46
+00:03:18,340 --> 00:03:24,430
+So it's actually very similar to the index of method we can use on something like a string.
+
+47
+00:03:24,430 --> 00:03:30,940
+Now I'm going to go ahead and take this cut it out and I am going to use the shorthand syntax for the
+
+48
+00:03:30,940 --> 00:03:32,230
+arrow function.
+
+49
+00:03:32,240 --> 00:03:36,550
+And now what we're going to do is check if we actually found a users.
+
+50
+00:03:36,550 --> 00:03:39,210
+So if our condition.
+
+51
+00:03:39,480 --> 00:03:43,130
+And in this case we want this code to run if no user was found.
+
+52
+00:03:43,140 --> 00:03:48,150
+So we're going to check if user index equals minus one.
+
+53
+00:03:48,330 --> 00:03:49,360
+Perfect.
+
+54
+00:03:49,410 --> 00:03:55,740
+If you want to learn a bit more about find index you can always google and DN find index to find the
+
+55
+00:03:55,740 --> 00:03:58,750
+Mozilla developer network documentation page.
+
+56
+00:03:58,950 --> 00:04:02,740
+And if we pull that up we can learn all about how it works.
+
+57
+00:04:02,850 --> 00:04:08,340
+In this case you can see they're using find index to get the index of a specific number inside of this
+
+58
+00:04:08,340 --> 00:04:08,870
+array.
+
+59
+00:04:09,030 --> 00:04:12,680
+They're actually looking for the first one that's greater than 13.
+
+60
+00:04:12,720 --> 00:04:14,100
+Is this greater than 13.
+
+61
+00:04:14,100 --> 00:04:14,660
+No.
+
+62
+00:04:14,700 --> 00:04:15,330
+Is this.
+
+63
+00:04:15,390 --> 00:04:15,900
+Nope.
+
+64
+00:04:16,020 --> 00:04:16,680
+Is this.
+
+65
+00:04:16,710 --> 00:04:17,210
+Nope.
+
+66
+00:04:17,310 --> 00:04:17,910
+Is this.
+
+67
+00:04:17,910 --> 00:04:18,610
+Yes.
+
+68
+00:04:18,630 --> 00:04:19,740
+What's the index for that.
+
+69
+00:04:19,770 --> 00:04:21,560
+Well the index is three.
+
+70
+00:04:21,570 --> 00:04:23,820
+Remember indexes are zero based.
+
+71
+00:04:23,820 --> 00:04:28,860
+So 0 1 2 3 and that is exactly what comes back from find index.
+
+72
+00:04:28,860 --> 00:04:36,670
+So in our case we are going to match one of those users if the args don't ID property will be one that
+
+73
+00:04:36,690 --> 00:04:39,300
+it would match that first user right here.
+
+74
+00:04:40,630 --> 00:04:46,510
+And the index would be zero if we passed in three as that value the idea of three it would match this
+
+75
+00:04:46,510 --> 00:04:48,950
+third user with the index of two.
+
+76
+00:04:49,210 --> 00:04:53,190
+So we want to keep that in mind as we continue working through this mutation.
+
+77
+00:04:53,230 --> 00:04:59,010
+So if the user index is indeed minus one we never found a match and we can go ahead and throw an error.
+
+78
+00:04:59,020 --> 00:05:06,000
+So throw new error and we're going to say something like a user not found.
+
+79
+00:05:06,100 --> 00:05:07,120
+Awesome.
+
+80
+00:05:07,120 --> 00:05:12,540
+Now the code down below is only going to run if we actually found a user to delete.
+
+81
+00:05:12,550 --> 00:05:13,740
+So what are we going to do.
+
+82
+00:05:13,750 --> 00:05:20,380
+We're going to start by deleting that user then we're going to delete all of their posts and all of
+
+83
+00:05:20,380 --> 00:05:23,410
+their comments to remove the user from the array.
+
+84
+00:05:23,410 --> 00:05:25,820
+We could use something like the filter array method.
+
+85
+00:05:25,830 --> 00:05:31,300
+But I'm going to be using the splice array method since we already have the users index right here.
+
+86
+00:05:31,300 --> 00:05:35,530
+If you've never used splice before you can find it over at and D-n splice.
+
+87
+00:05:35,530 --> 00:05:41,170
+So we're just googling those two words and right here we have the splice method documentation.
+
+88
+00:05:41,380 --> 00:05:44,980
+You call it on the array and you pass two two arguments.
+
+89
+00:05:44,980 --> 00:05:50,170
+The first is the index where you want to start removing items and the second is the number of items
+
+90
+00:05:50,170 --> 00:05:55,720
+you'd like to remove so we can go ahead and use that to remove one item starting at this index where
+
+91
+00:05:55,720 --> 00:05:57,440
+we actually found the user.
+
+92
+00:05:57,460 --> 00:06:04,800
+So right here I'm going to call users dot splice and I am going to call it with two arguments.
+
+93
+00:06:04,810 --> 00:06:08,440
+The first is going to be the value we got in user index.
+
+94
+00:06:08,440 --> 00:06:09,490
+So maybe it 0.
+
+95
+00:06:09,490 --> 00:06:15,070
+Maybe it's 1 or maybe it's 2 depending on which user we chose to delete out of the three above.
+
+96
+00:06:15,070 --> 00:06:19,000
+And the second argument value is the number of items you want to remove.
+
+97
+00:06:19,000 --> 00:06:21,700
+I'm going to just use a single one.
+
+98
+00:06:21,760 --> 00:06:24,000
+So we don't want to remove one item.
+
+99
+00:06:24,070 --> 00:06:29,620
+Now the cool thing about splice is that all of the removed items actually come back in an array as the
+
+100
+00:06:29,620 --> 00:06:30,570
+return value.
+
+101
+00:06:30,580 --> 00:06:36,610
+So Konst something like deleted users would be appropriate.
+
+102
+00:06:36,660 --> 00:06:40,950
+Now in this case we're just deleting one user but the return value is still an array.
+
+103
+00:06:40,950 --> 00:06:46,980
+So in this case it is just an array of one object and the only reason I'm even naming this as an argument
+
+104
+00:06:47,070 --> 00:06:52,550
+is so I can return it as the return value for delete user sends member in our typedef.
+
+105
+00:06:52,620 --> 00:06:55,650
+I do expect to get a user back.
+
+106
+00:06:55,710 --> 00:06:59,660
+So before we actually return that user there are two other things we have to do.
+
+107
+00:06:59,790 --> 00:07:06,330
+We have to remove all associated posts and we have to remove all associated comments.
+
+108
+00:07:06,330 --> 00:07:09,200
+Now we can actually see what would happen if we did not do this.
+
+109
+00:07:09,200 --> 00:07:10,040
+So right here.
+
+110
+00:07:10,140 --> 00:07:12,760
+Let's return that first and only deleted user.
+
+111
+00:07:13,050 --> 00:07:14,970
+So we're going to access deleted user
+
+112
+00:07:18,450 --> 00:07:22,310
+deleted users and we're gonna grab the first item with the index of 0.
+
+113
+00:07:22,530 --> 00:07:27,880
+I'm going to save index dot J S and we're going to test this mutation out over in playground.
+
+114
+00:07:27,900 --> 00:07:31,190
+I'm going to create a nother tab right here.
+
+115
+00:07:31,200 --> 00:07:41,590
+We're going to set up the mutation for delete user and I am going to pass in the ID value equal to one
+
+116
+00:07:41,650 --> 00:07:43,500
+to Dr. delete that first user.
+
+117
+00:07:43,540 --> 00:07:47,650
+Andrew and right here we will ask for some data back as well.
+
+118
+00:07:47,680 --> 00:07:53,670
+I'm going to go ahead and ask for just the ID of the user that was deleted if I refresh the schema this
+
+119
+00:07:53,690 --> 00:07:59,160
+should become a valid operation if I fire it off we can see that the actual operation completed.
+
+120
+00:07:59,170 --> 00:08:02,350
+We have delete user and we have our ID right there.
+
+121
+00:08:02,380 --> 00:08:07,100
+Now if I were to run users I should see that the item has been removed.
+
+122
+00:08:07,150 --> 00:08:10,950
+Right here I just have Sarah and Mike Andrew is gone.
+
+123
+00:08:10,960 --> 00:08:17,020
+The problem though is that if I tried to query for posts we're going to get an error the message cannot
+
+124
+00:08:17,020 --> 00:08:21,850
+return NULL for non nullable field Post author.
+
+125
+00:08:21,910 --> 00:08:26,240
+What this is saying is that it tried it to find the author for that post but it couldn't.
+
+126
+00:08:26,350 --> 00:08:29,470
+And this is a problem because any type definitions.
+
+127
+00:08:29,470 --> 00:08:32,980
+We said that author was a non nullable field.
+
+128
+00:08:32,980 --> 00:08:37,870
+So to fix this we can either make it a nullable field which we don't want to do or we can actually clean
+
+129
+00:08:37,870 --> 00:08:41,000
+up the posts and comments which is what we are going to do.
+
+130
+00:08:41,230 --> 00:08:44,230
+So right here let's go ahead and knock that process out.
+
+131
+00:08:44,230 --> 00:08:49,360
+I'm going to delete all of the posts in all of the comments for this user.
+
+132
+00:08:49,360 --> 00:08:55,870
+Now if you remember when we first created those three arrays we use the Konst variable definition.
+
+133
+00:08:55,870 --> 00:08:58,330
+I am going to be reassigning these values.
+
+134
+00:08:58,330 --> 00:09:00,570
+So let's go ahead and switch them over to let.
+
+135
+00:09:00,790 --> 00:09:03,870
+I'm going to switch comments posts and up above.
+
+136
+00:09:03,880 --> 00:09:06,340
+I will switch users over as well.
+
+137
+00:09:06,350 --> 00:09:09,020
+Now we can actually reassign these array values.
+
+138
+00:09:09,040 --> 00:09:12,880
+Something we're going to need to do throughout this section down below.
+
+139
+00:09:12,880 --> 00:09:18,430
+We can head back to the delete user mutation and we can go ahead and knock this out by adding two more
+
+140
+00:09:18,430 --> 00:09:19,620
+lines here.
+
+141
+00:09:19,690 --> 00:09:26,190
+We are going to use the array filter method to filter out all of the comments and posts that belonged
+
+142
+00:09:26,260 --> 00:09:27,070
+to this user.
+
+143
+00:09:27,130 --> 00:09:28,670
+Right here let's start with posts.
+
+144
+00:09:28,690 --> 00:09:33,970
+So I'm going to be assigning a new value to posts which I can do because I just switched it from being
+
+145
+00:09:33,970 --> 00:09:39,820
+a contest to being left and right here we are going to still use an array as the value the array is
+
+146
+00:09:39,820 --> 00:09:45,220
+going to come back from post.com filter though we're only going to keep the posts that did not belong
+
+147
+00:09:45,280 --> 00:09:46,810
+to this user.
+
+148
+00:09:46,810 --> 00:09:51,940
+Now right here we are going to set up a tried and true full arrow function we're not going to use the
+
+149
+00:09:51,940 --> 00:09:57,170
+shorthand syntax because there is a bit more we need to actually accomplish.
+
+150
+00:09:57,190 --> 00:10:01,250
+We don't just want to delete posts if we delete a post.
+
+151
+00:10:01,270 --> 00:10:05,440
+We also have to delete any comments for that post.
+
+152
+00:10:05,440 --> 00:10:08,230
+So once again what we're working with is relational data.
+
+153
+00:10:08,260 --> 00:10:13,760
+It's a good thing because it allows us to perform some flexible queries but as we can see on the backend
+
+154
+00:10:13,780 --> 00:10:15,570
+things are getting a bit complex.
+
+155
+00:10:15,640 --> 00:10:21,900
+If you're noticing that it's a good thing we're going to address this a little bit later in the class.
+
+156
+00:10:21,940 --> 00:10:23,570
+So right here what are we going to do.
+
+157
+00:10:23,560 --> 00:10:28,840
+Well we're going to get access to the individual post and step one is to determine if this post is a
+
+158
+00:10:28,840 --> 00:10:29,590
+match.
+
+159
+00:10:29,590 --> 00:10:34,150
+Was this post created by the user that we just deleted.
+
+160
+00:10:34,240 --> 00:10:38,160
+We can actually perform that check storing the value in a variable like match.
+
+161
+00:10:38,230 --> 00:10:40,220
+Right here counts to match equals.
+
+162
+00:10:40,420 --> 00:10:45,970
+We're going to look at the post's author value and check if it equals args ID.
+
+163
+00:10:46,150 --> 00:10:48,850
+If it does equal match will be true.
+
+164
+00:10:48,850 --> 00:10:52,600
+Now in the end of the day we are still going to return a boolean filter.
+
+165
+00:10:52,630 --> 00:10:57,360
+Right here I am going to return not match but the opposite of match.
+
+166
+00:10:57,400 --> 00:11:00,510
+So we want to return true when we did not find a match.
+
+167
+00:11:00,520 --> 00:11:06,580
+Keeping that post we want to return false when we did find a match making sure that post gets filtered
+
+168
+00:11:06,580 --> 00:11:12,230
+out and the last thing we have to do and an important step in the process is to add an if statement.
+
+169
+00:11:12,220 --> 00:11:14,770
+Right here is this post a match.
+
+170
+00:11:14,800 --> 00:11:17,310
+Is this post about to get deleted.
+
+171
+00:11:17,410 --> 00:11:21,070
+If it is we have to delete all of its comments.
+
+172
+00:11:21,160 --> 00:11:26,440
+So right here comments equals we are going to remove some comments.
+
+173
+00:11:26,530 --> 00:11:28,260
+Let's go ahead and knock this out.
+
+174
+00:11:28,360 --> 00:11:36,280
+Using comments dot filter we are going to set up our callback function where we get access to the individual
+
+175
+00:11:36,280 --> 00:11:37,180
+comment.
+
+176
+00:11:37,180 --> 00:11:42,280
+We're going to return true if it's a comment we want to keep and we're going to return false otherwise
+
+177
+00:11:42,550 --> 00:11:45,400
+I'm going to return it true when the comment is done.
+
+178
+00:11:45,410 --> 00:11:49,970
+Post field is not equal to the post ID.
+
+179
+00:11:50,200 --> 00:11:55,250
+So if we are looking at a comment and that comment doesn't belong to the post that we just deleted it
+
+180
+00:11:55,330 --> 00:11:56,050
+can stay.
+
+181
+00:11:56,050 --> 00:11:58,530
+If it does belong to that post it's got to get deleted.
+
+182
+00:11:58,720 --> 00:12:01,240
+Now I'm going to use the shorthand syntax here as well.
+
+183
+00:12:02,540 --> 00:12:07,740
+Removing the curly braces and everything inside and putting the value I want to return right here and
+
+184
+00:12:07,850 --> 00:12:10,430
+that brings us to the last line we need.
+
+185
+00:12:10,430 --> 00:12:16,880
+And the last line involves us actually removing all comments that the user created.
+
+186
+00:12:16,880 --> 00:12:21,920
+Whether it's on it's own posts in which case they've already been cleaned up or whether it's on other
+
+187
+00:12:21,920 --> 00:12:25,010
+posts by other users which aren't getting deleted.
+
+188
+00:12:25,010 --> 00:12:28,670
+So comments equals common stock filter.
+
+189
+00:12:28,790 --> 00:12:32,830
+We are going to get the individual comment and we are going to return it.
+
+190
+00:12:32,840 --> 00:12:39,990
+True keeping the item when the comment author was not equal to the author we just removed.
+
+191
+00:12:39,990 --> 00:12:47,550
+So right here using the inequality operator and I'm going to use that with args dot ID.
+
+192
+00:12:47,630 --> 00:12:48,290
+Awesome.
+
+193
+00:12:48,590 --> 00:12:51,820
+Now we have everything in place handling all of those edge cases.
+
+194
+00:12:51,830 --> 00:12:57,770
+Yes this is a bit complex but yes we will also look at a better way to handle this relational data a
+
+195
+00:12:57,770 --> 00:13:02,240
+bit later in the class so we can avoid all of this manual cleaning up of data.
+
+196
+00:13:02,390 --> 00:13:09,770
+We'll come up with a way to automatically do all of this allowing us to vastly simplify the code necessary
+
+197
+00:13:09,950 --> 00:13:15,050
+for the moment though this is a great way to explore how all of this related data works inside of graft.
+
+198
+00:13:15,110 --> 00:13:20,240
+Well now what we're going to do is actually delete one of the users and make sure everything gets cleaned
+
+199
+00:13:20,240 --> 00:13:21,550
+up successfully.
+
+200
+00:13:21,590 --> 00:13:26,000
+So up above we're going to have this as our starting data and I'm going to delete this first user with
+
+201
+00:13:26,000 --> 00:13:27,230
+the idea of one.
+
+202
+00:13:27,290 --> 00:13:32,810
+So in the end of the day this user should get deleted but the posts it created should also get removed
+
+203
+00:13:32,900 --> 00:13:38,520
+which would be the first two posts since the author value is one for each down below.
+
+204
+00:13:38,600 --> 00:13:45,800
+I would also expect the comments for the posts they created and B comments they created on other posts
+
+205
+00:13:45,830 --> 00:13:46,850
+to be deleted.
+
+206
+00:13:47,060 --> 00:13:53,240
+So if you notice all of these comments are on either post 10 or post 11 so they're all going to get
+
+207
+00:13:53,300 --> 00:13:57,760
+deleted because they all belong to posts that are going to get deleted.
+
+208
+00:13:58,130 --> 00:14:00,500
+Now I'm going to change this up just a little bit.
+
+209
+00:14:00,530 --> 00:14:05,750
+I'm going to take this last comment written by our author and I'm going to change it to a post that's
+
+210
+00:14:05,750 --> 00:14:07,090
+not going to get removed.
+
+211
+00:14:07,130 --> 00:14:12,890
+This one written by Sarah with the idea of 12 now on the end of the day this comment should still get
+
+212
+00:14:12,890 --> 00:14:14,810
+removed but very different reason.
+
+213
+00:14:14,840 --> 00:14:20,810
+It should get removed because it's a comment by that user not because it's a comment on a post that
+
+214
+00:14:20,810 --> 00:14:22,080
+the user wrote.
+
+215
+00:14:22,250 --> 00:14:25,640
+So that's just going to allow us to test both of those situations.
+
+216
+00:14:25,640 --> 00:14:30,350
+These three comments should get deleted because they belong to posts that are getting deleted.
+
+217
+00:14:30,350 --> 00:14:35,200
+This last comment should get deleted because it was created by the user who got deleted.
+
+218
+00:14:35,210 --> 00:14:41,090
+A slight difference between the two but also important for testing that our code works as expected.
+
+219
+00:14:41,090 --> 00:14:46,580
+Now what am I going to do while I'm going to go ahead and save the file head over to graft UL playground
+
+220
+00:14:46,580 --> 00:14:48,290
+and actually test this out.
+
+221
+00:14:48,290 --> 00:14:49,850
+Step one over here.
+
+222
+00:14:49,850 --> 00:14:50,730
+Delete user.
+
+223
+00:14:50,840 --> 00:14:55,630
+I'm going to delete the user with an ID of one and it does appear to have worked.
+
+224
+00:14:55,640 --> 00:15:01,380
+Now we're going to run our three queries user's posts and comments and make sure everything seems right.
+
+225
+00:15:01,430 --> 00:15:03,530
+If I run users what do I get I get.
+
+226
+00:15:03,530 --> 00:15:06,440
+Just my two users back Sarah and Mike.
+
+227
+00:15:06,440 --> 00:15:08,700
+Andrew has indeed been removed.
+
+228
+00:15:08,780 --> 00:15:11,640
+If I run posts what do I get back I get back.
+
+229
+00:15:11,660 --> 00:15:13,890
+Just programming music.
+
+230
+00:15:13,940 --> 00:15:21,670
+The other two posts graphed you well 101 and graphed Well 201 have indeed been deleted as expected.
+
+231
+00:15:21,890 --> 00:15:27,890
+If I run the comments operation you can see that I actually get no comments back because all of the
+
+232
+00:15:27,890 --> 00:15:34,550
+comments either belonged to posts that got deleted or it belong to the user who got removed.
+
+233
+00:15:34,550 --> 00:15:35,360
+So there we go.
+
+234
+00:15:35,480 --> 00:15:37,280
+We now have a way to delete data.
+
+235
+00:15:37,430 --> 00:15:42,700
+It might not be as straightforward as you were hoping for but it is indeed a great start.
+
+236
+00:15:42,830 --> 00:15:46,530
+I will we will address the complexity of this a bit later in the class.
+
+237
+00:15:46,550 --> 00:15:51,950
+For now though it is really important to see that when we're working with data engraft Well we can't
+
+238
+00:15:51,950 --> 00:15:53,900
+just focus on the individual thing.
+
+239
+00:15:53,930 --> 00:15:55,640
+In this case the individual user.
+
+240
+00:15:55,790 --> 00:16:00,860
+We have to also focus on that graph of data what data belongs to this user.
+
+241
+00:16:00,860 --> 00:16:03,930
+Is it OK to leave that around or should that get deleted too.
+
+242
+00:16:04,040 --> 00:16:05,300
+And we saw that in this case.
+
+243
+00:16:05,300 --> 00:16:08,010
+Posts and comments need to get cleaned up.
+
+244
+00:16:08,090 --> 00:16:14,510
+Just like users needs to get cleaned up in order to remove a user in the next video we're going to do
+
+245
+00:16:14,510 --> 00:16:20,420
+the same thing for deleting a post and for deleting comments though the process for both of those will
+
+246
+00:16:20,420 --> 00:16:22,200
+be a bit easier.
+
+247
+00:16:22,400 --> 00:16:26,400
+And then from there we're going to continue on looking at how we can update data.
+
+248
+00:16:26,630 --> 00:16:29,280
+I'm excited to continue on with the rest of the course.
+
+249
+00:16:29,360 --> 00:16:33,120
+So let's go ahead and jump right into the next one and continue exploring.
+
+250
+00:16:33,150 --> 00:16:33,830
+Mutations.
+

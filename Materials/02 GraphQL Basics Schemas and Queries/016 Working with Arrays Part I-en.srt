@@ -1,0 +1,640 @@
+1
+00:00:00,270 --> 00:00:03,450
+In this video you're going to learn how to work with arrays in graph.
+
+2
+00:00:03,450 --> 00:00:10,040
+Q Well this is going to allow us to exchange arrays back and forth with the graphical API.
+
+3
+00:00:10,230 --> 00:00:16,290
+So maybe the client needs to send an array as one of the values for an operation argument.
+
+4
+00:00:16,410 --> 00:00:21,780
+Or maybe the server needs to send an array back as the response for a given operation.
+
+5
+00:00:21,900 --> 00:00:25,550
+In either case we can do just that using arrays.
+
+6
+00:00:25,710 --> 00:00:30,370
+Now to start off we're going to explore how we can work with arrays of our scalar types.
+
+7
+00:00:30,480 --> 00:00:33,150
+So an array of strings or an array of numbers.
+
+8
+00:00:33,270 --> 00:00:38,250
+Then we're going to move on to a more real world example and learn how we can work with arrays of our
+
+9
+00:00:38,250 --> 00:00:39,450
+custom types.
+
+10
+00:00:39,480 --> 00:00:45,570
+So an array of posts or an array of users to kick things off though we are going to start with those
+
+11
+00:00:45,570 --> 00:00:46,800
+scalar types.
+
+12
+00:00:46,800 --> 00:00:50,370
+So let's set up a brand new query for that right here.
+
+13
+00:00:50,370 --> 00:00:53,870
+We're going to set up a query for a grading application.
+
+14
+00:00:53,970 --> 00:01:00,660
+We're going to call the operation grades and we're going to set it up to return some array based data
+
+15
+00:01:00,870 --> 00:01:02,040
+for an array type.
+
+16
+00:01:02,040 --> 00:01:08,100
+We start off with square brackets much like we would if we were creating an array in java script itself.
+
+17
+00:01:08,100 --> 00:01:13,380
+Now after this we can also choose to put an exclamation mark on there that says we are always going
+
+18
+00:01:13,380 --> 00:01:15,840
+to get an array back even if it's an empty one.
+
+19
+00:01:15,870 --> 00:01:21,230
+If we left that off we could indeed get null back as a valid value for grades.
+
+20
+00:01:21,360 --> 00:01:23,820
+I'm going to leave the exclamation mark on.
+
+21
+00:01:23,880 --> 00:01:26,740
+So if there are no grades we'll just send back an empty array.
+
+22
+00:01:26,970 --> 00:01:30,890
+If there are grades we'll send back an array of numbers.
+
+23
+00:01:30,930 --> 00:01:35,730
+The next thing we have to do is actually specify the type for all of those array elements.
+
+24
+00:01:35,720 --> 00:01:40,640
+So is it an array of strings and array of integers booleans IDs what.
+
+25
+00:01:40,680 --> 00:01:46,140
+In this case we are going to use an array of integers where each integer represents the percent you
+
+26
+00:01:46,140 --> 00:01:51,830
+got on a given exam where a 10 percent would be really bad and a 99 percent would be very good.
+
+27
+00:01:52,050 --> 00:01:59,000
+So right here if we want an array of ints we have to specify that scalar type right here right now.
+
+28
+00:01:59,010 --> 00:02:06,030
+In the case of this internal type we can also choose to put an exclamation mark on or leave it off if
+
+29
+00:02:06,030 --> 00:02:06,720
+we leave it off.
+
+30
+00:02:06,730 --> 00:02:11,200
+It's nullable meaning that I could have an array where one of the elements is null.
+
+31
+00:02:11,340 --> 00:02:18,030
+If I add it on it is non nullable meaning that if there is an item in the array it is always going to
+
+32
+00:02:18,030 --> 00:02:19,020
+be an integer.
+
+33
+00:02:19,230 --> 00:02:23,730
+So in this example we're saying we're always going to get an array back and if there are items there
+
+34
+00:02:23,730 --> 00:02:25,240
+are always going to be ense.
+
+35
+00:02:25,260 --> 00:02:30,390
+It would still be valid to get back an empty array via this type definition.
+
+36
+00:02:30,780 --> 00:02:34,730
+So now that we have the actual operation defined in our type deaths.
+
+37
+00:02:34,800 --> 00:02:38,520
+Let's go ahead and set up the grades resolver down below.
+
+38
+00:02:38,520 --> 00:02:40,580
+I'm going to put that right here after AD.
+
+39
+00:02:40,580 --> 00:02:47,160
+And before me though the order is not important grades I will set up all of the arguments necessary
+
+40
+00:02:47,160 --> 00:02:49,880
+for grades even if I'm not going to use them.
+
+41
+00:02:50,010 --> 00:02:57,290
+It's a good idea to get into this habit for all of your resolver functions so I have parent Next up
+
+42
+00:02:57,380 --> 00:03:05,000
+I have ARGs that I have the context that I have info and all we're going to do is return an array of
+
+43
+00:03:05,000 --> 00:03:11,570
+numbers so we can pick some numbers will say that you got a 99 on the first exam then you got cocky
+
+44
+00:03:11,570 --> 00:03:17,180
+and didn't study and then you got an 80 and then we'll say you got a 93 on the final one.
+
+45
+00:03:17,180 --> 00:03:22,870
+So here we are returning an array with three integers as are three elements.
+
+46
+00:03:22,880 --> 00:03:25,770
+Now we can actually test out this new operation.
+
+47
+00:03:25,770 --> 00:03:32,110
+I am going to save index dot J S and create a new query over engraft Cuil playground.
+
+48
+00:03:32,120 --> 00:03:38,390
+I'll put this in a new tab just to clean up the output and we will set up the operation a query we are
+
+49
+00:03:38,390 --> 00:03:41,590
+querying for grades and that is it.
+
+50
+00:03:41,660 --> 00:03:43,750
+We can now fire off this operation.
+
+51
+00:03:43,760 --> 00:03:44,990
+And what do we get back.
+
+52
+00:03:45,080 --> 00:03:51,290
+We get back an array of all of our grades so we have our grades property with our array of those three
+
+53
+00:03:51,290 --> 00:03:53,560
+integers sitting right inside.
+
+54
+00:03:53,570 --> 00:03:59,450
+Now in this example you'll notice that we didn't provide anything after the field itself I just specified
+
+55
+00:03:59,450 --> 00:04:00,280
+grades.
+
+56
+00:04:00,410 --> 00:04:06,620
+When I did not do is provide a selection set using the curly braces like this where I specify what I
+
+57
+00:04:06,620 --> 00:04:08,180
+want for each grade.
+
+58
+00:04:08,180 --> 00:04:14,300
+This is not something we can do for an array of scalar types like an array of integers array of floats
+
+59
+00:04:14,300 --> 00:04:20,870
+or an array of strings specifying a selection set like that is only something we do for an array of
+
+60
+00:04:20,870 --> 00:04:22,340
+custom types.
+
+61
+00:04:22,340 --> 00:04:28,280
+So for example in the demo API we explored that when we wanted to get at Post's array back.
+
+62
+00:04:28,400 --> 00:04:33,810
+I had to specify which fields I wanted for each individual post.
+
+63
+00:04:33,860 --> 00:04:39,280
+So with an array of custom types you have to specify that selection set with an array of scalar types.
+
+64
+00:04:39,290 --> 00:04:40,260
+You can't.
+
+65
+00:04:40,550 --> 00:04:44,860
+Now in this case we are sending arrays from the server to the client.
+
+66
+00:04:44,870 --> 00:04:49,610
+Let's see how we could do things in the other direction and to explore this what we're going to do is
+
+67
+00:04:49,610 --> 00:04:55,610
+set up add to take an array of floats as opposed to specifying just two arguments.
+
+68
+00:04:55,640 --> 00:05:02,270
+So we'll let the user add up as many numbers as they like as many as they actually provide in that array
+
+69
+00:05:02,420 --> 00:05:02,950
+to start.
+
+70
+00:05:02,960 --> 00:05:08,460
+I'm going to delete all of the old arguments we had in place so we'll remove a and will remove B.
+
+71
+00:05:08,660 --> 00:05:13,820
+Now we have emptied out the premises and we can define the one argument that ad is actually going to
+
+72
+00:05:13,820 --> 00:05:14,320
+take.
+
+73
+00:05:14,480 --> 00:05:18,890
+I'll call this something like numbers and this is going to be an array of all of the numbers that you
+
+74
+00:05:18,890 --> 00:05:20,510
+want to have added up.
+
+75
+00:05:20,510 --> 00:05:26,000
+So right here for the type definition we will have something very similar to what we had right here
+
+76
+00:05:26,230 --> 00:05:30,200
+though instead of an array of our ints it will be an array of floats.
+
+77
+00:05:30,200 --> 00:05:32,140
+So I specify my array.
+
+78
+00:05:32,460 --> 00:05:34,550
+I'll put the exclamation mark back there.
+
+79
+00:05:34,550 --> 00:05:38,980
+Meaning that you have to provide the numbers argument then inside of there.
+
+80
+00:05:38,990 --> 00:05:42,340
+It's an array of floats so float with an exclamation mark.
+
+81
+00:05:42,350 --> 00:05:43,100
+And there we go.
+
+82
+00:05:43,280 --> 00:05:48,440
+We are now always going to get an array and when there is an item in the array we know that item is
+
+83
+00:05:48,440 --> 00:05:50,590
+indeed going to be a float.
+
+84
+00:05:50,840 --> 00:05:56,450
+With this in place with our type definition actually changed we can go ahead and use this new array
+
+85
+00:05:56,450 --> 00:05:59,620
+argument down below in the resolver add.
+
+86
+00:05:59,900 --> 00:06:02,690
+So we can start by removing all of the existing code.
+
+87
+00:06:02,840 --> 00:06:08,680
+And now we can actually look at args dot numbers to figure out how many numbers we need to add up.
+
+88
+00:06:08,690 --> 00:06:11,980
+Let's start by checking if there are actually any numbers to add.
+
+89
+00:06:11,990 --> 00:06:15,070
+So we know there's going to be an array but it might be an empty array.
+
+90
+00:06:15,230 --> 00:06:20,900
+So we can use an if statement if we're going to check args dot numbers which we know is going to be
+
+91
+00:06:20,900 --> 00:06:21,570
+an array.
+
+92
+00:06:21,710 --> 00:06:24,530
+And we're just going to look at its length property.
+
+93
+00:06:24,530 --> 00:06:29,490
+If the length is indeed equal to zero what are we going to do.
+
+94
+00:06:29,510 --> 00:06:31,600
+I'm just going to return 0.
+
+95
+00:06:31,640 --> 00:06:36,300
+So we'll say that if you don't add up any numbers you're going to get ZERO back.
+
+96
+00:06:36,320 --> 00:06:43,130
+The next thing we want to do down below is run some code for when the numbers length is not zero.
+
+97
+00:06:43,130 --> 00:06:48,530
+So when there are actually array items to add and for this we're going to use the very popular very
+
+98
+00:06:48,530 --> 00:06:51,510
+common array reduce method.
+
+99
+00:06:51,530 --> 00:06:58,450
+If you've never used reduce before it's a handy array method for reducing an array to a single value.
+
+100
+00:06:58,490 --> 00:07:03,500
+In this case we are trying to reduce an array of numbers to just a single number.
+
+101
+00:07:03,530 --> 00:07:09,680
+You can always learn more about it by googling and D.N. reduce that'll bring you over to the Mozilla
+
+102
+00:07:09,710 --> 00:07:13,700
+developer network page for the array reduce method.
+
+103
+00:07:13,880 --> 00:07:16,730
+We're going to go ahead and actually implement this right here.
+
+104
+00:07:16,730 --> 00:07:20,510
+And for our purposes let's say we have some sample data being passed in.
+
+105
+00:07:20,630 --> 00:07:26,510
+Let's just say it's one of five 10 and two so down below.
+
+106
+00:07:26,510 --> 00:07:27,670
+What are we going to do.
+
+107
+00:07:27,680 --> 00:07:35,090
+I'm going to return a value that value is going to be the value that comes back from calling args dot
+
+108
+00:07:35,090 --> 00:07:37,190
+numbers dot reduce.
+
+109
+00:07:37,190 --> 00:07:44,330
+So here we are just calling reduce on our array sending the return value back as the return value for
+
+110
+00:07:44,330 --> 00:07:45,250
+ADD.
+
+111
+00:07:45,320 --> 00:07:47,660
+Now we have to provide a function to reduce.
+
+112
+00:07:47,660 --> 00:07:53,270
+So we provide a single callback function right here like we do for most of our RE methods such as for
+
+113
+00:07:53,300 --> 00:07:55,430
+each map and others.
+
+114
+00:07:55,430 --> 00:08:01,590
+And this it's called with two arguments the first argument is called the accumulator and the second
+
+115
+00:08:01,620 --> 00:08:04,200
+argument is called current value.
+
+116
+00:08:04,200 --> 00:08:09,870
+Now if you have an array of a single item and that single item value is always going to be the return
+
+117
+00:08:09,870 --> 00:08:13,550
+value for reduce this callback function will actually never fire.
+
+118
+00:08:13,590 --> 00:08:19,230
+It is only when we have at least two items that this callback function comes into place.
+
+119
+00:08:19,230 --> 00:08:25,290
+So the first time this function runs it is going to have the accumulator value equal to the first item
+
+120
+00:08:25,380 --> 00:08:28,430
+one and the current value will equal to the second.
+
+121
+00:08:28,440 --> 00:08:34,630
+Item 5 in this case and it's our job to reduce that to a single value by returning something.
+
+122
+00:08:34,800 --> 00:08:36,760
+So in this case we're trying to add numbers up.
+
+123
+00:08:36,780 --> 00:08:43,920
+So I can return the accumulator with the value 1 plus the current value with the value 5 resulting in
+
+124
+00:08:43,920 --> 00:08:45,900
+a return value of 6.
+
+125
+00:08:45,900 --> 00:08:51,570
+Now the next time this function runs six is the accumulator and we move on to the next item to get the
+
+126
+00:08:51,570 --> 00:08:52,800
+new current value.
+
+127
+00:08:52,890 --> 00:08:58,590
+So we have six as accumulator and we would have 10 as current value we add both of those up and what
+
+128
+00:08:58,590 --> 00:09:00,410
+do we get back 16.
+
+129
+00:09:00,420 --> 00:09:07,320
+So then the callback function runs another time with 16 as the accumulator and 2 as current value we
+
+130
+00:09:07,320 --> 00:09:07,840
+run that.
+
+131
+00:09:07,860 --> 00:09:10,200
+And what do we get back we get back 18.
+
+132
+00:09:10,260 --> 00:09:13,800
+And that's exactly what we would get if we added all of these numbers up.
+
+133
+00:09:13,800 --> 00:09:15,870
+Let's go ahead and actually test our work.
+
+134
+00:09:15,870 --> 00:09:20,550
+So I'm going to save index Dhananjay ass and we are going to call ad over here.
+
+135
+00:09:20,550 --> 00:09:27,180
+I'm going to remove my grades queery I will use the Add query operation and right away we're already
+
+136
+00:09:27,180 --> 00:09:32,190
+getting an error saying we have not provided the argument that it expects but it's referring to a and
+
+137
+00:09:32,190 --> 00:09:32,740
+b.
+
+138
+00:09:32,970 --> 00:09:37,760
+Let's refresh the schema to get the same error but with the in numbers argument.
+
+139
+00:09:37,830 --> 00:09:41,800
+Now we can actually call that passing and the correct arguments.
+
+140
+00:09:41,800 --> 00:09:43,870
+So numbers is the only one we have.
+
+141
+00:09:43,890 --> 00:09:45,250
+It is an array of numbers.
+
+142
+00:09:45,270 --> 00:09:47,500
+So we will set up an array of numbers.
+
+143
+00:09:47,610 --> 00:09:52,980
+I'm going to use the same numbers from the file 1 5 10 and 2.
+
+144
+00:09:53,090 --> 00:09:54,700
+I go ahead and run that operation.
+
+145
+00:09:54,710 --> 00:09:55,680
+And what do I get back.
+
+146
+00:09:55,680 --> 00:09:57,360
+I get back 18.
+
+147
+00:09:57,360 --> 00:10:01,940
+So in this example we're actually sending an array from the client to the server.
+
+148
+00:10:02,040 --> 00:10:05,590
+And now we've seen arrays going in both directions.
+
+149
+00:10:05,730 --> 00:10:10,960
+So we can send array data either way depending on the needs of our application.
+
+150
+00:10:11,010 --> 00:10:16,090
+Now in almost all cases arrays are going to be the value that comes back from the server.
+
+151
+00:10:16,110 --> 00:10:22,290
+It's not that common to be sending arrays from the client to the server though it is indeed possible
+
+152
+00:10:22,290 --> 00:10:23,900
+and sometimes necessary.
+
+153
+00:10:24,000 --> 00:10:26,480
+That's actually where I'd like to stop for this one.
+
+154
+00:10:26,490 --> 00:10:29,130
+Now we haven't talked about arrays of custom types.
+
+155
+00:10:29,120 --> 00:10:34,170
+That's because I'm breaking up our discussion of arrays into two videos preventing this one from getting
+
+156
+00:10:34,170 --> 00:10:34,940
+too long.
+
+157
+00:10:35,160 --> 00:10:41,190
+So in this one we explored arrays of our scalar types in the next one we'll explore arrays of custom
+
+158
+00:10:41,190 --> 00:10:45,880
+types and there'll be a challenge requiring you to use everything you've learned about arrays.
+
+159
+00:10:45,900 --> 00:10:47,910
+So far I'm excited to get to that.
+
+160
+00:10:47,910 --> 00:10:49,770
+So let's go ahead and jump right in.
+

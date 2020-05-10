@@ -1,0 +1,844 @@
+1
+00:00:00,240 --> 00:00:05,310
+If you've made it this far into this action I've got some great news which is that there's no more installation
+
+2
+00:00:05,340 --> 00:00:06,990
+or configuration left.
+
+3
+00:00:06,990 --> 00:00:08,250
+We have everything set up.
+
+4
+00:00:08,250 --> 00:00:13,080
+Prisma is up and running and it's time to start taking advantage of what it has to offer.
+
+5
+00:00:13,230 --> 00:00:18,230
+Well we're going to start to do and this video is explore anti-graft UL Prisma API.
+
+6
+00:00:18,330 --> 00:00:22,680
+This is auto generated for us and it allows us to interact with our database.
+
+7
+00:00:22,680 --> 00:00:28,620
+So as we perform mutations we're actually writing to our database as we perform queries and subscriptions.
+
+8
+00:00:28,620 --> 00:00:31,060
+We're actually reading from the database.
+
+9
+00:00:31,290 --> 00:00:37,250
+Now all of these get automatically generated based off of the contents of a data model dot graph.
+
+10
+00:00:37,300 --> 00:00:42,660
+Well so you'll notice that all of these are user related because the only model we actually have is
+
+11
+00:00:42,690 --> 00:00:43,650
+a user.
+
+12
+00:00:43,680 --> 00:00:49,440
+If we were to add other ones like comments and posts we would see auto generated queries mutations and
+
+13
+00:00:49,440 --> 00:00:51,700
+subscriptions for those as well.
+
+14
+00:00:51,900 --> 00:00:57,660
+So briefly under queries we have a way to fetch multiple users and a way to fetch a single user under
+
+15
+00:00:57,660 --> 00:01:03,480
+mutations we have ways to create update and delete our users as well as a couple of other ways we can
+
+16
+00:01:03,540 --> 00:01:04,890
+mutate our users.
+
+17
+00:01:05,010 --> 00:01:10,800
+And finally we have a user subscription allowing us to subscribe to user changes whether a user gets
+
+18
+00:01:10,800 --> 00:01:14,700
+created updated or deleted to kick things off.
+
+19
+00:01:14,700 --> 00:01:19,080
+Let's go ahead and write to our database by using the create user nutation.
+
+20
+00:01:19,290 --> 00:01:25,410
+And if we actually click on that we can learn how to create user works create user takes a single argument
+
+21
+00:01:25,470 --> 00:01:28,780
+data and it sends back the user itself.
+
+22
+00:01:28,950 --> 00:01:30,660
+So we know what to do when we get a user back.
+
+23
+00:01:30,660 --> 00:01:36,930
+We're going to select the fields we want but what exactly do we pass in the data we pass in an instance
+
+24
+00:01:36,930 --> 00:01:39,600
+of user create input.
+
+25
+00:01:39,600 --> 00:01:45,850
+So down below under arguments we can actually click data to view what user create input takes.
+
+26
+00:01:45,870 --> 00:01:49,160
+Right here we can see it just takes a string.
+
+27
+00:01:49,410 --> 00:01:54,040
+So on the data argument we have to provide a name field of the type string.
+
+28
+00:01:54,090 --> 00:01:59,290
+That's all we need to actually create the user and to write some data to the database.
+
+29
+00:01:59,310 --> 00:02:01,100
+So let's go ahead and kick things off.
+
+30
+00:02:01,140 --> 00:02:07,050
+I'm going to collapse the schema and we're actually going to use create user right here a new mutation.
+
+31
+00:02:07,470 --> 00:02:13,680
+We are going to create user then we're going to pass in our arguments and set up our selection set.
+
+32
+00:02:13,710 --> 00:02:17,250
+I'm just going to grab the ID and the name of the user.
+
+33
+00:02:17,280 --> 00:02:20,370
+We create the two fields we actually have listed.
+
+34
+00:02:20,640 --> 00:02:22,320
+Now we do have to provide our argument.
+
+35
+00:02:22,320 --> 00:02:23,880
+So let's set that up as well.
+
+36
+00:02:23,880 --> 00:02:25,030
+We're going to provide data.
+
+37
+00:02:25,050 --> 00:02:30,630
+The one and only argument we need and we know the only field we have to provide on data is name where
+
+38
+00:02:30,630 --> 00:02:32,430
+we set up our string name.
+
+39
+00:02:32,430 --> 00:02:35,610
+I'm going to go ahead and just use my name I'll use Andrew Mead.
+
+40
+00:02:35,640 --> 00:02:36,460
+Perfect.
+
+41
+00:02:36,500 --> 00:02:37,280
+And there we go.
+
+42
+00:02:37,400 --> 00:02:39,940
+Now we can actually fire off this mutation.
+
+43
+00:02:40,060 --> 00:02:42,650
+Let get back the data we probably expected.
+
+44
+00:02:42,750 --> 00:02:44,610
+We have our route data property.
+
+45
+00:02:44,610 --> 00:02:48,480
+We then have create user which matches up with the mutation name in there.
+
+46
+00:02:48,540 --> 00:02:52,380
+We have all of the data we asked for about the user we just created.
+
+47
+00:02:52,470 --> 00:02:57,410
+What's cool though is that the data is not just living in some array or something like local storage.
+
+48
+00:02:57,480 --> 00:03:01,580
+It's actually being stored in our post gress database.
+
+49
+00:03:01,590 --> 00:03:06,090
+So let's go ahead and move over to PGE admin and actually view this data.
+
+50
+00:03:06,090 --> 00:03:11,190
+I'm going to crack open PGE admin and right here I have the database you should have your database already
+
+51
+00:03:11,190 --> 00:03:11,840
+expanded.
+
+52
+00:03:11,850 --> 00:03:14,200
+We did that in the installation video.
+
+53
+00:03:14,340 --> 00:03:20,130
+And the only one we care about under our database is schema It's now the data has changed since we first
+
+54
+00:03:20,130 --> 00:03:23,520
+opened PGE admin admen since we have executed Prisma.
+
+55
+00:03:23,730 --> 00:03:27,480
+We need to refresh our schemas to see the latest changes right here.
+
+56
+00:03:27,570 --> 00:03:32,250
+You can just right click schema and click refresh and we all need to do that when we actually make a
+
+57
+00:03:32,250 --> 00:03:34,290
+change to that data structure.
+
+58
+00:03:34,290 --> 00:03:40,650
+Now if we expand this we can view all of the various schemas we have and by default our data is stored
+
+59
+00:03:40,710 --> 00:03:43,200
+under default dollar sign default.
+
+60
+00:03:43,200 --> 00:03:45,620
+So we're going to open that up in there.
+
+61
+00:03:45,680 --> 00:03:47,690
+We are interested in exploring the tables.
+
+62
+00:03:47,700 --> 00:03:49,200
+That is where our data lives.
+
+63
+00:03:49,200 --> 00:03:54,160
+So down below we have tables and we have a table for every single model we define.
+
+64
+00:03:54,300 --> 00:03:59,700
+So here we defined one type user and we have a table that stores all of our users and we can actually
+
+65
+00:03:59,700 --> 00:04:06,750
+view the data in a nice way by right clicking that table name going to view data and just selecting
+
+66
+00:04:06,810 --> 00:04:10,270
+all roads here as a sort of Excel sheet.
+
+67
+00:04:10,290 --> 00:04:13,180
+We're going to be able to view all of the data in our database.
+
+68
+00:04:13,230 --> 00:04:18,650
+We have just one row one user we have the ID value under the ID header.
+
+69
+00:04:18,750 --> 00:04:23,760
+We have name under name Andrew mead and I also have updated and created at.
+
+70
+00:04:23,760 --> 00:04:26,820
+Which are automatically added by Prisma itself.
+
+71
+00:04:26,820 --> 00:04:31,920
+We'll learn more about these and how we can actually use them a bit later created at get set once when
+
+72
+00:04:31,920 --> 00:04:35,390
+the record is first created and updated and gets updated.
+
+73
+00:04:35,400 --> 00:04:39,270
+Anytime we change our data in this case the only thing we can change is name.
+
+74
+00:04:39,270 --> 00:04:45,330
+So any time the name changed updated at will be updated to reflect the time stamp when the name was
+
+75
+00:04:45,330 --> 00:04:46,660
+actually changed.
+
+76
+00:04:46,890 --> 00:04:47,330
+All right.
+
+77
+00:04:47,340 --> 00:04:48,990
+So we have all of our data are right here.
+
+78
+00:04:48,990 --> 00:04:51,430
+This is a great first step.
+
+79
+00:04:51,450 --> 00:04:58,800
+We can clearly see that with Prisma we're able to manipulate our database using a graphical API.
+
+80
+00:04:58,800 --> 00:05:01,100
+Let's go ahead and add a user into the mix.
+
+81
+00:05:01,130 --> 00:05:06,300
+I'm going to pick a random name for this user I'll use victim and we're going to run that.
+
+82
+00:05:06,710 --> 00:05:09,890
+And now we should see vigorous showing up in the database as well.
+
+83
+00:05:09,890 --> 00:05:14,450
+Over here I can refresh the data being shown by clicking this little lightning bolt.
+
+84
+00:05:14,450 --> 00:05:19,190
+Not exactly the clearest icon but it will indeed make another query for your data.
+
+85
+00:05:19,190 --> 00:05:22,220
+And now we can see we have two records showing up.
+
+86
+00:05:22,220 --> 00:05:28,400
+Now we can also fetch our data using the Graph API provided by Prisma right here for example there are
+
+87
+00:05:28,400 --> 00:05:30,500
+a few different ways to get that done.
+
+88
+00:05:30,500 --> 00:05:36,680
+We have a user's query to fetch multiple users and we have a user query to fetch a single user.
+
+89
+00:05:36,800 --> 00:05:39,460
+Let's go ahead and mess around with users for the moment.
+
+90
+00:05:39,470 --> 00:05:44,120
+Now users does take some arguments but they're all completely optional so we can just grab all of our
+
+91
+00:05:44,120 --> 00:05:47,160
+users deciding what data we want from each.
+
+92
+00:05:47,240 --> 00:05:48,890
+I'm going to set that up right here.
+
+93
+00:05:48,890 --> 00:05:54,890
+A query operation we are using the user's query that requires no arguments so we're not going to provide
+
+94
+00:05:54,890 --> 00:05:55,160
+any.
+
+95
+00:05:55,160 --> 00:05:59,960
+You can take my word for that and then we're going to define what we want off of each user.
+
+96
+00:06:00,040 --> 00:06:03,190
+We'll just grab everything the name and the ID.
+
+97
+00:06:03,320 --> 00:06:04,310
+Excellent.
+
+98
+00:06:04,310 --> 00:06:06,380
+Now if we actually fire this off what do we get.
+
+99
+00:06:06,380 --> 00:06:07,940
+We get all of our users back.
+
+100
+00:06:08,030 --> 00:06:11,690
+I have jimmied as the first one and Vikram as the second one.
+
+101
+00:06:11,710 --> 00:06:16,630
+All of these live under the users are array stored on our route data property.
+
+102
+00:06:16,800 --> 00:06:19,710
+And this is exactly the sort of structure we would have expected.
+
+103
+00:06:19,820 --> 00:06:20,950
+And its a sort of structure.
+
+104
+00:06:20,960 --> 00:06:24,280
+We actually see with our very own application.
+
+105
+00:06:24,410 --> 00:06:29,360
+So theres nothing magical about exactly how Prisma sends data back it's going to look the same as it
+
+106
+00:06:29,360 --> 00:06:32,690
+looked when we were using graph playground with our own app.
+
+107
+00:06:32,690 --> 00:06:38,870
+What's nice though is we do not need to create the mutations the queries or the subscriptions Prisma
+
+108
+00:06:39,020 --> 00:06:40,950
+does that for us.
+
+109
+00:06:40,970 --> 00:06:44,340
+All right let's go ahead and explore one more together than I'll give you a challenge.
+
+110
+00:06:44,340 --> 00:06:46,860
+All you have to use one on your own right here.
+
+111
+00:06:46,880 --> 00:06:52,220
+We're going to go ahead and use update user to change the name for one of our users.
+
+112
+00:06:52,250 --> 00:06:56,240
+Now if we look at Update user we can see it takes a few different arguments.
+
+113
+00:06:56,360 --> 00:07:01,340
+And this is where you're going to start to get a bit more familiar with the definitions for various
+
+114
+00:07:01,340 --> 00:07:02,410
+operations.
+
+115
+00:07:02,570 --> 00:07:06,030
+So it's necessary to actually dig into the schema and see how things work.
+
+116
+00:07:06,230 --> 00:07:10,350
+Right here we can see that with Update user we get a user back as expected.
+
+117
+00:07:10,550 --> 00:07:15,890
+And we can see that it takes two arguments it takes data where we provide the things we want to change
+
+118
+00:07:16,220 --> 00:07:18,220
+and it takes a where argument.
+
+119
+00:07:18,230 --> 00:07:21,530
+This is where we define which user We're trying to update.
+
+120
+00:07:21,590 --> 00:07:25,020
+If we look at data we can see the only thing we can change is the name.
+
+121
+00:07:25,040 --> 00:07:30,290
+Obviously that makes a lot of sense if we open up where though we can see the only thing we can search
+
+122
+00:07:30,290 --> 00:07:31,740
+by is the ID.
+
+123
+00:07:31,940 --> 00:07:35,720
+So we have to provide the ID for the user We're trying to change.
+
+124
+00:07:35,780 --> 00:07:38,770
+And we also have to provide the data we're trying to change.
+
+125
+00:07:38,780 --> 00:07:45,850
+Let's go ahead and actually knock that out by creating a new mutation right here another mutation I'm
+
+126
+00:07:45,880 --> 00:07:49,690
+going to set this up and I'll call it update user.
+
+127
+00:07:49,760 --> 00:07:52,920
+This one does take arguments so we have to provide them.
+
+128
+00:07:52,970 --> 00:07:56,340
+We have to provide Where where is an object.
+
+129
+00:07:56,360 --> 00:08:00,650
+And we have to provide the ID so we can filter users by their ID.
+
+130
+00:08:00,800 --> 00:08:05,150
+And I'm going to go ahead and update one of these users I'll update the user that I created for myself
+
+131
+00:08:05,440 --> 00:08:06,980
+and I'm just going to change the name.
+
+132
+00:08:07,010 --> 00:08:12,890
+Removing the last name if I copy the ID I can bring it over to this tab and paste it right there between
+
+133
+00:08:12,890 --> 00:08:15,180
+the quotes for the ID property.
+
+134
+00:08:15,200 --> 00:08:18,820
+Next up we have to define data as well so comma enter.
+
+135
+00:08:18,920 --> 00:08:22,040
+Setting up data that also equals an object.
+
+136
+00:08:22,130 --> 00:08:25,070
+On here we can determine what exactly we'd like to update.
+
+137
+00:08:25,070 --> 00:08:28,370
+There's only one thing to update currently and it's name.
+
+138
+00:08:28,370 --> 00:08:31,540
+I'm going to change it to Andrew removing the last name.
+
+139
+00:08:31,820 --> 00:08:34,430
+Last up we have to provide our selection set.
+
+140
+00:08:34,430 --> 00:08:35,660
+So we get a user back.
+
+141
+00:08:35,660 --> 00:08:38,580
+What do we want to know about that user we just changed.
+
+142
+00:08:38,600 --> 00:08:44,420
+I'm going to grab their ID and I'm going to grab the name if we actually fire off this operation we
+
+143
+00:08:44,420 --> 00:08:45,770
+can see that when we get back.
+
+144
+00:08:45,770 --> 00:08:47,390
+Looks like a success.
+
+145
+00:08:47,420 --> 00:08:50,990
+We have our data update user properties and we have the data.
+
+146
+00:08:51,020 --> 00:08:54,350
+We've actually changed with the name being the new version.
+
+147
+00:08:54,410 --> 00:08:58,610
+I can go ahead and rerun that user's query to see the exact same thing.
+
+148
+00:08:58,610 --> 00:09:04,760
+And finally if I refreshed the data in PGE admin I can see that the last name has been removed from
+
+149
+00:09:04,760 --> 00:09:06,780
+that very first user.
+
+150
+00:09:06,890 --> 00:09:11,290
+Now that we've messed around with a couple of these queries mutations and subscriptions together.
+
+151
+00:09:11,440 --> 00:09:15,620
+Well I'd like you to do is figure out how to use delete user.
+
+152
+00:09:15,740 --> 00:09:19,130
+I want you to delete the second user we created.
+
+153
+00:09:19,160 --> 00:09:21,490
+So in this case I want to delete Vikram.
+
+154
+00:09:21,500 --> 00:09:22,720
+You might have a different name.
+
+155
+00:09:22,730 --> 00:09:27,920
+Either way you want to figure out how to use delete user by exploring this schema and actually knocked
+
+156
+00:09:27,920 --> 00:09:29,300
+that out to delete one.
+
+157
+00:09:29,450 --> 00:09:33,770
+Then go ahead and rerun the user's query to make sure it's gone and refreshed.
+
+158
+00:09:33,800 --> 00:09:37,260
+PGE admin to make sure it's removed from there as well.
+
+159
+00:09:37,280 --> 00:09:39,640
+Take as much time as you need to knock that one out.
+
+160
+00:09:39,650 --> 00:09:43,650
+Dig into the documentation to figure out how it works or move the record.
+
+161
+00:09:43,670 --> 00:09:46,670
+Test your work and when you're done click play
+
+162
+00:09:50,420 --> 00:09:54,740
+all right how that one go hopefully you were able to get everything up and running without too much
+
+163
+00:09:54,740 --> 00:09:55,460
+trouble.
+
+164
+00:09:55,460 --> 00:10:00,290
+I'm going to start by digging into the documentation there's no better way to learn how something works.
+
+165
+00:10:00,320 --> 00:10:05,990
+Right here we have delete user for deleting users and we can see that it returns the user that was deleted
+
+166
+00:10:06,200 --> 00:10:11,680
+and it takes a single argument where it's of the type user where unique input.
+
+167
+00:10:11,750 --> 00:10:14,810
+And we can explore what exactly it lives on there down below.
+
+168
+00:10:14,900 --> 00:10:18,700
+The only thing we can delete a user by is their ID which is great.
+
+169
+00:10:18,740 --> 00:10:20,910
+That's exactly what we're going to end up doing.
+
+170
+00:10:21,190 --> 00:10:22,580
+So right here what do we do.
+
+171
+00:10:22,580 --> 00:10:24,480
+First we need the idea of the user.
+
+172
+00:10:24,500 --> 00:10:25,890
+We're trying to remove.
+
+173
+00:10:25,890 --> 00:10:30,470
+I have that sitting right here so I'm going to copy it to the clipboard then we're going to move over
+
+174
+00:10:30,470 --> 00:10:33,420
+to a new tab and set up our delete user mutation.
+
+175
+00:10:33,470 --> 00:10:35,820
+So we have a mutation operation.
+
+176
+00:10:35,960 --> 00:10:38,390
+The mutation is called Delete user.
+
+177
+00:10:38,390 --> 00:10:44,240
+We are indeed going to be providing some arguments just where that's an object.
+
+178
+00:10:44,240 --> 00:10:50,990
+We set up the id property on that object setting the value equal to the ID we just copied.
+
+179
+00:10:51,150 --> 00:10:53,660
+You can break this onto multiple lines if you like.
+
+180
+00:10:53,700 --> 00:10:55,820
+You can leave it as a single line too.
+
+181
+00:10:55,830 --> 00:11:00,690
+Typically though if I do have objects I like to break things onto multiple lines like you've been doing
+
+182
+00:11:00,690 --> 00:11:05,380
+previously throughout the course from here we have to provide our selection set.
+
+183
+00:11:05,400 --> 00:11:06,360
+So what do we get back.
+
+184
+00:11:06,360 --> 00:11:12,530
+We get back that deleted user and I am going to grab the ID and the name for the user that was removed.
+
+185
+00:11:12,690 --> 00:11:15,650
+If I go ahead and fire off this operation what do I get.
+
+186
+00:11:15,720 --> 00:11:21,420
+Right here I get the data property I have delete user on there and I have the information that I selected
+
+187
+00:11:21,480 --> 00:11:23,430
+for the deleted user.
+
+188
+00:11:23,430 --> 00:11:27,690
+Now if I rerun that user's query I should no longer see that second record.
+
+189
+00:11:27,780 --> 00:11:29,790
+And I can see that has been removed.
+
+190
+00:11:29,790 --> 00:11:36,800
+And lastly if I refreshed the data view over NPG admin I can see it's been removed from there as well.
+
+191
+00:11:36,840 --> 00:11:38,150
+And this is fantastic.
+
+192
+00:11:38,160 --> 00:11:44,190
+We now have a way to perform all of those crud operations using the auto generated graphics API provided
+
+193
+00:11:44,190 --> 00:11:51,360
+by Prisma we can create data we can read data we can update data and we can delete data.
+
+194
+00:11:51,360 --> 00:11:54,780
+Now we've gotten a little taste of what the API actually provides.
+
+195
+00:11:54,780 --> 00:11:59,940
+Clearly there are plenty of things we have not used but what's great is that the queries mutations and
+
+196
+00:11:59,940 --> 00:12:03,980
+subscriptions would be the same even if we were using a different database.
+
+197
+00:12:04,080 --> 00:12:09,750
+If I switched over to my ESC well or mango D-B we wouldn't need to change any of our code.
+
+198
+00:12:09,750 --> 00:12:12,200
+It could all stay exactly the same.
+
+199
+00:12:12,210 --> 00:12:18,540
+So Prisma abstracts away the implementation details of our database allowing us to just focus on what
+
+200
+00:12:18,540 --> 00:12:22,820
+our application needs to do and that is a huge bonus.
+
+201
+00:12:23,100 --> 00:12:24,680
+Now from here what are we going to do.
+
+202
+00:12:24,690 --> 00:12:30,060
+Well we're going to learn how to set up a more realistic data model inside of Prisma.
+
+203
+00:12:30,060 --> 00:12:34,620
+Right now we just have users and they only have two fields and one of them has something that we don't
+
+204
+00:12:34,620 --> 00:12:36,750
+even know about in the next video.
+
+205
+00:12:36,810 --> 00:12:41,820
+We're going to spend a lot of time in this file making it look a lot more like the schema we had set
+
+206
+00:12:41,820 --> 00:12:43,110
+up previously.
+
+207
+00:12:43,150 --> 00:12:44,080
+We're going to have users.
+
+208
+00:12:44,100 --> 00:12:46,880
+We're going to have posts and we're going to have comments.
+
+209
+00:12:46,920 --> 00:12:47,460
+All right.
+
+210
+00:12:47,460 --> 00:12:48,590
+That is it for now.
+
+211
+00:12:48,600 --> 00:12:53,740
+Let's go ahead and jump right into the next one and make some changes to data model skycraft.
+

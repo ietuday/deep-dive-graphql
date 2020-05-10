@@ -1,0 +1,944 @@
+1
+00:00:00,180 --> 00:00:04,310
+In this video as promised you're going to be updating the rest of our mutations.
+
+2
+00:00:04,320 --> 00:00:06,180
+So there are four left in this file.
+
+3
+00:00:06,180 --> 00:00:12,150
+We're going to get all four locked down and behind authentication then in the next videos we'll be able
+
+4
+00:00:12,150 --> 00:00:16,050
+to move on to locking down our queries and our subscriptions.
+
+5
+00:00:16,050 --> 00:00:21,440
+For now though let's go ahead and work with update post that is the first of the four.
+
+6
+00:00:21,450 --> 00:00:26,190
+We're going to change in this video and right here I have the challenge comments for what I'd like you
+
+7
+00:00:26,190 --> 00:00:26,550
+to do.
+
+8
+00:00:26,550 --> 00:00:29,720
+Once again big picture goal lockdown update post.
+
+9
+00:00:29,730 --> 00:00:32,100
+There are three steps for getting that done.
+
+10
+00:00:32,100 --> 00:00:38,820
+Step one we have to validate the authentication token that's going to give us the id the user id for
+
+11
+00:00:38,820 --> 00:00:44,940
+the user who has authenticated making sure there actually is a token and that its valid step to check
+
+12
+00:00:44,970 --> 00:00:50,490
+if that post exists with the post ID and the correct author ID.
+
+13
+00:00:50,700 --> 00:00:55,750
+So the post ID gets passed in as an argument and the author ID comes from the token.
+
+14
+00:00:55,920 --> 00:01:01,770
+We want to use exists similar to what we did up above to make sure the post actually exists before we
+
+15
+00:01:01,770 --> 00:01:02,530
+update it.
+
+16
+00:01:02,670 --> 00:01:06,780
+And if you dont find the post you can just throw an error like we did up above as well so.
+
+17
+00:01:06,810 --> 00:01:09,060
+Else throw an error.
+
+18
+00:01:09,060 --> 00:01:13,070
+Now if you do find the post are going to do the exact same thing were already doing.
+
+19
+00:01:13,200 --> 00:01:19,380
+And step three is to just test your work to actually run some operations from graft Well playground
+
+20
+00:01:19,620 --> 00:01:22,460
+to make sure all of this works as expected.
+
+21
+00:01:22,460 --> 00:01:24,810
+All right take some time to knock this one out.
+
+22
+00:01:24,810 --> 00:01:28,060
+Test your work when you're done come back and collect play
+
+23
+00:01:31,390 --> 00:01:32,060
+how that go.
+
+24
+00:01:32,080 --> 00:01:33,730
+Let's go ahead and kick things off.
+
+25
+00:01:33,730 --> 00:01:34,450
+Step one.
+
+26
+00:01:34,450 --> 00:01:38,350
+We are going to grab a request off of the context and step two.
+
+27
+00:01:38,470 --> 00:01:46,150
+We are going to validate the authentication tokens so cards user ID equals get user id passing in the
+
+28
+00:01:46,150 --> 00:01:47,410
+request object.
+
+29
+00:01:48,460 --> 00:01:54,760
+And now that we have validated the token we can go ahead and actually check if a post exists that matches
+
+30
+00:01:54,760 --> 00:01:56,460
+the IDs we have.
+
+31
+00:01:56,530 --> 00:02:01,820
+Now I am going to mark this as an async function so I can use a wait right here Konst.
+
+32
+00:02:02,310 --> 00:02:06,040
+We are going to check for a post exists.
+
+33
+00:02:06,050 --> 00:02:09,270
+We will await Prisma dot exists dot.
+
+34
+00:02:09,320 --> 00:02:16,340
+Post passing in our criteria now in this case I want to make sure the post ID matches up with the ID
+
+35
+00:02:16,340 --> 00:02:22,460
+passed and as the argument and then I want to make sure that the author ID matches up with the authenticated
+
+36
+00:02:22,520 --> 00:02:23,890
+users ID.
+
+37
+00:02:23,900 --> 00:02:30,470
+So right here I am setting author to an object and setting the id property equal to the ID we pulled
+
+38
+00:02:30,470 --> 00:02:32,150
+off of that token.
+
+39
+00:02:32,150 --> 00:02:35,710
+Now that we have this in place we can go ahead and set up our IF statement.
+
+40
+00:02:35,720 --> 00:02:45,770
+If there is no post bound we're gonna throw an error if no post exists throw new error with a message
+
+41
+00:02:45,770 --> 00:02:50,440
+along the lines of unable to update.
+
+42
+00:02:50,550 --> 00:02:52,270
+Post perfect.
+
+43
+00:02:52,320 --> 00:02:55,130
+Now there's no need to change anything down below.
+
+44
+00:02:55,230 --> 00:03:00,900
+Right here we do indeed have everything set up correctly and we can move on to Step 3 and actually test
+
+45
+00:03:00,900 --> 00:03:01,710
+our work.
+
+46
+00:03:01,710 --> 00:03:06,570
+I'm going to save this file and we're going to move into graphical playground over here.
+
+47
+00:03:06,570 --> 00:03:11,780
+I'm going to start by creating some posts using my Create post mutation.
+
+48
+00:03:11,820 --> 00:03:13,920
+So we need some data to actually work with.
+
+49
+00:03:13,920 --> 00:03:19,290
+Since we deleted all of the posts in the last video I had a post by Jess and I'm just going to add a
+
+50
+00:03:19,290 --> 00:03:20,250
+bunch for her.
+
+51
+00:03:20,400 --> 00:03:30,070
+I'm going to add one to three four Let's go ahead and add five total So just one more five.
+
+52
+00:03:30,080 --> 00:03:30,910
+Perfect.
+
+53
+00:03:30,920 --> 00:03:32,660
+So now Jess has 5 posts.
+
+54
+00:03:32,660 --> 00:03:33,650
+We can work with.
+
+55
+00:03:33,680 --> 00:03:36,590
+I'm going to quickly log in as Andrew and do the same thing.
+
+56
+00:03:36,590 --> 00:03:44,940
+So over here I'll log in as Andrew I'll grab his authentication token bring that back over to create
+
+57
+00:03:44,940 --> 00:03:47,590
+post and we're going to create some posts for him.
+
+58
+00:03:47,670 --> 00:03:49,740
+I'll swap out the token down below.
+
+59
+00:03:49,800 --> 00:03:55,230
+Pasting in the new one I just got from the lounge in mutation and right here I will start with post
+
+60
+00:03:55,230 --> 00:04:07,320
+by Andrew one that I'll do to three four and five perfect is a little bit of dummy data to work with.
+
+61
+00:04:07,330 --> 00:04:09,180
+So now we have a whole bunch of posts.
+
+62
+00:04:09,280 --> 00:04:13,570
+Let's go ahead and stay logged in as Andrew and try to perform some updates.
+
+63
+00:04:13,570 --> 00:04:18,760
+So if I run my users query I can see that each of my users has 5 posts.
+
+64
+00:04:18,760 --> 00:04:23,950
+I'm going to try to update one of the posts from Andrew which should work since that's who I'm logged
+
+65
+00:04:23,950 --> 00:04:24,610
+in as.
+
+66
+00:04:24,730 --> 00:04:28,900
+And I'll also try to update a post from gests which should indeed fail.
+
+67
+00:04:28,900 --> 00:04:31,500
+So over here I have my update post mutation.
+
+68
+00:04:31,660 --> 00:04:34,600
+I'm going to set up the headers we need our authorization header
+
+69
+00:04:38,260 --> 00:04:44,590
+the value of barer space token then we can actually pick a post ID.
+
+70
+00:04:44,590 --> 00:04:48,000
+So once again I will start by updating a post from Andrew.
+
+71
+00:04:48,020 --> 00:04:50,380
+I'm going to grab this first one right here.
+
+72
+00:04:51,440 --> 00:04:58,100
+Then I'm going to bring that over to update post pasted in and we're going to do is change the title.
+
+73
+00:04:58,100 --> 00:05:05,480
+So title equals a string and I will just say updated post by Andrew as an example.
+
+74
+00:05:05,480 --> 00:05:09,870
+Now if I fire this off what happens I can see that things did go correctly.
+
+75
+00:05:10,040 --> 00:05:15,290
+And if I were to actually run our users query again I should see that data changed.
+
+76
+00:05:15,290 --> 00:05:17,400
+And right here it is indeed changed.
+
+77
+00:05:17,420 --> 00:05:24,560
+Now as Andrew let's try to update a post by Jess I'm going to grab one of those IDs bring that over
+
+78
+00:05:24,560 --> 00:05:27,560
+to update post paste of the ID in.
+
+79
+00:05:27,560 --> 00:05:33,290
+Fire off the operation and right here we get unable to update post which is fantastic.
+
+80
+00:05:33,290 --> 00:05:34,130
+So there we go.
+
+81
+00:05:34,160 --> 00:05:36,860
+We have update posts all locked down.
+
+82
+00:05:36,860 --> 00:05:43,520
+Let's go ahead and move on to the next mutation which is create comment so we need to put this behind
+
+83
+00:05:43,520 --> 00:05:50,220
+authentication and we want to make sure that the created comment belongs to the logged in user.
+
+84
+00:05:50,280 --> 00:05:53,360
+Right here I have the challenge comment for this one.
+
+85
+00:05:53,360 --> 00:05:55,750
+You're going to lockdown create comment.
+
+86
+00:05:55,760 --> 00:06:03,440
+We have one validate the authentication token to update the mutation to no longer accept the other ID.
+
+87
+00:06:03,440 --> 00:06:04,930
+It is non-negotiable.
+
+88
+00:06:04,970 --> 00:06:10,550
+If you're creating a comment we are going to create the comment with you the authenticated user as the
+
+89
+00:06:10,550 --> 00:06:11,060
+author.
+
+90
+00:06:11,060 --> 00:06:15,670
+Step Three create comment with the authenticated user as the author.
+
+91
+00:06:15,740 --> 00:06:20,870
+So we are going to have to make a small change to our create comment method call then step four.
+
+92
+00:06:20,870 --> 00:06:26,930
+Test your work try to create a comment and make sure it does show up successfully when and only when
+
+93
+00:06:27,020 --> 00:06:28,750
+you're actually logged in.
+
+94
+00:06:28,750 --> 00:06:30,070
+All right paused the video.
+
+95
+00:06:30,080 --> 00:06:30,950
+Knock this out.
+
+96
+00:06:30,950 --> 00:06:31,720
+Test your work.
+
+97
+00:06:31,790 --> 00:06:37,490
+When you're done come back and click play.
+
+98
+00:06:37,500 --> 00:06:37,990
+All right.
+
+99
+00:06:37,990 --> 00:06:38,910
+How that one girl.
+
+100
+00:06:38,910 --> 00:06:43,740
+Let's go ahead and kick things off in the usual way I'm going to grab a request.
+
+101
+00:06:43,740 --> 00:06:51,580
+I'm going to then get the user id by calling get user ID and passing in the request object from here.
+
+102
+00:06:51,630 --> 00:06:54,510
+What we're going to do is modify the mutation.
+
+103
+00:06:54,600 --> 00:06:59,600
+We no longer want to take in that author ID over in schema data graphic.
+
+104
+00:06:59,670 --> 00:07:05,400
+Well we have our create comment mutations sitting right here and we have all of the data coming from
+
+105
+00:07:05,400 --> 00:07:08,360
+create comment input defined down below.
+
+106
+00:07:08,640 --> 00:07:13,160
+Right here we get the text we get the author and we get the post ID.
+
+107
+00:07:13,160 --> 00:07:17,030
+We are going to remove author we still want the text and the post ID.
+
+108
+00:07:17,190 --> 00:07:20,000
+We no longer want the author to be passed in.
+
+109
+00:07:20,430 --> 00:07:27,030
+Now that knocks out step two step three create the comment with the authenticated user as the author.
+
+110
+00:07:27,040 --> 00:07:32,130
+So down below there is no more args dot data dot author we just removed it.
+
+111
+00:07:32,130 --> 00:07:36,890
+Instead we have user ID which comes from that authentication token.
+
+112
+00:07:37,140 --> 00:07:38,690
+That brings us to step 4.
+
+113
+00:07:38,700 --> 00:07:40,470
+Testing our work.
+
+114
+00:07:40,470 --> 00:07:42,980
+I'm going to remove the challenge comments.
+
+115
+00:07:43,320 --> 00:07:46,200
+Save the file and actually try to create a comment.
+
+116
+00:07:46,230 --> 00:07:49,170
+So let's go ahead and grab the headers down below.
+
+117
+00:07:49,170 --> 00:07:51,450
+These are the headers for Andrew.
+
+118
+00:07:51,450 --> 00:07:53,630
+So this is his authentication token.
+
+119
+00:07:53,880 --> 00:07:59,450
+I'm going to go over to create comment which is sitting right over here to the left.
+
+120
+00:07:59,690 --> 00:08:05,660
+I'm going to paste those headers in and I am going to remove the author argument since that's not something
+
+121
+00:08:05,660 --> 00:08:07,820
+that's accepted any longer.
+
+122
+00:08:07,820 --> 00:08:11,160
+Now let's go ahead and grab a valid post ID.
+
+123
+00:08:11,270 --> 00:08:16,750
+If I were to fire it off as is it would fail saying that no post can be found without ID.
+
+124
+00:08:16,790 --> 00:08:18,350
+That is totally expected.
+
+125
+00:08:18,500 --> 00:08:25,070
+As Andrew I'm going to leave a comment on this post by Jess so I'll grab that Id bring that over to
+
+126
+00:08:25,070 --> 00:08:28,030
+create comment and paste it right in here.
+
+127
+00:08:28,040 --> 00:08:33,640
+Now if I update my schema this should be completely valid and it is and if I fire it off we can see
+
+128
+00:08:33,650 --> 00:08:40,310
+once again we were able to create a comment if I didn't have the authentication token in place this
+
+129
+00:08:40,310 --> 00:08:44,090
+operation would fail saying authentication is required.
+
+130
+00:08:44,090 --> 00:08:44,870
+Perfect.
+
+131
+00:08:44,870 --> 00:08:48,530
+So one more down create comment is looking really good.
+
+132
+00:08:48,530 --> 00:08:51,010
+And we're going to move on to the final two.
+
+133
+00:08:51,110 --> 00:08:54,590
+We have delete comment and we have update comment.
+
+134
+00:08:54,590 --> 00:08:58,370
+Now we've already changed several mutations to be locked down.
+
+135
+00:08:58,370 --> 00:09:02,480
+So for this one I've left the challenge comments intentionally vague.
+
+136
+00:09:02,490 --> 00:09:06,670
+Your goal is to lock down delete comment and update comment.
+
+137
+00:09:06,680 --> 00:09:07,850
+How are you going to get that done.
+
+138
+00:09:07,850 --> 00:09:12,760
+Well you're going to lockdown delete comment and then you're going to lockdown update comment.
+
+139
+00:09:12,800 --> 00:09:16,250
+So use what we've done already to figure out how to get this done.
+
+140
+00:09:16,370 --> 00:09:20,710
+I'm not giving you any more steps since it's something we've gone through before.
+
+141
+00:09:20,720 --> 00:09:21,190
+All right.
+
+142
+00:09:21,200 --> 00:09:23,030
+Take some time to do everything.
+
+143
+00:09:23,030 --> 00:09:31,120
+Make sure to also test your work when you're done come back and click play.
+
+144
+00:09:31,130 --> 00:09:31,790
+Welcome back.
+
+145
+00:09:31,790 --> 00:09:33,830
+Let's kick things off with the lead comment.
+
+146
+00:09:33,830 --> 00:09:39,920
+I'm going to start by grabbing our request object and then down below verifying the tokens so Konst
+
+147
+00:09:39,920 --> 00:09:43,340
+user ID equals who we're going to call get user ID.
+
+148
+00:09:43,340 --> 00:09:49,520
+Passing the request in and the next thing we have to do is make sure that comment we're about to remove
+
+149
+00:09:49,760 --> 00:09:52,210
+does indeed belong to this user.
+
+150
+00:09:52,220 --> 00:09:53,860
+The authenticated user.
+
+151
+00:09:54,080 --> 00:09:56,780
+Now I am going to use exists to get that done.
+
+152
+00:09:56,900 --> 00:10:01,690
+I'm going to mark this as an async method so I can take advantage of a wait right here.
+
+153
+00:10:01,700 --> 00:10:03,680
+Let's go ahead and do just that.
+
+154
+00:10:03,770 --> 00:10:12,990
+Konst comment exists equals I am going to await the promise that comes back from Prisma dot exists dot
+
+155
+00:10:13,010 --> 00:10:18,430
+comment and we are going to pass in our object and set up our search criteria.
+
+156
+00:10:18,500 --> 00:10:25,700
+We are looking for a comment where the ID equals the ID of the argument passed in and where the authors
+
+157
+00:10:25,700 --> 00:10:32,870
+ID matches up with the ID of the logged in users are right here user ID.
+
+158
+00:10:32,870 --> 00:10:34,840
+Next up we just add an if statement.
+
+159
+00:10:34,850 --> 00:10:41,930
+So if there was no comment existing that match that criteria were going to throw a new error saying
+
+160
+00:10:41,930 --> 00:10:44,950
+we can not delete it since we cant find it right here.
+
+161
+00:10:45,110 --> 00:10:48,920
+Unable to delete comment.
+
+162
+00:10:48,920 --> 00:10:50,030
+Perfect.
+
+163
+00:10:50,030 --> 00:10:54,560
+Now that we have this in place for delete comment were going to be doing something very similar for
+
+164
+00:10:54,560 --> 00:10:55,490
+update comment.
+
+165
+00:10:55,490 --> 00:11:01,910
+For this one once again I am going to market as an async function and I'm also going to grab the request
+
+166
+00:11:02,000 --> 00:11:04,560
+object off of the context.
+
+167
+00:11:04,580 --> 00:11:06,960
+Now the first two steps are actually going to be the same.
+
+168
+00:11:07,040 --> 00:11:12,290
+So I can choose to write that code out again or I can paste it down below right here once again we are
+
+169
+00:11:12,290 --> 00:11:17,940
+looking for the comment with the matching ID and the matching author Id only if we find one.
+
+170
+00:11:17,960 --> 00:11:20,100
+Do we actually want to update the comment.
+
+171
+00:11:20,270 --> 00:11:25,830
+And I am going to add an if statement right here if no comment exists.
+
+172
+00:11:26,130 --> 00:11:29,460
+You are going to have our error message for this particular mutation.
+
+173
+00:11:29,470 --> 00:11:38,410
+Throw new error saying something like unable to update comment excellent.
+
+174
+00:11:38,460 --> 00:11:44,370
+Now that we have both of those completely converted and locked down it's time to go ahead and test our
+
+175
+00:11:44,370 --> 00:11:45,000
+work.
+
+176
+00:11:45,030 --> 00:11:51,970
+So I'm going to save mutation J.S. and we're going to head over to graft Well playground to start with.
+
+177
+00:11:51,990 --> 00:11:54,590
+I'm going to go ahead and create some more comments.
+
+178
+00:11:54,600 --> 00:12:00,420
+So right here as this user on this post I'm just going to add a few different comments.
+
+179
+00:12:00,420 --> 00:12:01,750
+We can play around with.
+
+180
+00:12:01,920 --> 00:12:04,650
+Now I'm currently logged in as Andrew.
+
+181
+00:12:04,650 --> 00:12:08,920
+So I'll just say something like Andrew comment.
+
+182
+00:12:09,960 --> 00:12:15,170
+I'm going to create that one and then I'll add a couple more into the mix and you comment to Andrew
+
+183
+00:12:15,180 --> 00:12:19,210
+comment 3 and Andrew comment for perfect.
+
+184
+00:12:19,320 --> 00:12:25,500
+Now that we have our comments created for Andrew I'm also going to create some for Jess so we can make
+
+185
+00:12:25,500 --> 00:12:28,590
+sure that things work correctly across users.
+
+186
+00:12:28,650 --> 00:12:31,750
+I'm going to go ahead and log in as Jess over here.
+
+187
+00:12:33,110 --> 00:12:38,820
+I'm going to grab her authentication token and bring that back over to the Create comment mutations
+
+188
+00:12:38,850 --> 00:12:40,240
+over here.
+
+189
+00:12:40,240 --> 00:12:46,960
+I'm going to use her token instead of this token then I'm going to create some comments for her.
+
+190
+00:12:46,960 --> 00:12:53,660
+So just comment one on fire that off comment to comment three and comment four.
+
+191
+00:12:53,680 --> 00:12:54,700
+Excellent.
+
+192
+00:12:54,700 --> 00:13:00,220
+Now we have some interesting data that we can actually use when it comes to testing delete comment and
+
+193
+00:13:00,220 --> 00:13:01,450
+update comment.
+
+194
+00:13:01,540 --> 00:13:07,780
+If I run in my posts queery I can change this to also fetch comments.
+
+195
+00:13:07,810 --> 00:13:15,640
+I'll go ahead and grab from each comment the ID and the text and if I fire that off I can see the post
+
+196
+00:13:15,640 --> 00:13:18,320
+that has all of the comments sitting right here.
+
+197
+00:13:18,370 --> 00:13:23,490
+Let's go ahead and stay logged in as Jess and try to delete a comment that she created.
+
+198
+00:13:23,500 --> 00:13:27,210
+So I'm going to move over to the delete comment mutation.
+
+199
+00:13:27,490 --> 00:13:29,540
+We do need to add that header in down below
+
+200
+00:13:32,190 --> 00:13:35,760
+setting up the bearer value with our token.
+
+201
+00:13:35,940 --> 00:13:41,160
+And now I am going to update the comment Id So I'm going to grab one of those comments that she created
+
+202
+00:13:41,550 --> 00:13:42,080
+over here.
+
+203
+00:13:42,090 --> 00:13:44,190
+We have just comment 1.
+
+204
+00:13:44,220 --> 00:13:48,800
+I'll grab that I.D. and I'll bring that over to the delete comment mutation.
+
+205
+00:13:48,810 --> 00:13:50,050
+I'm going to paste it in.
+
+206
+00:13:50,090 --> 00:13:50,760
+Fire it off.
+
+207
+00:13:50,760 --> 00:13:51,540
+And what happens.
+
+208
+00:13:51,540 --> 00:13:54,720
+The comment was indeed removed which is perfect.
+
+209
+00:13:54,720 --> 00:13:58,730
+Now let's have just try to delete a comment by a different user.
+
+210
+00:13:58,890 --> 00:14:05,550
+I'm going to have her try to delete Andrew comment one by grabbing that I.D. bringing that I.D. over
+
+211
+00:14:05,550 --> 00:14:08,740
+to delete comment and pasting that in right here.
+
+212
+00:14:08,760 --> 00:14:11,690
+Unable to delete comment which is awesome.
+
+213
+00:14:11,700 --> 00:14:15,360
+So the last thing to test is our update comment mutation.
+
+214
+00:14:15,360 --> 00:14:17,380
+Let's go ahead and do just that.
+
+215
+00:14:17,400 --> 00:14:22,820
+I'm going to stay logged in as Jess and I'm going to try to update one of her comments down below.
+
+216
+00:14:23,760 --> 00:14:26,980
+I have Jess comment for example.
+
+217
+00:14:27,090 --> 00:14:29,540
+Let's go ahead and change the text for that.
+
+218
+00:14:29,580 --> 00:14:34,720
+I'm going to go over to the update comment mutation and change things up right here.
+
+219
+00:14:34,860 --> 00:14:37,610
+I'm going to use that comment Id.
+
+220
+00:14:37,920 --> 00:14:39,410
+I will change the text too.
+
+221
+00:14:39,420 --> 00:14:48,540
+This is updated with authentication and I am going to grab her actual credentials from the delete comment
+
+222
+00:14:48,630 --> 00:14:50,840
+mutation that we just set up right here.
+
+223
+00:14:50,970 --> 00:14:56,280
+I already have the headers in place so I can grab them and bring them over to update comment and just
+
+224
+00:14:56,280 --> 00:14:58,120
+paste them right in.
+
+225
+00:14:58,140 --> 00:15:04,080
+Now if I fire this off it should work and right ear we can indeed see that things are working as expected.
+
+226
+00:15:04,080 --> 00:15:05,340
+So there we go.
+
+227
+00:15:05,370 --> 00:15:12,630
+We actually have every single mutation sitting behind authentication so we're locking down exactly what
+
+228
+00:15:12,630 --> 00:15:13,880
+someone can do.
+
+229
+00:15:13,980 --> 00:15:17,040
+If you're not logged in you can sign up or log in.
+
+230
+00:15:17,040 --> 00:15:22,650
+If you are lying in it you can perform lots of other interesting operations but with restrictions for
+
+231
+00:15:22,650 --> 00:15:26,760
+example you can't delete a user other than yourself.
+
+232
+00:15:26,760 --> 00:15:30,450
+Now mutations are only one piece to the puzzle in the next video.
+
+233
+00:15:30,510 --> 00:15:35,420
+We're going to start to look at how we can use the exact same logic with very little effort to lock
+
+234
+00:15:35,420 --> 00:15:37,490
+down our queries as well.
+
+235
+00:15:37,680 --> 00:15:39,050
+I'm excited to get to that.
+
+236
+00:15:39,060 --> 00:15:41,200
+So let's go ahead and jump right in.
+

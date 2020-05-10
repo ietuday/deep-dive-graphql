@@ -1,0 +1,768 @@
+1
+00:00:00,210 --> 00:00:05,850
+In this video we're going to wrap up our basic exploration of queries with the graphical playground
+
+2
+00:00:06,060 --> 00:00:11,310
+in the next video we're actually going to move on and start writing some code inside of our text editor
+
+3
+00:00:11,700 --> 00:00:16,740
+for the moment though what I want to do is explore how we can query more real world data.
+
+4
+00:00:16,740 --> 00:00:22,170
+It's nice to be able to query some strings and actually see some data come back but with real applications
+
+5
+00:00:22,170 --> 00:00:26,330
+we have complex objects and we have arrays of objects.
+
+6
+00:00:26,370 --> 00:00:31,320
+If we stick with the blogging example we might have an array of posts we want to show to the screen
+
+7
+00:00:31,620 --> 00:00:37,380
+so we have an array of posts where each item in that array each post is an object with a standard set
+
+8
+00:00:37,380 --> 00:00:38,440
+of properties.
+
+9
+00:00:38,460 --> 00:00:43,220
+A Post has an ID a title a body and a published value.
+
+10
+00:00:43,230 --> 00:00:49,170
+This is exactly what we saw a couple of videos ago when we explored how we can visualize our data as
+
+11
+00:00:49,230 --> 00:00:52,470
+a graph before we try to query a Florida array of objects.
+
+12
+00:00:52,470 --> 00:00:57,720
+Let's go ahead and just start with a simple object if we head over to the schema we can explore exactly
+
+13
+00:00:57,720 --> 00:00:59,280
+what we're going to end up querying.
+
+14
+00:00:59,280 --> 00:01:06,030
+And that has me now with Hello course and course instructor we got strings back and it was easy to make
+
+15
+00:01:06,030 --> 00:01:06,910
+sense of right here.
+
+16
+00:01:06,930 --> 00:01:12,420
+We get string values back but we can see that with me for the first time we're getting back something
+
+17
+00:01:12,420 --> 00:01:12,920
+different.
+
+18
+00:01:12,960 --> 00:01:15,270
+In this case it's a user.
+
+19
+00:01:15,270 --> 00:01:19,550
+Now a user is a custom data type I created for this application.
+
+20
+00:01:19,740 --> 00:01:24,690
+So for a blogging application we're going to have things like users posts and comments.
+
+21
+00:01:24,690 --> 00:01:31,050
+If I was creating something like e-commerce software I might have users products reviews and orders
+
+22
+00:01:31,350 --> 00:01:37,680
+in the end of the day a custom data type like user is nothing more than an object with a standard set
+
+23
+00:01:37,740 --> 00:01:39,020
+of fields.
+
+24
+00:01:39,060 --> 00:01:44,880
+If we actually click on me we're going to see the exact fields available on a user that we can query
+
+25
+00:01:45,150 --> 00:01:50,150
+so we can decide which of these we need and we can structure our query to actually get them.
+
+26
+00:01:50,250 --> 00:01:54,720
+We don't need to worry about the type definition for the moment we'll actually build out our own custom
+
+27
+00:01:54,720 --> 00:01:56,850
+types in the next several videos.
+
+28
+00:01:56,850 --> 00:02:01,740
+The only thing we're concerned about is that when we get a user back we're essentially getting an object
+
+29
+00:02:01,740 --> 00:02:06,600
+back with five properties which we can choose to select in our query.
+
+30
+00:02:06,600 --> 00:02:11,320
+Let's go ahead and mess around with an example query right here after our current three fields.
+
+31
+00:02:11,340 --> 00:02:16,460
+I'm going to try to query for me and you'll notice that when I do this we're actually getting an error.
+
+32
+00:02:16,500 --> 00:02:18,260
+This is an invalid query.
+
+33
+00:02:18,480 --> 00:02:25,050
+And if we hover over the error we have the following message field to me of type user must have a selection
+
+34
+00:02:25,080 --> 00:02:32,250
+of subfields and it's asking us if we meant to put curly braces after me when we're querying on an object
+
+35
+00:02:32,490 --> 00:02:38,310
+we have to specify which fields from that object we want we can't ask for everything because that defeats
+
+36
+00:02:38,310 --> 00:02:39,390
+the purpose of graft.
+
+37
+00:02:39,480 --> 00:02:45,510
+Well which is to have the client request everything it needs nothing more and nothing less.
+
+38
+00:02:45,510 --> 00:02:50,430
+So let's say I do on some stuff for me maybe I want all five of these in which case I would list all
+
+39
+00:02:50,430 --> 00:02:51,060
+five.
+
+40
+00:02:51,180 --> 00:02:54,500
+Let's say we just want to add the ID and the name.
+
+41
+00:02:54,510 --> 00:02:55,730
+How do we get that done.
+
+42
+00:02:56,010 --> 00:03:00,000
+Well we start by adding curly braces after me just like this.
+
+43
+00:03:00,000 --> 00:03:03,600
+Then we list out the fields we want to select off of me.
+
+44
+00:03:03,720 --> 00:03:05,880
+So me returns the user.
+
+45
+00:03:05,880 --> 00:03:07,670
+Users have these fields.
+
+46
+00:03:07,680 --> 00:03:09,310
+Let's go ahead and grab those two.
+
+47
+00:03:09,330 --> 00:03:13,230
+First up ID I simply list it like I would up here.
+
+48
+00:03:13,440 --> 00:03:19,920
+Then if I want another field off of me I hit create a new line and I specify that field to right here
+
+49
+00:03:19,980 --> 00:03:21,790
+I will grab name.
+
+50
+00:03:21,810 --> 00:03:24,210
+Now we can collapse our schema tab for the moment.
+
+51
+00:03:24,330 --> 00:03:26,790
+I'm going to click that play button and what do we get.
+
+52
+00:03:26,790 --> 00:03:31,470
+We get a brand new property on data me which matches up with this.
+
+53
+00:03:31,620 --> 00:03:35,940
+And you'll notice that instead of getting something back like a string we're actually getting back an
+
+54
+00:03:36,060 --> 00:03:36,860
+object.
+
+55
+00:03:36,870 --> 00:03:42,200
+So when we query for a custom type like user We're going to get back an object with all of the fields
+
+56
+00:03:42,210 --> 00:03:43,380
+we asked for.
+
+57
+00:03:43,380 --> 00:03:48,160
+In this case we asked for ID and name and we're getting back ID and name.
+
+58
+00:03:48,420 --> 00:03:53,730
+And you'll notice that once again the structure over here matches the structure over here.
+
+59
+00:03:53,730 --> 00:04:00,540
+So hello course course instructor and me are top level like they are here ID and name are nested under
+
+60
+00:04:00,540 --> 00:04:03,390
+me like they are in both examples.
+
+61
+00:04:03,420 --> 00:04:09,690
+So we've seen a basic example of how we can query on objects we can now add on that third field email
+
+62
+00:04:10,170 --> 00:04:14,470
+I could send off a new operation and I get back at the same structure.
+
+63
+00:04:14,550 --> 00:04:19,160
+The only addition is the email property on that me object.
+
+64
+00:04:19,230 --> 00:04:23,680
+Now that we've queried is some data off of one of our types which is essentially an object.
+
+65
+00:04:23,820 --> 00:04:28,710
+Let's go ahead and learn how we can query some data off of an array of one of our types or an array
+
+66
+00:04:28,710 --> 00:04:33,720
+of objects which in the end of the day is where most of our real world application data is going to
+
+67
+00:04:33,720 --> 00:04:35,020
+end up living.
+
+68
+00:04:35,070 --> 00:04:39,210
+Now for this example API I've given us two options for this.
+
+69
+00:04:39,210 --> 00:04:45,020
+The first is users which returns an array of all of the users who currently have signed up for the application.
+
+70
+00:04:45,180 --> 00:04:50,760
+And the second is posts which returns an array of all of the published posts.
+
+71
+00:04:50,760 --> 00:04:55,620
+Now this is going to allow us to figure out how we can actually query that data before we use either
+
+72
+00:04:55,620 --> 00:04:56,070
+though.
+
+73
+00:04:56,160 --> 00:04:58,880
+I want to talk about the syntax we're seeing right here.
+
+74
+00:04:59,200 --> 00:05:02,410
+For hello and that hello was the field we can query.
+
+75
+00:05:02,550 --> 00:05:08,520
+Then we had a colon space followed by the type we expect to get back in this case the schema is saying
+
+76
+00:05:08,520 --> 00:05:10,330
+for hello you're going to get a string.
+
+77
+00:05:10,410 --> 00:05:15,330
+And because of the exclamation mark it's saying you're always going to get a string if the exclamation
+
+78
+00:05:15,330 --> 00:05:16,650
+mark didn't exist.
+
+79
+00:05:16,710 --> 00:05:18,100
+We might get null back.
+
+80
+00:05:18,120 --> 00:05:23,010
+So if there was no exclamation mark we could either get a string like hello world or knowl both would
+
+81
+00:05:23,010 --> 00:05:25,130
+be valid with the exclamation mark.
+
+82
+00:05:25,140 --> 00:05:27,020
+We have to get a string back.
+
+83
+00:05:27,030 --> 00:05:31,110
+Now let's look at a more complex type definition like the one for users.
+
+84
+00:05:31,110 --> 00:05:34,950
+First up we have the opening and closing square bracket.
+
+85
+00:05:35,040 --> 00:05:38,450
+This is how we define that the return value is an array.
+
+86
+00:05:38,460 --> 00:05:44,220
+So here we have a string here we have a user here we have an array and the exclamation mark at the very
+
+87
+00:05:44,220 --> 00:05:49,390
+end says we're always going to get an array back as opposed to being able to get null back.
+
+88
+00:05:49,410 --> 00:05:54,510
+Now the array might be empty but if we do have items in the array we're saying they're always going
+
+89
+00:05:54,510 --> 00:05:56,150
+to be of the type user.
+
+90
+00:05:56,190 --> 00:06:02,940
+Never something like null so user exclamation mark says the array items if they exist will be of type
+
+91
+00:06:02,940 --> 00:06:03,720
+user.
+
+92
+00:06:03,810 --> 00:06:08,460
+The exclamation mark lets us know they will always be of type user and never know.
+
+93
+00:06:08,490 --> 00:06:12,050
+So we would never get an array where the only item was null.
+
+94
+00:06:12,150 --> 00:06:15,950
+Now this is a very standard type definition for the array of objects.
+
+95
+00:06:16,020 --> 00:06:20,250
+We're going to learn more about it and we're going to continue to use it throughout the course for now
+
+96
+00:06:20,430 --> 00:06:24,760
+let's go ahead and see what it takes to actually query for some of this data.
+
+97
+00:06:24,780 --> 00:06:30,330
+Now we could continue to add on to this query right here but with the graph playground tool we can actually
+
+98
+00:06:30,330 --> 00:06:34,500
+create a couple of tabs to have a couple of queries running side by side.
+
+99
+00:06:34,500 --> 00:06:39,150
+So what I'm going to do is create a brand new one allowing us to keep things nice and simple and focused
+
+100
+00:06:39,180 --> 00:06:40,690
+on what we're trying to learn.
+
+101
+00:06:40,950 --> 00:06:46,560
+So right here we are still going to create an operation of the type query and we're still going to select
+
+102
+00:06:46,650 --> 00:06:50,740
+some fields in this case it is users.
+
+103
+00:06:50,970 --> 00:06:53,070
+Now once again this alone is not enough.
+
+104
+00:06:53,070 --> 00:06:57,450
+This is not going to return an array of all of the users with all of their fields.
+
+105
+00:06:57,450 --> 00:07:02,010
+And if we hover over the error we're getting something very similar to what we got when we had just
+
+106
+00:07:02,010 --> 00:07:09,120
+me with no fields selected will we need to do is specify what fields we want for each user.
+
+107
+00:07:09,120 --> 00:07:13,400
+So right here we open and close a set of curly braces and this should look familiar.
+
+108
+00:07:13,530 --> 00:07:16,060
+It's exactly what we ended up doing with me.
+
+109
+00:07:16,060 --> 00:07:22,590
+So if this was me we could add the fields we want off of the user if it was users we can add the fields
+
+110
+00:07:22,590 --> 00:07:25,180
+we want off of every user.
+
+111
+00:07:25,440 --> 00:07:29,410
+So let's go ahead and select a single field off of all of those users.
+
+112
+00:07:29,460 --> 00:07:31,830
+I'm going to go ahead and grab name.
+
+113
+00:07:32,190 --> 00:07:36,840
+So what we're doing here is we're grabbing every single user who signed up for the application and we're
+
+114
+00:07:36,840 --> 00:07:39,290
+getting their name if we go ahead and run the query.
+
+115
+00:07:39,300 --> 00:07:41,260
+We can see exactly what we get back.
+
+116
+00:07:41,370 --> 00:07:42,230
+What do we have.
+
+117
+00:07:42,330 --> 00:07:47,430
+We are the single property on data called users which we should expect since we are selecting a single
+
+118
+00:07:47,430 --> 00:07:50,400
+thing in our query now in there.
+
+119
+00:07:50,400 --> 00:07:53,340
+We're not getting an object back like we got for me.
+
+120
+00:07:53,340 --> 00:07:59,890
+Instead we're getting back an array because users returns an array for each object for each user.
+
+121
+00:07:59,940 --> 00:08:04,010
+We're getting back the field we asked for in this case we have three objects.
+
+122
+00:08:04,020 --> 00:08:05,280
+We're getting the name for each.
+
+123
+00:08:05,280 --> 00:08:10,680
+We have Andrew we have Sarah and we have Michael we could select other things if we wanted to like the
+
+124
+00:08:10,680 --> 00:08:17,310
+email I could rerun the query and now we're getting angry with his email Sarah with her e-mail and Michael
+
+125
+00:08:17,430 --> 00:08:18,630
+with his e-mail.
+
+126
+00:08:18,720 --> 00:08:25,260
+So we're able to select as many or as few things as we need for each user in that array.
+
+127
+00:08:25,320 --> 00:08:28,590
+Later on in the course we'll also learn about filtering and sorting.
+
+128
+00:08:28,590 --> 00:08:33,200
+So we could exclude certain people or sort them out medically doing whatever we might need to.
+
+129
+00:08:33,330 --> 00:08:37,980
+For now though just being able to fetch that data is a great step in the right direction.
+
+130
+00:08:37,980 --> 00:08:43,440
+Now I'd like to move on to challenge time to crack open the schema and it is going to be your job to
+
+131
+00:08:43,440 --> 00:08:50,060
+fetch some data using posts now so far we've ignored posts and comments on user.
+
+132
+00:08:50,160 --> 00:08:55,680
+This is relational data so it links to the posts for that user or the comments that user has made.
+
+133
+00:08:55,680 --> 00:08:57,970
+And we're going to continue to ignore that for the moment.
+
+134
+00:08:58,080 --> 00:09:03,090
+We're just going to focus on the fields that actually resolve to a value as opposed to fields that link
+
+135
+00:09:03,120 --> 00:09:05,040
+to a another custom type.
+
+136
+00:09:05,220 --> 00:09:07,000
+The same thing is true with posts.
+
+137
+00:09:07,080 --> 00:09:12,690
+Each post has an ID a title body published author and comments.
+
+138
+00:09:12,690 --> 00:09:18,870
+For now we're going to completely ignore author and comments author links to the author for the post
+
+139
+00:09:19,050 --> 00:09:24,390
+and comments links to all of the comments for the post and we'll be diving into relational data in detail
+
+140
+00:09:24,420 --> 00:09:25,250
+very soon.
+
+141
+00:09:25,410 --> 00:09:28,960
+But for the moment we're just going to worry about these first four fields.
+
+142
+00:09:29,130 --> 00:09:31,940
+Your challenge for this video is to create a brand new query.
+
+143
+00:09:31,950 --> 00:09:35,300
+So crack open a new tab and set up our query operation.
+
+144
+00:09:35,520 --> 00:09:41,780
+You're going to query for posts and for each post I'd like you to get the ID and the title.
+
+145
+00:09:41,910 --> 00:09:47,340
+So instead of having an array of users with name and e-mail we would have an array of posts with ID
+
+146
+00:09:47,370 --> 00:09:48,220
+and title.
+
+147
+00:09:48,240 --> 00:09:51,300
+Take as much time as you needed to actually get this one done.
+
+148
+00:09:51,300 --> 00:09:52,430
+It might take 30 seconds.
+
+149
+00:09:52,430 --> 00:09:54,290
+It might take 5 minutes or 20.
+
+150
+00:09:54,420 --> 00:09:55,910
+Either way works.
+
+151
+00:09:55,950 --> 00:10:03,240
+Feel free to refer to the schema and refer to any code we written before or any previous videos to solve
+
+152
+00:10:03,240 --> 00:10:08,310
+this challenge or any other challenge for that matter when you have the query in place make sure to
+
+153
+00:10:08,310 --> 00:10:12,000
+actually run it and see if you can't get the right data coming back.
+
+154
+00:10:12,000 --> 00:10:12,630
+All right.
+
+155
+00:10:12,690 --> 00:10:13,840
+That is it for the set up.
+
+156
+00:10:13,860 --> 00:10:19,080
+Take a moment to pause the video try to fetch the idea and title for each post when you're done come
+
+157
+00:10:19,080 --> 00:10:20,580
+back and click play
+
+158
+00:10:23,860 --> 00:10:24,640
+how that one go.
+
+159
+00:10:24,670 --> 00:10:28,980
+Let's go ahead and kick things off by creating a new tab for our brand new queery.
+
+160
+00:10:29,200 --> 00:10:31,390
+Now we have to specify our operation type.
+
+161
+00:10:31,390 --> 00:10:34,330
+The only operation we know about so far is the query.
+
+162
+00:10:34,390 --> 00:10:40,310
+So we'll provide that along with our curly braces so we can select the individual fields we want.
+
+163
+00:10:40,390 --> 00:10:44,200
+Now for this challenge I said you just needed to grab the posts.
+
+164
+00:10:44,200 --> 00:10:47,550
+So that's the only root field we're going to select.
+
+165
+00:10:47,560 --> 00:10:52,230
+Now we can't just select posts because what we get back is an array of objects.
+
+166
+00:10:52,270 --> 00:10:56,390
+So we have to specify what we want off of each of those objects.
+
+167
+00:10:56,410 --> 00:10:58,930
+What do we want off of each post.
+
+168
+00:10:58,930 --> 00:11:01,210
+Each post has a few different types.
+
+169
+00:11:01,210 --> 00:11:02,290
+We can pick from.
+
+170
+00:11:02,380 --> 00:11:04,690
+We just need ID and title.
+
+171
+00:11:04,690 --> 00:11:11,720
+So right here we'll set up our curly braces I will specify that I like the idea and I like the title.
+
+172
+00:11:11,720 --> 00:11:12,610
+And there we go.
+
+173
+00:11:12,680 --> 00:11:15,140
+That is all we had to do for our queery.
+
+174
+00:11:15,350 --> 00:11:16,880
+I can click that play button.
+
+175
+00:11:16,910 --> 00:11:19,850
+It's going to pass the query off to the server.
+
+176
+00:11:19,850 --> 00:11:21,890
+The response comes back and what do we get.
+
+177
+00:11:21,890 --> 00:11:25,610
+We get an array of posts as the only property in data.
+
+178
+00:11:25,610 --> 00:11:32,150
+Now for each array item each object we correctly get the ID for that post and we get the title for the
+
+179
+00:11:32,150 --> 00:11:32,930
+post.
+
+180
+00:11:32,930 --> 00:11:35,190
+So the first post graph Cuil 101.
+
+181
+00:11:35,270 --> 00:11:38,470
+The second post graph UL 201 and the final.
+
+182
+00:11:38,470 --> 00:11:40,870
+Post programming music.
+
+183
+00:11:40,880 --> 00:11:43,100
+That was all you had to do for the challenge.
+
+184
+00:11:43,100 --> 00:11:49,010
+Now we know how to queery on objects and on arrays of objects and that's going to wrap up this little
+
+185
+00:11:49,010 --> 00:11:53,620
+introduction to graphical queries using the graph Cuil playground.
+
+186
+00:11:53,660 --> 00:11:58,630
+We will come back to this demo a bit later in the course as we start to explore relational data.
+
+187
+00:11:58,700 --> 00:12:02,280
+We'll figure out how we can use other properties like author and comments.
+
+188
+00:12:02,390 --> 00:12:08,000
+But for the moment what I'd like to do is take things into the text editor and start setting up our
+
+189
+00:12:08,060 --> 00:12:10,200
+own graphical server.
+
+190
+00:12:10,220 --> 00:12:12,060
+I am super excited to get to that.
+
+191
+00:12:12,080 --> 00:12:17,180
+So let's go ahead and jump right into the next video and see what it takes to use graft well inside
+
+192
+00:12:17,180 --> 00:12:18,440
+of node j as.
+

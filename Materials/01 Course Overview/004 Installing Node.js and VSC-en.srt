@@ -1,0 +1,228 @@
+1
+00:00:00,150 --> 00:00:04,320
+Before we wrap up this section and died anti-graft Well there are two things we're going to have to
+
+2
+00:00:04,320 --> 00:00:06,300
+have installed on our computers.
+
+3
+00:00:06,300 --> 00:00:08,960
+The first is node SJS which you can find out.
+
+4
+00:00:08,970 --> 00:00:09,300
+No.
+
+5
+00:00:09,300 --> 00:00:15,000
+J.S. not org since knowing node is a pre-req for this class Hopefully you already have it installed
+
+6
+00:00:15,000 --> 00:00:15,860
+on your computer.
+
+7
+00:00:16,020 --> 00:00:21,840
+If you don't have node installed or you're using a much older version just go ahead and grab a V8 of
+
+8
+00:00:21,840 --> 00:00:27,090
+node or higher you can grab the installer run through it by clicking next a bunch of times and then
+
+9
+00:00:27,090 --> 00:00:30,920
+you'll be all done the exact version of node you use with this class.
+
+10
+00:00:30,920 --> 00:00:32,050
+Does not matter.
+
+11
+00:00:32,190 --> 00:00:33,030
+All of the graphics.
+
+12
+00:00:33,060 --> 00:00:38,610
+Well functionality that we're going to be exploring comes from specific NPM modules which we'll be installing
+
+13
+00:00:38,610 --> 00:00:39,230
+later.
+
+14
+00:00:39,300 --> 00:00:45,510
+We just need a semi-modern version of node to get the environment up and running the 8 of node or greater
+
+15
+00:00:45,630 --> 00:00:47,400
+is going to work perfectly fine.
+
+16
+00:00:47,400 --> 00:00:52,000
+So v 8 9 10 or whatever else comes out in the future so run through that installer.
+
+17
+00:00:52,020 --> 00:00:56,880
+Make sure you have node installed and if you do we can move on to the second tool which is going to
+
+18
+00:00:56,880 --> 00:00:58,110
+be a text editor.
+
+19
+00:00:58,260 --> 00:01:03,240
+As always you are more than welcome to use whatever text editor you're comfortable with if you're interested
+
+20
+00:01:03,240 --> 00:01:06,580
+in following along and setting up your environment just like mine.
+
+21
+00:01:06,600 --> 00:01:09,050
+I'm going to be using Visual Studio code.
+
+22
+00:01:09,180 --> 00:01:16,320
+You can find that over at Code dot Visual Studio dot com if you haven't used it before I recommend giving
+
+23
+00:01:16,320 --> 00:01:16,920
+it a shot.
+
+24
+00:01:16,920 --> 00:01:22,660
+It's a fantastic editor that integrates really well with all sorts of environments including graphs.
+
+25
+00:01:22,740 --> 00:01:24,810
+Well Visual Studio code is free.
+
+26
+00:01:24,810 --> 00:01:27,840
+It's open source and it's available for all operating systems.
+
+27
+00:01:27,840 --> 00:01:32,100
+So if you do want to use it go ahead and grab the installer and get it installed.
+
+28
+00:01:32,100 --> 00:01:34,610
+We're going to wrap up this video by going over the plugins.
+
+29
+00:01:34,620 --> 00:01:37,840
+I'll be using for VSC in this class.
+
+30
+00:01:37,860 --> 00:01:42,450
+Now some of these plug ins will have replacements in other editors but I can't guarantee that.
+
+31
+00:01:42,450 --> 00:01:46,140
+So here's the plug in list I'm using for Visual Studio code.
+
+32
+00:01:46,200 --> 00:01:49,150
+I got about half a dozen or so that really come in handy.
+
+33
+00:01:49,170 --> 00:01:54,960
+The first one Babel six slash iOS 7 just gives us support for all of those modern features like Aero
+
+34
+00:01:54,960 --> 00:02:01,120
+functions and async await the next plugin beautify allows us to format our code on the fly.
+
+35
+00:02:01,380 --> 00:02:06,120
+After that we have Dharker which is going to come in handy later in the course when we worry about deploying
+
+36
+00:02:06,120 --> 00:02:07,570
+our applications.
+
+37
+00:02:07,620 --> 00:02:09,870
+After that I have duplicate action.
+
+38
+00:02:09,870 --> 00:02:15,180
+This is a simple one that allows me to write click files or folders to duplicate them inside of the
+
+39
+00:02:15,180 --> 00:02:16,570
+file tree.
+
+40
+00:02:16,680 --> 00:02:20,220
+After that I have graphed well for Visual Studio code.
+
+41
+00:02:20,220 --> 00:02:25,580
+I definitely recommend installing this one as it's going to give us syntax highlighting for the graphics
+
+42
+00:02:25,590 --> 00:02:29,380
+you l code that we're going to be writing very soon after that.
+
+43
+00:02:29,400 --> 00:02:35,610
+I have NPM NPM Intellisense which just give me better support when working with NPM modules something
+
+44
+00:02:35,610 --> 00:02:38,100
+we will be doing in this class.
+
+45
+00:02:38,100 --> 00:02:43,920
+Then I have Sublime Text key map I use that because I really fell in love with the Sublime Text keyboard
+
+46
+00:02:43,920 --> 00:02:44,810
+shortcuts.
+
+47
+00:02:44,820 --> 00:02:48,740
+I had a really hard time switching to some of the Visual Studio code defaults.
+
+48
+00:02:48,810 --> 00:02:54,270
+This one like all of these is completely optional but if you do like the Sublime Text keyboard shortcuts
+
+49
+00:02:54,360 --> 00:02:55,420
+it's a great tool.
+
+50
+00:02:55,440 --> 00:02:56,640
+Last up word count.
+
+51
+00:02:56,670 --> 00:02:58,650
+Just count the words in a markdown file.
+
+52
+00:02:58,650 --> 00:03:00,020
+Nothing fancy there.
+
+53
+00:03:00,300 --> 00:03:01,410
+So these are all the plug ins.
+
+54
+00:03:01,410 --> 00:03:06,660
+I'll be using throughout the class if you have node installed and a text editor installed you are ready
+
+55
+00:03:06,660 --> 00:03:10,840
+to dive into the next section where we're actually going to start learning about graft.
+
+56
+00:03:10,890 --> 00:03:13,210
+Well I am super excited to get to it.
+
+57
+00:03:13,230 --> 00:03:15,820
+So stay tuned and I will see you then.
+

@@ -1,0 +1,384 @@
+1
+00:00:00,180 --> 00:00:05,570
+In this video as promised you're going to learn how to set up your application to support the object
+
+2
+00:00:05,590 --> 00:00:06,820
+spread operator.
+
+3
+00:00:06,870 --> 00:00:09,470
+So we're going to be installing a new NPM module.
+
+4
+00:00:09,510 --> 00:00:13,900
+We're going to be configuring it with babbel and then we'll explore how this operator works.
+
+5
+00:00:13,920 --> 00:00:19,970
+The operator is super useful making it really easy to copy object properties from one object to another.
+
+6
+00:00:19,980 --> 00:00:25,290
+Now before we actually install anything or change our babbel RC file I just want to pull out the module
+
+7
+00:00:25,290 --> 00:00:27,750
+page in Google so you know where it lives.
+
+8
+00:00:27,780 --> 00:00:36,710
+You can find it by googling NPM babble plugin transform object rest.
+
+9
+00:00:36,770 --> 00:00:41,790
+Spratt that is quite a mouthful but once you actually search for it it should bring you over to the
+
+10
+00:00:41,790 --> 00:00:43,960
+NPM package page.
+
+11
+00:00:44,040 --> 00:00:48,620
+Here you can learn exactly how it works and how the object respite operator works.
+
+12
+00:00:48,750 --> 00:00:52,020
+But we'll be covering all of that in just a little bit for the moment.
+
+13
+00:00:52,020 --> 00:00:56,840
+We're going to go ahead and actually install this plug in and configure babbel to use it.
+
+14
+00:00:56,860 --> 00:01:02,160
+So over inside a visual studio code I'm going to bring up the terminal I'm going to go ahead and shut
+
+15
+00:01:02,160 --> 00:01:06,360
+things down and use clear to clear the terminal output from here.
+
+16
+00:01:06,360 --> 00:01:11,080
+You're going to run NPM install and we're going to be installing that module.
+
+17
+00:01:11,130 --> 00:01:20,520
+So that's babbel hyphen plug in Haifa and it transform haif an object hyphen or arrest hyphens spread
+
+18
+00:01:20,520 --> 00:01:22,340
+it quite a few words there.
+
+19
+00:01:22,540 --> 00:01:28,300
+And we are going to specify the latest version that is six point twenty six point zero.
+
+20
+00:01:28,300 --> 00:01:29,030
+Awesome.
+
+21
+00:01:29,260 --> 00:01:31,950
+If we go ahead and actually run this command what do we do.
+
+22
+00:01:32,050 --> 00:01:37,800
+We go through the installation process and once that's done we're going to be able to change Babel RC
+
+23
+00:01:38,070 --> 00:01:44,230
+and we only have to make a three line change to this file when we install a plug in and we have to actually
+
+24
+00:01:44,230 --> 00:01:49,600
+tell babbel to use it much like when we install the preset we have to tell Babolat to use that as well.
+
+25
+00:01:49,600 --> 00:01:55,180
+We set up the plug ins that Babel should use by adding a new route propertied to our babbel configuration
+
+26
+00:01:55,180 --> 00:01:55,990
+file.
+
+27
+00:01:56,110 --> 00:02:01,490
+You can call this one plug ins and this is just an array of all of the plug ins you want to use.
+
+28
+00:02:01,490 --> 00:02:04,000
+So right here it's an array of strings.
+
+29
+00:02:04,010 --> 00:02:06,220
+Now you leave off the babble plug and prefix.
+
+30
+00:02:06,230 --> 00:02:09,130
+So the actual plug in name is this part right here.
+
+31
+00:02:09,320 --> 00:02:17,290
+So all I'm going to do is type transform object arrest spread and there we go.
+
+32
+00:02:17,290 --> 00:02:21,130
+Babbel is now all configured to use this brand new syntax.
+
+33
+00:02:21,340 --> 00:02:27,460
+From here we can save the babbel configuration file and I can rerun NPM is start from the terminal starting
+
+34
+00:02:27,460 --> 00:02:33,070
+up the application once again and down below or actually going to take advantage of this syntax I'm
+
+35
+00:02:33,070 --> 00:02:38,870
+going to take advantage of it right here inside of the create user mutation method.
+
+36
+00:02:38,950 --> 00:02:44,260
+As I mentioned earlier the whole goal with the object spread operator is to be able to easily copy properties
+
+37
+00:02:44,260 --> 00:02:45,930
+from one object to another.
+
+38
+00:02:46,090 --> 00:02:50,700
+That's exactly something we're doing manually throughout our mutation methods right here for example
+
+39
+00:02:50,710 --> 00:02:56,520
+we have the args object with various properties on it and we copy all of them to the user object.
+
+40
+00:02:56,530 --> 00:03:01,600
+But we have to do that manually which can be a bit cumbersome hairshirt sure it's only three lines for
+
+41
+00:03:01,600 --> 00:03:02,710
+three properties.
+
+42
+00:03:02,710 --> 00:03:06,220
+But as we had more properties it requires more manual work.
+
+43
+00:03:06,280 --> 00:03:11,980
+We do the exact same thing with Create post copying for properties from the args object and we also
+
+44
+00:03:11,980 --> 00:03:17,440
+do it with create comment the object spread operator gives us a better way to get this done.
+
+45
+00:03:17,440 --> 00:03:19,210
+So let's take a look at how it works.
+
+46
+00:03:19,210 --> 00:03:20,620
+First we need two objects.
+
+47
+00:03:20,620 --> 00:03:27,510
+I'm going to define a couple here for example purposes only so we can have Konst object one and we have
+
+48
+00:03:27,510 --> 00:03:31,600
+a another one Konst to also an object.
+
+49
+00:03:31,650 --> 00:03:34,410
+And we're just going to add some properties onto this first one.
+
+50
+00:03:34,410 --> 00:03:40,890
+I'll use something like name and I'll set the name equal to my current location Philadelphia and then
+
+51
+00:03:40,890 --> 00:03:44,970
+on the second object we're going to define a couple of other values.
+
+52
+00:03:44,970 --> 00:03:50,940
+Let's go ahead and do something like population and I believe the population is about 1.5 million at
+
+53
+00:03:50,940 --> 00:03:51,800
+the moment.
+
+54
+00:03:52,110 --> 00:03:57,300
+So we'll do one million five hundred thousand people in Philadelphia but now we decided we also want
+
+55
+00:03:57,330 --> 00:04:00,050
+all of the properties from one on it to.
+
+56
+00:04:00,210 --> 00:04:01,500
+So we have a couple of options.
+
+57
+00:04:01,500 --> 00:04:05,680
+Sure we can manually copy them over like we're doing with ours down below.
+
+58
+00:04:05,790 --> 00:04:11,850
+Or we can use the spread operator which is the following dot dot dot followed by the object we want
+
+59
+00:04:11,850 --> 00:04:13,040
+to spread out.
+
+60
+00:04:13,050 --> 00:04:17,640
+This has the effect of copying all properties from one over to two.
+
+61
+00:04:17,820 --> 00:04:19,610
+So now we have two objects.
+
+62
+00:04:19,710 --> 00:04:24,690
+The first object has a single property name and the second object has two properties it has population
+
+63
+00:04:24,960 --> 00:04:26,410
+and it has a name.
+
+64
+00:04:26,460 --> 00:04:32,560
+If we add more properties up here let's go ahead and put something in like Country USA.
+
+65
+00:04:32,640 --> 00:04:36,870
+Now two properties are going to be copied from one down to two.
+
+66
+00:04:37,080 --> 00:04:43,320
+So being able to easily copy all of the properties on a given object to another object is a very useful
+
+67
+00:04:43,320 --> 00:04:44,560
+thing to be able to do.
+
+68
+00:04:44,670 --> 00:04:48,820
+And we're going to use that right here instead of listing out all of these manually.
+
+69
+00:04:48,970 --> 00:04:54,950
+All I'm going to do is spread out using dot dot dot the args object.
+
+70
+00:04:54,960 --> 00:05:01,080
+Now we can do the exact same thing down below for our other mutations right here for create post instead
+
+71
+00:05:01,080 --> 00:05:04,240
+of listing out title body published and author manually.
+
+72
+00:05:04,400 --> 00:05:09,770
+I am just going to spread out the args object and I'll do the same thing down below for comment.
+
+73
+00:05:09,780 --> 00:05:14,700
+Try moving text author and post in just spreading out args once again.
+
+74
+00:05:15,180 --> 00:05:20,670
+Now we have a slightly easier way to maintain our code something that scales a bit better as args has
+
+75
+00:05:20,670 --> 00:05:22,380
+more properties on it.
+
+76
+00:05:22,380 --> 00:05:25,620
+If we actually save our program we can see that in the terminal.
+
+77
+00:05:25,680 --> 00:05:26,600
+Nothing's going wrong.
+
+78
+00:05:26,640 --> 00:05:27,510
+There is no error.
+
+79
+00:05:27,530 --> 00:05:29,080
+The program isn't crashing.
+
+80
+00:05:29,190 --> 00:05:33,680
+If you did not set up the plug in we just set up or you configured it incorrectly.
+
+81
+00:05:33,750 --> 00:05:38,550
+You would actually see an error at this point where a node would not know what to do with this operator
+
+82
+00:05:38,850 --> 00:05:40,920
+since we have configured everything correctly.
+
+83
+00:05:40,920 --> 00:05:46,050
+We are seeing that the server is up and it's just waiting for operations to be performed on the graph.
+
+84
+00:05:46,170 --> 00:05:51,090
+Well Back-End Let's go ahead and collapse the terminal and actually test our work.
+
+85
+00:05:51,090 --> 00:05:53,260
+So over here engraft UL playground.
+
+86
+00:05:53,350 --> 00:05:58,500
+All I'm going to do is fire off the three mutations we had before I fire off the first one and I get
+
+87
+00:05:58,500 --> 00:05:59,550
+my user.
+
+88
+00:05:59,700 --> 00:06:01,620
+I can then go ahead and create a post.
+
+89
+00:06:01,710 --> 00:06:06,060
+I'm going to create a post using the same mutation right here that works as well.
+
+90
+00:06:06,060 --> 00:06:09,080
+And finally we have create comment right here.
+
+91
+00:06:09,090 --> 00:06:11,190
+The comment was indeed created.
+
+92
+00:06:11,310 --> 00:06:16,440
+So we're getting the exact same functionality but using this object spread operator and that's where
+
+93
+00:06:16,440 --> 00:06:20,840
+I'd like to stop for this one in the next video we're going to continue learning about graft.
+
+94
+00:06:20,880 --> 00:06:26,560
+Well we're going to come up with a better way to structure the arguments for all of our operations.
+
+95
+00:06:26,640 --> 00:06:27,770
+I'm excited to get to that.
+
+96
+00:06:27,780 --> 00:06:30,220
+So let's go ahead and jump right in to the next one.
+

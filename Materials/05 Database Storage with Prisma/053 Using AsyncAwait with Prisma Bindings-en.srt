@@ -1,0 +1,1004 @@
+1
+00:00:00,180 --> 00:00:04,230
+In this video you're going to learn how to use a single weight with our Prisma methods.
+
+2
+00:00:04,230 --> 00:00:09,720
+So we'll be able to use them with our mutations and with our queries since all of those methods return
+
+3
+00:00:09,720 --> 00:00:14,580
+promises and we can use async await any where promises are used.
+
+4
+00:00:14,580 --> 00:00:15,440
+Now as a reminder.
+
+5
+00:00:15,450 --> 00:00:20,840
+Understanding the basics of a sink and a weight is indeed a pre-req for the class.
+
+6
+00:00:20,880 --> 00:00:26,090
+So make sure that you understand how those two things work before continuing on with the Course.
+
+7
+00:00:26,160 --> 00:00:31,770
+To kick things off what I want to do is comment out the code you wrote as the challenge for the last
+
+8
+00:00:31,770 --> 00:00:32,410
+video.
+
+9
+00:00:32,550 --> 00:00:37,500
+I am going to leave it in place though as you'll be referencing it a bit later than I'm going to delete
+
+10
+00:00:37,530 --> 00:00:40,950
+the challenge comments for the last video and scroll up.
+
+11
+00:00:40,950 --> 00:00:47,190
+We have three examples we have are two separate queries and we have our one set of code that first creates
+
+12
+00:00:47,190 --> 00:00:51,500
+the post and then fetches all of the users we're going to leave this one in place.
+
+13
+00:00:51,510 --> 00:00:53,960
+But I am going to delete the other two.
+
+14
+00:00:54,000 --> 00:00:59,430
+We're going to end up replacing both of those with a single async function and this async function that
+
+15
+00:00:59,430 --> 00:01:03,390
+we're going to create together is going to have two responsibilities.
+
+16
+00:01:03,390 --> 00:01:09,960
+The first thing this function should be able to do is create a new post is going to take some post data
+
+17
+00:01:10,020 --> 00:01:12,450
+in as function arguments.
+
+18
+00:01:12,450 --> 00:01:17,730
+The second thing that this function should be able to do is fetch all of the info
+
+19
+00:01:20,280 --> 00:01:23,220
+about the user also known as the author.
+
+20
+00:01:23,220 --> 00:01:27,830
+So after I create the post I want to get all of the details about the person who created the post.
+
+21
+00:01:27,930 --> 00:01:31,510
+Things like their name their email and other posts they've created.
+
+22
+00:01:31,530 --> 00:01:38,350
+Now once again like we saw down below it's important that one operation happens before a nother operation.
+
+23
+00:01:38,460 --> 00:01:44,460
+So in this case we do still want one to start and finish before we ever start number two.
+
+24
+00:01:44,670 --> 00:01:45,900
+Let's go ahead and knock that out.
+
+25
+00:01:45,900 --> 00:01:50,620
+By creating a new function right here I am going to create a contest for this one.
+
+26
+00:01:50,760 --> 00:01:58,220
+We can call this something like create a post for a user and we are going to set this up as a function.
+
+27
+00:01:58,230 --> 00:02:03,540
+We could use a standard E-S five function like so or we could use an arrow function.
+
+28
+00:02:03,570 --> 00:02:09,530
+I'm partial to the arrow function so I'll stick with that as the value for create post for user.
+
+29
+00:02:09,540 --> 00:02:14,070
+Now we are going to be taking advantage of async and await after all that is the whole point of this
+
+30
+00:02:14,070 --> 00:02:14,780
+video.
+
+31
+00:02:14,880 --> 00:02:21,030
+So right here before our arguments list we are indeed going to mark this as an async function and we
+
+32
+00:02:21,030 --> 00:02:23,460
+are also going to take some arguments in.
+
+33
+00:02:23,460 --> 00:02:29,130
+We need to take in all the information about not just the Post but also the author that this post should
+
+34
+00:02:29,130 --> 00:02:35,370
+be associated with the first argument is going to contain the author ID so I'll call that one author
+
+35
+00:02:35,370 --> 00:02:40,640
+ID and then the second argument is going to be an object that has all of the post fields we need.
+
+36
+00:02:40,650 --> 00:02:43,470
+Like the title the body and the published value.
+
+37
+00:02:43,620 --> 00:02:45,980
+I'll call this one something like data.
+
+38
+00:02:46,110 --> 00:02:50,040
+Now down below we can actually go through the process of creating a post.
+
+39
+00:02:50,070 --> 00:02:56,400
+So what we're going to do right here is create a concept called post and this is going to store the
+
+40
+00:02:56,400 --> 00:03:02,240
+post data that comes back from calling create post and we're going to set it equal to.
+
+41
+00:03:02,340 --> 00:03:04,830
+And here we are going to use a wait.
+
+42
+00:03:04,890 --> 00:03:10,410
+So we're going to await the promise we are going to await the promise that comes back from Create post
+
+43
+00:03:10,710 --> 00:03:13,100
+and we're going to get the resolved value.
+
+44
+00:03:13,290 --> 00:03:19,440
+So instead of having to attach the then method to get the resolved value we can grab it right here as
+
+45
+00:03:19,440 --> 00:03:21,990
+long as we're using a sink and a weight.
+
+46
+00:03:21,990 --> 00:03:22,680
+Now what do we do.
+
+47
+00:03:22,680 --> 00:03:27,410
+Well we just call Prisma dot nutation dot create post.
+
+48
+00:03:27,570 --> 00:03:30,840
+Then we go ahead and pass in all of the necessary data.
+
+49
+00:03:30,840 --> 00:03:32,950
+So I'm going to set up my object.
+
+50
+00:03:33,150 --> 00:03:36,060
+We're going to have our data property on here.
+
+51
+00:03:36,060 --> 00:03:41,800
+We need to add all of those data fields we need to spread out that data object.
+
+52
+00:03:41,820 --> 00:03:46,120
+I can actually just use dot dot dot data to get that done.
+
+53
+00:03:46,350 --> 00:03:51,750
+That's going to spread out tidal body and published all of which are going to live on this argument
+
+54
+00:03:52,140 --> 00:03:57,670
+from there all we have to do is set up the author ID so I can add another property onto the data object.
+
+55
+00:03:57,930 --> 00:04:05,880
+Author is an object on there we have Connect which is also an object on there we have ID and that value
+
+56
+00:04:05,880 --> 00:04:08,740
+comes from author ID up above.
+
+57
+00:04:08,820 --> 00:04:10,480
+Perfect down below.
+
+58
+00:04:10,480 --> 00:04:14,090
+All we have to provide is that second argument our selection set.
+
+59
+00:04:14,100 --> 00:04:17,120
+What do we want to grab about the newly created post.
+
+60
+00:04:17,130 --> 00:04:19,860
+I'm just going to grab the posts ID.
+
+61
+00:04:19,980 --> 00:04:25,110
+Now we can move on to the next statement in this function and this is where we are going to fetch the
+
+62
+00:04:25,110 --> 00:04:26,690
+users are right here.
+
+63
+00:04:26,700 --> 00:04:28,420
+A new Konst user.
+
+64
+00:04:28,590 --> 00:04:36,360
+And once again we're going to be using a wait this time with a query Prisma dot queery dot user.
+
+65
+00:04:36,360 --> 00:04:42,180
+So we're using the singular user to fetch an individual user as opposed to what we've already explored
+
+66
+00:04:42,180 --> 00:04:45,330
+which was users to fetch an array of users.
+
+67
+00:04:45,330 --> 00:04:51,060
+Now if we pull up the documentation for the user query we can see that we actually do have to provide
+
+68
+00:04:51,060 --> 00:04:52,140
+a single argument.
+
+69
+00:04:52,140 --> 00:04:57,090
+This is not marked as nullable it's marked as non nullable So it has to exist.
+
+70
+00:04:57,180 --> 00:05:03,120
+The user query returns the individual user and the where argument is where we determine how we want
+
+71
+00:05:03,120 --> 00:05:04,580
+to find this user.
+
+72
+00:05:04,620 --> 00:05:10,080
+We can search for an individual user by any of the fields that make it unique whether it's the ID or
+
+73
+00:05:10,140 --> 00:05:11,320
+the email.
+
+74
+00:05:11,340 --> 00:05:16,050
+Now we already have the author ID as an argument for this function so that seems like a pretty good
+
+75
+00:05:16,050 --> 00:05:17,870
+place to start right here.
+
+76
+00:05:17,950 --> 00:05:20,640
+I am going to set up the arguments necessary.
+
+77
+00:05:20,640 --> 00:05:29,910
+We have our object we have the where argument we are going to search by id and we have ID on the author
+
+78
+00:05:29,910 --> 00:05:37,560
+ID variable name below as the second argument to the user method we can pass in our selection set.
+
+79
+00:05:37,650 --> 00:05:40,370
+What do we want about the user we find.
+
+80
+00:05:40,500 --> 00:05:43,380
+Well I'm going to go ahead and grab a couple of things right here.
+
+81
+00:05:43,440 --> 00:05:46,090
+I am going to grab the ID for that user.
+
+82
+00:05:46,290 --> 00:05:47,450
+I'll grab their name.
+
+83
+00:05:47,490 --> 00:05:48,900
+I'll grab their e-mail.
+
+84
+00:05:48,990 --> 00:05:53,820
+And I'm also going to as I mentioned up above fetch some information about the posts.
+
+85
+00:05:53,820 --> 00:06:00,900
+So right here I'll grab the posts and for each one I will grab the ID I will grab the title and I'll
+
+86
+00:06:00,900 --> 00:06:07,400
+grab the published stats I could grab body if I wanted to I'm just leaving that off for this example.
+
+87
+00:06:07,440 --> 00:06:12,040
+Now down below we can actually do something with the information we've compiled so far.
+
+88
+00:06:12,090 --> 00:06:17,790
+We have access to the post variable which contains the post ID and we have access to the user variable
+
+89
+00:06:17,790 --> 00:06:20,970
+which contains a lot of information about the author.
+
+90
+00:06:20,970 --> 00:06:24,230
+Let's set up a return value for this function right here.
+
+91
+00:06:24,260 --> 00:06:28,680
+I am going to return the user information so I will return it user.
+
+92
+00:06:28,680 --> 00:06:33,720
+Now we can actually remove these comments outlining what we were going to do because it's already done
+
+93
+00:06:33,720 --> 00:06:39,630
+and we can call create post for user down below down here we are going to call it with the necessary
+
+94
+00:06:39,630 --> 00:06:43,300
+arguments create post for a user.
+
+95
+00:06:43,440 --> 00:06:50,250
+We are going to pass in and the author ID and some post data I have to grab an author ID so I can make
+
+96
+00:06:50,250 --> 00:06:57,360
+a user's query from graft Cuil playground and I already have posts for that first user and for the last
+
+97
+00:06:57,360 --> 00:07:00,780
+one I'm going to add a post for the second victim.
+
+98
+00:07:00,780 --> 00:07:03,950
+So right here I will grab his ID.
+
+99
+00:07:04,020 --> 00:07:09,130
+We're going to use that as the first argument value for create post so as a string.
+
+100
+00:07:09,240 --> 00:07:11,020
+I'll paste it right in.
+
+101
+00:07:11,070 --> 00:07:12,930
+That brings us to the second argument.
+
+102
+00:07:12,930 --> 00:07:19,430
+The data for our post so we need the title we need the body and we need the published value right here.
+
+103
+00:07:19,530 --> 00:07:22,620
+I can set up an object for that title.
+
+104
+00:07:22,860 --> 00:07:23,870
+Could be something like.
+
+105
+00:07:23,880 --> 00:07:28,600
+Great books to read for the body.
+
+106
+00:07:28,600 --> 00:07:30,690
+We can go ahead and make a recommendation.
+
+107
+00:07:30,730 --> 00:07:36,910
+I'll go ahead and recommend something like the war of art and then we can determine whether or not this
+
+108
+00:07:36,910 --> 00:07:40,770
+post should be published and I will set published equal to true.
+
+109
+00:07:41,080 --> 00:07:46,500
+So we have our function call in place that's going to ensure that all of this code actually runs.
+
+110
+00:07:46,510 --> 00:07:52,930
+The last thing to do before we save the file is set things up so we can grab that user information.
+
+111
+00:07:52,930 --> 00:07:59,830
+Now remember async functions always always always return a promise and the resolved value of that promise
+
+112
+00:07:59,890 --> 00:08:01,550
+is whatever you return.
+
+113
+00:08:01,600 --> 00:08:10,760
+So in this case we can add on a single dot then call right here we can grab the user which is exactly
+
+114
+00:08:10,760 --> 00:08:13,820
+what was returned and we can print it to the council.
+
+115
+00:08:13,850 --> 00:08:18,170
+So I am going to use Jason docstring if I for this one so cancel that log.
+
+116
+00:08:19,490 --> 00:08:27,150
+Jason docstring ify passing in those three arguments we have the user itself undefined for our replacer
+
+117
+00:08:27,150 --> 00:08:30,360
+function and to for our indentation.
+
+118
+00:08:30,360 --> 00:08:35,040
+Now let's go ahead and save Prisma Dhananjay ass and see what we get down in the terminal.
+
+119
+00:08:35,040 --> 00:08:37,100
+The app is restarting and here we go.
+
+120
+00:08:37,140 --> 00:08:41,540
+We have some information about that users and information about victim 2.
+
+121
+00:08:41,690 --> 00:08:44,090
+We have their ID name and e-mail.
+
+122
+00:08:44,100 --> 00:08:46,030
+We also have their array of posts.
+
+123
+00:08:46,050 --> 00:08:52,420
+They had zero posts before and since we just added one and we can now see we have a single post in place.
+
+124
+00:08:52,500 --> 00:08:55,760
+We have the ID the title and the published status.
+
+125
+00:08:55,770 --> 00:08:59,300
+Exactly what was selected up above.
+
+126
+00:08:59,370 --> 00:09:04,860
+Now we've seen how we can use sink a weight with all of our Prisma binding methods.
+
+127
+00:09:04,860 --> 00:09:10,770
+This makes managing our asynchronous code a lot easier because we can do one thing right after another
+
+128
+00:09:11,070 --> 00:09:13,650
+without having to use nested callbacks.
+
+129
+00:09:13,650 --> 00:09:18,570
+And more than a single event the method call now that we've done this once together it's going to be
+
+130
+00:09:18,570 --> 00:09:24,240
+your challenge to do it down below before we move into the challenge comments and talk about what I'd
+
+131
+00:09:24,240 --> 00:09:29,730
+like you to do I am going to comment out our call to create post for user.
+
+132
+00:09:29,730 --> 00:09:33,740
+We don't want to actually run that every single time the file executes.
+
+133
+00:09:33,740 --> 00:09:39,540
+And I'm also going to remove the code block down below since it's been repurposed in a nicer way with
+
+134
+00:09:39,540 --> 00:09:41,750
+Create post for user up above.
+
+135
+00:09:41,760 --> 00:09:46,990
+So right here we can remove this code block where we create the post and then fetch the user.
+
+136
+00:09:47,010 --> 00:09:51,470
+Now the last code block in this file is the one that you're going to be altering to use async.
+
+137
+00:09:51,520 --> 00:09:55,340
+Wait and I'm going to paste the challenge comments right here.
+
+138
+00:09:55,380 --> 00:10:00,510
+The big picture goal is to use async await with the Prisma binding library.
+
+139
+00:10:00,510 --> 00:10:07,170
+Now step one for this is going to be to create an update post for user function that accepts the post
+
+140
+00:10:07,230 --> 00:10:09,960
+ID and the data to update.
+
+141
+00:10:09,960 --> 00:10:11,190
+So we have two arguments.
+
+142
+00:10:11,190 --> 00:10:15,850
+We have post ideas a string and data to update as an object.
+
+143
+00:10:15,870 --> 00:10:20,170
+Next up you're actually going to fill out the function itself and update the post.
+
+144
+00:10:20,280 --> 00:10:23,440
+So this is the first asynchronous thing you're going to do.
+
+145
+00:10:23,550 --> 00:10:28,380
+You're going to use a weight along with the correct mutation to update the post.
+
+146
+00:10:28,500 --> 00:10:33,850
+And the only data you need to get back about the updated post is the author IDs.
+
+147
+00:10:33,870 --> 00:10:35,530
+So grab that relational data.
+
+148
+00:10:35,550 --> 00:10:40,710
+The next step step three is where you're going to use an ID to fetch the user.
+
+149
+00:10:40,700 --> 00:10:44,150
+So you're going to use one of the queries to grab that user.
+
+150
+00:10:44,250 --> 00:10:49,460
+And for the user I want you to grab the same fields you grabbed up above with Create post for user.
+
+151
+00:10:49,590 --> 00:10:54,900
+So you're going to grab the ID name and email and you're going to grab the ID title and publish values
+
+152
+00:10:54,960 --> 00:10:56,880
+for each post.
+
+153
+00:10:56,880 --> 00:11:02,130
+Now you want to return the user data as the return value for update post for user and that brings us
+
+154
+00:11:02,130 --> 00:11:03,410
+to step 4.
+
+155
+00:11:03,510 --> 00:11:09,330
+You're going to call the newly created function passing in an ID for a post and the data you want to
+
+156
+00:11:09,330 --> 00:11:15,510
+update for the moment stick with an ID that actually has a post with the same ID.
+
+157
+00:11:15,510 --> 00:11:18,540
+Don't use an ID that isn't associated with a post.
+
+158
+00:11:18,540 --> 00:11:24,090
+Although in the very next video we'll learn how to check if some data exists before trying to make changes
+
+159
+00:11:24,090 --> 00:11:24,810
+to it.
+
+160
+00:11:24,810 --> 00:11:30,440
+For now though do use an actual valid post ID one that exists in the database.
+
+161
+00:11:30,690 --> 00:11:35,580
+So you're going to call that function with those two arguments and you are going to use the then method
+
+162
+00:11:35,640 --> 00:11:41,220
+call to do something when all of the operations are complete and all you're going to do is dump the
+
+163
+00:11:41,220 --> 00:11:44,590
+user to the console and make sure you see everything show up.
+
+164
+00:11:44,610 --> 00:11:50,220
+You should see the user data as well as their posts including the post you updated with the correct
+
+165
+00:11:50,250 --> 00:11:52,010
+new values.
+
+166
+00:11:52,230 --> 00:11:55,090
+So in the end of the day the post call would look like this.
+
+167
+00:11:55,110 --> 00:11:57,810
+We would call update post for user.
+
+168
+00:11:58,110 --> 00:12:03,380
+I could pass in something like the ID my ID and I can pass in the data.
+
+169
+00:12:03,420 --> 00:12:08,330
+Maybe I just want to publish the post so I'll set published equal to true for example.
+
+170
+00:12:08,630 --> 00:12:09,150
+All right.
+
+171
+00:12:09,150 --> 00:12:13,800
+Take some time to actually create the function that I've called right here and fill it out.
+
+172
+00:12:13,860 --> 00:12:18,480
+Then add the then method call on and verify everything worked as expected.
+
+173
+00:12:18,480 --> 00:12:19,320
+Pause the video.
+
+174
+00:12:19,320 --> 00:12:23,100
+Test your work and when you're done come back and click play
+
+175
+00:12:27,320 --> 00:12:28,120
+how that go.
+
+176
+00:12:28,160 --> 00:12:30,010
+I'm going to kick things off with step one.
+
+177
+00:12:30,010 --> 00:12:35,660
+We are going to create our new function so a contest update post for user.
+
+178
+00:12:35,840 --> 00:12:41,360
+And once again the reason we're creating these little functions in Prisma dot J.S. is to get familiar
+
+179
+00:12:41,360 --> 00:12:43,460
+with how Prisma binding works.
+
+180
+00:12:43,460 --> 00:12:47,150
+Before we actually integrate it into the graft project itself.
+
+181
+00:12:47,150 --> 00:12:53,450
+So right here we are going to create this as an async function does this function except arguments.
+
+182
+00:12:53,450 --> 00:12:54,470
+Yes it does.
+
+183
+00:12:54,500 --> 00:13:04,070
+I need the post ID and I also need the data to update I could call that data or data update or post
+
+184
+00:13:04,070 --> 00:13:06,080
+data or pretty much anything.
+
+185
+00:13:06,080 --> 00:13:10,450
+Now we move on to the actual function body itself step to update the post.
+
+186
+00:13:10,490 --> 00:13:12,230
+We want to use our update post.
+
+187
+00:13:12,260 --> 00:13:13,910
+Mutations are right here.
+
+188
+00:13:13,910 --> 00:13:18,050
+We are going to create a variable to store the data that comes back.
+
+189
+00:13:18,050 --> 00:13:20,770
+I can call that something like post.
+
+190
+00:13:20,860 --> 00:13:23,350
+We will then await the following mutation.
+
+191
+00:13:23,350 --> 00:13:28,450
+Prisma dot mutation dot update post exactly what we used.
+
+192
+00:13:28,450 --> 00:13:29,400
+Down below.
+
+193
+00:13:29,510 --> 00:13:33,130
+And just like down below we have to set up the correct arguments.
+
+194
+00:13:33,130 --> 00:13:42,250
+The first argument our operations argument object needs where end data for where we are going to search
+
+195
+00:13:42,250 --> 00:13:44,430
+for the post by its ID.
+
+196
+00:13:44,440 --> 00:13:51,520
+I have post ID as an argument alongside of where we have to add data and since we already have a data
+
+197
+00:13:51,580 --> 00:13:53,740
+object up above we're good to go.
+
+198
+00:13:53,740 --> 00:13:57,370
+We can use the object property shorthand syntax.
+
+199
+00:13:57,400 --> 00:14:02,970
+Now in terms of the selections set I mentioned that I wanted you to grab the author ID.
+
+200
+00:14:03,010 --> 00:14:07,870
+So right here is the second argument I'm going to pass in a string.
+
+201
+00:14:07,960 --> 00:14:12,470
+We'll set up our curly braces and I'm not going to grab anything about the post itself.
+
+202
+00:14:12,520 --> 00:14:15,620
+I'm just going to grab something from the author.
+
+203
+00:14:15,700 --> 00:14:17,550
+I'm going to grab the ID and there we go.
+
+204
+00:14:17,590 --> 00:14:19,440
+That's all we have to do.
+
+205
+00:14:19,570 --> 00:14:25,540
+Now down below we can move on to Step Three and use the user query to grab some information about that
+
+206
+00:14:25,540 --> 00:14:26,020
+user.
+
+207
+00:14:26,020 --> 00:14:33,720
+So Konst user equals we are going to await Prisma dot queried dot user.
+
+208
+00:14:34,040 --> 00:14:40,030
+We are going to pass in the correct arguments for this one we just have to provide where we are searching
+
+209
+00:14:40,030 --> 00:14:44,830
+for the user by ID and I have the ID stored up above.
+
+210
+00:14:44,830 --> 00:14:48,460
+We have it on post dot author dot ID.
+
+211
+00:14:48,460 --> 00:14:49,230
+Excellent.
+
+212
+00:14:49,270 --> 00:14:54,020
+Down below we're going to provide the selection set for our user query right here.
+
+213
+00:14:54,040 --> 00:15:00,100
+I'm going to go ahead and choose to grab some information about the user id name and email as well as
+
+214
+00:15:00,100 --> 00:15:02,980
+information about their posts for each post.
+
+215
+00:15:02,980 --> 00:15:08,080
+I will grab as mentioned the id the title and the published value.
+
+216
+00:15:08,080 --> 00:15:09,170
+Perfect.
+
+217
+00:15:09,220 --> 00:15:16,260
+Now with this in place the last thing left to do is to return the user from update post for user.
+
+218
+00:15:16,270 --> 00:15:20,140
+Next up we can move on to Step 4 and actually set up our call.
+
+219
+00:15:20,200 --> 00:15:25,290
+So I already have the basic structure down below but I do need to use a valid post ID.
+
+220
+00:15:25,290 --> 00:15:29,560
+I'm going to grab the post ID from the terminal output and paste that in.
+
+221
+00:15:29,560 --> 00:15:32,350
+From here we can also change how we're updating the post.
+
+222
+00:15:32,350 --> 00:15:38,320
+Since this post is already published I'm going to unpublished it by setting published equal to false.
+
+223
+00:15:38,320 --> 00:15:43,990
+Next up we can add our Venn method to call and pass in our callback function which is going to run when
+
+224
+00:15:44,050 --> 00:15:46,680
+all of these operations actually complete.
+
+225
+00:15:46,690 --> 00:15:49,140
+We're going to get access to whatever got returned.
+
+226
+00:15:49,180 --> 00:15:50,480
+In this case it's the user.
+
+227
+00:15:50,500 --> 00:15:54,790
+I could call it data I could call it user I could call the argument whenever I want.
+
+228
+00:15:54,790 --> 00:15:59,860
+In the end of the day it's an object that has those user fields on it and we're just going to dump them
+
+229
+00:15:59,890 --> 00:16:07,270
+to the console so cancel that log using Jason docstring ify passing in those three arguments if you
+
+230
+00:16:07,270 --> 00:16:09,140
+want to print the user object.
+
+231
+00:16:09,220 --> 00:16:14,560
+I'll pass an undefined for our replacer since we don't want to manipulate the object in any way and
+
+232
+00:16:14,560 --> 00:16:18,110
+I'll pass in two as the spacing for this.
+
+233
+00:16:18,160 --> 00:16:23,470
+With this in place we can move on to Step 5 where we actually run things and make sure they work as
+
+234
+00:16:23,470 --> 00:16:24,480
+expected.
+
+235
+00:16:24,490 --> 00:16:26,280
+I'm going to save Prisma J.
+
+236
+00:16:26,290 --> 00:16:27,390
+S. down below.
+
+237
+00:16:27,390 --> 00:16:29,640
+The application is going to restart.
+
+238
+00:16:29,710 --> 00:16:30,490
+And what do we get.
+
+239
+00:16:30,490 --> 00:16:32,560
+We get our one user vicar him too.
+
+240
+00:16:32,680 --> 00:16:38,220
+This time we have our post with the published value correctly set to false.
+
+241
+00:16:38,320 --> 00:16:40,050
+Which is fantastic.
+
+242
+00:16:40,120 --> 00:16:48,240
+We now have a way to use async and to wait with Prisma allowing us to vastly simplify that async code.
+
+243
+00:16:48,370 --> 00:16:52,570
+To wrap this video up we can go ahead and remove the old example down below.
+
+244
+00:16:52,750 --> 00:16:57,960
+And I'm also going to comment out our update post for user call up above.
+
+245
+00:16:58,090 --> 00:17:04,540
+We can remove the challenge comments as well and now we have those two functions in place as promised
+
+246
+00:17:04,540 --> 00:17:09,790
+in the next video you're going to learn how to use a nother Prisma property.
+
+247
+00:17:09,800 --> 00:17:14,830
+We're going to be using Prisma exists to help us figure out if something exists.
+
+248
+00:17:14,830 --> 00:17:20,850
+So for example am I trying to create a post for a user where there is no user with this ID.
+
+249
+00:17:20,950 --> 00:17:25,470
+Or am I trying to update a post where this post ID doesn't even exist.
+
+250
+00:17:25,570 --> 00:17:30,480
+In any case it Prisma exists can help us figure out if data exists or not.
+
+251
+00:17:30,580 --> 00:17:34,140
+Let's go ahead and jump right into the next video and dive in to that.
+

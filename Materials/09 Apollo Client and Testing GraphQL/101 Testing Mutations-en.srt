@@ -1,0 +1,752 @@
+1
+00:00:00,270 --> 00:00:05,920
+You know know how to use Appollo boost to execute operations on the graphical application.
+
+2
+00:00:05,940 --> 00:00:09,330
+You also have the server up and running when just executes.
+
+3
+00:00:09,330 --> 00:00:16,600
+And in this video we're going to write our first test case that actually tests our graph UL application.
+
+4
+00:00:16,680 --> 00:00:21,510
+The test case that we're going to be writing is going to be for the create user mutation so we'll be
+
+5
+00:00:21,510 --> 00:00:24,770
+testing the Sign-Up functionality in our app.
+
+6
+00:00:24,780 --> 00:00:31,620
+Now all of the test cases we have in the user test file so far those were for exploring how testing
+
+7
+00:00:31,620 --> 00:00:32,240
+works.
+
+8
+00:00:32,310 --> 00:00:35,470
+They're not going to make it into the final version of our app though.
+
+9
+00:00:35,580 --> 00:00:39,300
+So we can go ahead and start with an empty test file down below.
+
+10
+00:00:39,300 --> 00:00:45,290
+I'm going to use Control C to shut down our test suite and we're going to install the modules we need.
+
+11
+00:00:45,360 --> 00:00:51,510
+We need Appollo boost as an example so we can actually fire off that nutation from our test case.
+
+12
+00:00:51,510 --> 00:00:53,220
+That'll be NPM install.
+
+13
+00:00:53,250 --> 00:01:00,430
+First up Appollo hyphen boost at the version we used before that is zero point one point fourteen.
+
+14
+00:01:00,450 --> 00:01:07,380
+We're also going to grab graft UL which we need at version fourteen point zero point do that as a dependency
+
+15
+00:01:07,380 --> 00:01:09,890
+of Appollo boost we have to have as well.
+
+16
+00:01:10,080 --> 00:01:17,070
+And we're also going to grab one more thing because we're trying to use Appollo boost in node j s this
+
+17
+00:01:17,070 --> 00:01:19,830
+is cross hyphen fetch.
+
+18
+00:01:19,890 --> 00:01:27,550
+This is a Thach API Pylea Phil will be grabbing the latest version that is to point to point 2.
+
+19
+00:01:27,600 --> 00:01:31,100
+Now we can go ahead and install all of this and well that's running.
+
+20
+00:01:31,110 --> 00:01:37,200
+I just want to take a quick moment to talk about fach if we head over to Google and Google something
+
+21
+00:01:37,200 --> 00:01:38,830
+like MTNL fach.
+
+22
+00:01:38,910 --> 00:01:44,160
+This will bring up the Mozilla developer network API docs for the fetch API.
+
+23
+00:01:44,160 --> 00:01:51,600
+This is a standardized API across browsers but it has yet to make its way to node j Jay as Apollo boost
+
+24
+00:01:51,630 --> 00:01:54,180
+as well as many other tools rely on it.
+
+25
+00:01:54,180 --> 00:01:59,070
+So that's why we're going to end up using the library cross fecche to get support.
+
+26
+00:01:59,280 --> 00:02:04,550
+If I scroll down to the bottom of the documentation you can see all the different places that it supported
+
+27
+00:02:04,560 --> 00:02:07,950
+it has pretty decent support overall.
+
+28
+00:02:07,950 --> 00:02:12,780
+Now that we have the poly Phil installed we're going to be able to use Appollo boost from right here
+
+29
+00:02:12,780 --> 00:02:15,810
+inside of our just test suite.
+
+30
+00:02:15,900 --> 00:02:17,790
+Let's go ahead and inport what we need.
+
+31
+00:02:17,790 --> 00:02:25,530
+First up I'm going to import cross heighth and fetch a forward slash poly fill that's going to make
+
+32
+00:02:25,530 --> 00:02:27,620
+sure we have access to the fecche API.
+
+33
+00:02:27,630 --> 00:02:31,140
+And that's a good thing because the next thing we're going to import needs it.
+
+34
+00:02:31,170 --> 00:02:39,780
+We're going to grab Appollo boost as well as GQ well from the Apollo boost library.
+
+35
+00:02:39,780 --> 00:02:45,460
+These are the exact same two imports we grab when working with Apollo boost in the browser.
+
+36
+00:02:45,480 --> 00:02:51,330
+Now from here we can go ahead and create a client before we actually write our first test case.
+
+37
+00:02:51,330 --> 00:02:54,990
+So cons to client equals we're going to use new.
+
+38
+00:02:54,990 --> 00:03:01,900
+With Appollo boost we're going to pass in that options object and all we have to define is the you are
+
+39
+00:03:02,240 --> 00:03:09,620
+property HTP Colinet forward slash a forward slash local host on port four thousand.
+
+40
+00:03:09,640 --> 00:03:12,850
+This is the port I chose two stirred up the server at.
+
+41
+00:03:12,950 --> 00:03:15,920
+And I did that over in the global setup file here.
+
+42
+00:03:16,010 --> 00:03:17,060
+I defined the port.
+
+43
+00:03:17,090 --> 00:03:20,690
+I wanted to use them using the same port over here.
+
+44
+00:03:20,690 --> 00:03:25,920
+Now that we have the client in place we can go ahead and write our first test case.
+
+45
+00:03:25,970 --> 00:03:27,670
+So I'm going to call test.
+
+46
+00:03:27,740 --> 00:03:34,400
+We're going to pass in our two arguments the test name and our test function the name for this one could
+
+47
+00:03:34,400 --> 00:03:38,740
+be something along the lines of it should create a new user.
+
+48
+00:03:38,750 --> 00:03:44,300
+So in this case we're going to use the create user mutation with valid data and we're going to expect
+
+49
+00:03:44,300 --> 00:03:47,260
+that a new user actually gets created.
+
+50
+00:03:47,270 --> 00:03:52,960
+Now as for the function I'm going to mark this as an async function so I can take advantage of async
+
+51
+00:03:53,000 --> 00:03:54,520
+await inside of here.
+
+52
+00:03:54,530 --> 00:03:59,100
+The first thing we're going to do inside of here is define our operation right here.
+
+53
+00:03:59,120 --> 00:04:04,620
+That's going to be create user we are going to use GQ Well what the template string.
+
+54
+00:04:05,110 --> 00:04:06,500
+And this is indeed a mutation.
+
+55
+00:04:06,500 --> 00:04:12,860
+So let's go ahead and start there defining it like we would have to find a mutation in graph Q L playground.
+
+56
+00:04:12,860 --> 00:04:15,820
+From there we'll be using the create user mutation.
+
+57
+00:04:15,830 --> 00:04:18,400
+This is the functionality we're trying to test.
+
+58
+00:04:18,620 --> 00:04:21,030
+And we are going to pass in those arguments.
+
+59
+00:04:21,140 --> 00:04:24,820
+And we're also going to define our selection set.
+
+60
+00:04:24,830 --> 00:04:29,730
+Let's go ahead and kick things off with the arguments that create user needs it just needs one.
+
+61
+00:04:29,740 --> 00:04:36,920
+Data and data is an object if you remember where we provide the name the email and the password we want
+
+62
+00:04:36,920 --> 00:04:40,160
+to sign up with right here for the name field.
+
+63
+00:04:40,160 --> 00:04:44,790
+I can just use my name Andrew and I'll do the same thing for an email.
+
+64
+00:04:44,810 --> 00:04:47,810
+I'll use something like Andrew an example dot com.
+
+65
+00:04:48,840 --> 00:04:54,140
+And then finally we have our password I will use something along the lines of my pass.
+
+66
+00:04:54,150 --> 00:04:55,570
+One two three.
+
+67
+00:04:55,590 --> 00:04:56,600
+Perfect.
+
+68
+00:04:56,610 --> 00:05:02,190
+So we have all of the arguments set up correctly and we can focus on our selection set what information
+
+69
+00:05:02,190 --> 00:05:05,540
+do we want back now in this case we could grab anything.
+
+70
+00:05:05,550 --> 00:05:11,420
+We will be able to grab engraft UL playground for example I could grab the authentication token.
+
+71
+00:05:11,550 --> 00:05:15,870
+I could also go ahead and grab something like the user's ID.
+
+72
+00:05:15,960 --> 00:05:16,840
+Perfect.
+
+73
+00:05:16,860 --> 00:05:20,880
+And now we can actually fire that mutation off.
+
+74
+00:05:20,880 --> 00:05:28,470
+So down below after our create user definition is finalized we're going to use client dot mutate.
+
+75
+00:05:28,470 --> 00:05:33,490
+So we've already used client and query to fire off our query operations here.
+
+76
+00:05:33,570 --> 00:05:40,200
+We're using client Dom mutate to fire off our mutations and we are going to call it as a function and
+
+77
+00:05:40,200 --> 00:05:43,180
+pass in an options object on here.
+
+78
+00:05:43,290 --> 00:05:46,950
+There is a single property we have to define for our queries.
+
+79
+00:05:46,950 --> 00:05:50,010
+It was the query property for our mutations.
+
+80
+00:05:50,010 --> 00:05:56,280
+It is the mutation property we set this equal to the mutation we want to use and I have that defined
+
+81
+00:05:56,280 --> 00:05:56,950
+right here.
+
+82
+00:05:56,980 --> 00:06:02,600
+Create user perfect with this in place.
+
+83
+00:06:02,610 --> 00:06:06,000
+I am indeed going to get their response back as well.
+
+84
+00:06:06,000 --> 00:06:13,530
+Now if you remember over in Appollo client in that index database file we just used Dopp then to wait
+
+85
+00:06:13,530 --> 00:06:16,350
+for the promise to complete in this code.
+
+86
+00:06:16,350 --> 00:06:18,630
+We have access to async and await.
+
+87
+00:06:18,660 --> 00:06:27,250
+So I am going to get the response by awaiting the promise that mutate returns so mutate and queery both
+
+88
+00:06:27,250 --> 00:06:33,400
+return a promise and both of those promises will end up resolving what the response when the operation
+
+89
+00:06:33,550 --> 00:06:34,270
+is complete.
+
+90
+00:06:34,270 --> 00:06:36,620
+Let's go ahead and actually test things out.
+
+91
+00:06:36,640 --> 00:06:42,550
+I'm going to save the user test file and before I run the test suite I'm going to pull up the data in
+
+92
+00:06:42,550 --> 00:06:43,770
+the database.
+
+93
+00:06:43,780 --> 00:06:48,480
+So for PGE admin I have my default default and default test.
+
+94
+00:06:48,580 --> 00:06:55,360
+I'll be using the test stage down below we have our tables and I'm just going to view all of the data
+
+95
+00:06:55,390 --> 00:06:56,650
+in the user table.
+
+96
+00:06:56,650 --> 00:07:03,850
+So view all rows right now we should have zero because we haven't executed our test cases actually interacting
+
+97
+00:07:03,850 --> 00:07:05,360
+with the test database.
+
+98
+00:07:05,560 --> 00:07:10,250
+Right now though we are indeed going to do just that by running NPM.
+
+99
+00:07:10,270 --> 00:07:12,310
+Run it test from the terminal.
+
+100
+00:07:12,310 --> 00:07:14,670
+This is going to start up our test suite.
+
+101
+00:07:14,800 --> 00:07:17,820
+The test suite is indeed going to create a user.
+
+102
+00:07:17,920 --> 00:07:22,120
+And we should indeed see that user over in the database down below.
+
+103
+00:07:22,120 --> 00:07:27,660
+We have a single passing test and if I refresh PGE admin What do we get.
+
+104
+00:07:27,730 --> 00:07:32,290
+We get a single user showing up with the exact information I provided.
+
+105
+00:07:32,410 --> 00:07:38,710
+Obviously though the password is Oppy skated since it has been hashed using B crypt but the email and
+
+106
+00:07:38,710 --> 00:07:42,910
+the name match up exactly with what was used over here.
+
+107
+00:07:42,910 --> 00:07:48,130
+Now you'll notice that our test case is passing and that's because none of the code inside of year has
+
+108
+00:07:48,160 --> 00:07:49,570
+thrown an error.
+
+109
+00:07:49,630 --> 00:07:55,030
+And we know that's how geste determines if a test should pass or should fail.
+
+110
+00:07:55,150 --> 00:07:59,170
+In this case no errors throw and so the test is considered a success.
+
+111
+00:07:59,170 --> 00:08:03,290
+Now a what would we expect to happen if we were to rerun the test suite again.
+
+112
+00:08:03,310 --> 00:08:09,010
+Well I would expect my test cases to operate as they did before so I should still have just one passing
+
+113
+00:08:09,010 --> 00:08:09,850
+test.
+
+114
+00:08:09,850 --> 00:08:14,290
+The problem though is that that's not what's going to happen because this test case is going to try
+
+115
+00:08:14,290 --> 00:08:15,910
+to add that user again.
+
+116
+00:08:15,910 --> 00:08:18,400
+But this email will already be registered.
+
+117
+00:08:18,430 --> 00:08:25,720
+So down below in the terminal if I hit a rerun all of the test cases we can see that the test actually
+
+118
+00:08:25,720 --> 00:08:31,930
+fails and the error message a unique constraint would be violated lets us know that the test is failing
+
+119
+00:08:31,930 --> 00:08:34,600
+because the email is already registered.
+
+120
+00:08:34,600 --> 00:08:36,500
+Now obviously this is a problem.
+
+121
+00:08:36,640 --> 00:08:41,500
+And in the next video we're going to look at how we can address that automatically for the moment though
+
+122
+00:08:41,500 --> 00:08:42,640
+to continue on.
+
+123
+00:08:42,790 --> 00:08:47,010
+I'm just going to manually delete the user from the test database.
+
+124
+00:08:47,140 --> 00:08:51,310
+And now we can focus on adding a single assertion then we'll be done.
+
+125
+00:08:51,520 --> 00:08:58,360
+But we're going to do is load in Prisma and use the exists functionality from Prisma to check if there
+
+126
+00:08:58,420 --> 00:09:00,490
+is a user with the ID.
+
+127
+00:09:00,500 --> 00:09:01,510
+We got back.
+
+128
+00:09:01,510 --> 00:09:06,080
+Now you might not think you know how to do that but I promise you you do know how to do that.
+
+129
+00:09:06,130 --> 00:09:09,910
+So down below this is actually going to be a challenge right here.
+
+130
+00:09:09,910 --> 00:09:13,830
+The goal is to use Prisma to check if the user was created.
+
+131
+00:09:14,020 --> 00:09:18,010
+So step 1 you'll be importing the source Prisma file we created.
+
+132
+00:09:18,010 --> 00:09:20,330
+Like we've inport it many times before.
+
+133
+00:09:20,350 --> 00:09:26,440
+That's this file over in the source directory that's going to give us access to our Prisma binding instance
+
+134
+00:09:26,440 --> 00:09:33,280
+which is good because in step 2 you're going to use the exists functionality from that Prisma binding
+
+135
+00:09:33,280 --> 00:09:39,400
+library which we've used plenty of times before to find a user by ID.
+
+136
+00:09:39,400 --> 00:09:46,270
+Now what Id Well the ID in the response and you already learned where that data in the response lives
+
+137
+00:09:46,510 --> 00:09:51,200
+we covered that in the Apollo client project created earlier in the section.
+
+138
+00:09:51,520 --> 00:09:55,740
+Now step three exists is going to return either true or false.
+
+139
+00:09:55,750 --> 00:10:00,970
+You're going to expect it to return true since the users should indeed have been created by the test
+
+140
+00:10:00,970 --> 00:10:01,660
+case.
+
+141
+00:10:01,660 --> 00:10:08,470
+And finally you're going to test your work by saving the file and watching the test case pass.
+
+142
+00:10:08,470 --> 00:10:13,520
+Now if you have to rerun it multiple times maybe you have a typo or something along those lines.
+
+143
+00:10:13,570 --> 00:10:16,320
+Just make sure to clear the user from the database.
+
+144
+00:10:16,330 --> 00:10:17,430
+If it got created.
+
+145
+00:10:17,560 --> 00:10:22,700
+Otherwise your test case will never pass but it won't be passing for the wrong reason.
+
+146
+00:10:22,750 --> 00:10:25,660
+It won't be a problem with the user not being created.
+
+147
+00:10:25,680 --> 00:10:29,480
+It will be a problem with the user's email already being taken.
+
+148
+00:10:29,710 --> 00:10:31,960
+So take some time to knock this out.
+
+149
+00:10:31,960 --> 00:10:37,750
+Using what you already know you've done all of this before and when you're done come back and click
+
+150
+00:10:37,870 --> 00:10:38,230
+play
+
+151
+00:10:41,770 --> 00:10:42,680
+how that go.
+
+152
+00:10:42,730 --> 00:10:44,590
+I'm going to kick things off with step one.
+
+153
+00:10:44,590 --> 00:10:47,210
+We're just going to inport Prisma up above.
+
+154
+00:10:47,230 --> 00:10:55,540
+So right here in Port like we've done in the past I'll be grabbing Prisma from have after use dot dot
+
+155
+00:10:55,540 --> 00:11:01,000
+to get out of the tests folder then forward slash source forwards slash Prisma.
+
+156
+00:11:01,000 --> 00:11:02,060
+Excellent.
+
+157
+00:11:02,140 --> 00:11:06,470
+Now down below we can go ahead and actually put it to use right here.
+
+158
+00:11:06,550 --> 00:11:09,080
+We have to use the exists functionalities.
+
+159
+00:11:09,100 --> 00:11:16,030
+I'm going to create a Konst called exists like we've done before and I will be using a weight with Prisma
+
+160
+00:11:16,120 --> 00:11:19,530
+dot exists dot right here user.
+
+161
+00:11:19,630 --> 00:11:20,680
+Excellent.
+
+162
+00:11:20,710 --> 00:11:28,060
+Now we can go ahead and limit our search by a field in this case by id and I'm looking for a user by
+
+163
+00:11:28,060 --> 00:11:32,890
+their ID where their ID equals the ID got back in the response.
+
+164
+00:11:32,890 --> 00:11:36,760
+That would be response dot data dot.
+
+165
+00:11:36,790 --> 00:11:41,040
+Create user dot user dot ID.
+
+166
+00:11:41,200 --> 00:11:48,100
+So remember we have data on response on there we have everything we requested so create user user ID
+
+167
+00:11:48,280 --> 00:11:50,720
+is going to get us to this value right here.
+
+168
+00:11:50,830 --> 00:11:53,430
+Create user user ID.
+
+169
+00:11:53,440 --> 00:11:54,380
+Excellent.
+
+170
+00:11:54,430 --> 00:11:58,020
+Now we can move on to Step 3 and use our assertion.
+
+171
+00:11:58,020 --> 00:11:59,650
+I am going to expect.
+
+172
+00:12:00,150 --> 00:12:07,870
+Whoops a little autocomplete there that exists equals using to be the following value.
+
+173
+00:12:07,900 --> 00:12:10,200
+True it should indeed exist.
+
+174
+00:12:10,210 --> 00:12:11,140
+Excellent.
+
+175
+00:12:11,230 --> 00:12:12,730
+Now we can test our work.
+
+176
+00:12:12,790 --> 00:12:16,860
+I'm going to remove the challenge comments we have our two lines in place.
+
+177
+00:12:16,900 --> 00:12:22,840
+I'm going to save the test suite and I would expect the test case to be passing and it is and there
+
+178
+00:12:22,840 --> 00:12:23,580
+we go.
+
+179
+00:12:23,590 --> 00:12:30,680
+We now have our very first test case that makes assertions about how our graphs UL application works.
+
+180
+00:12:30,730 --> 00:12:36,400
+If the create user mutation were to ever break in the future our automatic test suite would be able
+
+181
+00:12:36,400 --> 00:12:42,100
+to catch that and prevent bugs from getting into production and messing up with real users and in the
+
+182
+00:12:42,100 --> 00:12:47,620
+case of a production app messing up with your business messing up with your revenue your customer relationships
+
+183
+00:12:47,890 --> 00:12:48,790
+and more.
+
+184
+00:12:48,790 --> 00:12:53,380
+And now that we have this in place we're going to address that problem that happens when our test suite
+
+185
+00:12:53,380 --> 00:12:59,230
+runs a second time in the next video we're going to learn how to use geste lifecycle methods to clean
+
+186
+00:12:59,230 --> 00:13:02,170
+out our database before our test cases run.
+
+187
+00:13:02,170 --> 00:13:03,360
+I'm excited to get to that.
+
+188
+00:13:03,370 --> 00:13:06,220
+So let's go ahead and jump right in to the next one.
+

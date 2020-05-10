@@ -1,0 +1,72 @@
+1
+00:00:02,470 --> 00:00:08,860
+Welcome to Section 7 in this section which is a relatively short section there are two key things we
+
+2
+00:00:08,860 --> 00:00:10,700
+want to focus on setting up.
+
+3
+00:00:10,750 --> 00:00:16,670
+We're going to set up the ability to sort our data and the ability to paginate our data.
+
+4
+00:00:16,690 --> 00:00:18,990
+So imagine we are creating a client for our.
+
+5
+00:00:18,990 --> 00:00:22,500
+Q An app whether it's a web client or a mobile client.
+
+6
+00:00:22,510 --> 00:00:28,240
+We're likely going to show a list of posts on the home page and we want them to be in a particular order
+
+7
+00:00:28,450 --> 00:00:34,180
+likely with the most recently published up top then getting older as you scroll down the list.
+
+8
+00:00:34,180 --> 00:00:36,910
+We can't do that unless we can sort our data.
+
+9
+00:00:36,940 --> 00:00:38,450
+So we're going to set that up.
+
+10
+00:00:38,470 --> 00:00:40,870
+Now we're also going to set up pagination.
+
+11
+00:00:40,870 --> 00:00:47,470
+So imagine we do show the posts in the correct order with the most recent up top but we have 15000 posts
+
+12
+00:00:47,500 --> 00:00:51,540
+in the database from a number of users over a dozen years.
+
+13
+00:00:51,610 --> 00:00:57,940
+We can't fetch and render all 15000 at the same time as we would likely cause major slowdowns on the
+
+14
+00:00:57,940 --> 00:00:58,780
+device.
+
+15
+00:00:58,780 --> 00:01:05,200
+So instead we would paginate I would fetch maybe the first 15 or the first 50 then if the user gets
+
+16
+00:01:05,200 --> 00:01:08,970
+to the bottom we could load in the next 15 or the next 50.
+
+17
+00:01:09,010 --> 00:01:12,500
+So we're going to set up both of those and we'll start with pagination.
+
+18
+00:01:12,550 --> 00:01:14,680
+Let's go ahead and jump right in.
+

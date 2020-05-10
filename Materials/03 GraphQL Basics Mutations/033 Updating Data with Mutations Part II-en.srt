@@ -1,0 +1,1016 @@
+1
+00:00:00,270 --> 00:00:05,880
+In this video which is the last video for this section on mutations we're going to go ahead and create
+
+2
+00:00:05,880 --> 00:00:12,630
+two final mutations one for updating the post and another for updating the comment once that's done
+
+3
+00:00:12,630 --> 00:00:17,910
+we'll have all of the basic Krout operations for all of our data we'll be able to create data we'll
+
+4
+00:00:17,910 --> 00:00:19,240
+be able to read data.
+
+5
+00:00:19,260 --> 00:00:26,100
+We'll be able to update data and delete data we already have the c the R and the D complete the U.
+
+6
+00:00:26,100 --> 00:00:30,100
+For update is partially complete but by the end we'll have it all finished.
+
+7
+00:00:30,120 --> 00:00:33,270
+So let's go ahead and talk about exactly how we're going to accomplish this.
+
+8
+00:00:33,330 --> 00:00:39,420
+Both of them are going to be challenges for you to build on your own but we'll do them one at a time.
+
+9
+00:00:39,420 --> 00:00:45,530
+I'm going to start by copying and pasting the challenge comments over in the top of the mutation not
+
+10
+00:00:45,570 --> 00:00:47,160
+J.S. file.
+
+11
+00:00:47,190 --> 00:00:49,510
+So right here we're going to start with just one mutation.
+
+12
+00:00:49,510 --> 00:00:52,050
+Let's take things one step at a time.
+
+13
+00:00:52,050 --> 00:00:56,460
+The goal for this one is to set up a mutation for updating a post.
+
+14
+00:00:56,530 --> 00:01:00,990
+Let's walk through all three steps which are essentially what we did for user in the last video.
+
+15
+00:01:00,990 --> 00:01:04,720
+So step one you've got to define that mutation and your type deaths.
+
+16
+00:01:04,770 --> 00:01:10,710
+We want to support two arguments ID and data where ID is the idea of the post you're trying to update
+
+17
+00:01:10,950 --> 00:01:15,370
+and data is an object containing all of the actual fields you'd like to update.
+
+18
+00:01:15,420 --> 00:01:21,720
+Now when it comes to updateable fields and data you should support Title body and published all three
+
+19
+00:01:21,720 --> 00:01:26,470
+of those should be something that any user can actually update about one of their posts.
+
+20
+00:01:26,670 --> 00:01:31,200
+And also we're going to set up a return type for this one just like when we updated a user we got the
+
+21
+00:01:31,200 --> 00:01:33,080
+user back when we update a post.
+
+22
+00:01:33,120 --> 00:01:35,020
+We should get the post back.
+
+23
+00:01:35,100 --> 00:01:41,000
+That brings us to step 2 actually creating the resolver method that fulfills this mutation.
+
+24
+00:01:41,010 --> 00:01:44,420
+First up we want to verify that that post exists we have to fetch it.
+
+25
+00:01:44,460 --> 00:01:46,600
+If it doesn't exist we're going to throw an error.
+
+26
+00:01:46,770 --> 00:01:51,990
+And then once we get the post we're going to go property one at a time and we're going to update each
+
+27
+00:01:52,170 --> 00:01:56,560
+other like we did for a user with our IF statements we're going to check if title is a string.
+
+28
+00:01:56,670 --> 00:02:02,550
+If body is a string and if published is a Boolean you don't have to worry about the situation we ran
+
+29
+00:02:02,550 --> 00:02:10,740
+into with age when we updated a user because there are no optional fields for a post title body and
+
+30
+00:02:10,740 --> 00:02:16,710
+published all have to be provided much like name and email were required for users.
+
+31
+00:02:17,040 --> 00:02:21,540
+So once you have that in place that brings you to step three to verify your work by updating all of
+
+32
+00:02:21,540 --> 00:02:23,320
+the properties for a given post.
+
+33
+00:02:23,340 --> 00:02:28,950
+So pick one of the three posts we have over in our sample data and try to update it try to update its
+
+34
+00:02:28,950 --> 00:02:35,280
+title try to update the body or try to update the published value when it comes to updating we're not
+
+35
+00:02:35,280 --> 00:02:41,520
+going to be able to update things like the post's author or the comments author or the post that a comment
+
+36
+00:02:41,520 --> 00:02:44,030
+has been made on that doesn't really make sense.
+
+37
+00:02:44,100 --> 00:02:48,150
+If I made a comment on a post and I wanted to change it to a different post.
+
+38
+00:02:48,270 --> 00:02:52,410
+I don't know of a single web site that would let me do that without just deleting the comment and creating
+
+39
+00:02:52,410 --> 00:02:54,600
+a new comment for the other post.
+
+40
+00:02:54,600 --> 00:02:59,430
+So once again it's really up to us to determine what fields someone should be able to update and in
+
+41
+00:02:59,430 --> 00:03:00,520
+the case of the post.
+
+42
+00:03:00,540 --> 00:03:03,060
+It's just going to be these three.
+
+43
+00:03:03,070 --> 00:03:03,560
+All right.
+
+44
+00:03:03,570 --> 00:03:08,400
+Take as much time as you need to knock that one out and feel free to refer to everything we did in the
+
+45
+00:03:08,400 --> 00:03:12,770
+last video where we discussed how to update a user positive video.
+
+46
+00:03:12,780 --> 00:03:13,540
+Knock this out.
+
+47
+00:03:13,560 --> 00:03:17,270
+Test your work and when you're done come back and click play
+
+48
+00:03:21,280 --> 00:03:22,170
+how that one go.
+
+49
+00:03:22,180 --> 00:03:24,230
+I'm going to kick things off over in schema.
+
+50
+00:03:24,300 --> 00:03:28,900
+Graft you well where we're going to set up our mutation so right here we have mutations.
+
+51
+00:03:28,900 --> 00:03:31,000
+We have our two for post.
+
+52
+00:03:31,030 --> 00:03:34,310
+I'm going to add a third one just below for updating a post.
+
+53
+00:03:34,450 --> 00:03:36,100
+And we're going to set up those arguments.
+
+54
+00:03:36,100 --> 00:03:38,950
+We need the ID of the type ID.
+
+55
+00:03:39,040 --> 00:03:40,820
+And we also need data.
+
+56
+00:03:40,900 --> 00:03:48,560
+Data is going to be of the type update post input something we'll define in just a moment.
+
+57
+00:03:48,580 --> 00:03:53,440
+Now the return value for this one is just going to be a post much like we have for delete post and create
+
+58
+00:03:53,440 --> 00:03:54,700
+post up above.
+
+59
+00:03:55,030 --> 00:03:56,630
+Let's go ahead and define update.
+
+60
+00:03:56,630 --> 00:03:58,230
+Post input down below.
+
+61
+00:03:58,360 --> 00:04:00,070
+We have create post input.
+
+62
+00:04:00,100 --> 00:04:06,810
+I'm going to define the new one just below input update post input.
+
+63
+00:04:07,090 --> 00:04:08,670
+And we're going to set up those three fields.
+
+64
+00:04:08,680 --> 00:04:12,210
+I talked about title which is totally optional.
+
+65
+00:04:12,210 --> 00:04:15,850
+You do not have to update the title every time you update something else.
+
+66
+00:04:15,930 --> 00:04:17,500
+Then we're going to have the body.
+
+67
+00:04:17,580 --> 00:04:20,110
+Also something you don't have to update all the time.
+
+68
+00:04:20,190 --> 00:04:23,340
+And finally we're going to have whether or not the post is published.
+
+69
+00:04:23,340 --> 00:04:24,680
+This is a boolean.
+
+70
+00:04:24,960 --> 00:04:27,880
+And once again like the other two it can be null.
+
+71
+00:04:27,900 --> 00:04:30,740
+That's ok we just won't update anything.
+
+72
+00:04:31,080 --> 00:04:34,880
+Now that we have the schema graphed you l file all knocked out.
+
+73
+00:04:34,980 --> 00:04:41,040
+We can actually go ahead and save things and move into mutation J ass and move on to Step 2 where we
+
+74
+00:04:41,040 --> 00:04:44,440
+create the resolver method for this new mutation.
+
+75
+00:04:44,670 --> 00:04:48,510
+Dambulla we have our user mutations than we have are post mutations.
+
+76
+00:04:48,660 --> 00:04:54,630
+I'm going to add this one in order update post and we're going to go ahead and set up all of those arguments
+
+77
+00:04:55,500 --> 00:04:58,060
+right here will start with parent.
+
+78
+00:04:58,140 --> 00:05:04,560
+Then we have ARGs that our D structure context to get the database and finally info in here.
+
+79
+00:05:04,560 --> 00:05:06,910
+Just like I did for updating a user.
+
+80
+00:05:07,050 --> 00:05:09,730
+I am going to start by destructuring args.
+
+81
+00:05:09,750 --> 00:05:17,290
+I'm going to grab both the ID and data off of there right here getting them both from the args object.
+
+82
+00:05:17,340 --> 00:05:19,110
+So what's the step one here.
+
+83
+00:05:19,110 --> 00:05:24,620
+The step one is to get that post we want to make sure that post actually exists.
+
+84
+00:05:24,630 --> 00:05:26,310
+Otherwise there's nothing to update.
+
+85
+00:05:26,310 --> 00:05:34,320
+So Konst post equals D-B dot posts dot find we had to find that guy and right here we are going to set
+
+86
+00:05:34,320 --> 00:05:39,450
+up our callback function where we get the individual post and we'll say we found a match when the individual
+
+87
+00:05:39,450 --> 00:05:44,520
+posts Id matches up with the ID that was passed in to our arguments.
+
+88
+00:05:44,550 --> 00:05:45,770
+Perfect.
+
+89
+00:05:45,870 --> 00:05:48,740
+Now the next thing to do is to throw an error if there was no post.
+
+90
+00:05:48,750 --> 00:05:52,210
+So if there was no post found that's OK.
+
+91
+00:05:52,320 --> 00:05:57,660
+We're just going to tell you we can't update anything so throw new error saying something like.
+
+92
+00:05:57,660 --> 00:06:00,050
+Post not found.
+
+93
+00:06:00,240 --> 00:06:04,620
+Now everything down below only runs when we did find a post and this is where we're going to go through
+
+94
+00:06:04,620 --> 00:06:08,630
+those properties one at a time updating them if they were provided.
+
+95
+00:06:08,730 --> 00:06:11,030
+So we're going to add three more if statements.
+
+96
+00:06:11,030 --> 00:06:13,880
+First up if the type of.
+
+97
+00:06:14,040 --> 00:06:15,870
+And we'll start off with the title.
+
+98
+00:06:15,870 --> 00:06:17,770
+So we're going to check the type of.
+
+99
+00:06:17,820 --> 00:06:20,100
+In this case data.
+
+100
+00:06:20,130 --> 00:06:20,870
+Title.
+
+101
+00:06:20,880 --> 00:06:22,430
+Is that a string.
+
+102
+00:06:22,590 --> 00:06:30,480
+If it is great we're going to go ahead and actually update the post title properties so post title equals
+
+103
+00:06:30,510 --> 00:06:32,520
+data title.
+
+104
+00:06:32,520 --> 00:06:35,420
+Next up we're going to be doing something very similar for bodies.
+
+105
+00:06:35,430 --> 00:06:40,650
+Let's check the type of data dot body is that equal to a string.
+
+106
+00:06:40,650 --> 00:06:42,870
+If so that's great right here.
+
+107
+00:06:42,990 --> 00:06:47,260
+We will set post.com body equal to the value provided on data.
+
+108
+00:06:47,310 --> 00:06:51,510
+Body and last up we have our published property which is a boolean.
+
+109
+00:06:51,510 --> 00:06:59,240
+So if type of data are not published equals a boolean.
+
+110
+00:06:59,310 --> 00:07:00,170
+What are we going to do.
+
+111
+00:07:00,240 --> 00:07:06,570
+Well we're going to go ahead and set post-cart published equal to whatever value is passed in postop
+
+112
+00:07:06,570 --> 00:07:09,840
+published equals data not published.
+
+113
+00:07:09,960 --> 00:07:14,690
+And the last thing to do is to just return that updated post so return post.
+
+114
+00:07:14,700 --> 00:07:15,810
+And there we go.
+
+115
+00:07:15,900 --> 00:07:19,640
+Update post is all done now from here.
+
+116
+00:07:19,650 --> 00:07:24,540
+What we need to do is test our work and make sure we can actually update all of these things.
+
+117
+00:07:24,560 --> 00:07:26,580
+We have a few posts we can pick from.
+
+118
+00:07:26,610 --> 00:07:30,120
+I'm going to go ahead and update this first post right here.
+
+119
+00:07:30,120 --> 00:07:33,870
+The graph Q L 101 post with the ID of 10.
+
+120
+00:07:33,960 --> 00:07:37,320
+We can test all of this out over inside of graft and playground.
+
+121
+00:07:37,320 --> 00:07:39,660
+I'm going to add one more tab on to the end.
+
+122
+00:07:39,660 --> 00:07:42,150
+This one is for our update post mutation.
+
+123
+00:07:42,150 --> 00:07:46,890
+Mutation update post and I will refresh that schema real quick.
+
+124
+00:07:47,180 --> 00:07:50,550
+And then we can actually set up the arguments and what we want to select.
+
+125
+00:07:50,570 --> 00:07:53,490
+Once again I'm just going to select these scalar values.
+
+126
+00:07:53,510 --> 00:07:55,200
+So I grab the posts ID.
+
+127
+00:07:55,360 --> 00:07:57,020
+I'll grab the title.
+
+128
+00:07:57,020 --> 00:08:03,360
+I'll grab the post body and I'll also go ahead and grab the published status from here we can now pass.
+
+129
+00:08:03,360 --> 00:08:05,990
+Any idea of the post we want to update Sarette here.
+
+130
+00:08:05,990 --> 00:08:07,290
+ID equals.
+
+131
+00:08:07,520 --> 00:08:08,870
+I already forgot what I said.
+
+132
+00:08:08,870 --> 00:08:13,220
+I said 10 then we're going to provide the data as well.
+
+133
+00:08:13,220 --> 00:08:18,080
+So right here data setting that equal to an object and I should be able to call it like this without
+
+134
+00:08:18,080 --> 00:08:19,030
+any issues.
+
+135
+00:08:19,150 --> 00:08:19,860
+What do we get.
+
+136
+00:08:19,940 --> 00:08:24,970
+We get a post that looks exactly like it did before the data matches up perfectly.
+
+137
+00:08:24,980 --> 00:08:27,190
+Let's go ahead and change this around a little bit.
+
+138
+00:08:27,200 --> 00:08:31,280
+I'm going to go ahead and say that I don't really like what I've written I'm going to start from scratch
+
+139
+00:08:31,520 --> 00:08:37,460
+so I'm going to wipe the body setting body equal to an empty string and then I'm going to unpublished
+
+140
+00:08:37,460 --> 00:08:37,640
+it.
+
+141
+00:08:37,660 --> 00:08:40,760
+So I'll set published equal to false.
+
+142
+00:08:40,790 --> 00:08:42,310
+I go ahead and do that.
+
+143
+00:08:42,410 --> 00:08:47,570
+And what do I get back I get back exactly what I had before then let's say I also want to change the
+
+144
+00:08:47,570 --> 00:08:49,210
+title with a different operation.
+
+145
+00:08:49,280 --> 00:08:56,150
+I could update the title saying something like how to graph Q out if I go ahead and run that.
+
+146
+00:08:56,180 --> 00:08:58,150
+That data changes as well.
+
+147
+00:08:58,250 --> 00:09:04,100
+And if I were to run any other operation that interacted with posts I would see the changed data so
+
+148
+00:09:04,100 --> 00:09:06,200
+I can run the Post's query.
+
+149
+00:09:06,410 --> 00:09:07,110
+And what do I get.
+
+150
+00:09:07,130 --> 00:09:10,220
+I get my post changed as expected.
+
+151
+00:09:10,460 --> 00:09:13,700
+So now we have one of our two mutations in place.
+
+152
+00:09:13,700 --> 00:09:18,230
+Let's go ahead and move on to the second challenge for updating the comment above.
+
+153
+00:09:18,230 --> 00:09:20,640
+We have challenge comments for this one as well.
+
+154
+00:09:20,720 --> 00:09:24,120
+And they're basically identical to what we already had there for the post.
+
+155
+00:09:24,140 --> 00:09:29,030
+Right here we have the exact same thing we just had for a post though with the word posts swapped out
+
+156
+00:09:29,030 --> 00:09:29,660
+for comment.
+
+157
+00:09:29,660 --> 00:09:33,080
+For the most part so I'm not going to spend a ton of time going over this.
+
+158
+00:09:33,200 --> 00:09:35,420
+Once again start by defining your mutation.
+
+159
+00:09:35,420 --> 00:09:41,450
+We want ID and data as arguments and the only field we can actually add on data is text since that's
+
+160
+00:09:41,450 --> 00:09:44,030
+the only thing that can be updated for a comment.
+
+161
+00:09:44,030 --> 00:09:47,470
+You're also going to actually return the updated comment.
+
+162
+00:09:47,720 --> 00:09:51,250
+Then step 2 create that resolver method verify the comment exists.
+
+163
+00:09:51,260 --> 00:09:55,310
+Otherwise throw an error and update the comment properties one at a time.
+
+164
+00:09:55,350 --> 00:09:57,080
+There happens to only be one.
+
+165
+00:09:57,320 --> 00:10:02,390
+Lastly verify your work by trying to update a comment changing its text.
+
+166
+00:10:02,450 --> 00:10:04,840
+Take as much time as you need to knock this one out.
+
+167
+00:10:04,850 --> 00:10:05,720
+Test your work.
+
+168
+00:10:05,720 --> 00:10:08,980
+Pause the video and when you're done click play.
+
+169
+00:10:13,000 --> 00:10:13,780
+How that go.
+
+170
+00:10:13,780 --> 00:10:16,200
+I'm going to kick things off over in a schema.
+
+171
+00:10:16,260 --> 00:10:16,890
+Graft.
+
+172
+00:10:16,920 --> 00:10:21,060
+Well right here we're going to define update comment.
+
+173
+00:10:21,150 --> 00:10:25,430
+We need the ID and we also need our update data.
+
+174
+00:10:25,440 --> 00:10:27,890
+I'm going to call the input for this something like.
+
+175
+00:10:27,890 --> 00:10:36,340
+Update comment input and then we'll set up the value that comes back which will just be a comment.
+
+176
+00:10:36,340 --> 00:10:41,510
+Now we do need to define update comment input which will be non nullable and right here we're going
+
+177
+00:10:41,510 --> 00:10:42,740
+to do that down below.
+
+178
+00:10:42,850 --> 00:10:46,870
+So we have the input for updating a post then for creating a comment.
+
+179
+00:10:46,900 --> 00:10:56,870
+I'll put it just after creating a comment input update comment input and once again we only have the
+
+180
+00:10:56,870 --> 00:11:01,120
+text so we have our text and this is an optional string.
+
+181
+00:11:01,130 --> 00:11:05,100
+Now you might say why create the data object if we only have one field.
+
+182
+00:11:05,240 --> 00:11:10,400
+Well it's good to stick with a standard set of practices so here we're using ID and data for all of
+
+183
+00:11:10,400 --> 00:11:11,350
+our updates.
+
+184
+00:11:11,370 --> 00:11:14,590
+That also gives us a very easy way to expand our code.
+
+185
+00:11:14,690 --> 00:11:20,180
+If we do add other properties on to comments later down the line we want to restructure a ton of stuff
+
+186
+00:11:20,240 --> 00:11:22,260
+because it's already set up to scale.
+
+187
+00:11:22,280 --> 00:11:29,210
+Well now we can save schema digraphs well with everything in place and actually create the resolver
+
+188
+00:11:29,270 --> 00:11:32,240
+method for updating a comment over and mutation.
+
+189
+00:11:32,430 --> 00:11:33,050
+J S.
+
+190
+00:11:33,050 --> 00:11:41,300
+I'm going to put that way down at the bottom as the last method on here update comment we're going to
+
+191
+00:11:41,300 --> 00:11:42,380
+set up those arguments.
+
+192
+00:11:42,380 --> 00:11:48,170
+We got parent we got our books we have our DS structured context where we get the database and we have
+
+193
+00:11:48,440 --> 00:11:50,550
+info inside of here.
+
+194
+00:11:50,600 --> 00:11:53,170
+We're going to start the same way we did for all of our other ones.
+
+195
+00:11:53,220 --> 00:11:57,410
+We're going to first deep structure idea and data totally optional.
+
+196
+00:11:57,410 --> 00:12:01,580
+It's OK if you did not do that then we're going to try to find the comment.
+
+197
+00:12:01,580 --> 00:12:06,690
+So Konst comment equals D-B comments dot find.
+
+198
+00:12:06,890 --> 00:12:08,400
+Let's go ahead and track it down.
+
+199
+00:12:08,450 --> 00:12:13,520
+Right here we have our callback function which gets called with the individual comment and we know we
+
+200
+00:12:13,520 --> 00:12:14,020
+found it.
+
+201
+00:12:14,060 --> 00:12:20,820
+If one of those individual comments has an ID value that is equal to the ID argument passed.
+
+202
+00:12:20,840 --> 00:12:22,990
+And now we didn't find a comment.
+
+203
+00:12:23,000 --> 00:12:28,580
+We are going to throw that error is standard practice for us if there is no comment.
+
+204
+00:12:28,880 --> 00:12:36,300
+We'll throw a new error and we'll just say something along the lines of comment not found.
+
+205
+00:12:36,300 --> 00:12:41,880
+Now all we have to do is update the one property which is the text so I'm going to set that up whoops
+
+206
+00:12:42,060 --> 00:12:47,700
+down below of course I have that new Mac book with a bigger trackpad and sometimes the palm of my hand
+
+207
+00:12:47,700 --> 00:12:52,500
+actually moves the mouse around a little bit annoying but right here anyways we are going to check if
+
+208
+00:12:52,930 --> 00:12:59,550
+and we're going to look at the type of data don't text it that is indeed a string that we are going
+
+209
+00:12:59,550 --> 00:13:07,480
+to go ahead and apply that as an update changing comment text over to the value stored on data dot text.
+
+210
+00:13:07,650 --> 00:13:13,410
+And the last thing to do in this file is to return the comment we've just updated.
+
+211
+00:13:13,470 --> 00:13:18,510
+Now we can actually remove the challenge comments up above and save this file.
+
+212
+00:13:18,510 --> 00:13:22,320
+We can move on to step three which of course is to verify our work.
+
+213
+00:13:22,320 --> 00:13:26,730
+A very important step in the process over engraft UL playground.
+
+214
+00:13:26,730 --> 00:13:31,380
+We're going to create one final tab for our last mutation.
+
+215
+00:13:31,410 --> 00:13:34,930
+So right here we are going to perform a mutation.
+
+216
+00:13:35,040 --> 00:13:37,810
+This one is called update comment.
+
+217
+00:13:37,980 --> 00:13:39,410
+We're going to provide our arguments.
+
+218
+00:13:39,420 --> 00:13:42,270
+We're going to provide our selection set for this.
+
+219
+00:13:42,270 --> 00:13:45,800
+I'll just grab the idea and the text are two scalar values.
+
+220
+00:13:45,840 --> 00:13:49,890
+And before I set up my arguments I am going to refresh the schema.
+
+221
+00:13:49,980 --> 00:13:50,700
+Now what do we need.
+
+222
+00:13:50,700 --> 00:13:53,070
+Well we need to pick a comment to update.
+
+223
+00:13:53,070 --> 00:13:55,480
+I got a couple of comments to choose from.
+
+224
+00:13:55,500 --> 00:13:59,500
+I'm going to go ahead and grab the comment for this one right here.
+
+225
+00:13:59,520 --> 00:14:01,900
+So I actually made a typo when I typed this one.
+
+226
+00:14:01,920 --> 00:14:03,350
+This did no work.
+
+227
+00:14:03,360 --> 00:14:05,310
+It should be this did not work.
+
+228
+00:14:05,400 --> 00:14:11,490
+I'm actually going to change that using my mutation so that is the idea of 104 right here.
+
+229
+00:14:11,490 --> 00:14:13,870
+Id equals 104.
+
+230
+00:14:14,070 --> 00:14:15,850
+Then data is an object.
+
+231
+00:14:15,870 --> 00:14:18,760
+And we're just going to provide a single property text.
+
+232
+00:14:18,780 --> 00:14:21,260
+Once again we should be able to run it with no properties.
+
+233
+00:14:21,270 --> 00:14:24,180
+Right here we get the original unchanged comment.
+
+234
+00:14:24,240 --> 00:14:27,830
+I'm going to set text equal to the correct string.
+
+235
+00:14:27,840 --> 00:14:30,960
+This did not work.
+
+236
+00:14:31,160 --> 00:14:32,530
+And when I run it what do I get.
+
+237
+00:14:32,580 --> 00:14:34,740
+I get my changed comment back.
+
+238
+00:14:34,950 --> 00:14:39,600
+Now as always we can verify that things were saved correctly by fetching that data.
+
+239
+00:14:39,600 --> 00:14:43,640
+I'm just going to fetch all of the comments and if I scroll down I should see it changed.
+
+240
+00:14:43,650 --> 00:14:47,000
+And I do the comment with the idea of 1 0 4.
+
+241
+00:14:47,040 --> 00:14:50,850
+Now has this did not work spelled correctly.
+
+242
+00:14:50,850 --> 00:14:55,860
+Now that we have this in place we are all done with our final two mutations.
+
+243
+00:14:55,950 --> 00:15:01,270
+We now have mutations for creating all of our data whether it's a post a user or a comment.
+
+244
+00:15:01,440 --> 00:15:07,230
+We have mutations for updating all of our data and we have mutations for deleting all of our data.
+
+245
+00:15:07,230 --> 00:15:11,100
+So we now have support for all of those basic crud operations.
+
+246
+00:15:11,100 --> 00:15:15,000
+Engraft UL which is an awesome first step.
+
+247
+00:15:15,030 --> 00:15:19,680
+Now there are still a few basic features of graphics you want to cover before we worry about setting
+
+248
+00:15:19,680 --> 00:15:22,320
+up a real production ready database.
+
+249
+00:15:22,320 --> 00:15:27,860
+What I'd like to talk about in the next video is the third operation we can use engraft ul.
+
+250
+00:15:28,080 --> 00:15:33,330
+This is the subscription which allows us to perform real time communication between the client and the
+
+251
+00:15:33,330 --> 00:15:39,090
+server the client can say something like Hey I want to subscribe to all comments and the server will
+
+252
+00:15:39,150 --> 00:15:43,290
+automatically update them any time a new comment comes in.
+
+253
+00:15:43,290 --> 00:15:45,620
+It's a very cool feature of the language.
+
+254
+00:15:45,660 --> 00:15:50,540
+So let's go ahead and jump right into the next section and learn all about subscriptions.
+

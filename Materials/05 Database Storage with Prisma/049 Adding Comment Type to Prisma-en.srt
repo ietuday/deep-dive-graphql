@@ -1,0 +1,768 @@
+1
+00:00:00,150 --> 00:00:05,610
+In this challenge video it's going to be up to you to integrate comments into the Prisma API.
+
+2
+00:00:05,610 --> 00:00:10,530
+So just like we did for posts in the last video we're going to be bringing that type definition over
+
+3
+00:00:10,530 --> 00:00:16,920
+to the spiled deploying the changes and then messing around with it inside of graphical playground down
+
+4
+00:00:16,920 --> 00:00:17,430
+below.
+
+5
+00:00:17,450 --> 00:00:21,070
+The few challenge comments that outline exactly what I'd like you to do.
+
+6
+00:00:21,210 --> 00:00:26,760
+And once again the big picture goal is to add comments to the Prisma API.
+
+7
+00:00:26,760 --> 00:00:28,170
+Well let's go through all three steps.
+
+8
+00:00:28,170 --> 00:00:33,220
+Step one is to copy the comment type definition over from schema dot graphical.
+
+9
+00:00:33,510 --> 00:00:36,930
+And once again remember you have to mark the idea as unique.
+
+10
+00:00:36,930 --> 00:00:38,370
+Everything else can stay the same.
+
+11
+00:00:38,370 --> 00:00:43,260
+We already have the relationships set up so we can just bring those fields over.
+
+12
+00:00:43,260 --> 00:00:46,460
+Step two is to redeploy the Prisma application.
+
+13
+00:00:46,470 --> 00:00:49,510
+So we've made changes to this file from step 1.
+
+14
+00:00:49,590 --> 00:00:54,630
+We have to use the correct command from the command line to actually deploy those changes.
+
+15
+00:00:54,630 --> 00:00:58,230
+Step three is probably where you're going to spend the most time.
+
+16
+00:00:58,410 --> 00:01:01,680
+This is where we're actually going to test things out.
+
+17
+00:01:01,680 --> 00:01:04,020
+So I've broken this into four little pieces.
+
+18
+00:01:04,020 --> 00:01:08,610
+First part if we're going to make a comment on a post that post has to be published.
+
+19
+00:01:08,610 --> 00:01:10,200
+So step A.
+
+20
+00:01:10,290 --> 00:01:17,550
+Update our only post to be published then for forby what I want you to do is create a new user this
+
+21
+00:01:17,550 --> 00:01:21,640
+new user is going to leave a comment on that one and only post.
+
+22
+00:01:21,690 --> 00:01:23,030
+We actually have.
+
+23
+00:01:23,250 --> 00:01:28,950
+And in order to explore the new mutations given to you remember you can just refer to the schema for
+
+24
+00:01:28,950 --> 00:01:29,570
+usage.
+
+25
+00:01:29,580 --> 00:01:34,800
+It's really important to get comfortable navigating the schema and actually being able to use it to
+
+26
+00:01:34,800 --> 00:01:39,830
+generate your operations so you get a little more practice with this in the challenge as well.
+
+27
+00:01:40,020 --> 00:01:43,980
+And finally we have part D you want to fetch all of the comments.
+
+28
+00:01:43,980 --> 00:01:45,700
+In this case you only created one.
+
+29
+00:01:45,720 --> 00:01:52,470
+The one comment you created in step C. But you should indeed see that comment showing up and for each
+
+30
+00:01:52,470 --> 00:01:57,930
+comment just include the comment text and also grab the author's name.
+
+31
+00:01:57,930 --> 00:01:58,460
+All right.
+
+32
+00:01:58,460 --> 00:02:01,230
+Take as much time as you need to knock that one out.
+
+33
+00:02:01,260 --> 00:02:06,560
+Feel free to refer to anything we did in the last video since we went through a very similar process.
+
+34
+00:02:06,600 --> 00:02:09,140
+When you're done do make sure to test your work.
+
+35
+00:02:09,150 --> 00:02:11,870
+That's actually one of the bigger pieces to this challenge.
+
+36
+00:02:11,970 --> 00:02:15,440
+So once again upon the video when you're done click play
+
+37
+00:02:19,490 --> 00:02:20,270
+how that go.
+
+38
+00:02:20,270 --> 00:02:22,430
+Let's go ahead and kick things off with step 1.
+
+39
+00:02:22,430 --> 00:02:26,130
+We're going to grab our comment type from schema data graph.
+
+40
+00:02:26,210 --> 00:02:28,370
+Well I have that sitting right here.
+
+41
+00:02:28,400 --> 00:02:31,100
+I'm going to grab all six lines exactly as they are.
+
+42
+00:02:31,100 --> 00:02:34,890
+Copy them to the clipboard and bring them over to our data model file.
+
+43
+00:02:35,060 --> 00:02:41,030
+I'll paste it right down below the post type and the only change we need to make is to the ID field.
+
+44
+00:02:41,030 --> 00:02:47,810
+Remember all of our IDs in Prisma need to be marked as unique using the at Unique directive.
+
+45
+00:02:47,870 --> 00:02:48,670
+Excellent.
+
+46
+00:02:48,860 --> 00:02:53,960
+All of the other three fields can stay the same text is still going to be a string author is still going
+
+47
+00:02:53,960 --> 00:02:58,680
+to link to a user and post is still going to link to a post.
+
+48
+00:02:58,730 --> 00:03:01,610
+Now that brings us to step 2 the easiest of all of the steps.
+
+49
+00:03:01,610 --> 00:03:10,720
+All we need to do for this one is to one save our file and to run Prisma deploy from inside of the project.
+
+50
+00:03:10,730 --> 00:03:16,250
+This is going to make sure that the database gets updated to conform to the schema that we've currently
+
+51
+00:03:16,310 --> 00:03:16,870
+created.
+
+52
+00:03:16,870 --> 00:03:19,250
+So right here we've added comment on.
+
+53
+00:03:19,250 --> 00:03:24,050
+And I would expect all of the changes to be related to that down below under changes.
+
+54
+00:03:24,050 --> 00:03:29,160
+I have a bunch of changes related to the comment type since we're creating it for the first time.
+
+55
+00:03:29,330 --> 00:03:34,880
+And they also have other changes that are related to the associations with comment end users and then
+
+56
+00:03:34,880 --> 00:03:41,960
+down below comment and posts now that we've deployed the application we can move on to step three which
+
+57
+00:03:41,960 --> 00:03:45,660
+is actually where we're going to spend most of our time working with graphs.
+
+58
+00:03:45,730 --> 00:03:48,830
+Well playground to perform a series of steps.
+
+59
+00:03:48,970 --> 00:03:53,460
+Step one we want to update our only post to be published.
+
+60
+00:03:53,600 --> 00:04:00,560
+We can currently get the post ID using either the users or the post query right here I have users all
+
+61
+00:04:00,560 --> 00:04:01,370
+set up.
+
+62
+00:04:01,460 --> 00:04:05,050
+I could choose to just grab the posts for a user as well.
+
+63
+00:04:05,210 --> 00:04:10,430
+And in this case I could just grab the ID for all of the posts and if I run that I can see we have the
+
+64
+00:04:10,430 --> 00:04:12,920
+one post for our first user.
+
+65
+00:04:12,920 --> 00:04:17,720
+This is the only post we have and this is the one that we're going to be updating to published and it's
+
+66
+00:04:17,720 --> 00:04:20,620
+the one we're going to be leaving a comment on.
+
+67
+00:04:20,960 --> 00:04:26,390
+Now I don't have a update post mutation so I can go ahead and create one right here under a new tab.
+
+68
+00:04:26,410 --> 00:04:29,560
+Nutation update post.
+
+69
+00:04:29,600 --> 00:04:34,850
+And in order to figure out what update post takes we're going to go ahead and move into the schema for
+
+70
+00:04:34,850 --> 00:04:39,290
+the moment though down below we know we're probably going to get a post back so we can grab the ID for
+
+71
+00:04:39,290 --> 00:04:40,370
+that post.
+
+72
+00:04:40,370 --> 00:04:46,310
+I'm also going to grab the title the body and of course the published status.
+
+73
+00:04:46,340 --> 00:04:51,080
+Now we can open up the schema and figure out what it takes to use that update post mutation it's sitting
+
+74
+00:04:51,080 --> 00:04:51,960
+right here.
+
+75
+00:04:51,980 --> 00:04:56,780
+Update post I'm going to click that we can see pass it two arguments.
+
+76
+00:04:56,810 --> 00:05:02,650
+Data which includes the updates and where which allows us to figure out which post we want to update.
+
+77
+00:05:02,720 --> 00:05:08,630
+And we saw the exact same thing when we worked with Update user data took in the fields you wanted to
+
+78
+00:05:08,630 --> 00:05:09,160
+change.
+
+79
+00:05:09,170 --> 00:05:14,120
+In this case we changed the name and where it took in the ID of the user.
+
+80
+00:05:14,150 --> 00:05:15,550
+We were trying to alter.
+
+81
+00:05:15,590 --> 00:05:18,500
+So let's do the same thing for our posts right here.
+
+82
+00:05:18,500 --> 00:05:25,820
+I am going to pass in a where this is an object we're going to filter by id and I've already copied
+
+83
+00:05:25,820 --> 00:05:27,620
+that ID to the clipboard.
+
+84
+00:05:27,620 --> 00:05:29,880
+The other thing we're going to provide is data.
+
+85
+00:05:29,960 --> 00:05:33,830
+Data also an object takes all of the fields that we want to change.
+
+86
+00:05:33,860 --> 00:05:37,600
+And in this case we are just going to change the published field.
+
+87
+00:05:37,700 --> 00:05:41,500
+I'm going to change published from false over to true.
+
+88
+00:05:41,540 --> 00:05:42,660
+Excellent.
+
+89
+00:05:42,680 --> 00:05:46,790
+Now we can actually go ahead and run things some of that click that play button we can see that the
+
+90
+00:05:46,790 --> 00:05:54,260
+post was indeed published and now we're ready to move on to part B here we're going to create a new
+
+91
+00:05:54,470 --> 00:05:59,160
+user and that user is going to end up leaving a comment on this post.
+
+92
+00:05:59,210 --> 00:06:02,790
+I already have a create user mutation sitting over here on the left.
+
+93
+00:06:02,810 --> 00:06:05,590
+Oh I'm going to do is change the name and the e-mail.
+
+94
+00:06:05,690 --> 00:06:11,410
+I'm going to use myself so I'll use Andrew as the name then down below for the email I'll use Andrew
+
+95
+00:06:11,420 --> 00:06:17,240
+an example dot com if I actually fire this off it should work as expected and perfect.
+
+96
+00:06:17,240 --> 00:06:25,610
+We now have the user created this can bring us on to part C we want to create a comment for that one
+
+97
+00:06:25,730 --> 00:06:26,470
+post.
+
+98
+00:06:26,480 --> 00:06:27,590
+So how are we going to do that.
+
+99
+00:06:27,590 --> 00:06:31,770
+Well we're going to do that with discreate comment nutation.
+
+100
+00:06:31,940 --> 00:06:38,110
+So overunder our mutations list we have create comment though I do need to refresh the schema first.
+
+101
+00:06:38,120 --> 00:06:43,340
+Now if I open it up we should have create comment and it is indeed sitting right here and we can see
+
+102
+00:06:43,340 --> 00:06:45,590
+exactly what it takes to create a comet.
+
+103
+00:06:45,740 --> 00:06:49,240
+We pass in the data object we get back the comment.
+
+104
+00:06:49,250 --> 00:06:53,720
+And if we expand data we can see that we need to pass and obviously the text.
+
+105
+00:06:53,720 --> 00:06:56,500
+But I also have to pass an author and post fields.
+
+106
+00:06:56,510 --> 00:07:01,490
+This comment needs to be associated with an author and the comment needs to be made on a particular
+
+107
+00:07:01,490 --> 00:07:02,420
+post.
+
+108
+00:07:02,420 --> 00:07:03,430
+Now for author.
+
+109
+00:07:03,500 --> 00:07:08,630
+Once again we can create an author or connect an existing one and the same thing is true with post.
+
+110
+00:07:08,690 --> 00:07:11,390
+I can create a post or connect an existing one.
+
+111
+00:07:11,390 --> 00:07:13,200
+We're going to be using connect for both.
+
+112
+00:07:13,220 --> 00:07:19,100
+Since you've already created the user and you've already created the post so let's go ahead and actually
+
+113
+00:07:19,100 --> 00:07:20,390
+knock this out.
+
+114
+00:07:20,390 --> 00:07:22,410
+One last stab right here.
+
+115
+00:07:22,430 --> 00:07:27,920
+We're going to set up a mutation and this one is for create comment.
+
+116
+00:07:27,950 --> 00:07:31,980
+Now create comment is going to take the data arguments I'm going to set that up.
+
+117
+00:07:32,090 --> 00:07:37,070
+I don't actually break it out onto its own line down below just to keep things nice and organized.
+
+118
+00:07:37,070 --> 00:07:41,480
+This is indeed an object and on here we're going to add and all of those fields.
+
+119
+00:07:41,480 --> 00:07:43,640
+First up what is the comment text.
+
+120
+00:07:43,700 --> 00:07:51,850
+Well for this one I can just say something simple like a comment from Prisma graphic.
+
+121
+00:07:51,890 --> 00:07:53,420
+Well perfect.
+
+122
+00:07:53,500 --> 00:07:56,900
+Now we have to provide the author field end of the post field.
+
+123
+00:07:57,030 --> 00:07:59,440
+So for author which is an object.
+
+124
+00:07:59,500 --> 00:08:06,430
+What I'm going to do is set up the connect property connect takes an object and there provide the ID
+
+125
+00:08:06,610 --> 00:08:07,270
+of the author.
+
+126
+00:08:07,270 --> 00:08:08,630
+We want to link to.
+
+127
+00:08:08,800 --> 00:08:10,690
+So right here we already have that ID.
+
+128
+00:08:10,690 --> 00:08:14,410
+That's the one I copied to the clipboard from our create user mutation.
+
+129
+00:08:14,410 --> 00:08:16,660
+It's the ID right here.
+
+130
+00:08:16,720 --> 00:08:19,170
+I'm going to paste that in.
+
+131
+00:08:19,380 --> 00:08:23,200
+And then we can add another field alongside of text and alongside of author.
+
+132
+00:08:23,280 --> 00:08:25,400
+This one to link to the correct post.
+
+133
+00:08:25,560 --> 00:08:30,240
+So we're going to have post which is also going to be an object in there we also have Connect which
+
+134
+00:08:30,240 --> 00:08:31,260
+is an object.
+
+135
+00:08:31,410 --> 00:08:35,250
+And then in here this is where we have the ID of the post.
+
+136
+00:08:35,250 --> 00:08:39,900
+We want to link to now for our purposes we did indeed grab that post ID.
+
+137
+00:08:39,900 --> 00:08:43,300
+It's sitting right over here so I'm going to copy that to the clipboard.
+
+138
+00:08:43,410 --> 00:08:47,350
+Bring it over to our create comment mutation and paste it right in.
+
+139
+00:08:47,730 --> 00:08:50,970
+Now the only thing we have to do is provide our selection set.
+
+140
+00:08:50,970 --> 00:08:52,270
+So we get a comment back.
+
+141
+00:08:52,290 --> 00:08:55,240
+Let's go ahead and get some stuff related to that comment.
+
+142
+00:08:55,260 --> 00:08:57,510
+I'm going to grab the comments ID.
+
+143
+00:08:57,570 --> 00:09:02,340
+I'm going to grab the text for the comment and I will also grab some information about the author.
+
+144
+00:09:02,390 --> 00:09:06,060
+I'll grab the author's ID and the author's name.
+
+145
+00:09:06,090 --> 00:09:07,150
+Perfect.
+
+146
+00:09:07,200 --> 00:09:09,010
+No I know that's quite the mutation.
+
+147
+00:09:09,010 --> 00:09:13,640
+There's a lot going on there and it seems way more complex than it needs to be once again.
+
+148
+00:09:13,710 --> 00:09:18,630
+Just bear with me for the next several videos when we actually integrate this into node.
+
+149
+00:09:18,780 --> 00:09:21,610
+The syntax we used will become a whole lot simpler.
+
+150
+00:09:21,750 --> 00:09:25,400
+For the moment though we do want to test that this actually works.
+
+151
+00:09:25,410 --> 00:09:27,670
+I'm going to click that play button and there we go.
+
+152
+00:09:27,690 --> 00:09:30,210
+We can see that the comment was indeed created.
+
+153
+00:09:30,210 --> 00:09:32,840
+We have our comment Id and the comment text.
+
+154
+00:09:32,850 --> 00:09:37,720
+And we also have the information expected about the comment author.
+
+155
+00:09:37,860 --> 00:09:39,520
+That brings us to the final step.
+
+156
+00:09:39,560 --> 00:09:40,160
+D.
+
+157
+00:09:40,260 --> 00:09:44,340
+Fetch all comments include their text and the author's name.
+
+158
+00:09:44,430 --> 00:09:49,100
+So I'm going to go ahead and knock that out with one final operation over here.
+
+159
+00:09:49,110 --> 00:09:51,240
+We're going to add a new tab into the mix.
+
+160
+00:09:51,240 --> 00:09:56,220
+I'm going to set up a query in for this one we're going to be using one of our queries if we want to
+
+161
+00:09:56,220 --> 00:10:00,010
+fetch all of the comments we're going to be using the comments query.
+
+162
+00:10:00,090 --> 00:10:04,670
+Now the comments does indeed take a whole bunch of arguments but they're all completely optional.
+
+163
+00:10:04,680 --> 00:10:09,360
+You'll notice there is no exclamation mark after the types for any of them so none are required.
+
+164
+00:10:09,360 --> 00:10:11,130
+And we're not going to provide any.
+
+165
+00:10:11,160 --> 00:10:16,350
+All we're going to do is set up the operation in name then we're going to go right into our selection
+
+166
+00:10:16,350 --> 00:10:16,680
+set.
+
+167
+00:10:16,680 --> 00:10:18,870
+What do we want from each comment.
+
+168
+00:10:18,870 --> 00:10:20,350
+I'm going to grab the ID.
+
+169
+00:10:20,520 --> 00:10:26,130
+I'm going to grab the text field and then I'll grab some information about the author the ID and the
+
+170
+00:10:26,130 --> 00:10:26,590
+name.
+
+171
+00:10:26,610 --> 00:10:27,390
+Perfect.
+
+172
+00:10:27,420 --> 00:10:31,410
+If we fire this off we should get the expected data back right here.
+
+173
+00:10:31,410 --> 00:10:32,600
+Everything looks good.
+
+174
+00:10:32,730 --> 00:10:36,930
+We have our data property on that object we have our comments property.
+
+175
+00:10:37,110 --> 00:10:43,200
+And this is an array of objects since we only have one comment in the database we only have one object
+
+176
+00:10:43,260 --> 00:10:44,160
+showing up.
+
+177
+00:10:44,250 --> 00:10:48,600
+We have our ID and text and we also have some of the associated data.
+
+178
+00:10:48,780 --> 00:10:49,690
+So there we go.
+
+179
+00:10:49,800 --> 00:10:53,780
+We now have a way to store real data in the database using graphs.
+
+180
+00:10:53,780 --> 00:10:59,820
+Q Well we've seen this work with not just individual types but also with relationships between our types.
+
+181
+00:10:59,820 --> 00:11:04,340
+And we've also explored the Prisma API that's provided to us.
+
+182
+00:11:04,380 --> 00:11:06,050
+Now here's the interesting thing.
+
+183
+00:11:06,180 --> 00:11:10,960
+So far we've only interacted with Prisma via graphical playground.
+
+184
+00:11:11,160 --> 00:11:16,170
+But when it comes to actually integrating this into node j s we're not going to need to manually type
+
+185
+00:11:16,170 --> 00:11:17,510
+all of this stuff out.
+
+186
+00:11:17,700 --> 00:11:23,040
+We're going to start to see how that's possible in the very next video which I am super excited to get
+
+187
+00:11:23,040 --> 00:11:29,400
+to for the moment though let's go ahead and one delete all of those challenge comments end to save the
+
+188
+00:11:29,400 --> 00:11:30,290
+file.
+
+189
+00:11:30,300 --> 00:11:30,850
+All right.
+
+190
+00:11:30,870 --> 00:11:32,500
+That is it for this video.
+
+191
+00:11:32,580 --> 00:11:38,150
+Let's start taking some concrete steps towards using the Prisma API from a node.
+
+192
+00:11:38,200 --> 00:11:39,390
+J.S. Back-End.
+

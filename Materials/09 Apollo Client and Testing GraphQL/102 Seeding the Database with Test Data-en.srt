@@ -1,0 +1,672 @@
+1
+00:00:00,210 --> 00:00:06,030
+In this video as promised we're going to learn how we can manipulate our test database before our test
+
+2
+00:00:06,030 --> 00:00:07,220
+cases run it.
+
+3
+00:00:07,230 --> 00:00:13,410
+We already saw that's causing a problem for us when we rerun our test suite trying to sign up a user
+
+4
+00:00:13,410 --> 00:00:15,430
+with an email that's already taken.
+
+5
+00:00:15,570 --> 00:00:23,280
+If I save the program the test suite restarts and our test case crashes because that e-mail is registered
+
+6
+00:00:23,640 --> 00:00:26,760
+now just gives us tools to make this possible.
+
+7
+00:00:26,760 --> 00:00:33,840
+There are various lifecycle functions we can tap into to do something throughout our testing lifecycle.
+
+8
+00:00:33,840 --> 00:00:39,900
+We can learn more about those by heading over to the just documentation in the left hand side bar away
+
+9
+00:00:39,930 --> 00:00:41,000
+near the bottom.
+
+10
+00:00:41,070 --> 00:00:47,430
+We're going to go to the Global's page and on here we can view all of the Global's we have access to
+
+11
+00:00:47,440 --> 00:00:50,390
+and we have one we've already used test.
+
+12
+00:00:50,490 --> 00:00:52,550
+There are four more I want to talk about.
+
+13
+00:00:52,560 --> 00:01:00,020
+And it's actually the first four we have after all after each before all and before each.
+
+14
+00:01:00,120 --> 00:01:07,260
+Now as the names suggest after all is going to run a single time after all tests are done after each
+
+15
+00:01:07,260 --> 00:01:13,980
+will run after each test case and same thing with before before all will run before all test cases a
+
+16
+00:01:13,980 --> 00:01:21,060
+single time and before each will run before each test case and our case we'll be using before each to
+
+17
+00:01:21,060 --> 00:01:23,440
+do something before each test.
+
+18
+00:01:23,460 --> 00:01:24,450
+What are we going to do.
+
+19
+00:01:24,540 --> 00:01:27,990
+Well for the moment we're just going to clear all records.
+
+20
+00:01:28,080 --> 00:01:32,730
+So all tests start with the same test database.
+
+21
+00:01:32,730 --> 00:01:36,440
+Let's go ahead and actually knock that out over in our code.
+
+22
+00:01:36,450 --> 00:01:40,520
+We're going to end up calling before each just like we would call test.
+
+23
+00:01:40,560 --> 00:01:43,710
+Right here I'm going to call before each end.
+
+24
+00:01:43,710 --> 00:01:49,200
+This just takes a single argument a function to run before each test case.
+
+25
+00:01:49,200 --> 00:01:54,640
+Now inside of here we will be doing something a synchronous so we can mark this as an async function.
+
+26
+00:01:54,750 --> 00:02:00,750
+And this is the same call signature of all of those lifecycle methods before all after all and after
+
+27
+00:02:00,780 --> 00:02:03,500
+each all just take a single function.
+
+28
+00:02:03,510 --> 00:02:06,900
+Now in this case what do we want to do inside of the function.
+
+29
+00:02:06,900 --> 00:02:12,000
+I want to wipe the database so all tests start with an empty database.
+
+30
+00:02:12,000 --> 00:02:15,830
+We already have Prisma imported and we're going to use a mutation.
+
+31
+00:02:15,840 --> 00:02:19,210
+We haven't explored before to get this done.
+
+32
+00:02:19,260 --> 00:02:26,820
+If we head over to localhost for 4 6 6 where are Prisma API lives we can crack open the schema and go
+
+33
+00:02:26,820 --> 00:02:27,860
+to mutations.
+
+34
+00:02:27,960 --> 00:02:29,870
+We've used plenty of these before.
+
+35
+00:02:30,030 --> 00:02:33,570
+But way near the bottom there is delete many for each.
+
+36
+00:02:33,570 --> 00:02:38,670
+So we have delete many users delete many posts and delete many comments.
+
+37
+00:02:38,670 --> 00:02:42,360
+Now this hasn't really served a practical application so far.
+
+38
+00:02:42,360 --> 00:02:44,260
+Which is why we haven't talked about them.
+
+39
+00:02:44,400 --> 00:02:46,860
+But now is a great time to use them.
+
+40
+00:02:47,040 --> 00:02:50,070
+We can use delete many users to wipe all users.
+
+41
+00:02:50,100 --> 00:02:52,710
+We could limit it to a specific set of users.
+
+42
+00:02:52,740 --> 00:02:58,590
+For example users whose name contains Andrew in our case though we're not even going to provide any
+
+43
+00:02:58,590 --> 00:02:59,180
+arguments.
+
+44
+00:02:59,190 --> 00:03:01,170
+We want to delete everybody.
+
+45
+00:03:01,290 --> 00:03:07,620
+So let's go ahead and actually get that done from Arbre for each callback function right here we'll
+
+46
+00:03:07,620 --> 00:03:12,210
+be using a Prisma dot mutation dot the one we just explored.
+
+47
+00:03:12,210 --> 00:03:17,580
+Delete many users and in this case we're not providing any arguments.
+
+48
+00:03:17,580 --> 00:03:22,750
+Now this does indeed return a promise and we are going to use a wait.
+
+49
+00:03:22,940 --> 00:03:29,050
+That's going to ensure that before each doesn't start the test case until the users are actually deleted.
+
+50
+00:03:29,150 --> 00:03:32,740
+We want to make sure we wait for that process to complete.
+
+51
+00:03:32,750 --> 00:03:37,640
+Now that we have this in place this function will run before every single test case.
+
+52
+00:03:37,640 --> 00:03:42,740
+In our case we only have one test but it will indeed pass every single time it runs.
+
+53
+00:03:42,740 --> 00:03:48,650
+I'm going to save the file the test suite is going to rerun with before each executing and down below
+
+54
+00:03:48,680 --> 00:03:52,510
+was a failing test suite is now a passing one.
+
+55
+00:03:52,670 --> 00:03:58,010
+I could use it to rerun the test cases again and they are indeed going to work because we're going to
+
+56
+00:03:58,010 --> 00:04:02,180
+wipe the users before our tests and this is fantastic.
+
+57
+00:04:02,180 --> 00:04:08,720
+We now have a way to manage the test database from inside of the test suite ensuring we get consistent
+
+58
+00:04:08,780 --> 00:04:09,680
+results.
+
+59
+00:04:09,710 --> 00:04:13,310
+Now wiping data isn't the only thing we're going to do inside of here.
+
+60
+00:04:13,310 --> 00:04:18,900
+Let's think about one of the other operations we're eventually going to write a test case for our loggin
+
+61
+00:04:18,950 --> 00:04:19,870
+a mutation.
+
+62
+00:04:20,030 --> 00:04:23,500
+In that case we're actually expecting data to be in the database.
+
+63
+00:04:23,510 --> 00:04:25,430
+We need it to be in the database.
+
+64
+00:04:25,430 --> 00:04:28,380
+Otherwise we're not going to be able to log in.
+
+65
+00:04:28,430 --> 00:04:32,810
+So what we're going to end up doing is creating a set of dummy data.
+
+66
+00:04:32,810 --> 00:04:39,250
+We are going to seed the database with this dummy data then test cases can choose to use it when they're
+
+67
+00:04:39,260 --> 00:04:41,180
+performing their operations.
+
+68
+00:04:41,180 --> 00:04:46,490
+So in the case of creating a user We're not going to need any dummy data but for logging in we're going
+
+69
+00:04:46,490 --> 00:04:49,340
+to need some dummy data for testing our posts.
+
+70
+00:04:49,340 --> 00:04:53,830
+Queery we're going to need some dummy data or any posts in the database.
+
+71
+00:04:53,900 --> 00:04:59,660
+So in the end of the day yes we will be clearing data from this function but we're also going to be
+
+72
+00:04:59,720 --> 00:05:06,170
+adding seed data into the database that our test cases can actually interact with and that's what we're
+
+73
+00:05:06,170 --> 00:05:13,070
+going to do right now as the second half of this video I'm going to await Prisma dot mutation does create
+
+74
+00:05:13,100 --> 00:05:19,610
+user that's going to allow us to create a user for this one we do have to provide arguments a single
+
+75
+00:05:19,610 --> 00:05:23,540
+one data with name email and password and remember.
+
+76
+00:05:23,660 --> 00:05:27,080
+In this case password is going to need to be hashed already.
+
+77
+00:05:27,090 --> 00:05:29,630
+Node is what hashes are password.
+
+78
+00:05:29,630 --> 00:05:31,960
+In this case we are bypassing node.
+
+79
+00:05:32,060 --> 00:05:35,140
+So we want to hash it in our code right here.
+
+80
+00:05:35,150 --> 00:05:42,020
+I'll just import the script from the script J.S. library that we've already installed and already used
+
+81
+00:05:42,020 --> 00:05:42,830
+before.
+
+82
+00:05:43,010 --> 00:05:47,360
+Down below we can set up a name for our first dummy user.
+
+83
+00:05:47,450 --> 00:05:48,620
+Let's go ahead and call her.
+
+84
+00:05:48,620 --> 00:05:51,220
+Jen will have an email as well.
+
+85
+00:05:51,230 --> 00:05:56,160
+Jen at example dot com gets the job done and finally a password.
+
+86
+00:05:56,300 --> 00:06:04,640
+Right here we can use B crypt dot hash sync to synchronously hash the password and that means we're
+
+87
+00:06:04,640 --> 00:06:08,570
+going to get the value back directly as opposed to getting a promise back.
+
+88
+00:06:08,750 --> 00:06:11,960
+We can pass in any value we like for the password.
+
+89
+00:06:12,110 --> 00:06:20,950
+I could use something for example like red 0 9 8 with a couple of special characters in there and there
+
+90
+00:06:20,950 --> 00:06:21,490
+we go.
+
+91
+00:06:21,520 --> 00:06:28,660
+Now we have code that's going to correctly create a new user that our test cases can rely on.
+
+92
+00:06:28,690 --> 00:06:32,720
+I'm going to go ahead and save user dot test dot J ass.
+
+93
+00:06:32,770 --> 00:06:39,310
+Once again I would expect our one test case to pass but this time if we head over to the database and
+
+94
+00:06:39,310 --> 00:06:42,220
+give things a refresh you can see we have two records.
+
+95
+00:06:42,220 --> 00:06:44,830
+We have Jen our little test user.
+
+96
+00:06:44,920 --> 00:06:50,650
+And then we have Andrew a user that was actually created by one of our test cases.
+
+97
+00:06:50,680 --> 00:06:53,350
+So now we have a little more robust setup.
+
+98
+00:06:53,350 --> 00:06:56,560
+We are wiping all of the data starting from a clean slate.
+
+99
+00:06:56,680 --> 00:07:00,730
+Then we're adding one user for all of our test cases to rely on.
+
+100
+00:07:00,730 --> 00:07:06,020
+Now it's Challenge time it's going to be your job to expand on Arbre for each function you're going
+
+101
+00:07:06,010 --> 00:07:11,430
+to also add at some posts to our test database for this user down below.
+
+102
+00:07:11,560 --> 00:07:14,140
+I have some comments outlining what I'd like you to do.
+
+103
+00:07:14,380 --> 00:07:18,580
+So the big picture goal is to create two dummy posts in the test database.
+
+104
+00:07:18,580 --> 00:07:24,370
+Step one you're going to have to use the correct Prisma mutation to create those two posts and you want
+
+105
+00:07:24,370 --> 00:07:28,060
+to set the author for the posts equal to the test user.
+
+106
+00:07:28,060 --> 00:07:29,190
+We just created.
+
+107
+00:07:29,200 --> 00:07:33,340
+So you're going to want to create a variable to get the user data back because you're going to need
+
+108
+00:07:33,400 --> 00:07:39,550
+the user's ID in order to correctly connect the posts with that user.
+
+109
+00:07:39,550 --> 00:07:40,520
+So the next step.
+
+110
+00:07:40,630 --> 00:07:46,120
+Make sure that one of those posts is published and the other is a draft that's going to give us a little
+
+111
+00:07:46,120 --> 00:07:48,250
+bit of variety with our data.
+
+112
+00:07:48,400 --> 00:07:54,790
+So if I'm testing the Post's query which should only return published posts I actually have some draft
+
+113
+00:07:54,790 --> 00:07:59,500
+posts and I can make sure those aren't coming back in the test cases.
+
+114
+00:07:59,500 --> 00:08:05,220
+Now once you have the two posts being created you also need to delete all of those posts.
+
+115
+00:08:05,260 --> 00:08:08,030
+You're going to do that just before you delete all users.
+
+116
+00:08:08,080 --> 00:08:12,790
+So that's going to go right up here and the post creation will go right down below.
+
+117
+00:08:12,790 --> 00:08:14,610
+And step three just test your work.
+
+118
+00:08:14,680 --> 00:08:20,830
+Save the file let the test suite rerun and then check out the posts table in the database.
+
+119
+00:08:20,830 --> 00:08:24,190
+You should see your two dummy posts showing up.
+
+120
+00:08:24,190 --> 00:08:24,730
+All right.
+
+121
+00:08:24,730 --> 00:08:26,910
+Take some time to knock this one out.
+
+122
+00:08:26,920 --> 00:08:34,980
+Test your work when you're done come back and click play.
+
+123
+00:08:34,990 --> 00:08:35,530
+All right.
+
+124
+00:08:35,530 --> 00:08:36,430
+How that go.
+
+125
+00:08:36,430 --> 00:08:40,460
+I'm going to kick things off by first deleting all of those posts.
+
+126
+00:08:40,480 --> 00:08:42,120
+I'm going to go slightly out of order.
+
+127
+00:08:42,130 --> 00:08:51,040
+I will await Prisma dot mutation dot delete many posts calling it not passing in any arguments like
+
+128
+00:08:51,040 --> 00:08:57,710
+we did with delete many users we want to wipe everything now down below after we create that user.
+
+129
+00:08:57,730 --> 00:09:04,090
+We can focus on creating our posts and we're going to need the user's ID so I'll create a user variable
+
+130
+00:09:04,210 --> 00:09:06,460
+so I can actually get that data back.
+
+131
+00:09:06,460 --> 00:09:13,630
+I can get back information about the created user down here we are going to go ahead and use a wait
+
+132
+00:09:14,230 --> 00:09:21,790
+with Prisma dot mutation dot create post and we are going to provide the options argument.
+
+133
+00:09:21,910 --> 00:09:27,040
+We have to list out a few different things in order to create that post successfully.
+
+134
+00:09:27,040 --> 00:09:31,730
+The first thing we have to list out is a title a body and a published value.
+
+135
+00:09:31,870 --> 00:09:35,020
+Now I didn't give you any specifics for title and body.
+
+136
+00:09:35,020 --> 00:09:42,600
+Just for the published value so I'm going to go ahead and set data equal to an object an asset title
+
+137
+00:09:42,630 --> 00:09:48,510
+equal to something like my published post so this will be the published one.
+
+138
+00:09:48,780 --> 00:09:50,930
+I can leave the body as empty.
+
+139
+00:09:51,120 --> 00:09:54,000
+And then I'll set the published value to true.
+
+140
+00:09:54,000 --> 00:09:54,870
+Perfect.
+
+141
+00:09:54,960 --> 00:10:01,650
+From here we can go ahead and set up the author property and remember we can either create a new author
+
+142
+00:10:01,680 --> 00:10:03,650
+or connect to an existing one.
+
+143
+00:10:03,720 --> 00:10:06,570
+We're going to connect it to the one we created up above.
+
+144
+00:10:06,570 --> 00:10:12,260
+So I'll use connect setting equal to their ID user dot ID.
+
+145
+00:10:12,330 --> 00:10:13,330
+Perfect.
+
+146
+00:10:13,410 --> 00:10:15,050
+We have one post down.
+
+147
+00:10:15,060 --> 00:10:17,580
+Let's go ahead and create a second one.
+
+148
+00:10:17,610 --> 00:10:23,340
+I'm going to take the code we just wrote copy it to the clipboard paste it down below and just change
+
+149
+00:10:23,340 --> 00:10:25,860
+up the data for the second post.
+
+150
+00:10:25,860 --> 00:10:30,870
+We're going to say my draft post that should be singular.
+
+151
+00:10:31,000 --> 00:10:34,570
+I'll make it singular up above as well though it's not a big deal.
+
+152
+00:10:34,610 --> 00:10:38,410
+And for this post we're going to set published equal to false.
+
+153
+00:10:38,490 --> 00:10:42,640
+So it's a draft and we'll leave the author and the body values the same.
+
+154
+00:10:42,810 --> 00:10:43,840
+Excellent.
+
+155
+00:10:43,860 --> 00:10:46,200
+Now we can actually test our work.
+
+156
+00:10:46,290 --> 00:10:48,720
+So I'm going to delete those challenge comments.
+
+157
+00:10:48,750 --> 00:10:50,240
+I'm going to save the file.
+
+158
+00:10:50,310 --> 00:10:55,820
+That's going to cause our test suite to rerun executing the before each callback function.
+
+159
+00:10:55,920 --> 00:11:02,880
+Down below the test case passed and we should see our data over in the database over in the post table.
+
+160
+00:11:02,880 --> 00:11:08,800
+I'm going to view all rows and right here we have two posts showing up.
+
+161
+00:11:08,800 --> 00:11:12,790
+I have my published post as well as my draft post.
+
+162
+00:11:12,850 --> 00:11:13,870
+One is published.
+
+163
+00:11:13,870 --> 00:11:15,190
+The other is not.
+
+164
+00:11:15,280 --> 00:11:17,400
+And that is exactly what we wanted.
+
+165
+00:11:17,530 --> 00:11:19,720
+And that's where we're going to stop for this one.
+
+166
+00:11:19,870 --> 00:11:25,360
+We now have some dummy data in the database and this is going to allow us to test the other queries
+
+167
+00:11:25,570 --> 00:11:29,190
+subscriptions and mutations that make up our application.
+
+168
+00:11:29,200 --> 00:11:34,650
+We'll continue writing test cases in the next video so let's go ahead and jump right in.
+

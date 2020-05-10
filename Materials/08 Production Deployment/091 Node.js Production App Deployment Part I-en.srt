@@ -1,0 +1,756 @@
+1
+00:00:00,240 --> 00:00:06,870
+In the last several videos we used Heroku and Prisma cloud to create our production database and to
+
+2
+00:00:06,870 --> 00:00:10,130
+create our production Prisma instance in this video.
+
+3
+00:00:10,140 --> 00:00:15,600
+We're going to focus on the third thing we need to do which is to host our no J.S. application in production
+
+4
+00:00:15,630 --> 00:00:16,490
+as well.
+
+5
+00:00:16,530 --> 00:00:22,680
+And for this we are going to use Heroku Heroku makes it super easy to deploy all sorts of applications
+
+6
+00:00:22,680 --> 00:00:24,740
+including no J as apps.
+
+7
+00:00:24,740 --> 00:00:27,460
+And in this video we're going to cover how to get that done.
+
+8
+00:00:27,510 --> 00:00:32,370
+We'll be running a few commands from the command line changing a little bit of code and by the end we'll
+
+9
+00:00:32,370 --> 00:00:33,680
+have our app deployed.
+
+10
+00:00:33,720 --> 00:00:38,610
+There are two tools we're going to be using to get this done and the first is get the version control
+
+11
+00:00:38,610 --> 00:00:39,360
+system.
+
+12
+00:00:39,450 --> 00:00:45,210
+We're going to be using that to track our code changes and we're also going to be using it to take those
+
+13
+00:00:45,210 --> 00:00:48,810
+code changes and push them up to the Heroku servers.
+
+14
+00:00:48,810 --> 00:00:53,400
+So Heroku can deploy our application getting the latest code up and running.
+
+15
+00:00:53,400 --> 00:00:58,740
+Now understanding the basics of get is a pre-req for the class but that doesn't mean we're still not
+
+16
+00:00:58,740 --> 00:01:04,560
+going to work through things step by step because we are you can always check if you have get installed
+
+17
+00:01:04,560 --> 00:01:05,420
+or not by running.
+
+18
+00:01:05,420 --> 00:01:07,160
+Get with the version flag.
+
+19
+00:01:07,320 --> 00:01:13,590
+If you get a valid version like get version 1 or 2 you're good to go if you get an error message like
+
+20
+00:01:13,590 --> 00:01:15,360
+get command not found.
+
+21
+00:01:15,360 --> 00:01:17,390
+That means you are going to have to install and get.
+
+22
+00:01:17,400 --> 00:01:20,930
+Don't worry it's free and available for all operating systems.
+
+23
+00:01:21,000 --> 00:01:21,940
+You can find it at.
+
+24
+00:01:21,990 --> 00:01:24,100
+Get hyphen as CM.
+
+25
+00:01:24,150 --> 00:01:25,470
+Dot com.
+
+26
+00:01:25,590 --> 00:01:32,410
+Here you can grab the installer for your OS and you can also check out the great free e-book Pro get.
+
+27
+00:01:32,550 --> 00:01:38,300
+I remember reading this back in college and it was the first time that I felt I really understood what
+
+28
+00:01:38,300 --> 00:01:39,770
+gift was doing.
+
+29
+00:01:39,900 --> 00:01:41,630
+All right so that's the first tool.
+
+30
+00:01:41,670 --> 00:01:47,670
+Get the other thing we're going to be installing is the Heroku command line interface you can find that
+
+31
+00:01:47,670 --> 00:01:50,180
+by googling Heroku CLID.
+
+32
+00:01:50,430 --> 00:01:53,140
+And I'm just showing you where this lives on the web.
+
+33
+00:01:53,190 --> 00:02:00,150
+The Heroku CLID page shows you everything that this tool can do though will be walking through that
+
+34
+00:02:00,420 --> 00:02:01,350
+in this video.
+
+35
+00:02:01,440 --> 00:02:06,540
+Oh we're going to do is install it by installing an NPM module from the terminal.
+
+36
+00:02:06,540 --> 00:02:08,220
+So I'm going to close down that tab.
+
+37
+00:02:08,320 --> 00:02:16,380
+And from the terminal we're going to run an NPM installation command that is NPM install with the G
+
+38
+00:02:16,380 --> 00:02:22,070
+flag to install the module globally and the module itself is called Heroku.
+
+39
+00:02:22,080 --> 00:02:28,860
+This is going to give us a new command we can run from the command line to manage our Her Roku applications.
+
+40
+00:02:28,860 --> 00:02:36,360
+Now once the installer is done we're going to log in to our Heroku account via this command line interface
+
+41
+00:02:36,630 --> 00:02:43,080
+and that's going to allow these Seelye to manage our apps so we can create apps and deploy new versions
+
+42
+00:02:43,080 --> 00:02:47,280
+of our apps right here from Visual Studio code.
+
+43
+00:02:47,310 --> 00:02:53,040
+The installer should be done in just one moment and once it's done all we're going to do is run in that
+
+44
+00:02:53,090 --> 00:02:57,030
+Heroku logon command right here.
+
+45
+00:02:57,030 --> 00:02:59,160
+Heroku log in.
+
+46
+00:02:59,160 --> 00:03:06,810
+This is going to ask us for our credentials so we need to provide our e-mail and we have to provide
+
+47
+00:03:06,810 --> 00:03:13,850
+our password.
+
+48
+00:03:14,090 --> 00:03:19,830
+And once we provide both of those it should say logged in as followed by your e-mail.
+
+49
+00:03:19,940 --> 00:03:27,740
+And now we're ready to actually use both of these tools for the purposes of getting our node app deployed.
+
+50
+00:03:27,740 --> 00:03:32,810
+Now before we can take our code and give it to Heroku there are a few changes we have to make to our
+
+51
+00:03:32,810 --> 00:03:33,640
+project.
+
+52
+00:03:33,640 --> 00:03:37,190
+There are very small configuration changes nothing big.
+
+53
+00:03:37,190 --> 00:03:40,550
+In general our project is just fine to start.
+
+54
+00:03:40,550 --> 00:03:46,100
+We are going to close all open editors though I am going to leave my little note describing what we're
+
+55
+00:03:46,100 --> 00:03:51,050
+working towards open and we're going to focus on just a single file for the moment.
+
+56
+00:03:51,140 --> 00:03:57,710
+That is the index Dhananjay s file in our source directory and this file is of interest because this
+
+57
+00:03:57,710 --> 00:04:03,720
+is what starts the web server now and the end of the day we're still going to call server dot start.
+
+58
+00:04:03,740 --> 00:04:05,060
+Here's the problem.
+
+59
+00:04:05,060 --> 00:04:09,600
+By default the server is going to start on port 4000.
+
+60
+00:04:09,680 --> 00:04:16,070
+We saw that because every time we wanted to interact with our node app we went to local host 4000.
+
+61
+00:04:16,070 --> 00:04:23,300
+The problem with that is that Heroku doesn't use port 4000 It actually uses a port that it has signs
+
+62
+00:04:23,390 --> 00:04:28,730
+when your app gets deployed which means there's no number we can put in here instead.
+
+63
+00:04:28,850 --> 00:04:35,450
+Heroku injects an environment variable and we can use that variable to make sure rebinding to the correct
+
+64
+00:04:35,480 --> 00:04:36,320
+port.
+
+65
+00:04:36,350 --> 00:04:40,610
+Now server dot start does indeed take an options object.
+
+66
+00:04:40,610 --> 00:04:43,490
+So let's go ahead and pull up the documentation for that.
+
+67
+00:04:43,820 --> 00:04:50,570
+If I had over to the browser we can go to the graphic Well yoga get hub repository a page we have been
+
+68
+00:04:50,570 --> 00:04:56,020
+plenty of times before and if we scroll down we can look for the docs for the start method.
+
+69
+00:04:56,210 --> 00:05:01,080
+The first method documented is the constructor function for graphical server.
+
+70
+00:05:01,100 --> 00:05:06,650
+We don't have to make any changes to that down below though we have the documentation for start.
+
+71
+00:05:06,650 --> 00:05:08,750
+This is what we're going to change.
+
+72
+00:05:08,780 --> 00:05:15,980
+It takes as the first argument and optional options object and we can see all of the various configuration
+
+73
+00:05:15,980 --> 00:05:17,320
+values down below.
+
+74
+00:05:17,390 --> 00:05:22,180
+One of them being port now by default the port is four thousand.
+
+75
+00:05:22,170 --> 00:05:27,610
+We're going to go ahead and set up that object so we can customize the port property.
+
+76
+00:05:27,620 --> 00:05:32,680
+So over inside a visual studio code let's go ahead and get that done right here.
+
+77
+00:05:32,690 --> 00:05:35,920
+I'm going to pass in an object as the first argument.
+
+78
+00:05:35,960 --> 00:05:42,390
+Moving our function to the second argument and we are going to set up the port property.
+
+79
+00:05:42,440 --> 00:05:48,890
+Now once again Heroku is going to inject an environment variable and we're going to use that right here.
+
+80
+00:05:49,250 --> 00:05:55,080
+Process don't envy is where all of our environment variables live.
+
+81
+00:05:55,230 --> 00:05:59,850
+And the one that Heroku assigns is called port in all upper case.
+
+82
+00:05:59,880 --> 00:06:02,710
+It is important to use all uppercase.
+
+83
+00:06:02,820 --> 00:06:08,270
+Now this environment variable is going to exist when our code runs on Heroku so that's fine.
+
+84
+00:06:08,280 --> 00:06:13,080
+The problem is that it's not going to exist when our code runs locally which is going to be a problem
+
+85
+00:06:13,260 --> 00:06:14,220
+to address that.
+
+86
+00:06:14,220 --> 00:06:20,230
+I'm just going to use the logical or operator and provide a fallback value of 4000.
+
+87
+00:06:20,250 --> 00:06:26,580
+So we'll set the port equal to the environment variables value if it exists if it doesn't we'll use
+
+88
+00:06:26,610 --> 00:06:33,600
+port 4000 making sure that our app works correctly on Heroku and it still works correctly locally as
+
+89
+00:06:33,600 --> 00:06:34,320
+well.
+
+90
+00:06:34,320 --> 00:06:40,380
+So that is one of the changes we have to make in order for Heroku to be able to successfully run our
+
+91
+00:06:40,380 --> 00:06:44,910
+app the next file that's going to require a small change is Prisma data.
+
+92
+00:06:44,920 --> 00:06:49,330
+J.S. in this file we actually connect to the Prisma instance.
+
+93
+00:06:49,350 --> 00:06:54,750
+The problem is that the endpoint is hard coded which means that if this app was running locally it would
+
+94
+00:06:54,750 --> 00:06:58,320
+connect to local host for 4 6 6 which would work.
+
+95
+00:06:58,320 --> 00:07:04,460
+But if it was running on her Roku It would also try to connect to a local host for 4 6 6 which is going
+
+96
+00:07:04,460 --> 00:07:05,300
+to fail.
+
+97
+00:07:05,370 --> 00:07:11,760
+In reality we want to use the exact same endpoint you are else that we set up in our config files for
+
+98
+00:07:11,760 --> 00:07:15,590
+Dev We want to connect it to this one for production on Heroku.
+
+99
+00:07:15,630 --> 00:07:21,240
+We want to connect to this one and we're going to go ahead and get that done by using these exact same
+
+100
+00:07:21,240 --> 00:07:24,550
+files and our exact same values.
+
+101
+00:07:24,630 --> 00:07:30,870
+In the end instead of having a string right here we're going to use an environment variable instead
+
+102
+00:07:31,050 --> 00:07:31,610
+to start.
+
+103
+00:07:31,620 --> 00:07:34,630
+Let's go ahead and move in to package Jason.
+
+104
+00:07:34,680 --> 00:07:40,830
+And the reason that this file is interesting for our purposes is that this file is what Heroku uses
+
+105
+00:07:40,830 --> 00:07:46,680
+to one know that we're running a node app and two to figure out how to install our dependencies and
+
+106
+00:07:46,680 --> 00:07:47,780
+start things up.
+
+107
+00:07:48,030 --> 00:07:53,730
+So in this case Heroku is going to install all of our dependencies and then it's going to run the start
+
+108
+00:07:53,730 --> 00:07:54,270
+script.
+
+109
+00:07:54,270 --> 00:07:57,330
+The one that has start as the script name.
+
+110
+00:07:57,330 --> 00:08:02,110
+Now the problem with this is that this is not the script we want to run in production.
+
+111
+00:08:02,250 --> 00:08:08,220
+And if you're asking why the answer is because we use gnomon So it's going to try to refresh gnomon
+
+112
+00:08:08,220 --> 00:08:10,230
+is not suited for production.
+
+113
+00:08:10,230 --> 00:08:13,140
+This is really for development purposes only.
+
+114
+00:08:13,290 --> 00:08:15,030
+So we're going to make a few small changes.
+
+115
+00:08:15,030 --> 00:08:22,230
+First up we're going to add a new script right here and I'm going to call this script dev.
+
+116
+00:08:22,230 --> 00:08:27,810
+This is what we're going to run when we want to start our application for local development and we're
+
+117
+00:08:27,810 --> 00:08:34,620
+just going to cut out the exact contents of the start script above and move them down below.
+
+118
+00:08:34,620 --> 00:08:41,600
+Now we can actually create a start script that makes sense for us and for Heroku before we worry about
+
+119
+00:08:41,620 --> 00:08:42,480
+the start script.
+
+120
+00:08:42,480 --> 00:08:47,730
+Let's go ahead and at least get our local development environment working after swapping this out for
+
+121
+00:08:47,730 --> 00:08:49,340
+an environment variable.
+
+122
+00:08:49,350 --> 00:08:55,980
+So what we're going to end up doing right here is removing the string value for End Point and replacing
+
+123
+00:08:55,980 --> 00:09:03,530
+it with process a dot NVI dot and the variable name is going to be whatever we have in dev and Prod.
+
+124
+00:09:03,570 --> 00:09:08,340
+which is Prisma endpoint in uppercase with an underscore separating them.
+
+125
+00:09:08,340 --> 00:09:13,730
+So over here Prisma underscore endpoint perfect.
+
+126
+00:09:13,740 --> 00:09:17,640
+So now the Prisma file is at least in its final state.
+
+127
+00:09:17,730 --> 00:09:25,710
+All we have to do is make sure that our dev config file actually gets loaded whenever we run the dev
+
+128
+00:09:25,770 --> 00:09:26,520
+script.
+
+129
+00:09:26,520 --> 00:09:32,580
+Otherwise when this file executes there is going to be no environment variable and things are going
+
+130
+00:09:32,580 --> 00:09:35,780
+to fail to load in that Devcon NV file.
+
+131
+00:09:35,790 --> 00:09:39,740
+We're going to use a very simple library that makes this possible.
+
+132
+00:09:39,750 --> 00:09:44,250
+You can find the library by googling NVI hyphen ACMD.
+
+133
+00:09:44,280 --> 00:09:50,940
+It is an NPM package and if we head over to the get hub repository page for that library we can take
+
+134
+00:09:50,940 --> 00:09:53,580
+a quick peek at how it works down below.
+
+135
+00:09:53,580 --> 00:09:59,340
+We have some example usage and in this case they're even showing it right inside of an NPM script.
+
+136
+00:09:59,340 --> 00:10:00,600
+A test script.
+
+137
+00:10:00,630 --> 00:10:03,170
+So we start with Envy's CMT.
+
+138
+00:10:03,330 --> 00:10:05,890
+Within the link to the file we want to load in.
+
+139
+00:10:05,910 --> 00:10:08,270
+Then we add what ever else we are trying to do.
+
+140
+00:10:08,280 --> 00:10:12,290
+So let's go ahead and install it down below in the terminal.
+
+141
+00:10:12,330 --> 00:10:20,200
+We're going to run NPM install We are going to install NVI hyphen ACMD and we're going to grab the latest
+
+142
+00:10:20,200 --> 00:10:23,900
+version which is version 8 point zero point two.
+
+143
+00:10:23,920 --> 00:10:24,910
+Perfect.
+
+144
+00:10:24,910 --> 00:10:30,220
+Now once that is installed we'll be able to actually take advantage of it inside of our scripts and
+
+145
+00:10:30,220 --> 00:10:36,130
+for the moment we're going to add it to that Dev script to make sure that these environment variables
+
+146
+00:10:36,130 --> 00:10:44,060
+load which is going to ensure that when the Prisma js file runs it can still connect to our local instance.
+
+147
+00:10:44,070 --> 00:10:44,530
+All right.
+
+148
+00:10:44,530 --> 00:10:47,390
+The module is installed an over in package.
+
+149
+00:10:47,470 --> 00:10:51,490
+Jason we're ready to use it exactly like they use it right here.
+
+150
+00:10:51,520 --> 00:10:53,280
+We start with envy.
+
+151
+00:10:54,330 --> 00:11:02,340
+Hyphen ACMD then a space then we link to our config file from the package date Jason File.
+
+152
+00:11:02,340 --> 00:11:08,760
+So for us that's going to be daat forward slash in that route to the project we have the config folder
+
+153
+00:11:09,570 --> 00:11:11,700
+in the config folder we have dev Dom.
+
+154
+00:11:11,720 --> 00:11:17,730
+Ian V then after a space we get everything we want to do next which we already have in place and there
+
+155
+00:11:17,730 --> 00:11:18,330
+we go.
+
+156
+00:11:18,480 --> 00:11:23,590
+Now our application is at least going to work in development when we run the dev script.
+
+157
+00:11:23,640 --> 00:11:28,710
+It's going to load in this file and that's going to make sure that when the app actually runs it has
+
+158
+00:11:28,710 --> 00:11:34,620
+a valid value for Prisma endpoint so it can connect to the endpoint correctly.
+
+159
+00:11:34,620 --> 00:11:35,310
+All right.
+
+160
+00:11:35,310 --> 00:11:41,610
+Now that we have this in place what we're going to do is test out our development script to make sure
+
+161
+00:11:41,610 --> 00:11:45,530
+we can still run our app locally from the terminal.
+
+162
+00:11:45,540 --> 00:11:52,770
+I am going to clear the terminal output and run NPM run dev which is our new script but we want to run
+
+163
+00:11:52,770 --> 00:11:54,080
+the app locally.
+
+164
+00:11:54,180 --> 00:11:59,690
+This is going to make sure to load in the environment variables and run things through babbel and gnomon.
+
+165
+00:11:59,880 --> 00:12:06,810
+If I fire this off we should see the same output we saw before and our server should still be up on
+
+166
+00:12:06,810 --> 00:12:08,410
+localhost 4000.
+
+167
+00:12:08,430 --> 00:12:15,030
+So if I go over to localhost 4000 and give things a refresh the graph UL playground instance should
+
+168
+00:12:15,030 --> 00:12:15,880
+still load.
+
+169
+00:12:15,960 --> 00:12:20,700
+And if I fire off one of my operations I should still get data back which I am.
+
+170
+00:12:20,820 --> 00:12:25,950
+The fact that I'm able to do those two things proves that this is still going to work for development
+
+171
+00:12:26,250 --> 00:12:30,540
+and it also proves that this is going to still work for development.
+
+172
+00:12:30,540 --> 00:12:36,330
+Now at this point we've started to make some changes to our app but we haven't really set it up to actually
+
+173
+00:12:36,330 --> 00:12:38,540
+run on Heroku at the start script is empty.
+
+174
+00:12:38,550 --> 00:12:39,640
+And that's a problem.
+
+175
+00:12:39,810 --> 00:12:42,470
+That's what we're going to end up addressing in the next video.
+
+176
+00:12:42,570 --> 00:12:48,720
+So let's take just a quick moment to recap what we did because I know these development production videos
+
+177
+00:12:48,720 --> 00:12:50,180
+can be a bit confusing.
+
+178
+00:12:50,190 --> 00:12:57,780
+So in short all we did in this video is we first installed get and Heroku logging in to the Heroku command
+
+179
+00:12:57,780 --> 00:12:59,010
+line interface.
+
+180
+00:12:59,010 --> 00:13:06,660
+Then we edited index dot J S making sure that when we eventually send the code to Heroku it can run
+
+181
+00:13:06,750 --> 00:13:10,770
+on the correct port locally we still use port 4000.
+
+182
+00:13:10,770 --> 00:13:15,650
+From there we updated Prisma dot J S instead of having a static end point.
+
+183
+00:13:15,780 --> 00:13:20,990
+We now have a dynamic one coming from an environment variable in development.
+
+184
+00:13:21,030 --> 00:13:23,050
+We use this one in production.
+
+185
+00:13:23,070 --> 00:13:24,940
+We'll end up using this one.
+
+186
+00:13:25,020 --> 00:13:27,940
+All of that is going to get wired up in packaged Jason.
+
+187
+00:13:28,040 --> 00:13:31,320
+Currently we just have the dev script to complete.
+
+188
+00:13:31,350 --> 00:13:36,720
+Let's go ahead and jump right in to the next video and focus on that start script and getting things
+
+189
+00:13:36,780 --> 00:13:38,390
+up and running on Heroku.
+

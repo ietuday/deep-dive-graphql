@@ -1,0 +1,1020 @@
+1
+00:00:00,300 --> 00:00:04,420
+In this video you're going to start integrating noted at J S and Prisma together.
+
+2
+00:00:04,440 --> 00:00:10,470
+Remember the big picture goal here is to allow our node J.S. application to read and write from the
+
+3
+00:00:10,470 --> 00:00:12,260
+post gresse database.
+
+4
+00:00:12,270 --> 00:00:18,250
+Currently the Prisma Graph API can indeed read and write from the post gresse database.
+
+5
+00:00:18,420 --> 00:00:25,080
+So all we need to do is figure out how to allow node to interact with this API once node can interact
+
+6
+00:00:25,080 --> 00:00:30,360
+with this API node will be able to read and write from the post gresse database.
+
+7
+00:00:30,360 --> 00:00:33,780
+Now to get all of this done we are going to have to do a little bit of configuration.
+
+8
+00:00:33,780 --> 00:00:36,210
+So that's what we're going to spend this video on.
+
+9
+00:00:36,280 --> 00:00:41,700
+Then in the following videos we'll actually see how we can perform all of these operations from node
+
+10
+00:00:41,810 --> 00:00:43,320
+J.S. itself.
+
+11
+00:00:43,350 --> 00:00:44,390
+I'm excited to get to it.
+
+12
+00:00:44,400 --> 00:00:49,380
+So let's get started configuring our app to start with what I'm going to do is close all of my open
+
+13
+00:00:49,380 --> 00:00:53,040
+editors and collapse all of my uncollapsed directories.
+
+14
+00:00:53,040 --> 00:00:58,250
+Now here we have our graphical basic's folder and we have our graph Cuil Prisma folder.
+
+15
+00:00:58,310 --> 00:01:01,110
+What we're going to do is copy everything inside of graph.
+
+16
+00:01:01,160 --> 00:01:05,380
+Well basics into the well Prisma folder.
+
+17
+00:01:05,490 --> 00:01:10,270
+So I want to add these five things along side of the Prisma directory itself.
+
+18
+00:01:10,440 --> 00:01:14,850
+We're not going to be making any further changes to the graphics Well BASIX project because I want to
+
+19
+00:01:14,850 --> 00:01:18,120
+leave that as a reference for us in the future.
+
+20
+00:01:18,150 --> 00:01:19,350
+So what are we going to do.
+
+21
+00:01:19,350 --> 00:01:25,420
+I'm going to start with packaged at Jason Billal and then going to shift click up to node modules.
+
+22
+00:01:25,500 --> 00:01:28,290
+I can right click and copy them then down below.
+
+23
+00:01:28,290 --> 00:01:33,700
+We're going to right click the well Prisma folder itself and paste those in.
+
+24
+00:01:34,080 --> 00:01:39,540
+Now we can close all of the open editors and collapse all of our directories once again and inside of
+
+25
+00:01:39,670 --> 00:01:45,570
+you well basics we should now have the node modules folder are Prisma project folder which we had before
+
+26
+00:01:46,050 --> 00:01:49,600
+the source directory with all of our other files and folders.
+
+27
+00:01:49,660 --> 00:01:55,960
+The DOT babbel RC config file package lock Jason and package Jason itself.
+
+28
+00:01:56,040 --> 00:02:02,730
+If you have all of these 6 showing up inside of graph Prisma then you're ready to continue on from here
+
+29
+00:02:02,730 --> 00:02:07,110
+what I'd like to do is pull up the documentation for one of the two libraries that we're going to be
+
+30
+00:02:07,110 --> 00:02:09,540
+setting up and configuring in this video.
+
+31
+00:02:09,540 --> 00:02:13,340
+The first library that I want to talk about I'm going to Google in a new tab.
+
+32
+00:02:13,470 --> 00:02:20,070
+It is called Prisma hyphen binding Prisma binding gives us bindings for node j.
+
+33
+00:02:20,070 --> 00:02:20,680
+S..
+
+34
+00:02:20,730 --> 00:02:28,260
+So in essence it gives us a set of node J.S. methods that we can use to interact with our Prisma graphical
+
+35
+00:02:28,290 --> 00:02:29,210
+API.
+
+36
+00:02:29,430 --> 00:02:34,440
+So if we actually click on this first result which is the repository page we can take a look at one
+
+37
+00:02:34,440 --> 00:02:37,770
+of the examples they have in the read me file down below.
+
+38
+00:02:37,980 --> 00:02:43,800
+If I scroll down a little bit on this page I'm looking for the slightly longer example here they do
+
+39
+00:02:43,830 --> 00:02:44,880
+two things.
+
+40
+00:02:44,880 --> 00:02:50,550
+First up they can figure there are no japes application to actually link to that end point.
+
+41
+00:02:50,550 --> 00:02:56,240
+We'll talk about how to do that very shortly then what they do is they actually interact with the API.
+
+42
+00:02:56,400 --> 00:03:02,720
+So here you can see they're using methods like Prisma dot queried dot user and Prisma dot nutation.
+
+43
+00:03:02,730 --> 00:03:09,750
+Create user to interact with the Prisma graphical API every time they do this from node they're actually
+
+44
+00:03:09,750 --> 00:03:12,510
+reading and writing from the database itself.
+
+45
+00:03:12,510 --> 00:03:14,650
+This is exactly what we want to do.
+
+46
+00:03:14,700 --> 00:03:21,090
+Now the Prisma binding library is created by the same folks who created Prisma itself and it is a must
+
+47
+00:03:21,090 --> 00:03:24,060
+have tool when working with Prisma and node j.
+
+48
+00:03:24,060 --> 00:03:24,780
+S..
+
+49
+00:03:24,870 --> 00:03:30,000
+So what we're going to start with is the process of actually installing and setting this up.
+
+50
+00:03:30,150 --> 00:03:34,470
+Let's head over to Visual Studio code and install this tool down below.
+
+51
+00:03:34,470 --> 00:03:39,780
+I'm going to start by using C.D to switch into the graphical hyphen Prisma folder.
+
+52
+00:03:39,810 --> 00:03:45,600
+Make sure that if you are already in the Prisma directory use C-D dot dot to come up a folder to this
+
+53
+00:03:45,600 --> 00:03:46,380
+directory.
+
+54
+00:03:46,560 --> 00:03:50,340
+And from here we're going to use NPM install to install this library.
+
+55
+00:03:50,460 --> 00:03:56,670
+So we're going to be installing Prisma hyphen binding at the latest version which is indeed two point
+
+56
+00:03:56,670 --> 00:03:57,030
+one.
+
+57
+00:03:57,030 --> 00:03:57,970
+Point one.
+
+58
+00:03:58,020 --> 00:03:58,880
+Perfect.
+
+59
+00:03:58,890 --> 00:04:02,530
+Now we can actually run this installation command and once it's done.
+
+60
+00:04:02,550 --> 00:04:09,140
+Well actually before it's even done what we're going to do is create one new file in the source directory.
+
+61
+00:04:09,300 --> 00:04:11,730
+We're going to call this one Prisma dot J.
+
+62
+00:04:11,730 --> 00:04:17,520
+S. And this is where we're going to store all of the code required to actually connect our node j s
+
+63
+00:04:17,610 --> 00:04:21,140
+app to the Prisma graphical API.
+
+64
+00:04:21,210 --> 00:04:26,760
+Now we can actually inport the library we just installed and start connecting to the Prisma API.
+
+65
+00:04:26,760 --> 00:04:29,160
+So to start let's use an import statement.
+
+66
+00:04:29,160 --> 00:04:34,500
+The one thing we're going to be grabbing off the Prisma binding library is a named export and it's called
+
+67
+00:04:34,530 --> 00:04:36,450
+uppercase P Prisma.
+
+68
+00:04:36,450 --> 00:04:41,790
+This is a constructor function we can use to create a connection to a Prisma and point.
+
+69
+00:04:41,790 --> 00:04:47,630
+Next up we're grabbing that from the library we just installed that is Prisma hyphen binding.
+
+70
+00:04:47,700 --> 00:04:48,590
+Excellent.
+
+71
+00:04:48,590 --> 00:04:53,000
+And now down below what we can do is actually create that connection.
+
+72
+00:04:53,190 --> 00:04:58,290
+So what we're going to do is call this constructor function and we want to store the return values to
+
+73
+00:04:58,290 --> 00:05:03,200
+ongoing to create a lower case P Prisma constant right here.
+
+74
+00:05:03,200 --> 00:05:05,880
+Lowercase P Prisma as a cost.
+
+75
+00:05:05,930 --> 00:05:10,930
+And then what we do is we call that constructor function with of course the new operator.
+
+76
+00:05:10,940 --> 00:05:16,280
+So that is new Prisma this time referencing the thing we imported.
+
+77
+00:05:16,490 --> 00:05:22,420
+And this is nothing more than a constructor function that takes a single object argument.
+
+78
+00:05:22,430 --> 00:05:28,640
+This is our options object and this is where we configure no J.S. to connect it to the correct Prisma
+
+79
+00:05:28,700 --> 00:05:29,470
+endpoint.
+
+80
+00:05:29,570 --> 00:05:32,210
+And there are two things that we have to provide.
+
+81
+00:05:32,210 --> 00:05:35,450
+The first thing that we have to provide is the type deaths.
+
+82
+00:05:35,540 --> 00:05:40,570
+So we need to provide the type definitions for the end point that we're connecting to.
+
+83
+00:05:40,760 --> 00:05:46,370
+This is necessary so the Prisma binding library can generate all of the various methods needed.
+
+84
+00:05:46,370 --> 00:05:48,630
+So it doesn't always come with create user.
+
+85
+00:05:48,680 --> 00:05:54,330
+It only has create user if you actually have a user type that Prisma is going to interact with.
+
+86
+00:05:54,380 --> 00:06:00,320
+If we have comments we'll also have a create comment method on Prisma dot notation and if we add posts
+
+87
+00:06:00,350 --> 00:06:06,500
+into the mix we'll also have things like Prisma mutation Dom create post update post and delete post
+
+88
+00:06:06,530 --> 00:06:12,080
+all of the same stuff we're seeing in graphical playground so we'll learn how to provide that in just
+
+89
+00:06:12,080 --> 00:06:12,840
+a second.
+
+90
+00:06:12,980 --> 00:06:19,880
+The other thing we have to provide is also the end point and point also provided as a string specifies
+
+91
+00:06:19,940 --> 00:06:24,780
+the actual u r l where the Prisma graphical API lives.
+
+92
+00:06:24,980 --> 00:06:27,760
+Now the end point is the easy one right here.
+
+93
+00:06:27,800 --> 00:06:32,580
+We can just provide local host Colan for 4 6 6.
+
+94
+00:06:32,660 --> 00:06:35,300
+You're going to want to use the correct end point for you.
+
+95
+00:06:35,300 --> 00:06:37,730
+That is whatever you have over here.
+
+96
+00:06:37,730 --> 00:06:43,130
+If you have the IP address because you're on Windows you also want to provide that over here when setting
+
+97
+00:06:43,130 --> 00:06:45,680
+up the endpoint property.
+
+98
+00:06:45,680 --> 00:06:51,290
+Now the other thing we need to provide the typedef is a bit more complex for this one we actually need
+
+99
+00:06:51,290 --> 00:06:54,170
+to introduce that second tool I mentioned.
+
+100
+00:06:54,170 --> 00:06:56,380
+We would be installing and configuring.
+
+101
+00:06:56,450 --> 00:07:03,350
+Now it's a common mistake to try to use the Prisma data model diagram graph Q L file as the value for
+
+102
+00:07:03,350 --> 00:07:03,990
+typedef.
+
+103
+00:07:04,010 --> 00:07:06,970
+But this is not quite correct because think about it.
+
+104
+00:07:07,100 --> 00:07:12,450
+We know that with our Prisma graphical API we have the comments queery accessible.
+
+105
+00:07:12,470 --> 00:07:15,280
+We were able to run that and actually get our data back.
+
+106
+00:07:15,290 --> 00:07:18,600
+Do you see the comments queery listed anywhere inside of here.
+
+107
+00:07:18,620 --> 00:07:20,040
+And the answer is no.
+
+108
+00:07:20,180 --> 00:07:22,400
+This just represents our data model.
+
+109
+00:07:22,400 --> 00:07:25,510
+It does not contain all of our type definitions.
+
+110
+00:07:25,520 --> 00:07:31,920
+That is auto generated by Prisma based off of the contents of data model Dohm graphs.
+
+111
+00:07:31,970 --> 00:07:38,760
+Well the only reason the comments queery even exists is because we have the comment type defined inside
+
+112
+00:07:38,910 --> 00:07:44,450
+of here so it's actually a different file and what we're going to do is configure a tool that's going
+
+113
+00:07:44,450 --> 00:07:45,860
+to fetch that file.
+
+114
+00:07:45,860 --> 00:07:51,470
+Then we can just reference that file by its path right here and we'll be all connected to the Prisma
+
+115
+00:07:51,680 --> 00:07:52,460
+API.
+
+116
+00:07:52,550 --> 00:07:56,570
+Let's go ahead and pull up the repository page for this second tool as well.
+
+117
+00:07:56,570 --> 00:08:02,240
+The second one we're going to be installing and configuring is called a graph Cuil hyphen see ally.
+
+118
+00:08:02,330 --> 00:08:04,830
+And this is just a little command line interface.
+
+119
+00:08:04,830 --> 00:08:10,460
+It gives us about a dozen or so different commands for performing common tasks and one of those common
+
+120
+00:08:10,460 --> 00:08:15,170
+tasks is fetching the schema for a given API.
+
+121
+00:08:15,260 --> 00:08:20,690
+We need to do that so we can provide it right inside of our Prisma configuration object.
+
+122
+00:08:20,690 --> 00:08:21,830
+Now how are we going to do that.
+
+123
+00:08:21,830 --> 00:08:25,680
+Well we're going to do the exact same thing that Kraft UL playground does.
+
+124
+00:08:25,690 --> 00:08:31,250
+GRATHWOHL playground is clearly able to fetch the application schema since it's showing all of the queries
+
+125
+00:08:31,460 --> 00:08:36,110
+all of the mutations and all of the subscriptions we just need a way to be able to do that from our
+
+126
+00:08:36,110 --> 00:08:37,240
+project itself.
+
+127
+00:08:37,340 --> 00:08:40,960
+And this tool provides that in one of the commands it offers.
+
+128
+00:08:40,970 --> 00:08:44,450
+If we scroll down just a little bit we can see all of the commands.
+
+129
+00:08:44,450 --> 00:08:48,290
+It gives us the only one we care about is this one right here.
+
+130
+00:08:48,350 --> 00:08:49,180
+It is the graph.
+
+131
+00:08:49,190 --> 00:08:51,940
+Q Well get schema command.
+
+132
+00:08:51,950 --> 00:08:57,950
+This is what's going to allow us to fetch the schema and save it as a file in our project.
+
+133
+00:08:58,010 --> 00:09:01,400
+Let's go ahead and actually install this tool from the command line.
+
+134
+00:09:01,400 --> 00:09:03,360
+I'll start by clearing the output.
+
+135
+00:09:03,410 --> 00:09:10,280
+Then we're going to run NPM install with the library name once again that's graphical hyphen see Ally
+
+136
+00:09:10,580 --> 00:09:15,830
+and we'll be grabbing the latest version at two point sixteen point four.
+
+137
+00:09:15,830 --> 00:09:16,660
+Excellent.
+
+138
+00:09:16,700 --> 00:09:21,620
+I'm going to go ahead and fire that installation command off and once it's done there are two things
+
+139
+00:09:21,620 --> 00:09:23,060
+that we're going to end up doing.
+
+140
+00:09:23,060 --> 00:09:28,100
+We're going to add a single new file into the project and we're going to set up a single new script
+
+141
+00:09:28,130 --> 00:09:29,260
+in package Donte.
+
+142
+00:09:29,300 --> 00:09:35,360
+Jason the script is going to be very simple or it is going to run that and get schema command and the
+
+143
+00:09:35,360 --> 00:09:41,630
+file we create is going to be a little configuration file telling get schema where it can find the schema
+
+144
+00:09:41,630 --> 00:09:46,810
+that it should be fetching and where in the project it should be saving that file.
+
+145
+00:09:46,860 --> 00:09:53,420
+Now you'll notice that in newer versions of NPM we get all sorts of great information about the vulnerabilities
+
+146
+00:09:53,450 --> 00:09:55,340
+of the modules we installed.
+
+147
+00:09:55,340 --> 00:09:57,180
+And this is just an example of one.
+
+148
+00:09:57,190 --> 00:09:59,940
+A lot of the other modules are going to have something similar.
+
+149
+00:10:00,110 --> 00:10:03,830
+You can see we have one moderate and one critical vulnerability.
+
+150
+00:10:03,860 --> 00:10:06,280
+Currently there's nothing we can do about these.
+
+151
+00:10:06,300 --> 00:10:11,180
+The graphical see Ally is not indeed responsible for these directly.
+
+152
+00:10:11,180 --> 00:10:18,220
+These come from subdue so dependencies of our dependencies and they'll get fixed once those sub dependencies
+
+153
+00:10:18,220 --> 00:10:19,150
+actually update.
+
+154
+00:10:19,150 --> 00:10:21,910
+For now there's nothing to worry about with these.
+
+155
+00:10:22,150 --> 00:10:26,260
+Well we're going to do from here is follow those two steps that I just outlined.
+
+156
+00:10:26,260 --> 00:10:30,510
+We are going to create that file and then we're going to set up that new script.
+
+157
+00:10:30,520 --> 00:10:33,210
+Let's go ahead and start by creating that file.
+
+158
+00:10:33,250 --> 00:10:36,550
+Now this file needs to live in the root of our project.
+
+159
+00:10:36,550 --> 00:10:38,290
+So in the root of the graph.
+
+160
+00:10:38,380 --> 00:10:45,550
+Well hyphen Prisma directory AMANOR right click that folder create new file and this one is called Dot
+
+161
+00:10:45,910 --> 00:10:48,540
+graphic QOL config.
+
+162
+00:10:48,580 --> 00:10:53,770
+This is going to be a Jason configuration file where we provide those two pieces of information.
+
+163
+00:10:53,770 --> 00:10:57,480
+Where does this schema live and where should it be saved.
+
+164
+00:10:57,490 --> 00:11:03,250
+Now before I add anything inside of this file I do want to tell Visual Studio code that this file should
+
+165
+00:11:03,250 --> 00:11:07,810
+indeed be treated as Jason when it comes to syntax highlighting and formatting.
+
+166
+00:11:07,900 --> 00:11:12,970
+You can do that via the command palette if you forget the keyboard shortcut to bring that up it's always
+
+167
+00:11:12,970 --> 00:11:13,580
+right here.
+
+168
+00:11:13,600 --> 00:11:19,280
+View command palette and you should be able to find the keyboard shortcut for your operating system.
+
+169
+00:11:19,390 --> 00:11:25,120
+Once you have the command palette open with this file indeed in focus and the background you can search
+
+170
+00:11:25,120 --> 00:11:26,170
+for language.
+
+171
+00:11:26,170 --> 00:11:30,740
+And what we're looking for is this first one change language mode.
+
+172
+00:11:30,760 --> 00:11:34,430
+It might not be the first one for you but that is the one we want to run.
+
+173
+00:11:34,660 --> 00:11:39,220
+And when we click that it's going to ask us to pick the language from a list of languages.
+
+174
+00:11:39,220 --> 00:11:44,460
+There are all sorts of different languages that are currently supported in Visual Studio code.
+
+175
+00:11:44,500 --> 00:11:49,490
+We are going to pick Jason that is the format we are currently working with from here.
+
+176
+00:11:49,510 --> 00:11:54,430
+We're going to create that root object and now we can start the configuration process.
+
+177
+00:11:54,460 --> 00:11:58,840
+So the first thing we're going to do is set up a root property called projects.
+
+178
+00:11:58,840 --> 00:12:05,140
+We only have one project but we're still required to set up this project's object on here.
+
+179
+00:12:05,140 --> 00:12:08,230
+We define the name for just that one project we have.
+
+180
+00:12:08,230 --> 00:12:15,470
+I'm going to call this Prisma and then we define the actual configuration for that project.
+
+181
+00:12:15,470 --> 00:12:23,170
+So the first thing we're going to provide is the schema a path property this is going to be the path
+
+182
+00:12:23,200 --> 00:12:25,520
+where the file should be saved.
+
+183
+00:12:25,540 --> 00:12:28,950
+Now in this case we currently don't have a decent place for that.
+
+184
+00:12:28,960 --> 00:12:33,140
+What's common though is to create a new folder in the source directory.
+
+185
+00:12:33,230 --> 00:12:40,300
+This new folder ends up getting called generated and this is where we store generated code like the
+
+186
+00:12:40,300 --> 00:12:42,150
+File we're about to download.
+
+187
+00:12:42,160 --> 00:12:47,600
+This is a practice you'll see amongst a wide range of different graphs you present projects.
+
+188
+00:12:47,620 --> 00:12:50,310
+So we're going to stick with that same approach right here.
+
+189
+00:12:50,350 --> 00:12:53,030
+We have to provide that path from the root of our project.
+
+190
+00:12:53,050 --> 00:12:59,200
+So we start by going into the source folder then a forward slash generated then forward slash we can
+
+191
+00:12:59,200 --> 00:13:03,560
+pick a file name it's common to call this one Prisma dot graph.
+
+192
+00:13:03,660 --> 00:13:09,100
+Well this is where we're going to have the actual type definitions saved and this path is the same path.
+
+193
+00:13:09,100 --> 00:13:12,790
+We'll end up using over here in just a few moments.
+
+194
+00:13:12,790 --> 00:13:15,360
+Now that's not all we have to configure inside of here.
+
+195
+00:13:15,370 --> 00:13:19,000
+We also have to specify the end point in this case.
+
+196
+00:13:19,000 --> 00:13:22,210
+For us it has localhost 4 4 6 6.
+
+197
+00:13:22,210 --> 00:13:25,810
+If you're on Windows you might have an IP address right here.
+
+198
+00:13:25,810 --> 00:13:29,220
+We need to provide that over in our configuration as well.
+
+199
+00:13:29,320 --> 00:13:32,250
+And to do that we start with an extensions property.
+
+200
+00:13:32,260 --> 00:13:40,620
+So right here alongside of schema path extensions now extensions itself allows us to define all sorts
+
+201
+00:13:40,620 --> 00:13:43,300
+of things we are looking to define our end points.
+
+202
+00:13:43,320 --> 00:13:51,720
+So we set up an end points property and then inside of endpoints we define an end point for our default
+
+203
+00:13:51,750 --> 00:13:52,350
+project.
+
+204
+00:13:52,350 --> 00:13:59,280
+So default is the property name and the actual You Arel is that you are well we have over here now you
+
+205
+00:13:59,280 --> 00:14:01,470
+do have to specify the protocol.
+
+206
+00:14:01,470 --> 00:14:07,530
+So for us we are currently working in just HTP not HTP as colon.
+
+207
+00:14:07,530 --> 00:14:13,880
+Forward slash forward slash and then for me it is a local host Colan 4 4 6 6.
+
+208
+00:14:13,950 --> 00:14:14,580
+Perfect.
+
+209
+00:14:14,610 --> 00:14:15,480
+And there we go.
+
+210
+00:14:15,480 --> 00:14:17,220
+This file is now all configured.
+
+211
+00:14:17,220 --> 00:14:22,860
+We can save that and we're not going to be touching this one for a while if ever over inside of Prisma
+
+212
+00:14:23,130 --> 00:14:26,480
+J.S. we now have to link to that file that was just saved.
+
+213
+00:14:26,480 --> 00:14:32,370
+So it's going to end up being the same exact path we have source a forward slash generated then a forward
+
+214
+00:14:32,370 --> 00:14:34,230
+slash Prisma dot graph.
+
+215
+00:14:34,230 --> 00:14:35,700
+Q Well excellent.
+
+216
+00:14:35,700 --> 00:14:36,480
+And there we go.
+
+217
+00:14:36,570 --> 00:14:38,250
+Everything is now configured.
+
+218
+00:14:38,340 --> 00:14:42,720
+The last step to the process is to set up that script in package datt.
+
+219
+00:14:42,780 --> 00:14:46,710
+Jason so over here we are going to create a new script.
+
+220
+00:14:46,890 --> 00:14:53,760
+I'm going to call this script something along the lines of get schema so get hyphen schema and the actual
+
+221
+00:14:53,760 --> 00:14:57,090
+command we're going to run as a command provided by graft.
+
+222
+00:14:57,110 --> 00:14:59,400
+You will see ally right here.
+
+223
+00:14:59,400 --> 00:15:06,750
+We start with graft Cuil then a space we are going to be using the Get hyphen schema command they provide
+
+224
+00:15:07,080 --> 00:15:09,630
+and we do have to provide the name of the project.
+
+225
+00:15:09,630 --> 00:15:13,320
+Now once again we only have a single project Prisma.
+
+226
+00:15:13,320 --> 00:15:17,850
+So that is the name we're going to provide that happens via the p argument.
+
+227
+00:15:17,850 --> 00:15:20,670
+So right here Prisma excellent.
+
+228
+00:15:20,670 --> 00:15:26,100
+Now what we're going to do is actually run this script and we're going to see the schema stored in the
+
+229
+00:15:26,100 --> 00:15:28,120
+generated directory down below.
+
+230
+00:15:28,230 --> 00:15:34,200
+I am going to use clear to clear the terminal output than NPM run followed by the script name that is
+
+231
+00:15:34,200 --> 00:15:38,280
+get heighth and schema exactly as we specified right here.
+
+232
+00:15:38,280 --> 00:15:41,640
+When I run this it's going to connect to that end point.
+
+233
+00:15:41,640 --> 00:15:47,040
+It's going to fetch the schema and it is going to store it in our application file and we can see that
+
+234
+00:15:47,040 --> 00:15:50,880
+a new file was indeed generated and I actually expand this.
+
+235
+00:15:50,880 --> 00:15:56,870
+We can take a look and we can see that this file is much bigger than the data model that graph you Al
+
+236
+00:15:56,880 --> 00:16:02,910
+file we created everything necessary for the Prisma graph Q L API to work lives inside of here.
+
+237
+00:16:02,910 --> 00:16:06,780
+So for example we have a create user nutation that's defined over here.
+
+238
+00:16:06,780 --> 00:16:10,470
+We have the users query that's defined in this file as well.
+
+239
+00:16:10,500 --> 00:16:15,060
+And if you scroll through it you can see it's a lot of auto generated code and we're never going to
+
+240
+00:16:15,060 --> 00:16:17,190
+make changes to this file.
+
+241
+00:16:17,190 --> 00:16:19,610
+This is not a file that we ever edit.
+
+242
+00:16:19,620 --> 00:16:26,160
+The only time this file changes is if we rerun that script and fetch the latest schema.
+
+243
+00:16:26,160 --> 00:16:31,680
+So if I were to make a change to the Prisma API for example adding another type into the mix or maybe
+
+244
+00:16:31,680 --> 00:16:37,320
+adding a field onto one of these types we would deploy using Prisma deploy and then we would actually
+
+245
+00:16:37,320 --> 00:16:41,420
+fetch the updated schema running the get schema script again.
+
+246
+00:16:41,610 --> 00:16:43,960
+And nowhere you don't have to memorize that process.
+
+247
+00:16:43,980 --> 00:16:48,330
+As always we are going to move through that process in the course.
+
+248
+00:16:48,360 --> 00:16:50,940
+For now everything is completely set up.
+
+249
+00:16:50,940 --> 00:16:52,870
+We have Prisma binding installed.
+
+250
+00:16:52,890 --> 00:16:58,500
+It has everything it needs to actually connect it to the API and in the next video we're going to go
+
+251
+00:16:58,500 --> 00:17:05,070
+through some various examples of how we can now interact with the graph Cual API provided by Prisma
+
+252
+00:17:05,340 --> 00:17:06,730
+right from inside of our node.
+
+253
+00:17:06,750 --> 00:17:09,680
+JS file that's the topic of the next video.
+
+254
+00:17:09,690 --> 00:17:10,760
+So let's get to it.
+
+255
+00:17:10,770 --> 00:17:12,430
+I'll see you in the next one.
+

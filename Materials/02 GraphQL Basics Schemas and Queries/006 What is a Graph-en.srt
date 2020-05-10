@@ -1,0 +1,372 @@
+1
+00:00:00,180 --> 00:00:05,220
+Take off this section I want to answer a very important question which is what is a graph.
+
+2
+00:00:05,220 --> 00:00:06,620
+It's right in the name graph.
+
+3
+00:00:06,690 --> 00:00:10,800
+Well and it's something that we're going to have to learn a little bit about before we can continue
+
+4
+00:00:10,890 --> 00:00:11,500
+on.
+
+5
+00:00:11,820 --> 00:00:13,790
+Now when we're talking about a graph in graph.
+
+6
+00:00:13,830 --> 00:00:19,440
+Well we're not talking about the kind of graphs or charts we would create in a tool like Excel to plot
+
+7
+00:00:19,440 --> 00:00:21,000
+some points over time.
+
+8
+00:00:21,000 --> 00:00:26,220
+When we talk about a graph in engraft Well we're talking about a way to think about all of our application
+
+9
+00:00:26,220 --> 00:00:28,980
+data and how that data relates to one another.
+
+10
+00:00:28,980 --> 00:00:33,300
+And we're going to move through quick visualization in just a second to show how this would look in
+
+11
+00:00:33,300 --> 00:00:35,420
+a real world application.
+
+12
+00:00:35,640 --> 00:00:41,790
+Before we continue on you might have noticed this is a presentation video I avoid using presentations
+
+13
+00:00:41,790 --> 00:00:44,540
+like this as much as possible in my courses.
+
+14
+00:00:44,670 --> 00:00:50,250
+I use them very sparingly only when I truly believe it is the best way to get information across.
+
+15
+00:00:50,280 --> 00:00:55,770
+And in this video I think a presentation is the best way to explain what a graph is.
+
+16
+00:00:55,770 --> 00:00:57,830
+Don't worry though like all my courses.
+
+17
+00:00:57,830 --> 00:01:02,080
+Ninety nine percent of this class is me and you in the text editor writing code.
+
+18
+00:01:02,190 --> 00:01:07,650
+But going through the process of exploring what a graph is is going to give us a solid foundation for
+
+19
+00:01:07,650 --> 00:01:09,600
+actually writing code very soon.
+
+20
+00:01:09,600 --> 00:01:13,440
+For this visualization let's use the example of a blogging application.
+
+21
+00:01:13,440 --> 00:01:18,480
+So we have users that are going to sign up and log into the application once they're lying down they're
+
+22
+00:01:18,480 --> 00:01:24,030
+going to be able to create and publish posts and once a post is published other users are going to be
+
+23
+00:01:24,030 --> 00:01:27,290
+able to read that post and add comments on to it.
+
+24
+00:01:27,570 --> 00:01:33,110
+So as I described in English there are three main things that we're going to be storing for this application.
+
+25
+00:01:33,120 --> 00:01:34,580
+We're going to be storing users.
+
+26
+00:01:34,700 --> 00:01:39,420
+We're going to be storing posts and we're going to be storing comments engraft.
+
+27
+00:01:39,440 --> 00:01:45,000
+Well these are known as types and types are things that we define when creating our graphed UL API is
+
+28
+00:01:45,060 --> 00:01:47,430
+something we'll be doing in just a few videos.
+
+29
+00:01:47,580 --> 00:01:53,790
+So in this case we have a user type we have a post type and we have a comment type of things that we
+
+30
+00:01:53,790 --> 00:02:00,240
+define and when we define the types that make up our applications we also define the fields associated
+
+31
+00:02:00,240 --> 00:02:04,220
+with each type the individual pieces of data we want to store.
+
+32
+00:02:04,350 --> 00:02:06,530
+So in the case of a user what do we want to track.
+
+33
+00:02:06,540 --> 00:02:11,220
+Well that's really up to us to figure out what makes sense for all of our types were going to have a
+
+34
+00:02:11,220 --> 00:02:16,650
+unique ID to uniquely identify that user or that post or that comment.
+
+35
+00:02:16,770 --> 00:02:22,290
+In this case let's say it's the string one and after the ID it's really up to us to choose what we want
+
+36
+00:02:22,290 --> 00:02:22,960
+to track.
+
+37
+00:02:23,070 --> 00:02:28,920
+So for a user maybe we want to track their name under a name field we'll store that as a string and
+
+38
+00:02:28,920 --> 00:02:34,440
+an example would be my name the string Andrew mead we could also choose to track other things like their
+
+39
+00:02:34,470 --> 00:02:34,940
+age.
+
+40
+00:02:34,950 --> 00:02:37,920
+And for me that would be the number 27.
+
+41
+00:02:37,950 --> 00:02:43,320
+Now each type we create is going to have its own set of fields so all users are going to have an ID
+
+42
+00:02:43,410 --> 00:02:48,540
+a name and an age old posts are going to have a completely different set of fields for a post.
+
+43
+00:02:48,540 --> 00:02:53,670
+We're still going to have an ID something to uniquely identify that post but then we're going to track
+
+44
+00:02:53,670 --> 00:02:59,910
+things specific to the post like the post's title the posts Abidi and whether or not the post has been
+
+45
+00:02:59,910 --> 00:03:00,900
+published.
+
+46
+00:03:00,900 --> 00:03:03,740
+So in this case I have added a title for my post.
+
+47
+00:03:03,750 --> 00:03:09,540
+The body is completely empty and this post is not published so we're storing the boolean value false
+
+48
+00:03:09,750 --> 00:03:13,180
+for unpublished as opposed to the boolean value true.
+
+49
+00:03:13,260 --> 00:03:18,690
+Saying the post is indeed published the last time that we're going to be working with in this example
+
+50
+00:03:18,840 --> 00:03:20,190
+is the comment.
+
+51
+00:03:20,190 --> 00:03:22,770
+So a comment is also going to have an ID.
+
+52
+00:03:22,830 --> 00:03:25,220
+In this case ninety nine and for comments.
+
+53
+00:03:25,230 --> 00:03:30,270
+The only thing we're going to keep track of is the comment text and in this case we have a very nice
+
+54
+00:03:30,270 --> 00:03:30,650
+comment.
+
+55
+00:03:30,660 --> 00:03:31,200
+Just saying.
+
+56
+00:03:31,230 --> 00:03:33,300
+Thanks for the post.
+
+57
+00:03:33,300 --> 00:03:36,430
+So for this visualization we've created three types.
+
+58
+00:03:36,450 --> 00:03:41,930
+User post and comment each with their own custom set of fields.
+
+59
+00:03:41,940 --> 00:03:46,860
+All of this should seem familiar because it's exactly how we would represent our data with any standard
+
+60
+00:03:46,860 --> 00:03:48,130
+database out there.
+
+61
+00:03:48,150 --> 00:03:55,020
+If I was working with an s ul database I would have a users table a post table and a comments table
+
+62
+00:03:55,200 --> 00:03:59,410
+where all of the individual fields were individual columns on those tables.
+
+63
+00:03:59,460 --> 00:04:04,950
+If I was working with a no s u l database like Mongo D.B I would likely have a users collection.
+
+64
+00:04:05,100 --> 00:04:11,130
+A post collection and a Commins collection where all of these fields were fields on the individual documents
+
+65
+00:04:11,160 --> 00:04:11,910
+created.
+
+66
+00:04:11,910 --> 00:04:14,900
+Remember that engraft you l doesn't care what back end you're using.
+
+67
+00:04:14,900 --> 00:04:19,470
+So in the end of the day it might be an s ul database or it might be a no SU all database.
+
+68
+00:04:19,470 --> 00:04:21,780
+Either way is perfectly fine.
+
+69
+00:04:21,780 --> 00:04:27,060
+Now aside from each of our types having their own discrete set of values we also have relationships
+
+70
+00:04:27,060 --> 00:04:28,580
+between our types.
+
+71
+00:04:28,590 --> 00:04:35,280
+So for example if a user creates a post that post is associated with that user so we would have a relationship
+
+72
+00:04:35,280 --> 00:04:40,310
+like the following where a user has many posts via the posts property.
+
+73
+00:04:40,440 --> 00:04:45,810
+Now to save space here this user just has a single post but he could easily imagine they have zero posts
+
+74
+00:04:45,810 --> 00:04:48,700
+or they have 42 different posts.
+
+75
+00:04:48,780 --> 00:04:54,580
+Now if a user has many posts that means a post also belongs to a user.
+
+76
+00:04:54,630 --> 00:05:01,740
+So each post is associated with a user via the author property on that it now there's relationships
+
+77
+00:05:01,740 --> 00:05:03,690
+between our other types as well.
+
+78
+00:05:03,690 --> 00:05:10,260
+For example the comment to post relationship a post can have many comments and maybe we access those
+
+79
+00:05:10,260 --> 00:05:17,070
+via the comments property and a comment is associated with a post via something like the post property
+
+80
+00:05:17,670 --> 00:05:19,780
+last up comment to user.
+
+81
+00:05:19,860 --> 00:05:23,680
+A user can have many comments they've written on all sorts of posts.
+
+82
+00:05:23,700 --> 00:05:30,360
+Well a comment always belongs to an individual user and we might have that association via the comment
+
+83
+00:05:30,640 --> 00:05:32,170
+author property.
+
+84
+00:05:32,280 --> 00:05:37,500
+So in the end of the day our graph could look a little bit like this where we have types user post and
+
+85
+00:05:37,500 --> 00:05:38,340
+comment.
+
+86
+00:05:38,340 --> 00:05:43,840
+They have discrete fields and they also have associations between various types.
+
+87
+00:05:43,860 --> 00:05:48,330
+In the end of the day this is how we're going to be thinking about and representing our data.
+
+88
+00:05:48,360 --> 00:05:51,150
+Engraft Well that's where we're going to stop for this one.
+
+89
+00:05:51,180 --> 00:05:55,560
+Now that we know the basics of what a graph looks like in graph Cuil we're actually ready to move on
+
+90
+00:05:55,560 --> 00:06:00,030
+to the next video where we're actually going to put our hands on the keyboard and write some graph.
+
+91
+00:06:00,080 --> 00:06:04,620
+Well code we're going to figure out how we can query from a real graph.
+
+92
+00:06:04,710 --> 00:06:07,530
+Well API I'm excited to get to that.
+
+93
+00:06:07,530 --> 00:06:10,330
+So let's go ahead and jump right in to the next one.
+

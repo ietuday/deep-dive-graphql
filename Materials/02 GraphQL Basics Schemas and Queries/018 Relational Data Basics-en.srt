@@ -1,0 +1,928 @@
+1
+00:00:00,150 --> 00:00:03,160
+In this video you're going to start to learn about relational data.
+
+2
+00:00:03,160 --> 00:00:08,310
+Engraft Well that's going to allow us to set up relationships between our types.
+
+3
+00:00:08,310 --> 00:00:14,850
+Currently we only have the user type and the post type but even their relationships exist for example
+
+4
+00:00:14,970 --> 00:00:20,340
+every post is written by some user and a user can have a collection of posts they've actually worked
+
+5
+00:00:20,340 --> 00:00:20,740
+on.
+
+6
+00:00:20,910 --> 00:00:24,410
+So maybe I have 15 different posts or maybe it's fifty five.
+
+7
+00:00:24,540 --> 00:00:29,610
+What we need to be able to do is set up a relationship between these two and graphs you can get that
+
+8
+00:00:29,610 --> 00:00:29,970
+done.
+
+9
+00:00:30,000 --> 00:00:30,840
+No problem.
+
+10
+00:00:30,840 --> 00:00:35,670
+To explore what this is going to allow us to do I want to jump back into the visualization from earlier
+
+11
+00:00:35,670 --> 00:00:37,220
+in the course for just a minute.
+
+12
+00:00:37,230 --> 00:00:42,570
+This is the exact visualization we used earlier in this section to explore what a graph was.
+
+13
+00:00:42,570 --> 00:00:47,880
+Now we can see that these circles really represent our custom types then down below we have all of the
+
+14
+00:00:47,880 --> 00:00:49,080
+fields for those types.
+
+15
+00:00:49,080 --> 00:00:54,420
+So we have user with their fields post with those fields and we have comment which we'll create soon
+
+16
+00:00:54,570 --> 00:00:56,030
+with fields of its own.
+
+17
+00:00:56,190 --> 00:00:58,190
+But we have yet to express with graphs.
+
+18
+00:00:58,190 --> 00:01:02,890
+Well is the relationship between our types and that is what I want to start to focus on.
+
+19
+00:01:02,940 --> 00:01:06,890
+We're going to focus on the relationship between a user and a post.
+
+20
+00:01:06,960 --> 00:01:12,810
+So a post has an author property which gives us access to the user so we can that access whatever fields
+
+21
+00:01:12,810 --> 00:01:19,020
+we need and a user is going to have a post's property which will link to all of the posts that user
+
+22
+00:01:19,200 --> 00:01:20,660
+actually created.
+
+23
+00:01:20,700 --> 00:01:25,180
+This is going to allow us to perform some much more interesting and real world queries.
+
+24
+00:01:25,320 --> 00:01:27,880
+Currently we could set up a query like this.
+
+25
+00:01:27,900 --> 00:01:33,510
+I ask for all of the posts and I get the idea and title for each something we've actually done before.
+
+26
+00:01:33,570 --> 00:01:38,580
+What we haven't done before though is to ask for other information about each post like the author's
+
+27
+00:01:38,580 --> 00:01:41,620
+name which would look a bit more like this here.
+
+28
+00:01:41,690 --> 00:01:44,470
+I'm not just asking for info about the post.
+
+29
+00:01:44,490 --> 00:01:49,890
+I'm also following one of the Post's relationships to get some info about the author in this case just
+
+30
+00:01:49,890 --> 00:01:52,490
+the author's name and remember engraft.
+
+31
+00:01:52,510 --> 00:01:56,200
+Well it's up to the client to request what data they need.
+
+32
+00:01:56,310 --> 00:01:58,230
+So I could also choose to add on more.
+
+33
+00:01:58,380 --> 00:02:02,100
+Maybe I also decide I want the comments for each post as well.
+
+34
+00:02:02,100 --> 00:02:05,310
+So a query like this would be perfectly valid.
+
+35
+00:02:05,340 --> 00:02:09,640
+What we need to figure out how to do though is to set up those relationships to get things to work.
+
+36
+00:02:09,660 --> 00:02:16,440
+As I mentioned we're just going to focus on the author property on post and a post's property on user
+
+37
+00:02:16,650 --> 00:02:20,970
+just these two relationships and will focus on all the other ones throughout the class.
+
+38
+00:02:21,180 --> 00:02:25,890
+All right let's jump out of the visualization and back to the editor before we make any changes to our
+
+39
+00:02:25,890 --> 00:02:27,200
+application code.
+
+40
+00:02:27,210 --> 00:02:32,910
+I actually want to explore these relational queries by heading over to the demo API which already has
+
+41
+00:02:32,910 --> 00:02:34,110
+support for them.
+
+42
+00:02:34,110 --> 00:02:38,880
+So once again you can head over to graft UL hyphen Denno dot Meade dot.
+
+43
+00:02:38,930 --> 00:02:43,030
+Oh now we have a few of the queries we made earlier in this section.
+
+44
+00:02:43,050 --> 00:02:47,000
+For example we have this one where we get the ID for every single post.
+
+45
+00:02:47,130 --> 00:02:50,850
+We could also choose to grab other fields for each post like the title.
+
+46
+00:02:50,850 --> 00:02:55,740
+And this is exactly what we had in the visualization where I was getting two fields for every single
+
+47
+00:02:55,740 --> 00:02:56,790
+post.
+
+48
+00:02:56,790 --> 00:03:00,540
+Now let's say we want to also get the author's name for each post.
+
+49
+00:03:00,540 --> 00:03:02,720
+How exactly do we get that done.
+
+50
+00:03:02,760 --> 00:03:08,320
+First up I am going to make the left side a bit smaller to prevent any text wrapping over here.
+
+51
+00:03:08,460 --> 00:03:14,460
+Then when we're going to do is crack open the schema and head over to the Post's query.
+
+52
+00:03:14,460 --> 00:03:17,490
+Here we have all of the fields available on each post.
+
+53
+00:03:17,490 --> 00:03:22,400
+The first four we already explored the type for each being one of the scalar types.
+
+54
+00:03:22,500 --> 00:03:24,470
+We have ID of the type ID.
+
+55
+00:03:24,600 --> 00:03:28,320
+I have title and body of the type string and I have published of the type.
+
+56
+00:03:28,320 --> 00:03:29,130
+Boolean.
+
+57
+00:03:29,250 --> 00:03:32,420
+What's a bit more interesting is the relational types down below.
+
+58
+00:03:32,430 --> 00:03:39,110
+I have author which is of the type user and I have comments which is an array of the type comment.
+
+59
+00:03:39,120 --> 00:03:42,290
+These are the two that were eventually going to set up for post.
+
+60
+00:03:42,300 --> 00:03:45,710
+For now though let's just focus on this author field.
+
+61
+00:03:45,960 --> 00:03:49,560
+So if I actually clicked that what do we get we get the user definition.
+
+62
+00:03:49,620 --> 00:03:50,730
+So what does a user have.
+
+63
+00:03:50,730 --> 00:03:54,290
+We have ID name email posts and comments.
+
+64
+00:03:54,360 --> 00:04:00,390
+So what I want to be able to do is get all posts for each post I want to get the ID the title and the
+
+65
+00:04:00,390 --> 00:04:02,040
+author for the author.
+
+66
+00:04:02,040 --> 00:04:04,720
+I just want to get the ID and the name.
+
+67
+00:04:04,920 --> 00:04:06,960
+So let's see how we can set that up.
+
+68
+00:04:07,010 --> 00:04:10,900
+We're going to add author alongside of the other fields we request for each post.
+
+69
+00:04:10,920 --> 00:04:16,280
+So right here we're going to add author right alongside of ID and title author.
+
+70
+00:04:16,410 --> 00:04:17,420
+Perfect.
+
+71
+00:04:17,430 --> 00:04:21,330
+Now you'll notice that we're getting an error for this and this error should look familiar.
+
+72
+00:04:21,330 --> 00:04:26,580
+Field author of type user must have a selection of subfields.
+
+73
+00:04:26,580 --> 00:04:29,660
+Did you mean author with curly braces after it.
+
+74
+00:04:29,670 --> 00:04:35,070
+Remember when we are trying to queery and we're querying a custom type we can't just get everything
+
+75
+00:04:35,070 --> 00:04:36,170
+it has to offer.
+
+76
+00:04:36,210 --> 00:04:38,520
+We have to be specific about what we want.
+
+77
+00:04:38,550 --> 00:04:44,340
+We saw that with posts in this example and if I go back over to one of the first queries we ran we saw
+
+78
+00:04:44,340 --> 00:04:47,460
+that with me I couldn't just ask for me.
+
+79
+00:04:47,460 --> 00:04:51,090
+I had to ask for specific fields on me.
+
+80
+00:04:51,090 --> 00:04:55,260
+So let's go back to the query we're currently working with and what we're going to do is provide that
+
+81
+00:04:55,260 --> 00:04:57,440
+selection set right here.
+
+82
+00:04:57,600 --> 00:04:59,740
+I'm going to open and close a set of curly braces.
+
+83
+00:04:59,900 --> 00:05:04,390
+Like I mentioned earlier we can pick whatever fields we want from the user.
+
+84
+00:05:04,490 --> 00:05:09,350
+I'm going to say I just need the ID and the user's name.
+
+85
+00:05:09,350 --> 00:05:12,080
+Now if we go ahead and run this query what do we get.
+
+86
+00:05:12,080 --> 00:05:16,070
+Well once again we have a single property on the data object.
+
+87
+00:05:16,130 --> 00:05:20,210
+So the actual structure of the response still matches the query.
+
+88
+00:05:20,240 --> 00:05:23,030
+We just have posts for each post.
+
+89
+00:05:23,030 --> 00:05:30,050
+We have the ID we have the title and we have author which is now an object on author we have ID and
+
+90
+00:05:30,080 --> 00:05:34,280
+nime once again matching the structure we see over here.
+
+91
+00:05:34,280 --> 00:05:37,220
+So the first post was indeed written by me Andrew.
+
+92
+00:05:37,250 --> 00:05:41,360
+So was the second post the third post was written by a different user.
+
+93
+00:05:41,360 --> 00:05:43,580
+In this case it was written by Sarah.
+
+94
+00:05:43,640 --> 00:05:49,130
+So now when we're creating our queries we can ask for all of the data we actually need we can ask for
+
+95
+00:05:49,130 --> 00:05:54,380
+all of the posts getting info we need but we can also get some relational data allowing us to perform
+
+96
+00:05:54,440 --> 00:05:57,720
+complex yet very real world queries.
+
+97
+00:05:57,740 --> 00:06:03,630
+I would use this query if I was trying to create a Post's page where you can see all of the posts.
+
+98
+00:06:03,630 --> 00:06:05,660
+Maybe the most recent coming first.
+
+99
+00:06:05,780 --> 00:06:07,210
+I want to see the title and who they are.
+
+100
+00:06:07,210 --> 00:06:11,960
+By then I would click a link to actually go over to the post page and read it.
+
+101
+00:06:11,960 --> 00:06:15,980
+This is the exact sort of query I would use to get that done.
+
+102
+00:06:15,980 --> 00:06:20,450
+Now let's get this done for our application so we can actually make this query which we will be able
+
+103
+00:06:20,450 --> 00:06:21,980
+to do by the end of the video.
+
+104
+00:06:22,160 --> 00:06:23,800
+So I'm going to go back to our graph.
+
+105
+00:06:23,840 --> 00:06:24,850
+Well playground.
+
+106
+00:06:24,950 --> 00:06:27,950
+And for the moment I'm going to remove the queery argument.
+
+107
+00:06:27,950 --> 00:06:30,950
+Actually I'll remove the arguments prent the C altogether.
+
+108
+00:06:31,130 --> 00:06:35,230
+Run that query and we get our three posts where we aren't getting are the authors.
+
+109
+00:06:35,270 --> 00:06:38,220
+Let's go ahead and actually set up that relationship.
+
+110
+00:06:38,240 --> 00:06:45,230
+So over inside of index j s what we need to do is change the type definition for our custom types if
+
+111
+00:06:45,230 --> 00:06:51,380
+we want them to have a relationship with another type it has to be set up explicitly in the type definition.
+
+112
+00:06:51,590 --> 00:06:55,730
+So what we're going to do is create a new field on post right here.
+
+113
+00:06:55,730 --> 00:07:01,430
+We're going to call that author and it is going to be of the type user and in this case we are going
+
+114
+00:07:01,430 --> 00:07:06,590
+to make that a non nullable field so every single post definitely has an author.
+
+115
+00:07:06,590 --> 00:07:08,130
+Someone had to create it.
+
+116
+00:07:08,240 --> 00:07:11,880
+In some cases it might make sense to have a relationship that is nullable.
+
+117
+00:07:11,930 --> 00:07:13,800
+In this case though it does not make sense.
+
+118
+00:07:13,820 --> 00:07:16,580
+So I am going to leave the exclamation mark on.
+
+119
+00:07:17,000 --> 00:07:22,310
+Now what we need to do is actually look at our application data because currently there is just not
+
+120
+00:07:22,310 --> 00:07:27,360
+enough information in these two arrays to actually make any association between them.
+
+121
+00:07:27,500 --> 00:07:31,790
+At no point are we saying which post was created by which user.
+
+122
+00:07:32,060 --> 00:07:38,780
+Well we're going to do to fix that is to actually add the authors ID right on the post object.
+
+123
+00:07:38,780 --> 00:07:44,890
+So for the first post I could add on author and I would said equal to one of the ids from above.
+
+124
+00:07:44,930 --> 00:07:48,340
+So I'll go ahead and use the first user with the ID of one.
+
+125
+00:07:48,440 --> 00:07:55,130
+Whoops there we go add my comma on and this first object is now complete with the necessary data.
+
+126
+00:07:55,130 --> 00:07:58,030
+We're going to do the same thing for the second post right here.
+
+127
+00:07:58,040 --> 00:08:00,020
+I'll add on the author property.
+
+128
+00:08:00,020 --> 00:08:05,060
+We'll also have this written by the first user so we'll use the ID of one once again.
+
+129
+00:08:05,060 --> 00:08:10,470
+Then for the last post we're going to have this written by the other user Sarah with an ID of two.
+
+130
+00:08:10,520 --> 00:08:15,040
+So right here I'm going to add on author with the idea of to.
+
+131
+00:08:15,290 --> 00:08:19,070
+Now we actually have enough data to make an association.
+
+132
+00:08:19,070 --> 00:08:23,220
+If someone gave you a post you could see that the idea was one for author.
+
+133
+00:08:23,330 --> 00:08:28,100
+You could then iterate over this array to find the correct user and you could get the users information
+
+134
+00:08:28,130 --> 00:08:32,170
+whether you wanted their ID their name their e-mail or their age.
+
+135
+00:08:32,180 --> 00:08:38,090
+Now that we have the correct data to actually do this let's figure out what it takes to make that relationship
+
+136
+00:08:38,330 --> 00:08:38,890
+happen.
+
+137
+00:08:38,930 --> 00:08:43,910
+Since we're working with the Post's query Let's go ahead and look at the posts resolver function down
+
+138
+00:08:43,910 --> 00:08:44,610
+below.
+
+139
+00:08:44,630 --> 00:08:49,460
+It's sitting right here and in the end of the day this returns an array of objects where each object
+
+140
+00:08:49,640 --> 00:08:52,510
+matches up with the post schema.
+
+141
+00:08:52,520 --> 00:08:57,000
+Now for all of our scalar types we've actually already had the data just sitting right there.
+
+142
+00:08:57,050 --> 00:09:00,180
+If you want the posts Id title body or published.
+
+143
+00:09:00,200 --> 00:09:03,800
+That was easy because the object had it all sitting right there.
+
+144
+00:09:04,070 --> 00:09:09,590
+But with our new field author we need to get a user object which we do not have.
+
+145
+00:09:09,620 --> 00:09:11,690
+Currently we just have a string.
+
+146
+00:09:11,690 --> 00:09:17,900
+We have the user's ID so when we're setting up a field whose value is another one of our custom types
+
+147
+00:09:18,200 --> 00:09:22,690
+we have to define a function that tells graph Q Well how to get.
+
+148
+00:09:22,700 --> 00:09:24,250
+In this case the author.
+
+149
+00:09:24,350 --> 00:09:31,240
+If we had the post so we're actually going to do that by defining a new root property on resolvers.
+
+150
+00:09:31,250 --> 00:09:38,870
+So along side of queery not inside of query we're going to add a new property down below after our query
+
+151
+00:09:38,870 --> 00:09:40,400
+object definition.
+
+152
+00:09:40,400 --> 00:09:45,200
+We're going to set up a property that matches up with our type post.
+
+153
+00:09:45,200 --> 00:09:51,530
+This is going to be an object and we're going to set up a method for each of our fields that actually
+
+154
+00:09:51,530 --> 00:09:52,950
+link to another type.
+
+155
+00:09:52,970 --> 00:09:54,680
+In this case that is just author.
+
+156
+00:09:54,680 --> 00:10:02,120
+So for the moment on this post object I I'm going to define just author and is a resolver method exactly
+
+157
+00:10:02,120 --> 00:10:07,730
+like the ones we've already explored up above we get access to the same set of arguments.
+
+158
+00:10:07,730 --> 00:10:13,350
+I have a parent I have my args I have my contacts and I have my info.
+
+159
+00:10:13,490 --> 00:10:19,640
+And this time around the goal is to return the correct author for the post.
+
+160
+00:10:19,640 --> 00:10:21,230
+The question is how do we do that.
+
+161
+00:10:21,260 --> 00:10:27,220
+I need some information from the post object like the author property which contains that ID.
+
+162
+00:10:27,440 --> 00:10:32,960
+Well the good news is that the post information lives right here on the parent argument so he can use
+
+163
+00:10:32,960 --> 00:10:37,160
+that to figure out which user object needs to get returned.
+
+164
+00:10:37,160 --> 00:10:39,030
+Missile process can seem a little weird.
+
+165
+00:10:39,050 --> 00:10:44,060
+So let's go ahead and actually change our query and talk about what graphical is going to do.
+
+166
+00:10:44,060 --> 00:10:49,340
+Right here I am going to change it to ask for the author and on the author I am just going to get the
+
+167
+00:10:49,340 --> 00:10:50,630
+author's name.
+
+168
+00:10:50,690 --> 00:10:52,960
+Now if we were to run this it would currently fail.
+
+169
+00:10:52,970 --> 00:10:55,730
+But let's talk about what's going to happen when we do run this.
+
+170
+00:10:55,730 --> 00:11:01,160
+The first thing graphed you Elgar's going to do is it's going to run the resolver function for the posts
+
+171
+00:11:01,190 --> 00:11:06,260
+queery so out of all of our code this is the function that's going to run in this case since we're not
+
+172
+00:11:06,260 --> 00:11:07,770
+calling it with any arguments.
+
+173
+00:11:07,830 --> 00:11:10,710
+This would run and all of the posts would be returned.
+
+174
+00:11:10,760 --> 00:11:16,150
+In this case we have three posts now grant you all is going to see what data was requested.
+
+175
+00:11:16,220 --> 00:11:22,130
+If we just had scalar types that's where things would end because all of the scalar types exist on the
+
+176
+00:11:22,130 --> 00:11:23,340
+array of posts.
+
+177
+00:11:23,450 --> 00:11:28,200
+In this case though we've also asked for author author does not live on there.
+
+178
+00:11:28,250 --> 00:11:30,260
+So what's graphed you going to do.
+
+179
+00:11:30,360 --> 00:11:35,960
+Graft well for each individual post is going to call this function.
+
+180
+00:11:35,960 --> 00:11:40,940
+It is going to call it with the post object as the parent argument.
+
+181
+00:11:40,940 --> 00:11:47,360
+So for the first post it is going to call this method where parent is that first post object for the
+
+182
+00:11:47,360 --> 00:11:48,170
+second post.
+
+183
+00:11:48,170 --> 00:11:52,820
+It is going to call this method a again where parent is that second post object.
+
+184
+00:11:52,820 --> 00:11:58,640
+And as you guessed for the third and final post it is going to call this method again where a parent
+
+185
+00:11:58,790 --> 00:12:01,320
+is that third post object.
+
+186
+00:12:01,400 --> 00:12:06,360
+That means on parent we can access things like the post ID parent id.
+
+187
+00:12:06,500 --> 00:12:11,780
+I could access the title parent title I could access the body I could access published.
+
+188
+00:12:11,780 --> 00:12:15,440
+I can also access author which is what we want.
+
+189
+00:12:15,530 --> 00:12:20,410
+So parent dot author is that string the string we have right up here.
+
+190
+00:12:20,450 --> 00:12:21,210
+It's 2.
+
+191
+00:12:21,290 --> 00:12:28,140
+Or in the case of the first two posts it's one we can now use that to iterate over the user's array.
+
+192
+00:12:28,160 --> 00:12:30,350
+Finally correct user and return it.
+
+193
+00:12:30,350 --> 00:12:33,170
+That's exactly what we're going to do right here.
+
+194
+00:12:33,170 --> 00:12:34,480
+Let's go ahead and get that done.
+
+195
+00:12:34,480 --> 00:12:36,080
+I am going to return.
+
+196
+00:12:36,140 --> 00:12:43,190
+I am going to call users dot find find is similar to filter though it is going to match an individual
+
+197
+00:12:43,220 --> 00:12:44,260
+array item.
+
+198
+00:12:44,270 --> 00:12:49,410
+So in this case it will match the first one whose callback function returns true.
+
+199
+00:12:49,550 --> 00:12:52,240
+Giving us back an individual user object.
+
+200
+00:12:52,250 --> 00:12:55,460
+So right here we set up our callback function.
+
+201
+00:12:55,550 --> 00:12:58,960
+It gets called one time for each user until we find a match.
+
+202
+00:12:58,970 --> 00:13:04,100
+So I'll call the argument user and it's our job to return true if it is a match and false.
+
+203
+00:13:04,150 --> 00:13:06,650
+Otherwise I'm going to return true.
+
+204
+00:13:06,950 --> 00:13:13,940
+If user data ID equals the parent dot author property.
+
+205
+00:13:13,940 --> 00:13:19,220
+So if those are equal we know we've found the match and that user object will get returned if they're
+
+206
+00:13:19,220 --> 00:13:19,790
+not equal.
+
+207
+00:13:19,790 --> 00:13:23,070
+We'll continue looking through the user's array and this is it.
+
+208
+00:13:23,090 --> 00:13:27,250
+This is all we have to do to get the query over here to actually work.
+
+209
+00:13:27,260 --> 00:13:30,500
+Let's go ahead and save index dot J s head over to the graph.
+
+210
+00:13:30,510 --> 00:13:32,290
+You will play ground and actually run it.
+
+211
+00:13:32,360 --> 00:13:34,850
+I'm going to fire off that queery And what do we get back.
+
+212
+00:13:34,850 --> 00:13:39,140
+We get back our author name for every single post which is fantastic.
+
+213
+00:13:39,230 --> 00:13:42,650
+Right here we have graphed UL 101 with the author named Andrew.
+
+214
+00:13:42,680 --> 00:13:48,860
+I have GRATHWOHL 201 also written by Andrew and finally programming music written by Sarah.
+
+215
+00:13:48,860 --> 00:13:53,300
+Now we can actually use a little bit of that relational data inside of our queries.
+
+216
+00:13:53,300 --> 00:13:58,430
+I can get all posts and for each post I can get some information about the author.
+
+217
+00:13:58,430 --> 00:14:01,850
+Now currently this relationship goes in a single direction.
+
+218
+00:14:01,970 --> 00:14:09,140
+So if I go up to my types the post type has a link to the user type via that author property but the
+
+219
+00:14:09,140 --> 00:14:12,390
+user type does not have a link to the post type.
+
+220
+00:14:12,500 --> 00:14:15,750
+We are going to set that up via the Post's property.
+
+221
+00:14:15,830 --> 00:14:19,390
+So if I do have a user I can access all of their posts.
+
+222
+00:14:19,430 --> 00:14:24,050
+That would be very useful if I'm showing an author's home page on the site and I want to show just the
+
+223
+00:14:24,050 --> 00:14:25,920
+posts written by them.
+
+224
+00:14:26,000 --> 00:14:29,350
+So we're going to figure out how to knock all of this out in the next video.
+
+225
+00:14:29,450 --> 00:14:33,710
+That's going to allow us to have that relationship set up in both directions.
+
+226
+00:14:33,710 --> 00:14:36,560
+I know there hasn't been a challenge with relationships yet.
+
+227
+00:14:36,620 --> 00:14:42,500
+I will give you a challenge where you're going to have to set up the new type comment and set up relationships
+
+228
+00:14:42,500 --> 00:14:44,020
+with our existing types.
+
+229
+00:14:44,030 --> 00:14:45,630
+That's all coming up very soon.
+
+230
+00:14:45,650 --> 00:14:51,560
+For now though let's focus on setting up this relationship between the user and the post via a new posts
+
+231
+00:14:51,620 --> 00:14:52,980
+field on user.
+
+232
+00:14:53,060 --> 00:14:57,370
+That's happening in the very next video so stay tuned and I will see you then.
+

@@ -1,0 +1,48 @@
+1
+00:00:02,900 --> 00:00:08,140
+Welcome to Section 9 in this section you're finally going to learn how to interact with your graphics
+
+2
+00:00:08,360 --> 00:00:12,160
+API from outside of just graphical playground.
+
+3
+00:00:12,320 --> 00:00:15,920
+That's going to allow us to do a couple of very exciting things.
+
+4
+00:00:15,920 --> 00:00:20,630
+Number one you're going to learn how to interact with your application from the browser.
+
+5
+00:00:20,660 --> 00:00:26,650
+So we'll see what it takes to do something like fetch a list of posts and render those to the screen.
+
+6
+00:00:26,750 --> 00:00:31,970
+That's going to allow you to build out a front end for your graph QOL applications.
+
+7
+00:00:31,980 --> 00:00:36,480
+The other exciting thing we're going to talk about is setting up an automatic test suite.
+
+8
+00:00:36,590 --> 00:00:42,500
+So you're going to learn how to write test cases for your graphic app that verify it's always working
+
+9
+00:00:42,530 --> 00:00:43,640
+as expected.
+
+10
+00:00:43,790 --> 00:00:49,430
+This is going to prevent bugs from getting into production and messing with real user data.
+
+11
+00:00:49,430 --> 00:00:50,910
+I'm excited to get to all of this.
+
+12
+00:00:50,910 --> 00:00:54,260
+So let's go ahead and jump right in to the very first video.
+

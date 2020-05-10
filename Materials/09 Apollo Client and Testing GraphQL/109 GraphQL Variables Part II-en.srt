@@ -1,0 +1,612 @@
+1
+00:00:00,210 --> 00:00:06,430
+In this video it's going to be up to you to extract every operation in Post dot test dot J.
+
+2
+00:00:06,450 --> 00:00:09,330
+S. out into the operations file.
+
+3
+00:00:09,390 --> 00:00:11,780
+So we have the Post's query right here.
+
+4
+00:00:11,790 --> 00:00:15,200
+No variables but it still needs to be extracted down below.
+
+5
+00:00:15,270 --> 00:00:18,090
+We have my posts which needs to be extracted.
+
+6
+00:00:18,120 --> 00:00:25,290
+We then have our a mutation update post which takes in dynamic values that needs to be extracted down
+
+7
+00:00:25,290 --> 00:00:30,120
+below that we have create post and then down below that we have delete post.
+
+8
+00:00:30,180 --> 00:00:36,210
+So we have one two three four five different operations.
+
+9
+00:00:36,210 --> 00:00:39,850
+I'd like you to take some time to pull all of those out.
+
+10
+00:00:39,990 --> 00:00:44,700
+Anywhere where a dynamic value is used you want to set up the appropriate type.
+
+11
+00:00:44,700 --> 00:00:47,460
+Similar to what we did in operations.
+
+12
+00:00:47,510 --> 00:00:53,990
+J.S. for things like create user where we used create user input or for log again where we used log
+
+13
+00:00:53,990 --> 00:00:55,490
+in user input.
+
+14
+00:00:55,710 --> 00:01:00,550
+So take as much time as you need to knock this out using what we learned in the last video.
+
+15
+00:01:00,690 --> 00:01:06,450
+And if you get stuck along the way just refer to the operations file and the user test file to see how
+
+16
+00:01:06,450 --> 00:01:07,950
+we did things over there.
+
+17
+00:01:07,950 --> 00:01:10,790
+Because in the end of the day the process is identical.
+
+18
+00:01:10,800 --> 00:01:14,370
+We're just working with a different set of queries and mutations.
+
+19
+00:01:14,550 --> 00:01:15,930
+All right knock that out.
+
+20
+00:01:15,930 --> 00:01:21,330
+Pause the video when you're done at test your work then come back and click play.
+
+21
+00:01:24,650 --> 00:01:25,410
+How that go.
+
+22
+00:01:25,430 --> 00:01:27,620
+Let's go ahead and kick things off just working.
+
+23
+00:01:27,620 --> 00:01:32,050
+Top to bottom through the files starting with get posts no variables required.
+
+24
+00:01:32,060 --> 00:01:37,220
+So we could remove this one completely and bring it over to our operations file.
+
+25
+00:01:37,220 --> 00:01:42,350
+I'm just going to add that down below at the bottom of the list and then we'll take a moment to export
+
+26
+00:01:42,350 --> 00:01:43,280
+it as well.
+
+27
+00:01:43,280 --> 00:01:45,540
+So right here get posts.
+
+28
+00:01:45,560 --> 00:01:46,510
+Excellent.
+
+29
+00:01:46,790 --> 00:01:52,130
+Now from here we have to make sure that we still load the operation in since we are referencing a get
+
+30
+00:01:52,130 --> 00:01:53,660
+posts variable.
+
+31
+00:01:53,660 --> 00:01:56,190
+So I set up an import statement up above.
+
+32
+00:01:56,330 --> 00:02:01,430
+I'm going to import get posts from that file right here.
+
+33
+00:02:01,430 --> 00:02:08,140
+That would be daat forward slash you tills forward slash operations.
+
+34
+00:02:08,140 --> 00:02:09,240
+Excellent.
+
+35
+00:02:09,250 --> 00:02:14,110
+Now we have get posts in place we can save the program and move on to the next one.
+
+36
+00:02:14,110 --> 00:02:16,390
+The next one is my posts.
+
+37
+00:02:16,390 --> 00:02:21,610
+This one also requires 0 variables so we can go ahead and cut that out.
+
+38
+00:02:22,560 --> 00:02:25,120
+Bringing it over to the operations file.
+
+39
+00:02:25,260 --> 00:02:32,010
+So right here I am going to adjust the indentation of get posts and then down below I will set up my
+
+40
+00:02:32,010 --> 00:02:36,300
+posts and for my posts all we have to do is export it.
+
+41
+00:02:36,300 --> 00:02:40,560
+So right here my posts perfect.
+
+42
+00:02:40,560 --> 00:02:44,760
+Now that we have this in place we can go ahead and import it into the other file.
+
+43
+00:02:44,910 --> 00:02:47,750
+So right here we are still referencing my posts.
+
+44
+00:02:47,820 --> 00:02:48,990
+Let's go ahead an important
+
+45
+00:02:53,060 --> 00:02:54,510
+my posts.
+
+46
+00:02:54,560 --> 00:02:55,550
+Perfect.
+
+47
+00:02:55,670 --> 00:02:59,060
+Next on our list is the update post mutation.
+
+48
+00:02:59,060 --> 00:03:03,530
+Here we are going to want to support a variable especially for data.
+
+49
+00:03:03,590 --> 00:03:10,100
+So if you forget exactly what something uses you can always go over to schema dot graph QOL up at the
+
+50
+00:03:10,100 --> 00:03:10,850
+very top.
+
+51
+00:03:10,850 --> 00:03:15,120
+We have our update post mutation that is sitting right here.
+
+52
+00:03:15,140 --> 00:03:20,670
+We have ID of the type ID and data of the type update post input.
+
+53
+00:03:20,690 --> 00:03:24,860
+So those are the two arguments that we would need to pass in both variables.
+
+54
+00:03:25,010 --> 00:03:27,740
+Let's go ahead and actually set that up to start.
+
+55
+00:03:27,740 --> 00:03:30,670
+I'm going to grab this operation in its entirety.
+
+56
+00:03:30,820 --> 00:03:36,710
+I am going to copy it to the clipboard and I'm going to bring it over to the operations file pasting
+
+57
+00:03:36,710 --> 00:03:38,540
+it in at the bottom of the list.
+
+58
+00:03:38,720 --> 00:03:41,630
+Then we're going to go ahead and make some changes to it.
+
+59
+00:03:41,690 --> 00:03:42,980
+We need it to variable.
+
+60
+00:03:43,010 --> 00:03:49,950
+So we need ID of the type ID exactly like we had over in our schema definition right here.
+
+61
+00:03:50,090 --> 00:03:53,580
+And we also need data of the type update post input.
+
+62
+00:03:53,690 --> 00:04:00,590
+So comma space dollar sign data update post input.
+
+63
+00:04:00,610 --> 00:04:04,810
+Perfect From here we can go ahead and use both of those down below.
+
+64
+00:04:04,810 --> 00:04:10,350
+The idea is going to get its value from the ID variable and the same thing is true with data.
+
+65
+00:04:10,420 --> 00:04:15,310
+We'll remove that data object getting the value from data instead.
+
+66
+00:04:15,400 --> 00:04:19,030
+Now everything is defined over in this file we're all done.
+
+67
+00:04:19,030 --> 00:04:21,870
+We can export update post.
+
+68
+00:04:22,030 --> 00:04:26,860
+And now we can focus on adjusting the test case to actually use this operation.
+
+69
+00:04:27,130 --> 00:04:33,470
+The first step in that process is going to be in porting it up above let's grab that third one right
+
+70
+00:04:33,470 --> 00:04:38,250
+here update post and down below we're actually going to use it.
+
+71
+00:04:38,270 --> 00:04:42,250
+So the first thing I'm going to do is define the variables we want to pass in.
+
+72
+00:04:42,260 --> 00:04:45,280
+So Konst variables equals an object.
+
+73
+00:04:45,500 --> 00:04:47,710
+We're going to have to I.D. and data.
+
+74
+00:04:47,750 --> 00:04:49,270
+So our set up ID.
+
+75
+00:04:49,640 --> 00:04:55,810
+It's going to get its value from post one dot Post dot ID and I'll set up the second one.
+
+76
+00:04:56,030 --> 00:05:01,640
+We're going to have data which is an object and I'm going to define once again just published setting
+
+77
+00:05:01,640 --> 00:05:03,130
+an equal to false.
+
+78
+00:05:03,170 --> 00:05:04,370
+Perfect.
+
+79
+00:05:04,370 --> 00:05:09,920
+Now we can remove the operation down below entirely and the last thing you needed to do is make sure
+
+80
+00:05:09,920 --> 00:05:16,460
+those variables were actually used by passing them in right here variables setting up that property
+
+81
+00:05:16,670 --> 00:05:20,150
+to get its value from the variable with the same name.
+
+82
+00:05:20,150 --> 00:05:24,500
+Now that we have that in place we can save the file and continue down the list.
+
+83
+00:05:24,500 --> 00:05:28,640
+Next up we have create post followed by finally delete.
+
+84
+00:05:28,640 --> 00:05:32,300
+Post create post is going to go through the same process.
+
+85
+00:05:32,300 --> 00:05:37,850
+The first thing I'm going to do is just grab this operation copy it to the clipboard and bring it over
+
+86
+00:05:37,850 --> 00:05:40,190
+to the operations file.
+
+87
+00:05:40,190 --> 00:05:47,330
+I'll adjust the indentation of update post paste in create post and adjust the indentation there as
+
+88
+00:05:47,330 --> 00:05:47,910
+well.
+
+89
+00:05:48,260 --> 00:05:49,970
+And we're going to focus on the variable.
+
+90
+00:05:49,970 --> 00:05:52,730
+We need to create or be defining it right here.
+
+91
+00:05:52,760 --> 00:05:59,450
+This one called data is going to be of the type and we can always refer to schema to figure out what
+
+92
+00:05:59,450 --> 00:06:02,300
+we had called it right here we have create post.
+
+93
+00:06:02,360 --> 00:06:04,780
+It was called create post input.
+
+94
+00:06:04,940 --> 00:06:09,730
+So over here create post input.
+
+95
+00:06:09,820 --> 00:06:10,930
+Perfect.
+
+96
+00:06:10,930 --> 00:06:14,410
+Now that we have this in place we can use the data variable.
+
+97
+00:06:14,410 --> 00:06:15,400
+Down here.
+
+98
+00:06:15,400 --> 00:06:21,970
+Removing the object and referencing the variable instead and last up we export it right here exporting
+
+99
+00:06:22,000 --> 00:06:23,220
+create post.
+
+100
+00:06:23,260 --> 00:06:24,430
+Excellent.
+
+101
+00:06:24,490 --> 00:06:26,450
+Now once again over in post.
+
+102
+00:06:26,530 --> 00:06:27,200
+Test.
+
+103
+00:06:27,220 --> 00:06:28,050
+J S.
+
+104
+00:06:28,090 --> 00:06:30,130
+We can adjust the test case.
+
+105
+00:06:30,160 --> 00:06:38,640
+I'm going to create a variable's object and we only need one property on there we just need data.
+
+106
+00:06:38,650 --> 00:06:44,260
+Data is going to have title body and published and we can use the same values we have below.
+
+107
+00:06:44,260 --> 00:06:48,100
+So title a test post body.
+
+108
+00:06:48,100 --> 00:06:50,260
+We can leave that empty and published.
+
+109
+00:06:50,260 --> 00:06:52,540
+We can set that equal to true.
+
+110
+00:06:52,540 --> 00:06:53,480
+Excellent.
+
+111
+00:06:53,530 --> 00:07:00,220
+Now we can remove this operation entirely and we can actually import it from up above.
+
+112
+00:07:00,410 --> 00:07:04,670
+So up above we are going to grab the thing we just export and create.
+
+113
+00:07:04,680 --> 00:07:05,640
+Post.
+
+114
+00:07:05,720 --> 00:07:06,450
+There we go.
+
+115
+00:07:06,560 --> 00:07:10,450
+We now have 4 out of five tests converted before we save.
+
+116
+00:07:10,450 --> 00:07:13,520
+Let's just make sure variables gets passed through.
+
+117
+00:07:13,520 --> 00:07:16,120
+Now we can move on to that last test case.
+
+118
+00:07:16,130 --> 00:07:18,540
+So down below we have delete post.
+
+119
+00:07:18,560 --> 00:07:24,790
+This does indeed take a dynamic value and the type for that one is just that ID as seen over here.
+
+120
+00:07:24,860 --> 00:07:27,860
+It's nothing special as a built in scalar type.
+
+121
+00:07:27,950 --> 00:07:31,730
+So let's go ahead and start by grabbing that operation definition.
+
+122
+00:07:32,000 --> 00:07:35,920
+I'm going to copy it and bring it over to the operations File.
+
+123
+00:07:36,020 --> 00:07:43,330
+We're going to be setting up a single variable ID of the type ID and this variable is going to get used
+
+124
+00:07:43,340 --> 00:07:47,750
+down below right here where we define the idea of the post to remove.
+
+125
+00:07:47,750 --> 00:07:48,800
+Perfect.
+
+126
+00:07:48,800 --> 00:07:51,180
+Now we can export it and use it in the test case.
+
+127
+00:07:51,200 --> 00:07:52,190
+Exporting delete.
+
+128
+00:07:52,220 --> 00:07:55,900
+Post over inside of our posts.
+
+129
+00:07:55,910 --> 00:07:56,770
+Test suite.
+
+130
+00:07:56,780 --> 00:08:00,770
+We can import it up at the very top.
+
+131
+00:08:00,830 --> 00:08:01,220
+Delete.
+
+132
+00:08:01,220 --> 00:08:02,070
+Post.
+
+133
+00:08:02,210 --> 00:08:03,800
+And then finally we can use it.
+
+134
+00:08:03,890 --> 00:08:11,750
+So down below to wrap up this video we are going to set up the necessary variables Konst variables equals
+
+135
+00:08:11,750 --> 00:08:12,670
+an object.
+
+136
+00:08:12,800 --> 00:08:19,590
+We define one thing id the value for that comes from post to post dot ID.
+
+137
+00:08:19,590 --> 00:08:23,960
+Now we can remove the old delete post-operation.
+
+138
+00:08:23,990 --> 00:08:29,420
+We're going to be accessing the new one that's imported and we will indeed set up those variables.
+
+139
+00:08:29,450 --> 00:08:33,580
+And now we're done all of our operations from the post test suite.
+
+140
+00:08:33,590 --> 00:08:40,010
+Now live over in the operations file allowing the test cases to stay focused on what it is they care
+
+141
+00:08:40,010 --> 00:08:44,030
+about down below our test suite is indeed rerunning And what do we have.
+
+142
+00:08:44,030 --> 00:08:46,590
+We have 10 passing tests.
+
+143
+00:08:46,700 --> 00:08:51,380
+Now I know the testing section has been a little long there's a lot of new information to cover and
+
+144
+00:08:51,380 --> 00:08:55,080
+it's a very important step to the development process here.
+
+145
+00:08:55,130 --> 00:09:00,210
+We were able to verify that a good deal of our application works in just 10 seconds.
+
+146
+00:09:00,230 --> 00:09:06,540
+I can go ahead and a and then rerun the entire test suite before I'm even done finishing this sentence.
+
+147
+00:09:06,560 --> 00:09:12,650
+That's going to allow us to verify our application is working as we build it out we'll be able to catch
+
+148
+00:09:12,650 --> 00:09:15,410
+problems as soon as they come up.
+
+149
+00:09:15,430 --> 00:09:17,030
+All right that's it for this one.
+
+150
+00:09:17,030 --> 00:09:19,790
+There are just a few videos left in this section.
+
+151
+00:09:19,910 --> 00:09:23,090
+We're going to talk about comments and testing subscriptions.
+
+152
+00:09:23,090 --> 00:09:24,740
+I'm excited to get to all of that.
+
+153
+00:09:24,740 --> 00:09:27,800
+So let's go ahead and jump right in to the next one.
+

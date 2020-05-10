@@ -1,0 +1,1188 @@
+1
+00:00:00,180 --> 00:00:04,920
+In this video we're going to continue to talk subscriptions and we're actually going to expand on the
+
+2
+00:00:04,920 --> 00:00:08,320
+comment and post subscriptions that we already have.
+
+3
+00:00:08,340 --> 00:00:12,500
+So let's take a quick moment to talk about the three main ways we can mutate data.
+
+4
+00:00:12,660 --> 00:00:13,910
+Data can be created.
+
+5
+00:00:14,040 --> 00:00:16,970
+Data can be updated and data can be deleted.
+
+6
+00:00:16,980 --> 00:00:18,660
+We want to notify subscribers.
+
+7
+00:00:18,660 --> 00:00:25,050
+In the case of all three currently both comment and post only notify subscribers in the case of that
+
+8
+00:00:25,050 --> 00:00:27,400
+first one when data is created.
+
+9
+00:00:27,600 --> 00:00:33,180
+So if I were to subscribe to all comments for post-flood then I am indeed going to get all new comments
+
+10
+00:00:33,180 --> 00:00:34,290
+for post 11.
+
+11
+00:00:34,290 --> 00:00:39,930
+The problem though is that if a comment gets updated or a comment gets deleted altogether the client
+
+12
+00:00:39,960 --> 00:00:45,360
+does not get notified about those changes and that kind of defeats the purpose of subscriptions.
+
+13
+00:00:45,360 --> 00:00:50,860
+The whole point of being able to subscribe to data is to keep the client and the server in sync.
+
+14
+00:00:50,910 --> 00:00:56,700
+So when a new comment comes in I want to show that to the screen but when a comment gets edited or deleted
+
+15
+00:00:56,730 --> 00:00:59,760
+I also want to update the UI to reflect that as well.
+
+16
+00:00:59,880 --> 00:01:05,100
+So all we need to do is make some changes to how we're structuring our type definitions for both of
+
+17
+00:01:05,100 --> 00:01:06,300
+our subscriptions.
+
+18
+00:01:06,300 --> 00:01:10,210
+Then we're going to add some additional pub sub calls into the mix.
+
+19
+00:01:10,260 --> 00:01:15,300
+In this video we'll be working on the post subscription together and in the next video as a challenge
+
+20
+00:01:15,300 --> 00:01:18,300
+you'll be working on expanding the comment subscription.
+
+21
+00:01:18,300 --> 00:01:23,460
+Now one change we're gonna need to make before we add more pub Sabat published calls has to do with
+
+22
+00:01:23,460 --> 00:01:25,280
+the data that's getting sent back.
+
+23
+00:01:25,290 --> 00:01:28,220
+When someone subscribes if you subscribe to comment.
+
+24
+00:01:28,230 --> 00:01:32,990
+What you get back as a comment if you subscribe to post what you get back is a post.
+
+25
+00:01:33,000 --> 00:01:37,950
+So for example we have our comment subscription over here and if I scroll up we can see the exact data
+
+26
+00:01:37,980 --> 00:01:40,530
+we got back just a couple of videos ago.
+
+27
+00:01:40,530 --> 00:01:42,490
+We have an object with the data property.
+
+28
+00:01:42,600 --> 00:01:44,300
+Then we have the common property.
+
+29
+00:01:44,310 --> 00:01:48,780
+Then we have all of the data we actually requested about that newly created comment.
+
+30
+00:01:48,780 --> 00:01:53,910
+Imagine if we continued to publish in this fashion for when a comment was updated or when a comment
+
+31
+00:01:53,910 --> 00:01:58,470
+was deleted it would not be clear exactly why I'm getting this comment back.
+
+32
+00:01:58,470 --> 00:02:02,890
+Am I getting this comment back because it's a new comment and I should be showing it to the UI.
+
+33
+00:02:02,940 --> 00:02:07,820
+Am I getting this comment back because it's updated and I should replace the text with the new text.
+
+34
+00:02:07,920 --> 00:02:11,740
+Or am I getting this comment back because this comment has actually been deleted.
+
+35
+00:02:11,790 --> 00:02:14,540
+In which case I should remove it from the user interface.
+
+36
+00:02:14,670 --> 00:02:20,230
+It's not clear to the subscriber the client why exactly this data is coming back to it.
+
+37
+00:02:20,340 --> 00:02:23,550
+So we're going to do is include along side of this data.
+
+38
+00:02:23,580 --> 00:02:29,770
+A simple string field the field name is going to be mutation and it is going to store one of three values.
+
+39
+00:02:29,790 --> 00:02:33,830
+Either the string created the string updated or the string deleted.
+
+40
+00:02:33,870 --> 00:02:38,500
+That's going to give the subscriber enough context to figure out what it should do.
+
+41
+00:02:38,520 --> 00:02:39,270
+Now don't knock that out.
+
+42
+00:02:39,280 --> 00:02:43,630
+All we're going to do is change the value that comes back from both of these subscriptions.
+
+43
+00:02:43,620 --> 00:02:44,990
+We're going to start together with.
+
+44
+00:02:44,990 --> 00:02:48,540
+Post what we're going to do is return a different object.
+
+45
+00:02:48,550 --> 00:02:54,320
+It is still going to contain the post data but it's also going to contain one additional field.
+
+46
+00:02:54,390 --> 00:02:57,280
+We're actually going to create a brand new typedef for this.
+
+47
+00:02:57,300 --> 00:02:58,970
+So let's add that down below.
+
+48
+00:02:59,190 --> 00:03:04,770
+At the very bottom of the file We're going to define a new custom object type using the type keyword
+
+49
+00:03:05,040 --> 00:03:06,910
+and then we're going to give this a name.
+
+50
+00:03:06,930 --> 00:03:14,880
+I'm going to call this post subscription payload so subscription payload is a common suffix for what
+
+51
+00:03:14,880 --> 00:03:15,800
+we're doing here.
+
+52
+00:03:15,810 --> 00:03:21,330
+The payload that we're defining that comes back from a post and then the initial word is just the actual
+
+53
+00:03:21,450 --> 00:03:22,530
+subscription name.
+
+54
+00:03:22,530 --> 00:03:24,210
+So right here the subscription is post.
+
+55
+00:03:24,240 --> 00:03:30,770
+So we start with post then it is actually the subscription payload so we add subscription payload afterwards.
+
+56
+00:03:30,780 --> 00:03:33,770
+This is a common naming convention you'll see used throughout the graph.
+
+57
+00:03:33,960 --> 00:03:35,170
+Ecosystem.
+
+58
+00:03:35,340 --> 00:03:38,490
+Now what exactly is coming back from the post subscription payload.
+
+59
+00:03:38,490 --> 00:03:40,080
+Well we're going to get two things.
+
+60
+00:03:40,080 --> 00:03:45,370
+One is going to be our new field mutation which is going to be a non nullable string.
+
+61
+00:03:45,540 --> 00:03:51,030
+So you're always going to get a string back that describes what type of mutation actually triggered
+
+62
+00:03:51,030 --> 00:03:52,160
+this event.
+
+63
+00:03:52,170 --> 00:03:54,240
+The other thing you're going to get is the actual data.
+
+64
+00:03:54,240 --> 00:04:01,030
+So in this case the data under the data field would just be the post exactly like we already have.
+
+65
+00:04:01,350 --> 00:04:06,330
+So now we have our new post subscription payload type and we can actually use that as opposed to the
+
+66
+00:04:06,330 --> 00:04:08,700
+one we're currently using up above.
+
+67
+00:04:08,700 --> 00:04:16,860
+I'm going to remove post and replace it with post subscription payload and this will also be a non nullable
+
+68
+00:04:16,860 --> 00:04:17,580
+field.
+
+69
+00:04:17,580 --> 00:04:23,030
+So you will never get notified about an event if the Post's subscription payload is not actually provided.
+
+70
+00:04:23,100 --> 00:04:23,990
+Perfect.
+
+71
+00:04:24,000 --> 00:04:27,110
+So this is all we have to change inside of schema.
+
+72
+00:04:27,410 --> 00:04:33,040
+Well we can actually save this file and we actually don't need to make any changes to subscription.
+
+73
+00:04:33,100 --> 00:04:38,220
+Jay as this subscribe method is still perfect it's exactly what we want.
+
+74
+00:04:38,430 --> 00:04:41,770
+All of the additional changes need to happen over in mutations.
+
+75
+00:04:41,790 --> 00:04:48,630
+J s starting with the one pub sub published call that we already have that is publishing to the post
+
+76
+00:04:48,750 --> 00:04:49,560
+channel.
+
+77
+00:04:49,560 --> 00:04:55,350
+This needs to be altered to reflect the new structure that we just set up where we have the mutation
+
+78
+00:04:55,350 --> 00:04:57,980
+field and the data field to start.
+
+79
+00:04:57,990 --> 00:05:02,640
+I am going to wipe everything we have in the object so far and I'm going to break it out on two separate
+
+80
+00:05:02,640 --> 00:05:05,160
+lines since we'll be adding in multiple properties.
+
+81
+00:05:05,160 --> 00:05:08,910
+And here we do still need that root post property.
+
+82
+00:05:08,910 --> 00:05:14,310
+This time though instead of being the post data it now is an object that matches up with the type we
+
+83
+00:05:14,310 --> 00:05:15,350
+just created.
+
+84
+00:05:15,360 --> 00:05:18,290
+So this is an object that needs those two fields.
+
+85
+00:05:18,300 --> 00:05:24,630
+It needs mutation with a string value and it needs data that contains our post object.
+
+86
+00:05:24,630 --> 00:05:26,490
+So let's set both up right here.
+
+87
+00:05:26,490 --> 00:05:31,650
+We're going to start off with nutation setting an equal to a string and I'm going to be using uppercase
+
+88
+00:05:31,680 --> 00:05:37,710
+letters for this either upper case created upper case updated or upper case deleted.
+
+89
+00:05:37,710 --> 00:05:41,340
+In this case it is a created based mutation.
+
+90
+00:05:41,340 --> 00:05:42,630
+Next up is our data.
+
+91
+00:05:42,630 --> 00:05:47,610
+So we have that data property set equal to and in this case all of the post data lives on that post
+
+92
+00:05:47,610 --> 00:05:48,440
+variable.
+
+93
+00:05:48,570 --> 00:05:52,050
+So we reference the post variable like so perfect.
+
+94
+00:05:52,050 --> 00:05:57,090
+Now if you're wondering why this is upper case it's just a common convention for some constants like
+
+95
+00:05:57,090 --> 00:05:57,600
+this.
+
+96
+00:05:57,600 --> 00:06:01,710
+It would be just fine to use lowercase or to call it whatever you want.
+
+97
+00:06:01,710 --> 00:06:03,930
+This is merely a stylistic choice.
+
+98
+00:06:03,930 --> 00:06:09,610
+It is not enforced in any way whatsoever by graft UL or the pub sub mechanism.
+
+99
+00:06:09,690 --> 00:06:14,370
+Now that we have this in place we can actually save mutation dot J S and test things out.
+
+100
+00:06:14,370 --> 00:06:20,940
+So far I should be able to subscribe to posts create a new one and see our new structure showing up
+
+101
+00:06:21,090 --> 00:06:22,710
+over in GRATHWOHL playground.
+
+102
+00:06:22,710 --> 00:06:28,110
+I am going to switch over to that post tab and we are going to need to make a few small changes to the
+
+103
+00:06:28,110 --> 00:06:28,630
+structure.
+
+104
+00:06:28,650 --> 00:06:34,530
+Remember post is no longer sending back the post date which is what we're currently selecting post instead
+
+105
+00:06:34,740 --> 00:06:40,270
+is sending back that object with the mutation and with the data fields are going to grab both.
+
+106
+00:06:40,310 --> 00:06:44,200
+We're going to grab mutations so we know what kind of mutation triggered that event.
+
+107
+00:06:44,430 --> 00:06:50,910
+And we're also going to grab data and from there we will provide a selection set asking for some information
+
+108
+00:06:50,940 --> 00:06:51,330
+about.
+
+109
+00:06:51,330 --> 00:06:57,870
+In this case the post I'm going to ask for the ID I'll ask for the title for the body and some info
+
+110
+00:06:57,870 --> 00:06:58,890
+about the author.
+
+111
+00:06:58,890 --> 00:07:03,540
+I'll ask for the authors ID and the author's name so I can display those as well.
+
+112
+00:07:03,570 --> 00:07:09,610
+Now we're going to be able to first refresh that schema to see that our current operation is valid.
+
+113
+00:07:09,870 --> 00:07:14,520
+I'm then going to run with the subscription and we can see down below that it's listening and the last
+
+114
+00:07:14,520 --> 00:07:16,880
+thing we have to do is create a new post.
+
+115
+00:07:16,920 --> 00:07:20,220
+I'm going to scroll over to that create post tab.
+
+116
+00:07:20,610 --> 00:07:26,790
+We can run the Create post mutation exactly as we have it since it is creating a post with published
+
+117
+00:07:26,790 --> 00:07:28,590
+set to true.
+
+118
+00:07:28,590 --> 00:07:34,200
+Once it's created we can go back over to the post subscription tab and right here I do indeed see my
+
+119
+00:07:34,200 --> 00:07:35,100
+object.
+
+120
+00:07:35,100 --> 00:07:38,460
+We now have the data property in the post property which we had before.
+
+121
+00:07:38,580 --> 00:07:44,460
+This time though we are getting the mutation type so we can see that this event fired because some data
+
+122
+00:07:44,520 --> 00:07:45,290
+was created.
+
+123
+00:07:45,290 --> 00:07:48,500
+In this case the comment data shown below.
+
+124
+00:07:48,750 --> 00:07:55,740
+So now we have successfully set up the created mutation status for that one we already had in place
+
+125
+00:07:55,740 --> 00:07:57,870
+for the one in create post.
+
+126
+00:07:57,870 --> 00:08:00,430
+Next up let's go ahead and knock out delete.
+
+127
+00:08:00,480 --> 00:08:01,170
+Post.
+
+128
+00:08:01,200 --> 00:08:05,750
+So when a post gets deleted We also want to respond accordingly.
+
+129
+00:08:05,760 --> 00:08:09,150
+And now this is where things get a little bit tricky when we're deleting a post.
+
+130
+00:08:09,150 --> 00:08:14,610
+We don't always want to alert subscribers because the post might be a draft post so if I'm writing a
+
+131
+00:08:14,610 --> 00:08:19,530
+draft for a post and I decide to delete it because the story I shared is a bit embarrassing I don't
+
+132
+00:08:19,530 --> 00:08:23,030
+want to send that embarrassing story out to all subscribers.
+
+133
+00:08:23,070 --> 00:08:27,990
+When I didn't even publish it in the first place so it's important that we add that conditional check
+
+134
+00:08:28,110 --> 00:08:28,700
+in.
+
+135
+00:08:28,830 --> 00:08:31,950
+I'm going to start by destructuring pub sub right here.
+
+136
+00:08:32,160 --> 00:08:38,000
+Then down below after the comment actually gets removed we're going to check if it was published.
+
+137
+00:08:38,020 --> 00:08:44,180
+So if and in the if condition we're going to look at the deleted posts published property.
+
+138
+00:08:44,240 --> 00:08:51,500
+So we look at the deleted posts or we grab that first and only item then we access its published property.
+
+139
+00:08:51,530 --> 00:08:53,800
+If that's true this code is going to run.
+
+140
+00:08:53,870 --> 00:09:00,940
+And in that case it is safe to run pub sub dot publish to alert people that the Post has been deleted.
+
+141
+00:09:00,950 --> 00:09:06,920
+So right here we do need to provide the two arguments necessary first our channel name posts and second
+
+142
+00:09:06,950 --> 00:09:08,570
+the correct data.
+
+143
+00:09:08,570 --> 00:09:11,000
+This time we have that route post property.
+
+144
+00:09:11,270 --> 00:09:17,300
+We're going to have a mutation value equal to the string deleted and then we're going to have that data
+
+145
+00:09:17,300 --> 00:09:24,020
+property equal to the deleted post itself which once again is in the deleted posts or accessing that
+
+146
+00:09:24,020 --> 00:09:25,010
+first item.
+
+147
+00:09:25,010 --> 00:09:26,060
+Perfect.
+
+148
+00:09:26,060 --> 00:09:31,850
+Now in this case you'll notice that in a few places we are grabbing that first item off of deleted posts.
+
+149
+00:09:31,850 --> 00:09:38,210
+We can actually use array destructuring to make that code just a tad bit cleaner just like destructuring
+
+150
+00:09:38,210 --> 00:09:42,300
+an object but I'm going to do right here is remove the word deleted posts.
+
+151
+00:09:42,410 --> 00:09:45,590
+I'm going to replace it with opening and closing square brackets.
+
+152
+00:09:45,590 --> 00:09:49,580
+Now I can choose names for the array elements I could call the first one A.
+
+153
+00:09:49,600 --> 00:09:51,990
+The second one be in the third one see.
+
+154
+00:09:52,070 --> 00:09:55,290
+In this case though we know we only have one array item.
+
+155
+00:09:55,310 --> 00:09:58,250
+I am going to call that one the post.
+
+156
+00:09:58,370 --> 00:10:02,360
+So right here we have the post that is indeed getting deleted.
+
+157
+00:10:02,390 --> 00:10:06,900
+Now that's just going to make the rest of our code a lot easier to work with down below.
+
+158
+00:10:07,040 --> 00:10:10,070
+I can just check if Post got published.
+
+159
+00:10:10,190 --> 00:10:15,500
+Then down below right here where I provide the data I can just reference that post variable.
+
+160
+00:10:15,500 --> 00:10:17,540
+And finally it where I return the post.
+
+161
+00:10:17,540 --> 00:10:22,070
+I can just return the post instead of needing to access that deleted posts.
+
+162
+00:10:22,070 --> 00:10:22,660
+Array.
+
+163
+00:10:22,730 --> 00:10:23,560
+Perfect.
+
+164
+00:10:23,570 --> 00:10:27,810
+So now we are successfully alerting people when the post gets deleted.
+
+165
+00:10:27,890 --> 00:10:34,580
+But I'm going to do is save the mutation and actually test this out before moving on to update post
+
+166
+00:10:34,790 --> 00:10:36,130
+over inside of graft.
+
+167
+00:10:36,130 --> 00:10:41,000
+Well playground once again I am going to start up our post subscription.
+
+168
+00:10:41,050 --> 00:10:45,010
+We can see that it is listening and I am going to delete one of the two published posts.
+
+169
+00:10:45,010 --> 00:10:49,530
+I have one with the idea of 10 and the other one with the ID of 12.
+
+170
+00:10:49,600 --> 00:10:52,300
+Right here I'm already deleting the one with the ID of 12.
+
+171
+00:10:52,300 --> 00:10:53,380
+This is perfect.
+
+172
+00:10:53,380 --> 00:10:58,600
+I can go ahead and run that request that I can move back to the post subscription tab and right here
+
+173
+00:10:58,840 --> 00:11:01,100
+I can see my notification this time.
+
+174
+00:11:01,180 --> 00:11:06,460
+Clearly letting me know I'm getting this data back because the post has been deleted.
+
+175
+00:11:06,700 --> 00:11:13,690
+Now if I were to delete a post like post 11 which is not published I would not expect a notification
+
+176
+00:11:13,690 --> 00:11:14,800
+to be sent out.
+
+177
+00:11:14,950 --> 00:11:21,780
+I'm going to remove it head back to the post tab and I can see nothing new is showing up which is fantastic.
+
+178
+00:11:21,940 --> 00:11:25,060
+Now that we're done with the delete post method.
+
+179
+00:11:25,210 --> 00:11:26,650
+Let's move on to the last.
+
+180
+00:11:26,650 --> 00:11:31,650
+And quite honestly the most confusing of the three update post remember.
+
+181
+00:11:31,660 --> 00:11:35,570
+Updating a post might not just be updating a post.
+
+182
+00:11:35,680 --> 00:11:42,550
+If I publish a posts using update post I want to send out that created event if I unpublished a post
+
+183
+00:11:42,730 --> 00:11:44,130
+using update post.
+
+184
+00:11:44,170 --> 00:11:46,120
+I want to send out that deleted event.
+
+185
+00:11:46,130 --> 00:11:51,110
+And finally if I just change something like the title on the body for a published post.
+
+186
+00:11:51,250 --> 00:11:54,850
+I actually do indeed want to send out the updated event.
+
+187
+00:11:54,940 --> 00:12:00,550
+That means in reality update post could be firing out all three different types of mutation events.
+
+188
+00:12:00,550 --> 00:12:04,540
+Now for the moment that is going to require us to use a little bit of additional code and it's not going
+
+189
+00:12:04,540 --> 00:12:09,250
+to be the prettiest code in the world but don't worry because in the next section we're going to be
+
+190
+00:12:09,250 --> 00:12:15,220
+spending our time vastly reducing the amount of code that we actually need to write in these resolver
+
+191
+00:12:15,220 --> 00:12:16,100
+methods.
+
+192
+00:12:16,300 --> 00:12:20,020
+So let's go ahead and kick things off by adding a if statement.
+
+193
+00:12:20,020 --> 00:12:23,560
+Down below inside of the if statement we already have.
+
+194
+00:12:23,560 --> 00:12:28,490
+So this if statement only runs if the user provided the published status.
+
+195
+00:12:28,600 --> 00:12:33,460
+That's going to allow us to determine if a post is becoming published in which case it's being created
+
+196
+00:12:33,760 --> 00:12:35,560
+or if it's becoming unpublished.
+
+197
+00:12:35,560 --> 00:12:40,160
+In which case it's actually being deleted now in order to set up the statement.
+
+198
+00:12:40,180 --> 00:12:46,390
+We need to know what the Post's published value was before it was changed and to do that we're going
+
+199
+00:12:46,390 --> 00:12:47,620
+to create a new variable.
+
+200
+00:12:47,620 --> 00:12:54,440
+Up above Konst original post original post is just going to be a clone of post.
+
+201
+00:12:54,450 --> 00:13:00,000
+At this point in time before any changes had been made to clone post I am just going to use the object
+
+202
+00:13:00,000 --> 00:13:05,790
+spread operator creating a new object and spreading out all of the fields from post perfect.
+
+203
+00:13:05,820 --> 00:13:09,260
+Now we have original post and we can actually use it down below.
+
+204
+00:13:09,390 --> 00:13:15,310
+So let's start setting up a little bit of conditional logic right here if and we're going to use the
+
+205
+00:13:15,310 --> 00:13:21,190
+following condition we're going to check if the post was published but is now unpublished.
+
+206
+00:13:21,310 --> 00:13:31,200
+So is original post published equal to true and using the logical and OPERATOR Is the new post published
+
+207
+00:13:31,200 --> 00:13:32,330
+value false.
+
+208
+00:13:32,340 --> 00:13:35,660
+So we're going to use the not operator then right here.
+
+209
+00:13:35,660 --> 00:13:37,630
+Post dot published.
+
+210
+00:13:37,650 --> 00:13:38,510
+Perfect.
+
+211
+00:13:38,610 --> 00:13:42,450
+So was the post originally published and now it's not published.
+
+212
+00:13:42,450 --> 00:13:48,120
+If so we're going to run some code and this is where we will actually fire the deleted event will actually
+
+213
+00:13:48,120 --> 00:13:53,040
+fire that off in a few moments for now let's just continue setting up our conditional logic.
+
+214
+00:13:53,040 --> 00:13:54,240
+We're going to add an else if.
+
+215
+00:13:54,240 --> 00:14:02,010
+On to here this time around we're going to see if it was originally not published and now it is published
+
+216
+00:14:02,040 --> 00:14:03,980
+in which case it's actually being created.
+
+217
+00:14:03,990 --> 00:14:10,650
+So right here we are going to flip using the logical operator original post got published.
+
+218
+00:14:10,680 --> 00:14:13,250
+So was it originally not published.
+
+219
+00:14:13,560 --> 00:14:16,330
+And then we're going to make sure it is now published.
+
+220
+00:14:17,440 --> 00:14:21,870
+And if that is the case right here we will fire the created event.
+
+221
+00:14:22,210 --> 00:14:28,240
+Now the last type of update we could have is if it's actually just being updated and the published value
+
+222
+00:14:28,270 --> 00:14:29,700
+isn't being changed.
+
+223
+00:14:29,740 --> 00:14:36,120
+So right here we can just add else if on to our original statement.
+
+224
+00:14:36,160 --> 00:14:44,380
+This one right here and all we're going to do is look at post dot published is the post published if
+
+225
+00:14:44,380 --> 00:14:45,420
+it is published.
+
+226
+00:14:45,550 --> 00:14:49,030
+But they did not already modify the published value.
+
+227
+00:14:49,030 --> 00:14:51,910
+So we know we can safely fire off that updated event.
+
+228
+00:14:52,000 --> 00:14:53,020
+Perfect.
+
+229
+00:14:53,110 --> 00:14:57,690
+So hopefully all of this conditional logic makes sense if this does not make sense.
+
+230
+00:14:57,700 --> 00:15:03,220
+I recommend not continuing on with the video and heading into the Q&amp;A to look at existing questions
+
+231
+00:15:03,220 --> 00:15:05,360
+on this topic or to ask your own.
+
+232
+00:15:05,470 --> 00:15:12,040
+It's important that it makes sense why all three events can actually be fired from the update post mutation.
+
+233
+00:15:12,040 --> 00:15:17,140
+Now that we have the basic structure in place all we have to do is use pub subduct publish a couple
+
+234
+00:15:17,140 --> 00:15:18,360
+of times right here.
+
+235
+00:15:18,370 --> 00:15:24,430
+I am going to deep structure that alongside of D-B grabbing pub sub and then we're going to start using
+
+236
+00:15:24,430 --> 00:15:25,500
+it down below.
+
+237
+00:15:25,570 --> 00:15:31,990
+I'm going to start with the deleted event right here that is going to be pub sub dot publish we are
+
+238
+00:15:31,990 --> 00:15:36,870
+going to publish to the post channel and then we're going to set up that object.
+
+239
+00:15:36,880 --> 00:15:41,460
+So we need our post property we need the mutation property on that subject.
+
+240
+00:15:41,500 --> 00:15:47,240
+I'll be using deleted which we've used before and then we need to set up data with the post data.
+
+241
+00:15:47,470 --> 00:15:52,750
+Now in the case of a post being deleted I'm actually not going to use post which contains the new data
+
+242
+00:15:53,020 --> 00:15:56,970
+because someone might have updated the title and body while they were on publishing the post.
+
+243
+00:15:56,980 --> 00:15:58,540
+All in the same operation.
+
+244
+00:15:58,540 --> 00:16:02,620
+And I wouldn't want them to accidentally leak that data when they might not have thought that's how
+
+245
+00:16:02,620 --> 00:16:03,360
+it worked.
+
+246
+00:16:03,370 --> 00:16:06,750
+So what I'm going to do is publish the old data right here.
+
+247
+00:16:06,820 --> 00:16:12,820
+All I'm going to do is publish original post so you can get back the deleted data without any of the
+
+248
+00:16:12,820 --> 00:16:16,860
+changes that were actually made from this particular operation.
+
+249
+00:16:17,350 --> 00:16:20,590
+So now we can remove that comment and we can move on to the next one.
+
+250
+00:16:20,770 --> 00:16:23,560
+The next one is the created events are right here.
+
+251
+00:16:23,650 --> 00:16:28,520
+It is like the post is being created because it is going from unpublished to published.
+
+252
+00:16:28,540 --> 00:16:35,580
+We're going to use pub sub and publish to publish some new data and in this case we are still using
+
+253
+00:16:35,580 --> 00:16:41,250
+the same name the same channel name post and we still have to set up that object with the post property.
+
+254
+00:16:41,250 --> 00:16:47,370
+That object is going to have a mutation with the value of created and we are also going to set data
+
+255
+00:16:47,460 --> 00:16:51,650
+equal to and in this case we are indeed going to publish the latest data.
+
+256
+00:16:51,690 --> 00:16:57,150
+Since this post has just been made public and the data is available anyways right here referencing post
+
+257
+00:16:57,360 --> 00:17:02,980
+excellent last up we have updated and then we can test things out and we'll be all done for this video.
+
+258
+00:17:03,000 --> 00:17:07,760
+I'm going to use pub sub dot to publish or publishing to post.
+
+259
+00:17:07,770 --> 00:17:11,820
+We're setting up that object with the post property on that object.
+
+260
+00:17:11,820 --> 00:17:18,900
+We have our mutation property with the value of updated and we also have our data property.
+
+261
+00:17:18,900 --> 00:17:24,840
+Once again I will use post with the latest changes since we know this is indeed a published post and
+
+262
+00:17:24,840 --> 00:17:27,860
+the users just change something like the title or the body.
+
+263
+00:17:27,930 --> 00:17:30,950
+Whoops that should be the post channel not pos.
+
+264
+00:17:30,960 --> 00:17:31,860
+Perfect.
+
+265
+00:17:31,860 --> 00:17:33,780
+Now we can actually test things out.
+
+266
+00:17:33,780 --> 00:17:39,060
+To do this all we have to do is run our Post's subscription exactly as we already had it.
+
+267
+00:17:39,210 --> 00:17:45,690
+And then what we're gonna do is use updates post to update posts in various ways making sure that all
+
+268
+00:17:45,690 --> 00:17:47,310
+three of these fire.
+
+269
+00:17:47,310 --> 00:17:51,370
+So to start I'm going to use the update post mutation on post 11.
+
+270
+00:17:51,480 --> 00:17:57,600
+If you remember post 11 is the post that is not published and I'm going to take it from being unpublished
+
+271
+00:17:57,600 --> 00:17:58,320
+to published.
+
+272
+00:17:58,320 --> 00:18:04,030
+So right here I'm going to update post 11 setting published equal to true.
+
+273
+00:18:04,110 --> 00:18:09,150
+Now when I do this the post is going from being a draft to being a published post so I should see the
+
+274
+00:18:09,150 --> 00:18:11,990
+created mutation value over in the subscription.
+
+275
+00:18:12,120 --> 00:18:16,010
+I'm going to fire this off head over to my subscription tab and right here.
+
+276
+00:18:16,020 --> 00:18:17,800
+I do indeed see create it.
+
+277
+00:18:18,000 --> 00:18:22,210
+If I update the post to unpublished it I should see deleted right here.
+
+278
+00:18:22,230 --> 00:18:24,210
+I'm going to publish it.
+
+279
+00:18:24,240 --> 00:18:26,010
+I'm going to fire things off.
+
+280
+00:18:26,010 --> 00:18:32,340
+Head over to the post subscription tab and I do indeed see that deleted mutation value last up let's
+
+281
+00:18:32,340 --> 00:18:36,040
+go ahead and just truly update an already published post.
+
+282
+00:18:36,060 --> 00:18:38,000
+I'm going to update post 10.
+
+283
+00:18:38,010 --> 00:18:43,770
+That one is already published an under going to change its body so right here I'll set body equal to
+
+284
+00:18:43,800 --> 00:18:45,420
+the string something new.
+
+285
+00:18:45,420 --> 00:18:46,620
+Dot dot dot.
+
+286
+00:18:46,710 --> 00:18:52,050
+If I actually fire that off we can see that it did indeed change the post and if I go over to the post
+
+287
+00:18:52,110 --> 00:18:55,740
+subscription tab you can see that updated fired.
+
+288
+00:18:55,800 --> 00:19:01,980
+So now someone using the post subscription can actually keep the user interface completely up to date
+
+289
+00:19:02,190 --> 00:19:08,580
+showing the latest post with all of the changes and removing posts as they get unpublished or deleted.
+
+290
+00:19:08,580 --> 00:19:11,230
+That's all we're going to do for the post subscription.
+
+291
+00:19:11,340 --> 00:19:16,050
+What you're going to end up doing in the next video is something similar for the comment subscription
+
+292
+00:19:16,290 --> 00:19:17,950
+though with the comment subscription.
+
+293
+00:19:18,030 --> 00:19:23,960
+We do not have this many conditions to take into account the conditional logic is a lot simpler and
+
+294
+00:19:23,970 --> 00:19:26,430
+that's going to make the process much easier.
+
+295
+00:19:26,430 --> 00:19:31,560
+All right now this one ran a little long but I wanted to make sure to put all of this in a single video
+
+296
+00:19:31,560 --> 00:19:35,110
+to prevent any confusion about what's what that is it for this one.
+
+297
+00:19:35,130 --> 00:19:38,620
+I will see you in the next one which is a challenge video.
+

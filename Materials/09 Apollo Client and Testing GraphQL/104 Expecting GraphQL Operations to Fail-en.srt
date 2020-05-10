@@ -1,0 +1,732 @@
+1
+00:00:00,150 --> 00:00:05,250
+So far all of the operations we've fired off from our test cases we're supposed to exceed.
+
+2
+00:00:05,280 --> 00:00:08,390
+I was supposed to get posts I was supposed to get users.
+
+3
+00:00:08,460 --> 00:00:13,910
+I was supposed to be able to create the user but what about test cases that are supposed to fail.
+
+4
+00:00:13,920 --> 00:00:16,900
+For example if I log in with bad credentials.
+
+5
+00:00:16,920 --> 00:00:20,930
+I want that to fail if I sign up and my password is too short.
+
+6
+00:00:20,940 --> 00:00:23,610
+I want that operation to fail as well.
+
+7
+00:00:23,700 --> 00:00:28,100
+In this video we're going to learn exactly how we can do that using expect.
+
+8
+00:00:28,230 --> 00:00:30,470
+And then you're going to do it on your own.
+
+9
+00:00:30,480 --> 00:00:32,750
+Creating a second test case sir right here.
+
+10
+00:00:32,820 --> 00:00:36,600
+Let's go ahead and start by creating a test case together.
+
+11
+00:00:36,600 --> 00:00:38,670
+I'll be calling the test function.
+
+12
+00:00:38,670 --> 00:00:43,980
+This one is going to check that when you log in with bad credentials it does indeed fail.
+
+13
+00:00:44,010 --> 00:00:50,340
+Right here should not log in with bad credentials.
+
+14
+00:00:51,240 --> 00:00:52,130
+Excellent.
+
+15
+00:00:52,200 --> 00:00:58,120
+We can then set up our async function and we can focus on firing off our operations.
+
+16
+00:00:58,120 --> 00:01:02,370
+So just like we did previously we're still going to fire off the operation.
+
+17
+00:01:02,380 --> 00:01:05,020
+It's the assertion though that's going to change.
+
+18
+00:01:05,110 --> 00:01:10,530
+Now before we actually fire off the operation let's take a look at the functionality from expect.
+
+19
+00:01:10,570 --> 00:01:12,660
+We're going to use to get this done.
+
+20
+00:01:12,730 --> 00:01:18,700
+So if we head over to the geste documentation we can learn more about this by going down to the expect
+
+21
+00:01:18,700 --> 00:01:25,540
+page a page we have been to before and on this page we're looking for a method called to throw it down
+
+22
+00:01:25,540 --> 00:01:27,570
+at near the bottom right here.
+
+23
+00:01:30,970 --> 00:01:33,400
+We have our two throw method.
+
+24
+00:01:33,400 --> 00:01:39,160
+This is going to make sure that some set of code throws an error which is perfect.
+
+25
+00:01:39,190 --> 00:01:43,610
+So if it throws an error the test will be considered a success if it doesn't.
+
+26
+00:01:43,630 --> 00:01:45,840
+The test will be considered a failure.
+
+27
+00:01:46,030 --> 00:01:51,190
+Double-O they have an example where they call some sort of function that function where assuming it
+
+28
+00:01:51,190 --> 00:01:52,210
+throws an error.
+
+29
+00:01:52,240 --> 00:01:54,610
+And in this case the test case would pass.
+
+30
+00:01:54,610 --> 00:01:56,990
+Let's see that on our own over in our code.
+
+31
+00:01:57,010 --> 00:02:00,940
+So right here what we're going to do is pass a function to expect.
+
+32
+00:02:00,970 --> 00:02:07,690
+So I'm going to call expect I'm going to pass an aero function in and we are going to call to throw
+
+33
+00:02:07,870 --> 00:02:13,270
+on what comes back similar to how we would call to be up above for these assertions.
+
+34
+00:02:13,300 --> 00:02:19,090
+Now in this case this test is going to be considered a failure this function needs to be throwing an
+
+35
+00:02:19,090 --> 00:02:19,670
+error.
+
+36
+00:02:19,720 --> 00:02:22,160
+Right here we can clearly see that it's not.
+
+37
+00:02:22,450 --> 00:02:28,060
+So if I were to save the user test file we would have a new test case but it would indeed be failing
+
+38
+00:02:28,060 --> 00:02:32,470
+and down below that is exactly what we get right here.
+
+39
+00:02:32,560 --> 00:02:37,390
+We have the error expected the function to throw an error but it didn't throw anything.
+
+40
+00:02:37,390 --> 00:02:41,550
+Now we could go ahead and make this test case pass by actually throwing an error.
+
+41
+00:02:41,590 --> 00:02:44,190
+So right here throw new error.
+
+42
+00:02:44,200 --> 00:02:51,050
+For example and I could say something like this is my error.
+
+43
+00:02:51,040 --> 00:02:57,230
+Now this time around I would indeed expect the tests to pass where asserting that it throws an error.
+
+44
+00:02:57,260 --> 00:02:58,580
+It does indeed do that.
+
+45
+00:02:58,730 --> 00:03:02,230
+And down below we have four passing test cases.
+
+46
+00:03:02,390 --> 00:03:08,060
+So using the to throw functionality from expect we can make sure that some code throws an error in our
+
+47
+00:03:08,060 --> 00:03:14,180
+case we're going to assert that the Apollo boost code throws an error that promised that comes back
+
+48
+00:03:14,420 --> 00:03:19,610
+it's going to resolve if things go well and it's going to reject if things go poorly.
+
+49
+00:03:19,610 --> 00:03:22,000
+In this case we're betting that it rejects.
+
+50
+00:03:22,070 --> 00:03:24,280
+Let's actually define this operation right.
+
+51
+00:03:24,280 --> 00:03:26,320
+Here we are going to define law again.
+
+52
+00:03:26,330 --> 00:03:28,230
+Konst log in equals.
+
+53
+00:03:28,340 --> 00:03:31,120
+I'll be using GQ L with the template string.
+
+54
+00:03:31,280 --> 00:03:33,810
+And we're going to set up that operation right here.
+
+55
+00:03:33,830 --> 00:03:38,800
+It is indeed a mutation in a mutation is called a log in.
+
+56
+00:03:38,800 --> 00:03:44,020
+And we have arguments in and we have our selection set as far as the arguments go.
+
+57
+00:03:44,020 --> 00:03:48,810
+We're going to have just one data on there we provide the email and the password.
+
+58
+00:03:48,820 --> 00:03:55,210
+Remember we're trying to log in with bad credentials so we have to use anything but gen's credentials
+
+59
+00:03:55,390 --> 00:03:58,000
+from our database up above right here.
+
+60
+00:03:58,060 --> 00:04:06,020
+As an example e-mail could be Jeff at example dot com.
+
+61
+00:04:06,210 --> 00:04:09,980
+And then for the password we could just use a random series of characters.
+
+62
+00:04:09,990 --> 00:04:11,930
+Anything will get the job done.
+
+63
+00:04:11,940 --> 00:04:14,690
+Excellent when it comes to our selection set.
+
+64
+00:04:14,760 --> 00:04:19,770
+We're not actually going to get any data back but let's go ahead and say we want to grab the authentication
+
+65
+00:04:19,920 --> 00:04:20,650
+token.
+
+66
+00:04:20,970 --> 00:04:22,590
+Now it's time to fire this off.
+
+67
+00:04:22,590 --> 00:04:23,850
+And we know how to do that.
+
+68
+00:04:23,850 --> 00:04:26,270
+We use client mutate.
+
+69
+00:04:26,760 --> 00:04:30,500
+We then call that passing in an options object.
+
+70
+00:04:30,630 --> 00:04:32,650
+We set up the mutation property.
+
+71
+00:04:32,760 --> 00:04:36,200
+And in this case we have the longan mutation up above.
+
+72
+00:04:36,210 --> 00:04:40,830
+The question now is how do we make sure this code throws an error.
+
+73
+00:04:41,070 --> 00:04:44,170
+Well the first thing we have to do is use expect.
+
+74
+00:04:44,190 --> 00:04:51,160
+So down below I'm going to add a fresh call to expect and we pass to expect our promise.
+
+75
+00:04:51,180 --> 00:04:56,790
+So down below when we had regular synchronous code we passed in a standard function when we're working
+
+76
+00:04:56,790 --> 00:05:01,190
+with promises we actually take that promise and we pass that in.
+
+77
+00:05:01,590 --> 00:05:06,650
+Now from here we have to go ahead and use a new property that we haven't explored so far.
+
+78
+00:05:06,660 --> 00:05:12,850
+But we can learn about over in the expect documentation in the left hand excuse me right hand side bar.
+
+79
+00:05:12,960 --> 00:05:19,440
+We have two properties resolves and rejects that allow us to work with promises and expect which is
+
+80
+00:05:19,440 --> 00:05:21,050
+exactly what we're doing.
+
+81
+00:05:21,090 --> 00:05:24,280
+We can go ahead and check out resolves first right here.
+
+82
+00:05:24,350 --> 00:05:30,060
+Bev a little assertion that this promise that immediately resolves the string Lemon.
+
+83
+00:05:30,060 --> 00:05:36,210
+They then use the resolves property to extract the value off that promise and they make an assertion
+
+84
+00:05:36,210 --> 00:05:37,260
+about what it is.
+
+85
+00:05:37,260 --> 00:05:38,910
+In this case checking that it's the string.
+
+86
+00:05:38,910 --> 00:05:44,970
+LEMON The same thing is true but in the opposite direction with rejects here we can use the rejects
+
+87
+00:05:45,450 --> 00:05:51,420
+property on and expect call where a promise has been passed in and we can make sure that it throws an
+
+88
+00:05:51,420 --> 00:05:54,770
+error by chaining on a call to to throw.
+
+89
+00:05:54,780 --> 00:05:59,340
+Now in this case they're making an assertion about the explicit error by passing that in.
+
+90
+00:05:59,400 --> 00:06:04,230
+That's not necessary though we can leave that off and just ensure that an error is thrown.
+
+91
+00:06:04,470 --> 00:06:07,180
+Let's go ahead and actually knock that out in our code.
+
+92
+00:06:07,230 --> 00:06:14,010
+So right here instead of using to throw right away like we might have in the past we're going to go
+
+93
+00:06:14,010 --> 00:06:15,960
+ahead and start with rejects.
+
+94
+00:06:15,960 --> 00:06:21,030
+Since we're working with a promise we are indeed passing a promise in we have to use Regex.
+
+95
+00:06:21,030 --> 00:06:23,360
+Then we can use to throw.
+
+96
+00:06:23,370 --> 00:06:27,360
+Now it's important to remember that this is all an asynchronous operation.
+
+97
+00:06:27,420 --> 00:06:32,340
+The testing suite has to communicate with our graphs well at which has to communicate with the database
+
+98
+00:06:32,370 --> 00:06:34,730
+that takes time and is not synchronous.
+
+99
+00:06:34,830 --> 00:06:40,830
+Now to make sure that we actually wait for the operation to complete we toss a wait up front.
+
+100
+00:06:40,860 --> 00:06:45,780
+Now we can remove our little dummy example down below and actually test things out.
+
+101
+00:06:45,810 --> 00:06:51,030
+If you have a hard time reading a line like this you can always take the promise and break that out
+
+102
+00:06:51,120 --> 00:06:52,240
+onto its own line.
+
+103
+00:06:52,350 --> 00:06:54,840
+So right after the parentheses for expect.
+
+104
+00:06:54,840 --> 00:06:56,940
+And right before the closing parentheses.
+
+105
+00:06:57,030 --> 00:07:00,780
+I'll add new lines and we end up with something that looks like the following.
+
+106
+00:07:00,780 --> 00:07:02,430
+A bit easier to read.
+
+107
+00:07:02,730 --> 00:07:05,400
+Let's go ahead and save the file to fire this off.
+
+108
+00:07:05,550 --> 00:07:10,830
+We can see what happens now right here the test suite is running in what do we get.
+
+109
+00:07:10,830 --> 00:07:17,880
+We have 4 passing test cases which means that this code did indeed throw an error.
+
+110
+00:07:17,880 --> 00:07:19,760
+Now what if the credentials were good.
+
+111
+00:07:19,770 --> 00:07:23,310
+What if we actually used gen's credentials from up above.
+
+112
+00:07:23,370 --> 00:07:25,220
+In that case things would work.
+
+113
+00:07:25,230 --> 00:07:30,420
+I can memorize or email but I am going to copy her password since that's a bit long and we're actually
+
+114
+00:07:30,420 --> 00:07:33,410
+going to try to log in with these down below.
+
+115
+00:07:34,930 --> 00:07:36,920
+We have our loggin test.
+
+116
+00:07:37,000 --> 00:07:42,520
+I'm going to swap Jeff at example dot com out for Jen at example dot com.
+
+117
+00:07:42,520 --> 00:07:45,760
+Then I'm going to use gen's password in this case.
+
+118
+00:07:45,880 --> 00:07:50,590
+The mutation should not throw an error but we are expecting it to throw an error.
+
+119
+00:07:50,650 --> 00:07:55,260
+So the test case should fail right here the test suite is going to rerun again.
+
+120
+00:07:55,270 --> 00:07:58,620
+I would expect to have 3 passing tests and one failing one.
+
+121
+00:07:58,630 --> 00:08:01,510
+That is exactly what we get up above.
+
+122
+00:08:01,510 --> 00:08:04,890
+We expected to code to throw an error but it did not.
+
+123
+00:08:04,900 --> 00:08:08,620
+And down below it showing the payload with our token coming back.
+
+124
+00:08:08,620 --> 00:08:14,710
+Now if we were to mess up just a single character like changing uppercase r to lower case our we would
+
+125
+00:08:14,710 --> 00:08:19,760
+be back to our working test case and that is exactly what we want in the end of the day.
+
+126
+00:08:20,050 --> 00:08:25,750
+So let's take a quick moment to recap we can assert that a promise throws an error by passing that promise
+
+127
+00:08:25,750 --> 00:08:26,860
+to expect.
+
+128
+00:08:26,860 --> 00:08:33,840
+We then use dot rejects to throw tossing away up front waiting for the operation to actually complete.
+
+129
+00:08:33,880 --> 00:08:39,220
+You're going to use the exact same technique to write a new test case as your challenge for this video.
+
+130
+00:08:39,310 --> 00:08:41,950
+Right here there are four steps for getting that done.
+
+131
+00:08:41,950 --> 00:08:46,150
+Big picture goal test that you can't sign up with a short password.
+
+132
+00:08:46,150 --> 00:08:49,290
+So in this case we'll be using the create user mutation again.
+
+133
+00:08:49,390 --> 00:08:54,300
+But with bad data step 1 create that barebones test case step 2.
+
+134
+00:08:54,310 --> 00:08:57,580
+Set up the operation with the bad data.
+
+135
+00:08:57,580 --> 00:09:03,280
+Making sure the password is shorter than the requirements so make it something like 6 characters long.
+
+136
+00:09:03,280 --> 00:09:08,890
+Next up you're going to fire off the mutation and expect the promise to throw an error using similar
+
+137
+00:09:08,890 --> 00:09:10,500
+code to what we did here.
+
+138
+00:09:10,510 --> 00:09:16,210
+And finally you're going to test your work ensuring that you now have a fifth passing test case.
+
+139
+00:09:16,270 --> 00:09:20,070
+All right take as much time as you need to knock that one out.
+
+140
+00:09:20,080 --> 00:09:23,270
+Test your work and when you're done come back and click play
+
+141
+00:09:27,070 --> 00:09:27,850
+How'd that go.
+
+142
+00:09:27,880 --> 00:09:30,680
+Let's go ahead and kick things off by calling test.
+
+143
+00:09:30,700 --> 00:09:31,390
+I'm going to do that.
+
+144
+00:09:31,390 --> 00:09:34,640
+Up above though down below would work fine as well.
+
+145
+00:09:34,660 --> 00:09:37,910
+Right here we'll be setting up a new test case.
+
+146
+00:09:38,130 --> 00:09:44,460
+We'll be using an asynchronous function and we can pick a name for this test something like should not
+
+147
+00:09:44,950 --> 00:09:50,360
+Sign-Up user with invalid password.
+
+148
+00:09:50,360 --> 00:09:51,330
+Perfect.
+
+149
+00:09:51,350 --> 00:09:57,380
+Now we can actually define the operation we're trying to perform which is indeed a create user a mutation.
+
+150
+00:09:57,500 --> 00:10:04,420
+I'll create a constant create user and let's set up that operation right here setting up our basic operation
+
+151
+00:10:04,430 --> 00:10:07,120
+this is indeed a mutation.
+
+152
+00:10:07,250 --> 00:10:12,620
+We'll be using the create user mutation which we've already used from a test case.
+
+153
+00:10:12,740 --> 00:10:14,800
+And in this case we are going to provide data.
+
+154
+00:10:14,840 --> 00:10:21,170
+Once again this time with some bad data focusing on that short password so name it we can use anything
+
+155
+00:10:21,170 --> 00:10:21,620
+we like.
+
+156
+00:10:21,620 --> 00:10:25,520
+I'll stick with my own personal information e-mail.
+
+157
+00:10:25,580 --> 00:10:29,570
+Once again I'll just use Andrew an example dot com.
+
+158
+00:10:29,630 --> 00:10:35,300
+And then finally password in this case I'm going to use something like Pass which is indeed too short
+
+159
+00:10:35,300 --> 00:10:39,000
+to be a valid password when it comes to the selection set.
+
+160
+00:10:39,020 --> 00:10:42,930
+It doesn't really matter what I grab I'll just grab the token that should come back.
+
+161
+00:10:43,040 --> 00:10:45,620
+If create user or to actually work.
+
+162
+00:10:45,620 --> 00:10:51,080
+Now we're going to use code similar to this to fire off the mutation and ensure it actually throws an
+
+163
+00:10:51,080 --> 00:10:51,680
+error.
+
+164
+00:10:51,680 --> 00:10:58,850
+So right here I am indeed going to await a call to expect we're going to pass our promise in right here
+
+165
+00:10:58,850 --> 00:11:01,500
+and I'm going to split this out onto multiple lines.
+
+166
+00:11:01,820 --> 00:11:08,680
+Client dot mutate passing in our options object and setting up that mutation property.
+
+167
+00:11:08,750 --> 00:11:12,620
+We have our mutation stored in the create user variable.
+
+168
+00:11:12,680 --> 00:11:17,660
+Next up down below we'll use dot rejects sends we're working with a promise we have to extract that
+
+169
+00:11:17,660 --> 00:11:23,540
+value then we'll use to throw to ensure it actually throws an error.
+
+170
+00:11:23,540 --> 00:11:24,550
+Excellent.
+
+171
+00:11:24,590 --> 00:11:28,510
+With this in place we have completed steps 1 2 and 3.
+
+172
+00:11:28,670 --> 00:11:30,820
+And step four is to just test our work.
+
+173
+00:11:30,820 --> 00:11:33,410
+So I'm going to remove the challenge comments.
+
+174
+00:11:33,530 --> 00:11:36,820
+I'm going to go ahead and save the user test file.
+
+175
+00:11:36,890 --> 00:11:37,560
+And down below.
+
+176
+00:11:37,610 --> 00:11:40,890
+We're going to see a fifth passing test case.
+
+177
+00:11:40,910 --> 00:11:46,790
+Well hopefully we do it right here we have just that should not Sign-Up user with invalid password is
+
+178
+00:11:46,790 --> 00:11:51,240
+indeed showing up at this point we have a pretty nice test suite.
+
+179
+00:11:51,260 --> 00:11:56,870
+We've made some really great progress in the next videos we're going to continue on focusing on testing
+
+180
+00:11:56,870 --> 00:12:03,200
+more complex code so far as an example we haven't tested subscriptions and we haven't tested any of
+
+181
+00:12:03,200 --> 00:12:06,170
+our operations that require authentication.
+
+182
+00:12:06,170 --> 00:12:09,710
+We're going to figure out all of that in more in the coming videos.
+
+183
+00:12:09,740 --> 00:12:11,840
+So let's continue on in the next one.
+

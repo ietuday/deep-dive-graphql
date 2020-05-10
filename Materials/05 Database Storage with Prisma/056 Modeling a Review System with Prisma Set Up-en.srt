@@ -1,0 +1,636 @@
+1
+00:00:00,180 --> 00:00:04,550
+It is a challenge time and in this video we're going to go through the setup process.
+
+2
+00:00:04,560 --> 00:00:06,260
+I'll describe what I'd like you to do.
+
+3
+00:00:06,280 --> 00:00:09,360
+And in the next video you're actually going to get it done.
+
+4
+00:00:09,480 --> 00:00:14,850
+Now don't skip through this video because I do still cover a few new pieces of information that are
+
+5
+00:00:14,850 --> 00:00:20,220
+going to be really important when it comes to getting this challenge done successfully in the end of
+
+6
+00:00:20,220 --> 00:00:27,630
+the day though the big picture goal is to create a new Prisma project and model the data for a different
+
+7
+00:00:27,630 --> 00:00:28,500
+application.
+
+8
+00:00:28,500 --> 00:00:33,510
+So instead of modeling what would be necessary for a blogging Web site you're going to end up modeling
+
+9
+00:00:33,540 --> 00:00:35,930
+what's needed for a review Web site.
+
+10
+00:00:36,000 --> 00:00:41,130
+So that could be a book review Web site that could be a computer his review website or a course Review
+
+11
+00:00:41,130 --> 00:00:46,200
+Web site and we'll dive deep into exactly what you should be modeling with the visualization which is
+
+12
+00:00:46,200 --> 00:00:47,980
+coming up in a few minutes.
+
+13
+00:00:48,090 --> 00:00:53,040
+For the moment what I want to do is set up that separate Prisma project because there are a few new
+
+14
+00:00:53,040 --> 00:00:58,020
+pieces of information that you're going to need to actually get that done to kick things off.
+
+15
+00:00:58,020 --> 00:01:01,230
+What I want to do is duplicate the Prisma directory.
+
+16
+00:01:01,440 --> 00:01:09,360
+Now if you install the duplicate action vs C extension you can actually right click the folder and use
+
+17
+00:01:09,360 --> 00:01:11,400
+duplicate file or directory.
+
+18
+00:01:11,400 --> 00:01:16,210
+Unfortunately Visual Studio code currently does not even have that feature built in.
+
+19
+00:01:16,230 --> 00:01:19,560
+Seems like a real missed opportunity for a basic feature.
+
+20
+00:01:19,710 --> 00:01:25,380
+I'm going to call this one something different like Prisma hyphen and I'll call this review Web site.
+
+21
+00:01:25,380 --> 00:01:26,760
+You could call it whatever you like.
+
+22
+00:01:26,940 --> 00:01:31,060
+And the end goal is to just have a copy of our Prisma directory.
+
+23
+00:01:31,080 --> 00:01:35,010
+This is the one that you're actually going to be modifying for the challenge.
+
+24
+00:01:35,010 --> 00:01:39,840
+So let's start things off by closing all of the open editors and we're going to crack open some of the
+
+25
+00:01:39,840 --> 00:01:45,360
+files in this directory and make a few changes before I set you off on your own to kick things off.
+
+26
+00:01:45,360 --> 00:01:50,010
+We're actually going to be deleting the Daker compose file in our new directory.
+
+27
+00:01:50,040 --> 00:01:56,580
+We only need a single Daker container running Prisma to deploy multiple Prisma projects to it so there
+
+28
+00:01:56,580 --> 00:02:02,670
+is no need to create a whole new container to actually get this completely separate project up and running.
+
+29
+00:02:02,670 --> 00:02:07,500
+That's nice because it means we can use the same database so there's no need to create a new database
+
+30
+00:02:07,500 --> 00:02:12,200
+and set up new connection details to configure this as a new project.
+
+31
+00:02:12,210 --> 00:02:18,110
+All we need to do is make a change to the end point value in Prisma dot wya.
+
+32
+00:02:18,120 --> 00:02:21,980
+Now our Prisma YAML configuration file in here.
+
+33
+00:02:22,050 --> 00:02:24,520
+We're going to be adding something on to the end.
+
+34
+00:02:24,660 --> 00:02:31,820
+Now when we deploy a Prisma project if we just have a u r l like this it ends up determining two things.
+
+35
+00:02:31,830 --> 00:02:38,730
+It ends up setting what's known as the service name to default and it sets the stage name to default.
+
+36
+00:02:38,730 --> 00:02:43,950
+This is actually why we see default default over here inside of PGE admin.
+
+37
+00:02:43,980 --> 00:02:48,940
+It is the default service and the default stage because none were provided.
+
+38
+00:02:49,020 --> 00:02:54,510
+In our Prisma YAML file we can go ahead and actually customize them now by default.
+
+39
+00:02:54,510 --> 00:03:00,090
+It's like having the following default forward slash default but we could change that to anything we
+
+40
+00:03:00,090 --> 00:03:00,750
+like.
+
+41
+00:03:00,750 --> 00:03:07,620
+So for our project maybe we have a dev stage maybe we have a test stage separate data store as we can
+
+42
+00:03:07,620 --> 00:03:13,920
+actually use for our purposes though what we're going to do is create a new service so when I say service.
+
+43
+00:03:13,920 --> 00:03:16,980
+Think of it like a new project we have our blog project.
+
+44
+00:03:16,980 --> 00:03:19,260
+We have our review Web site project.
+
+45
+00:03:19,260 --> 00:03:25,830
+So right here I'm going to call this reviews by giving it a name so forward slash reviews forward slash.
+
+46
+00:03:25,830 --> 00:03:29,410
+And for this stage we can indeed stick with default.
+
+47
+00:03:29,580 --> 00:03:34,800
+Now that we have this in place when we actually deploy in a little bit with Prisma deploy it'll be creating
+
+48
+00:03:34,800 --> 00:03:37,550
+a whole new space to store the reviews data.
+
+49
+00:03:37,620 --> 00:03:42,510
+That's not going to in any way conflict with the blog data we already have set up.
+
+50
+00:03:42,510 --> 00:03:44,900
+So once again this is the service name.
+
+51
+00:03:44,910 --> 00:03:46,630
+Think of it like the project name.
+
+52
+00:03:46,650 --> 00:03:48,300
+This is the stage name.
+
+53
+00:03:48,330 --> 00:03:51,650
+Both can be anything you like are completely arbitrary.
+
+54
+00:03:51,660 --> 00:03:56,160
+The only thing is if you don't pick any default is used for both.
+
+55
+00:03:56,160 --> 00:04:01,560
+So we are going to keep ours in place reviews as the service name and default as the stage name.
+
+56
+00:04:01,560 --> 00:04:06,430
+Now we don't have to make any changes to anything else in this file so we can save the Prisma why Amell
+
+57
+00:04:06,470 --> 00:04:07,190
+file.
+
+58
+00:04:07,230 --> 00:04:10,150
+And we're going to move into data model ZCom graph.
+
+59
+00:04:10,200 --> 00:04:14,650
+Which once again is just a duplicate of the data model we had before.
+
+60
+00:04:14,670 --> 00:04:18,450
+For the moment let's completely remove the comment and post type.
+
+61
+00:04:18,450 --> 00:04:21,800
+Those are not going to be a part of the new application we're creating.
+
+62
+00:04:21,930 --> 00:04:27,010
+And then what we're going to do is wipe everything from user except for ID.
+
+63
+00:04:27,120 --> 00:04:32,790
+So we are still going to have users in this new application as we well with most applications and users
+
+64
+00:04:32,790 --> 00:04:38,400
+are still going to have IDs so this will be our little dummy starter so we can actually deploy our project
+
+65
+00:04:38,400 --> 00:04:40,190
+and that's what we're going to do right now.
+
+66
+00:04:40,320 --> 00:04:44,250
+So I just want to show you how this deployment goes with that second project.
+
+67
+00:04:44,310 --> 00:04:47,160
+Then we'll talk about what exactly it's your job to do.
+
+68
+00:04:47,370 --> 00:04:53,310
+So right here down below all we're going to do is use CD dot dot to get out of the rectory and we're
+
+69
+00:04:53,310 --> 00:05:00,660
+going to go into our new folder using CD Prisma hyphen review hyphen a Web site from they're all we
+
+70
+00:05:00,660 --> 00:05:06,080
+do is run Prisma deploy exactly like we would of for the previous project.
+
+71
+00:05:06,090 --> 00:05:07,810
+This time though when we deploy.
+
+72
+00:05:07,980 --> 00:05:11,090
+It's going to be creating that brand new service here.
+
+73
+00:05:11,160 --> 00:05:16,650
+We can see the user has been created now and the end of the day the deployment went well and if we head
+
+74
+00:05:16,650 --> 00:05:24,000
+over to PGE Admin we can actually Right-Click schemas click refresh and you should see a new one showing
+
+75
+00:05:24,000 --> 00:05:27,800
+up down below we have reviews dollar sign default.
+
+76
+00:05:27,810 --> 00:05:31,380
+So this is the reviews service on our default stage.
+
+77
+00:05:31,380 --> 00:05:36,600
+This is a separate place where we're going to have all of the data for this review Web site application
+
+78
+00:05:36,600 --> 00:05:37,450
+down below.
+
+79
+00:05:37,470 --> 00:05:43,680
+We have our tables completely separate from the tables for the blogging application but all under the
+
+80
+00:05:43,680 --> 00:05:45,570
+exact same database.
+
+81
+00:05:45,570 --> 00:05:53,070
+Now you can access the graph API at the New You RL So that still localhost 4 4 6 6 Remember use your
+
+82
+00:05:53,070 --> 00:05:55,180
+IP if you've been using one so far.
+
+83
+00:05:55,230 --> 00:05:58,350
+If you're on Windows then it's forward slash.
+
+84
+00:05:58,350 --> 00:06:03,090
+Now if we wanted to get to our blogging API we could obviously use just this.
+
+85
+00:06:03,090 --> 00:06:04,530
+That's what we've done so far.
+
+86
+00:06:04,620 --> 00:06:08,780
+But we could also use default a forward slash default if we do this.
+
+87
+00:06:08,910 --> 00:06:12,150
+It's going to be just like we had before we open up the schema.
+
+88
+00:06:12,180 --> 00:06:13,140
+And what do we see.
+
+89
+00:06:13,140 --> 00:06:16,620
+We see things related to users posts and comments.
+
+90
+00:06:16,740 --> 00:06:23,910
+If we change up that you are Eldo to forward slash revues forward slash default this is going to bring
+
+91
+00:06:23,910 --> 00:06:25,090
+us to a graph.
+
+92
+00:06:25,090 --> 00:06:29,010
+Q Well playground instance that allows us to work with our new application.
+
+93
+00:06:29,010 --> 00:06:30,660
+So right here what do we have.
+
+94
+00:06:30,660 --> 00:06:36,420
+We just have information related to users since we just have users in the data model file.
+
+95
+00:06:36,420 --> 00:06:38,160
+All right that's enough set up.
+
+96
+00:06:38,250 --> 00:06:40,650
+Let's go ahead and talk about what I'd like you to do.
+
+97
+00:06:40,740 --> 00:06:43,260
+And I have a quick visualization for that.
+
+98
+00:06:43,260 --> 00:06:46,160
+All right let's go ahead and talk about exactly what I want you to do.
+
+99
+00:06:46,170 --> 00:06:49,980
+So right here we're going to go through the different types in the different fields we need in order
+
+100
+00:06:49,980 --> 00:06:51,420
+to get all of this done.
+
+101
+00:06:51,420 --> 00:06:56,070
+Now this is for a book review web site but you could also review something else maybe like vacation
+
+102
+00:06:56,070 --> 00:06:57,370
+destinations.
+
+103
+00:06:57,390 --> 00:07:00,000
+So the first type we need is for the thing we're reviewing.
+
+104
+00:07:00,000 --> 00:07:03,870
+In this case we're reviewing books so we're going to create a book type.
+
+105
+00:07:03,960 --> 00:07:05,690
+Now users leave reviews.
+
+106
+00:07:05,700 --> 00:07:07,950
+So we need a user type as well.
+
+107
+00:07:07,950 --> 00:07:13,410
+And the final type will end up creating is a review type which contains the actual review information.
+
+108
+00:07:13,740 --> 00:07:18,420
+Now for the book we're going to have some fields that make sense for a book I've picked for we need
+
+109
+00:07:18,420 --> 00:07:24,300
+an ID a title author and ISBN and we'll say that all of these fields are non nullable.
+
+110
+00:07:24,310 --> 00:07:26,960
+So you have to provide a value for all of them.
+
+111
+00:07:27,210 --> 00:07:28,920
+Next up we have the user type.
+
+112
+00:07:28,920 --> 00:07:30,630
+This one is going to be really simple.
+
+113
+00:07:30,630 --> 00:07:36,600
+All we need is an ID and a user name the user name for the person leaving that review.
+
+114
+00:07:36,600 --> 00:07:38,910
+Now you can make both of these non nullable as well.
+
+115
+00:07:38,910 --> 00:07:40,870
+You obviously have to have an ID.
+
+116
+00:07:40,920 --> 00:07:44,610
+And we're also going to say that you need to provide a user name.
+
+117
+00:07:44,610 --> 00:07:48,290
+Let's also go ahead and make that username unique.
+
+118
+00:07:48,300 --> 00:07:53,270
+Next up we have our review type the review type has a few fields of its own.
+
+119
+00:07:53,280 --> 00:07:54,680
+We're going to have ideas.
+
+120
+00:07:54,810 --> 00:07:59,460
+We're going to have text so you can leave a text review in and we're going to have ratings so you can
+
+121
+00:07:59,460 --> 00:08:03,330
+leave a rating anywhere from one to five stars.
+
+122
+00:08:03,360 --> 00:08:05,550
+So this will be stored as an integer.
+
+123
+00:08:05,610 --> 00:08:10,520
+You can make this non nullable So you have to provide a rating but you could choose to make the text
+
+124
+00:08:10,520 --> 00:08:12,030
+field completely optional.
+
+125
+00:08:12,030 --> 00:08:17,730
+It would be perfectly fine to leave a review like a five star rating without saying why.
+
+126
+00:08:17,790 --> 00:08:20,360
+Now there's also relationships between these types.
+
+127
+00:08:20,370 --> 00:08:26,850
+So we're going to have a relationship between book and review book is going to have a revues field which
+
+128
+00:08:26,850 --> 00:08:33,270
+links to all of the reviews made for that book and then review is going to have a book field which links
+
+129
+00:08:33,270 --> 00:08:35,330
+to the book that's being reviewed.
+
+130
+00:08:35,340 --> 00:08:41,310
+There's also going to be a relationship between the review type and the user type right year a review
+
+131
+00:08:41,310 --> 00:08:45,310
+is going to have an author property that points to the user who left the review.
+
+132
+00:08:45,450 --> 00:08:49,400
+And every user has a collection of reviews on the reviews field.
+
+133
+00:08:49,410 --> 00:08:53,340
+So if I have 16 reviews I could find them all there.
+
+134
+00:08:53,340 --> 00:08:56,250
+So the end of the day this is the data model we're working towards.
+
+135
+00:08:56,250 --> 00:08:59,980
+Now let's go through the steps necessary to actually get that done.
+
+136
+00:09:00,000 --> 00:09:03,930
+Once again the big picture goal model a review website using Prisma.
+
+137
+00:09:03,930 --> 00:09:08,700
+Step one we're going to define all of the types we talked about as well as their scalar fields.
+
+138
+00:09:08,700 --> 00:09:11,320
+All of that is happening in data model graphs.
+
+139
+00:09:11,370 --> 00:09:16,440
+Well from there you're going to configure the relationships between our types which we've outlined here
+
+140
+00:09:16,830 --> 00:09:21,380
+and we also want to customize the relation using at relation the directive.
+
+141
+00:09:21,510 --> 00:09:25,830
+If someone deletes a book it should do the reviews for that book.
+
+142
+00:09:25,890 --> 00:09:30,390
+If a user gets deleted it should delete all reviews left by that user.
+
+143
+00:09:30,390 --> 00:09:34,660
+So you want to make sure to set up that as well using one we learned a couple of videos ago.
+
+144
+00:09:34,950 --> 00:09:38,530
+From there you're going to deploy the application using Prisma deploy.
+
+145
+00:09:38,700 --> 00:09:41,220
+And the last step is to test things out.
+
+146
+00:09:41,220 --> 00:09:47,610
+So for this Web site to test things out I might one create a book then to create two users.
+
+147
+00:09:47,730 --> 00:09:52,230
+From there I would have each of the users leave a review on the book then I could fetch the data to
+
+148
+00:09:52,230 --> 00:09:58,410
+make sure everything is working well then I can test out my removals by deleting a user and ensuring
+
+149
+00:09:58,410 --> 00:10:03,730
+that its review gets deleted that I could delete a book and make sure the other review goes away.
+
+150
+00:10:03,910 --> 00:10:08,680
+So all of this is going to allow us to just test that the functionality is working as expected.
+
+151
+00:10:08,860 --> 00:10:10,870
+And there's no need to do this from javascript.
+
+152
+00:10:10,870 --> 00:10:12,750
+You can just knock this out from.
+
+153
+00:10:12,940 --> 00:10:19,390
+Playground itself the real goal of the challenge is for you to correctly set up the data model in data
+
+154
+00:10:19,390 --> 00:10:20,530
+model aircraft.
+
+155
+00:10:20,530 --> 00:10:22,180
+Q Well all right.
+
+156
+00:10:22,180 --> 00:10:23,890
+That is it for these set up.
+
+157
+00:10:23,890 --> 00:10:27,170
+The actual solution is coming up in the next video.
+
+158
+00:10:27,190 --> 00:10:29,050
+So take some time to knock this out.
+
+159
+00:10:29,110 --> 00:10:32,950
+Test your work and when you're done jump right in to the next lecture.
+

@@ -1,0 +1,508 @@
+1
+00:00:00,240 --> 00:00:05,960
+In this video we're going to finish our application refactoring by refactoring the resolvers object.
+
+2
+00:00:06,030 --> 00:00:12,360
+We're going to one break it out of this file and to break it up into many smaller files as opposed to
+
+3
+00:00:12,360 --> 00:00:13,750
+one or really long one.
+
+4
+00:00:13,770 --> 00:00:20,040
+Kind of like what we have already when we started refactoring in the last video the index database file
+
+5
+00:00:20,040 --> 00:00:22,800
+was sitting at about 320 lines of code.
+
+6
+00:00:22,830 --> 00:00:24,810
+We're currently at 192.
+
+7
+00:00:24,840 --> 00:00:28,270
+And by the end of this video we should be just shy of 20.
+
+8
+00:00:28,350 --> 00:00:33,470
+So we've made some pretty good progress so far but there's still a lot more progress to be made.
+
+9
+00:00:33,630 --> 00:00:37,420
+Now we're not going to be adding any more files into the source directory.
+
+10
+00:00:37,470 --> 00:00:40,090
+What we are going to do though is add a new folder.
+
+11
+00:00:40,140 --> 00:00:46,140
+This folder is going to be called resolvers and I'm creating a folder and not a file because I don't
+
+12
+00:00:46,140 --> 00:00:48,490
+want all of these to sit in the same location.
+
+13
+00:00:48,510 --> 00:00:54,470
+So instead we're going to have a resolvers folder and we're going to have files for each root property.
+
+14
+00:00:54,570 --> 00:00:57,420
+So I'm going to have a file where I just had my queries.
+
+15
+00:00:57,420 --> 00:01:01,230
+I'll have another file where I just have my mutations and down below.
+
+16
+00:01:01,230 --> 00:01:04,740
+We're going to have three more files one for post one for comment.
+
+17
+00:01:04,740 --> 00:01:10,490
+And finally one for user that's going to allow all of our files to stay nice and organized.
+
+18
+00:01:10,590 --> 00:01:13,700
+Preventing the bloat that we're currently suffering from.
+
+19
+00:01:13,830 --> 00:01:18,790
+Let's go ahead and kick things off by creating those five files in the resolvers folder.
+
+20
+00:01:18,840 --> 00:01:21,400
+So I'm going to add one called queery Dhananjay.
+
+21
+00:01:21,600 --> 00:01:25,050
+And this is a capital Q Just to match up with the property name.
+
+22
+00:01:25,140 --> 00:01:31,230
+It's not necessary to use a capital letter it's just a convention after resolvers we are going to add
+
+23
+00:01:31,230 --> 00:01:33,700
+one in for mutation so mutation.
+
+24
+00:01:33,750 --> 00:01:34,910
+J S.
+
+25
+00:01:34,980 --> 00:01:38,150
+Then we're going to add three for our three custom types.
+
+26
+00:01:38,220 --> 00:01:43,300
+So we have the user so user Dhananjay as we have the post.
+
+27
+00:01:43,320 --> 00:01:46,460
+So right here a Forth file Post dot J s.
+
+28
+00:01:46,590 --> 00:01:48,420
+And then finally we have the comments.
+
+29
+00:01:48,420 --> 00:01:50,750
+I'm going to add in just one more comment.
+
+30
+00:01:50,760 --> 00:01:51,550
+Dot J.
+
+31
+00:01:51,580 --> 00:01:53,120
+S awesome.
+
+32
+00:01:53,130 --> 00:01:58,140
+So now we have files for each of those root properties and what we're going to focus on is shifting
+
+33
+00:01:58,140 --> 00:02:01,790
+code away from index dot J S and into those files.
+
+34
+00:02:01,800 --> 00:02:04,420
+And let's go ahead and start with the first one right here.
+
+35
+00:02:04,500 --> 00:02:10,650
+The query object we need to do is take this object and move it over to the file we just created for
+
+36
+00:02:10,650 --> 00:02:11,270
+queries.
+
+37
+00:02:11,280 --> 00:02:16,040
+So right here I'm going to copy everything from the opening curly brace to the closing curly brace.
+
+38
+00:02:16,230 --> 00:02:21,420
+Actually instead of copying it I'm just going to cut it out and then I'm going to take it over to this
+
+39
+00:02:21,420 --> 00:02:23,620
+file and create a new object for it.
+
+40
+00:02:23,760 --> 00:02:27,300
+So right here Konst will create a new variable query.
+
+41
+00:02:27,300 --> 00:02:30,840
+I'll set it equal to and then all I have to do is paste in the object.
+
+42
+00:02:30,840 --> 00:02:32,080
+I just cut out.
+
+43
+00:02:32,310 --> 00:02:37,860
+So now we have a file that defines a single variable queery which is the object with all of the actual
+
+44
+00:02:37,860 --> 00:02:40,360
+query methods we need from here.
+
+45
+00:02:40,360 --> 00:02:44,160
+All we need to do is export that as the default export.
+
+46
+00:02:44,280 --> 00:02:50,530
+So that is going to be export in our curly braces exporting query as the default.
+
+47
+00:02:50,540 --> 00:02:51,460
+And there we go.
+
+48
+00:02:51,510 --> 00:02:54,380
+We are done with queery dot J ass.
+
+49
+00:02:54,420 --> 00:02:56,800
+Now we'll talk about how to load this in in a second.
+
+50
+00:02:56,820 --> 00:02:59,050
+But currently it needs nothing else.
+
+51
+00:02:59,130 --> 00:03:04,500
+I don't need to import anything and because it doesn't require any of those third party modules over
+
+52
+00:03:04,490 --> 00:03:05,850
+here what did we have.
+
+53
+00:03:05,910 --> 00:03:10,120
+We had D-B which is not needed because it's accessed via the context.
+
+54
+00:03:10,230 --> 00:03:15,030
+We don't need the ID library that was mainly used for our creation.
+
+55
+00:03:15,030 --> 00:03:21,120
+Mutations and graphical server is also not necessary since we're not actually creating a server over
+
+56
+00:03:21,120 --> 00:03:21,840
+here.
+
+57
+00:03:21,840 --> 00:03:28,080
+So this file is done and now we can go through a similar though not quite identical process for our
+
+58
+00:03:28,140 --> 00:03:30,190
+other four files.
+
+59
+00:03:30,240 --> 00:03:35,870
+I'm going to save this one over an index just as I am temporarily going to delete this line.
+
+60
+00:03:36,090 --> 00:03:41,160
+And we're going to move down to the mutation so our mutation object is a bit longer but we're still
+
+61
+00:03:41,160 --> 00:03:42,840
+going to take that.
+
+62
+00:03:42,990 --> 00:03:50,610
+I'm going to cut out the entire object then I'm going to move over to our mutation jast file and create
+
+63
+00:03:50,610 --> 00:03:52,400
+a new variable for it counts.
+
+64
+00:03:52,410 --> 00:03:54,630
+Mutation setting is equal to the object.
+
+65
+00:03:54,630 --> 00:03:59,000
+I just cut out once again we are going to export this as the default.
+
+66
+00:03:59,010 --> 00:04:04,340
+So export in curly braces mutation as default.
+
+67
+00:04:04,380 --> 00:04:10,230
+Now do we need any of our imports for this one and the answer is yes indexed at J S.
+
+68
+00:04:10,230 --> 00:04:14,580
+The only time we were actually using you you ID before was in our mutations.
+
+69
+00:04:14,580 --> 00:04:18,550
+So this line no longer serves a purpose in this file.
+
+70
+00:04:18,570 --> 00:04:24,930
+I can cut it out of index dot J S and I can add it in to mutation and Dot J s up at the top.
+
+71
+00:04:24,960 --> 00:04:27,750
+So now a mutation that J S has everything it needs.
+
+72
+00:04:27,750 --> 00:04:34,050
+Just this one library and we can move on to our other three files all of which are much simpler.
+
+73
+00:04:34,050 --> 00:04:40,110
+Once again I am going to temporarily remove the mutation property and we will shift our attention towards
+
+74
+00:04:40,110 --> 00:04:42,930
+Osca with user next so we have the user file.
+
+75
+00:04:42,930 --> 00:04:44,610
+We're going to need that user object.
+
+76
+00:04:44,610 --> 00:04:46,460
+I'm going to cut it out.
+
+77
+00:04:46,680 --> 00:04:48,710
+Then over inside of user Dom J S.
+
+78
+00:04:48,720 --> 00:04:50,220
+I'm going to create a variable for it.
+
+79
+00:04:50,220 --> 00:04:52,610
+Konst user equals that object.
+
+80
+00:04:52,830 --> 00:04:58,570
+And finally I will export it export user as default.
+
+81
+00:04:58,630 --> 00:05:02,650
+We're going to wrap this up by doing the same thing for other two files.
+
+82
+00:05:02,650 --> 00:05:05,920
+I'll delete the user property and we can focus on comment.
+
+83
+00:05:05,950 --> 00:05:13,240
+I will cut that object out bring it over to comment that J S create a new variable for it called comment
+
+84
+00:05:13,620 --> 00:05:22,060
+said that variable equal to the object and then export it export we're going to export comment as default
+
+85
+00:05:22,450 --> 00:05:26,890
+and then finally the last one we have to shift around is post.
+
+86
+00:05:26,920 --> 00:05:30,850
+So right here I'm going to grab that post object.
+
+87
+00:05:30,850 --> 00:05:36,370
+I'm going to remove all of the object properties for resolvers and then over here where we have post
+
+88
+00:05:36,430 --> 00:05:44,770
+we will create a variable for Konst post set it equal to that object and export the object export post
+
+89
+00:05:44,950 --> 00:05:46,380
+as default.
+
+90
+00:05:46,600 --> 00:05:50,980
+So now we have all of our objects set up in these other files.
+
+91
+00:05:51,010 --> 00:05:53,100
+What we need to do is bring them all together.
+
+92
+00:05:53,140 --> 00:05:56,240
+Right here now let's go ahead and actually knock that out.
+
+93
+00:05:56,260 --> 00:06:02,680
+By adding a few inport statements into the mix up above we're going to go ahead and import all five
+
+94
+00:06:02,680 --> 00:06:03,310
+of those.
+
+95
+00:06:03,310 --> 00:06:06,660
+I am going to start by importing my query.
+
+96
+00:06:06,880 --> 00:06:12,610
+That is the default export called query from right here daat forward slash.
+
+97
+00:06:12,610 --> 00:06:18,170
+We have to go into the resolvers folder and in there we have queery J atts.
+
+98
+00:06:18,280 --> 00:06:18,920
+So there we go.
+
+99
+00:06:18,970 --> 00:06:20,530
+We have queries set up.
+
+100
+00:06:20,530 --> 00:06:22,950
+We can do the same thing for the other five.
+
+101
+00:06:22,960 --> 00:06:27,900
+Next up import nutation from.
+
+102
+00:06:28,010 --> 00:06:29,260
+We have that path too.
+
+103
+00:06:29,420 --> 00:06:36,530
+That is forward slash resolvers forward slash mutation then we're going to grab user post and comment.
+
+104
+00:06:36,560 --> 00:06:45,290
+So inport user from Duck forward slash resolvers forward slash user uppercase you of course then we
+
+105
+00:06:45,290 --> 00:06:51,380
+have a post inport post from that forward slash resolvers forward slash post.
+
+106
+00:06:51,380 --> 00:06:53,290
+And finally we have comet.
+
+107
+00:06:53,390 --> 00:06:58,750
+So once again in porting something we're going to call it comment and we're going to grab it from at
+
+108
+00:06:58,770 --> 00:07:02,930
+DOT forward slash resolvers forward slash comment.
+
+109
+00:07:02,940 --> 00:07:08,670
+Now that we have all five of these defined we can actually use them right here so I can go ahead and
+
+110
+00:07:08,670 --> 00:07:16,270
+set that up or I can even just set them up down below so I could set resolvers equal to an object then
+
+111
+00:07:16,270 --> 00:07:22,320
+on this object I can set up query I can set up mutation.
+
+112
+00:07:22,470 --> 00:07:28,290
+I can go ahead and set up user post and finally comment and there we go.
+
+113
+00:07:28,500 --> 00:07:33,250
+We now have our resolvers broken out into their very own files.
+
+114
+00:07:33,360 --> 00:07:37,090
+Each one containing just one of the root properties we had.
+
+115
+00:07:37,290 --> 00:07:42,990
+If I go ahead and save index dot J s saving all of the other files of course our application is now
+
+116
+00:07:43,020 --> 00:07:44,460
+completely refactored.
+
+117
+00:07:44,490 --> 00:07:50,010
+Now index Dhananjay is a much more focused file it's focused just on bootstrapping our application.
+
+118
+00:07:50,040 --> 00:07:54,630
+It's not focused on actually defining things so we don't define our temporary data here.
+
+119
+00:07:54,690 --> 00:07:58,850
+We don't define our resolvers in this file and we don't define our schema.
+
+120
+00:07:58,860 --> 00:08:01,020
+Those are all defined in other files.
+
+121
+00:08:01,020 --> 00:08:06,780
+The goal of index j s is to just load those in and bootstrap our application.
+
+122
+00:08:06,780 --> 00:08:11,370
+So now that we have the new directory and structure in place what I want to do is continue on to the
+
+123
+00:08:11,370 --> 00:08:16,240
+next two videos where we're going to focus on mutations that update data.
+
+124
+00:08:16,260 --> 00:08:21,480
+So we want a way to update a user's e-mail or change the body of a post or change what we wrote in a
+
+125
+00:08:21,480 --> 00:08:27,450
+comment that we regret leaving regardless of what we want to update we can do all of that with mutations.
+
+126
+00:08:27,450 --> 00:08:30,710
+I'm excited to talk about how we can get that done in the next video.
+
+127
+00:08:30,780 --> 00:08:32,940
+So let's go ahead and jump right in.
+

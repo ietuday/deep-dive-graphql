@@ -1,0 +1,820 @@
+1
+00:00:00,240 --> 00:00:05,970
+In this video you're going to wrap up the conversion process for both the users query and for the Post's
+
+2
+00:00:06,000 --> 00:00:11,790
+query and to get this done all we have to do is learn how we can filter data using Prisma.
+
+3
+00:00:11,790 --> 00:00:18,210
+In the case of the users query we were previously allowing them to filter just by users that had a particular
+
+4
+00:00:18,210 --> 00:00:18,880
+name.
+
+5
+00:00:18,930 --> 00:00:21,380
+I want to restore support for that.
+
+6
+00:00:21,480 --> 00:00:27,390
+And then down below for posts we were allowing them to search for a specific piece of text either in
+
+7
+00:00:27,390 --> 00:00:33,210
+the title or the body and we returned just posts that actually contained that text.
+
+8
+00:00:33,210 --> 00:00:37,890
+So we're going to add all of those features back in now and the end of the day we're really going to
+
+9
+00:00:37,890 --> 00:00:41,370
+be doing is providing operation arguments to Prisma.
+
+10
+00:00:41,550 --> 00:00:47,270
+So we're really just going to be creating objects and passing them in for the operation arguments.
+
+11
+00:00:47,430 --> 00:00:50,400
+We're going to start this process together for users.
+
+12
+00:00:50,490 --> 00:00:53,960
+Then down below you'll go through the same process a bit later.
+
+13
+00:00:54,030 --> 00:00:58,500
+For posts to kick things off all we're going to do is create an empty object.
+
+14
+00:00:58,500 --> 00:00:59,990
+This will be our starting point.
+
+15
+00:01:00,000 --> 00:01:06,390
+So a new constant right here and I'll call it something like oph args which is short for Operation arguments.
+
+16
+00:01:06,570 --> 00:01:09,420
+And once again just an empty object to start.
+
+17
+00:01:09,420 --> 00:01:14,850
+This is the value that we're going to provide as the operation arguments for the users query as opposed
+
+18
+00:01:14,850 --> 00:01:17,460
+to currently providing nulls are right here.
+
+19
+00:01:17,460 --> 00:01:19,120
+Op ARX.
+
+20
+00:01:19,320 --> 00:01:24,360
+Now when we pass it an empty object it's just like passing in null which means that things are still
+
+21
+00:01:24,360 --> 00:01:26,600
+going to work as expected in this case.
+
+22
+00:01:26,700 --> 00:01:33,900
+We are still going to get all users back but we're going to do though is set up a series of conditional
+
+23
+00:01:33,900 --> 00:01:37,890
+statements to make changes to oph args over time.
+
+24
+00:01:37,890 --> 00:01:45,630
+For example if args don't queery exists you are going to modify oph args to actually use it.
+
+25
+00:01:45,630 --> 00:01:51,270
+So right here we can set up an if statement with our condition and our code block to run if that condition
+
+26
+00:01:51,480 --> 00:01:52,230
+passes.
+
+27
+00:01:52,380 --> 00:01:56,550
+And all we're going to do is check if args queery exists.
+
+28
+00:01:56,580 --> 00:02:03,530
+If it does this code is going to run and all we're going to do is change the structure of the object.
+
+29
+00:02:03,540 --> 00:02:08,310
+Now when it comes to learning which operation arguments you can actually provide you have to refer to
+
+30
+00:02:08,310 --> 00:02:11,300
+the schema us over engraft QOL playground.
+
+31
+00:02:11,310 --> 00:02:17,070
+All I'm going to do is crack open that schema tab and we're looking for the user's queries so up above
+
+32
+00:02:17,070 --> 00:02:22,330
+we have our users query right here we can see all of the arguments that users supports.
+
+33
+00:02:22,350 --> 00:02:25,300
+And it's a whole bunch we have wherefor filtering.
+
+34
+00:02:25,410 --> 00:02:31,970
+I have order by which allows us to sort alphabetically or by ID or by anything else like age.
+
+35
+00:02:32,160 --> 00:02:35,630
+And we have a few other arguments which are useful for pagination.
+
+36
+00:02:35,640 --> 00:02:42,960
+For the moment we are just focusing on where now where is of the type user where input as we can learn
+
+37
+00:02:42,960 --> 00:02:46,020
+more about what we provide for wear down below.
+
+38
+00:02:46,110 --> 00:02:53,580
+If I actually click this we're going to see that on this type there are about maybe 60 different fields
+
+39
+00:02:53,640 --> 00:02:54,960
+we can provide.
+
+40
+00:02:55,080 --> 00:03:00,510
+And you'll notice that all of these fields directly correlate with things that we set up specifically
+
+41
+00:03:00,540 --> 00:03:01,770
+for the user.
+
+42
+00:03:01,770 --> 00:03:08,400
+Right here I have about a dozen or so different ID related fields I can check if an ID matches exactly
+
+43
+00:03:08,430 --> 00:03:14,790
+or if an ID is not a match or if there is something in the ID or if the ID is less than less than or
+
+44
+00:03:14,790 --> 00:03:20,940
+equal to greater than or greater than equal to I can check if the ID contains particular text or starts
+
+45
+00:03:20,940 --> 00:03:21,830
+with something.
+
+46
+00:03:21,870 --> 00:03:26,020
+There are all sorts of fields we can provide that allow us to filter.
+
+47
+00:03:26,070 --> 00:03:28,270
+We have the same thing down below for name.
+
+48
+00:03:28,380 --> 00:03:35,230
+I can check if the name starts with a certain string or if the e-mail is not a different string.
+
+49
+00:03:35,460 --> 00:03:38,820
+So all of these are going to allow us to filter correctly.
+
+50
+00:03:39,090 --> 00:03:42,300
+Now for our purposes we're going to change the behavior slightly.
+
+51
+00:03:42,450 --> 00:03:50,090
+We are still going to take in that query argument and I am going to search both the name and the e-mail.
+
+52
+00:03:50,160 --> 00:03:53,780
+It either the name or the e-mail contains that string.
+
+53
+00:03:53,910 --> 00:03:59,370
+We're going to consider that user a match and they will be returned if the string you provide is not
+
+54
+00:03:59,430 --> 00:04:01,290
+anywhere in the name or the e-mail.
+
+55
+00:04:01,350 --> 00:04:05,820
+Then we will consider them to not be a match and you will not get them back.
+
+56
+00:04:06,060 --> 00:04:12,870
+So let's take this process of the first thing we're going to do is set up OP args where this itself
+
+57
+00:04:12,870 --> 00:04:18,170
+is equal to an object and we're going to start by looking at the name.
+
+58
+00:04:18,240 --> 00:04:24,000
+We're going to check if the name contains some other value and we already know how to do that in the
+
+59
+00:04:24,000 --> 00:04:27,780
+schema tab for a name we have name contains.
+
+60
+00:04:27,780 --> 00:04:29,380
+So right here what do we do.
+
+61
+00:04:29,520 --> 00:04:35,050
+I set up the value name underscore contain.
+
+62
+00:04:35,380 --> 00:04:40,870
+Now we can actually move on to the value for name contains which is just going to be our exact query.
+
+63
+00:04:40,870 --> 00:04:46,210
+So that is the string that was passed in we're going to check if the name contains that if it does great
+
+64
+00:04:46,510 --> 00:04:48,660
+if it doesn't that's OK too.
+
+65
+00:04:48,670 --> 00:04:52,650
+Now before we go on and add support for the e-mail let's just start here.
+
+66
+00:04:52,720 --> 00:04:57,820
+I'm going to save query J S and make sure things are working well so far.
+
+67
+00:04:57,820 --> 00:05:01,180
+Now we can switch over to graph Q and playground for node.
+
+68
+00:05:01,200 --> 00:05:01,510
+J.
+
+69
+00:05:01,510 --> 00:05:07,050
+S. and we could fire off the exact same operation we had before and we would get the exact same results.
+
+70
+00:05:07,060 --> 00:05:08,920
+So query is not required.
+
+71
+00:05:08,950 --> 00:05:14,400
+But now we can add it in and see how that influences the data that we get back right inside of here.
+
+72
+00:05:14,410 --> 00:05:16,150
+I am going to set up a query.
+
+73
+00:05:16,210 --> 00:05:18,720
+We know its value is a string when it's provided.
+
+74
+00:05:18,730 --> 00:05:22,750
+So right here we will provide a string and I'm going to start with something simple like the letter
+
+75
+00:05:22,810 --> 00:05:28,150
+r the letter R is indeed contained in names for all three users.
+
+76
+00:05:28,240 --> 00:05:32,320
+So if we fire this off I would expect to see all three users showing up right here.
+
+77
+00:05:32,320 --> 00:05:33,610
+They all do.
+
+78
+00:05:33,640 --> 00:05:39,100
+If I were to switch that over to something like Q Which is not in any of the users names I would expect
+
+79
+00:05:39,100 --> 00:05:42,310
+new users to come back and that is exactly what we get.
+
+80
+00:05:42,520 --> 00:05:49,270
+And if I were to try something like R E W which is indeed contained in Andrew I would expect just that
+
+81
+00:05:49,270 --> 00:05:53,920
+user to show up and right here that is exactly what we end up getting.
+
+82
+00:05:53,920 --> 00:06:01,440
+So as we've seen in the graph Cuil schema for Prisma there are all sorts of ways we can filter our data.
+
+83
+00:06:01,480 --> 00:06:06,520
+I could check if the name does not contain something or if the name ends with something.
+
+84
+00:06:06,520 --> 00:06:09,620
+All sorts of really useful techniques.
+
+85
+00:06:09,640 --> 00:06:14,070
+For now though we found the one that works for us with respect to name.
+
+86
+00:06:14,190 --> 00:06:20,140
+We want to do now though is also look at the email we're going to return a user if their name contains
+
+87
+00:06:20,140 --> 00:06:24,230
+a string or if their e-mail contains the string.
+
+88
+00:06:24,310 --> 00:06:30,190
+If we open up the schema Explorer and scroll to the top of the fields available on where we want to
+
+89
+00:06:30,190 --> 00:06:32,320
+explore the first two we have.
+
+90
+00:06:32,340 --> 00:06:39,640
+And and we have or these take an array of objects an array of the object we're seeing defined here user
+
+91
+00:06:39,700 --> 00:06:44,310
+where input and this is going to allow us to set up various conditional logic.
+
+92
+00:06:44,440 --> 00:06:49,130
+I could return a user if their name is something and their email is something else.
+
+93
+00:06:49,240 --> 00:06:55,120
+Or I could return a user if their name contains something or their email contains something and that's
+
+94
+00:06:55,120 --> 00:06:56,700
+what we're going to do.
+
+95
+00:06:56,710 --> 00:07:00,940
+So let's see how to use these in action down below inside of our editor.
+
+96
+00:07:00,940 --> 00:07:04,330
+We're going to start by wiping the aware object completely.
+
+97
+00:07:04,540 --> 00:07:09,760
+And we're going to set up the or property it is indeed an array of objects.
+
+98
+00:07:09,850 --> 00:07:12,760
+Let's go ahead and add our first object into the mix.
+
+99
+00:07:12,970 --> 00:07:20,470
+And for this object we provide exactly what we would have provided before I can set name underscore
+
+100
+00:07:20,500 --> 00:07:26,590
+contains equal to the value that was passed in args dot queery.
+
+101
+00:07:26,650 --> 00:07:27,850
+Awesome.
+
+102
+00:07:27,850 --> 00:07:31,820
+Now the other thing we want to look at is provided via a nother object.
+
+103
+00:07:31,840 --> 00:07:39,730
+So we need either this to be true or this to be true in this case we can check if their email contains
+
+104
+00:07:39,730 --> 00:07:41,350
+something and we're still on the check.
+
+105
+00:07:41,350 --> 00:07:44,550
+The same thing Argosy dot query.
+
+106
+00:07:44,650 --> 00:07:49,000
+So now we're going to get a user back if either of those actually end up passing.
+
+107
+00:07:49,000 --> 00:07:50,580
+Let's go ahead and save queery.
+
+108
+00:07:50,650 --> 00:07:50,920
+J.
+
+109
+00:07:50,920 --> 00:07:56,050
+S and test things out over at localhost 4000 we're going to play around with this.
+
+110
+00:07:56,050 --> 00:07:58,800
+Currently I have that little rou query string.
+
+111
+00:07:58,840 --> 00:08:03,970
+I'm going to remove it and fire off that operation just so I can view all of my data and I am going
+
+112
+00:08:03,970 --> 00:08:07,450
+to search for at example.
+
+113
+00:08:07,570 --> 00:08:13,470
+Now the name for none of these users contains an example but the email for all of them does.
+
+114
+00:08:13,600 --> 00:08:18,510
+So if I were to fire this off I would expect to see old data and that is exactly what we're getting.
+
+115
+00:08:18,580 --> 00:08:25,570
+Now if I were to try something else like an ad example dotcom that is only contained in this user right
+
+116
+00:08:25,600 --> 00:08:29,680
+here am at example matching up perfectly.
+
+117
+00:08:29,680 --> 00:08:31,810
+The other two users don't have that.
+
+118
+00:08:31,810 --> 00:08:35,980
+We have to add example and then down below we have to add example as well.
+
+119
+00:08:35,980 --> 00:08:42,070
+So if I find things off I would expect to just see that second user and that is exactly what I end up
+
+120
+00:08:42,070 --> 00:08:42,760
+getting.
+
+121
+00:08:42,760 --> 00:08:48,330
+So in this case as long as either of these are true the user gets returned.
+
+122
+00:08:48,550 --> 00:08:54,610
+Now if I were to flip that and use uppercase and D and we would see some different behavior in this
+
+123
+00:08:54,610 --> 00:08:58,990
+case we now need to find the string in both the name and the e-mail.
+
+124
+00:08:59,050 --> 00:09:01,770
+And that's not true for our current query.
+
+125
+00:09:01,810 --> 00:09:05,630
+While this user does have it in the email it is not in the name.
+
+126
+00:09:05,650 --> 00:09:09,360
+So if I were to fire things off we would get no data back.
+
+127
+00:09:09,370 --> 00:09:15,910
+So being able to play around with an ad or to perform filtering is super essential for getting our filters
+
+128
+00:09:15,910 --> 00:09:16,780
+in place.
+
+129
+00:09:16,840 --> 00:09:22,480
+But this one though we are going to switch it back to or since that's the behavior we actually want
+
+130
+00:09:22,660 --> 00:09:28,270
+when filtering users and now that we have this in place we can remove all of the old comments we had
+
+131
+00:09:28,270 --> 00:09:34,300
+down below since everything is wired up to work perfectly now it's up to you to do the same thing for
+
+132
+00:09:34,310 --> 00:09:35,650
+posts down below.
+
+133
+00:09:35,650 --> 00:09:39,400
+So up above I have a few comments describing what I'd like you to do.
+
+134
+00:09:39,470 --> 00:09:44,810
+And the big picture goal is to modify posts to support the query argument.
+
+135
+00:09:44,810 --> 00:09:47,870
+The Post's query already supports that argument.
+
+136
+00:09:47,870 --> 00:09:51,400
+You just need to actually use it down below in this function.
+
+137
+00:09:51,590 --> 00:09:55,370
+So step one set up an object for those operation arguments.
+
+138
+00:09:55,370 --> 00:10:01,790
+Step two if the queery argument is actually provided you want to modify that object setting it up.
+
+139
+00:10:01,880 --> 00:10:09,520
+So it only returns posts that have the string in either the hosts title or the hosts body.
+
+140
+00:10:09,680 --> 00:10:13,550
+So you can refer to the schema Explorer to figure out how to get that done.
+
+141
+00:10:13,580 --> 00:10:18,830
+For posts step three test your work so you can perform a few different queries and make sure you get
+
+142
+00:10:18,830 --> 00:10:20,430
+the correct values back.
+
+143
+00:10:20,450 --> 00:10:23,780
+You can provide no query and you should still get all of the posts.
+
+144
+00:10:23,870 --> 00:10:28,530
+Then you could provide a piece of text in either the title or body for a given post.
+
+145
+00:10:28,610 --> 00:10:31,670
+And you should see just those ones showing up all right.
+
+146
+00:10:31,670 --> 00:10:33,890
+Take as much time as you need to knock that one out.
+
+147
+00:10:33,890 --> 00:10:37,010
+Pause the video and when you're done come back and click play
+
+148
+00:10:41,050 --> 00:10:43,730
+how that go I'm going to kick things off with step one.
+
+149
+00:10:43,730 --> 00:10:48,510
+Down below we are going to create that object for those operation arguments.
+
+150
+00:10:48,530 --> 00:10:55,070
+So that would be something like Konst OP args setting it up as an object and then passing that in as
+
+151
+00:10:55,070 --> 00:10:57,040
+the first argument value.
+
+152
+00:10:57,050 --> 00:10:57,850
+So right here.
+
+153
+00:10:57,890 --> 00:10:59,510
+Op ARX.
+
+154
+00:10:59,630 --> 00:11:03,560
+Now we want to go ahead and check if the query argument was actually provided.
+
+155
+00:11:03,560 --> 00:11:10,100
+Once again using an if statement if args don't query exists we want to go ahead and actually change
+
+156
+00:11:10,310 --> 00:11:20,330
+a property on arx we want to change the ware property so OP Ark's dot where is now going to equal something
+
+157
+00:11:20,420 --> 00:11:26,570
+new that is going to be an object and this is where we're going to provide all of the filtering necessary.
+
+158
+00:11:26,570 --> 00:11:31,190
+Now you might be able to guess exactly what we're going to end up using based off of field names but
+
+159
+00:11:31,190 --> 00:11:35,360
+you could have also used the explorer to figure out exactly what supported.
+
+160
+00:11:35,360 --> 00:11:37,590
+So right here I have my posts query.
+
+161
+00:11:37,790 --> 00:11:43,030
+We also have a where argument post where input which is described down below.
+
+162
+00:11:43,190 --> 00:11:47,030
+And here we can see we have some of the same stuff like and and or.
+
+163
+00:11:47,030 --> 00:11:51,040
+And we also have various filters for all of the fields we have ID.
+
+164
+00:11:51,140 --> 00:11:58,070
+We have title we have body and we have published in this case we want to use both title and body.
+
+165
+00:11:58,100 --> 00:12:03,500
+I'm going to be using Title contains and I'm also going to be using body contain.
+
+166
+00:12:03,590 --> 00:12:06,950
+So let's switch over into the editor and actually get this done.
+
+167
+00:12:06,980 --> 00:12:12,710
+First up I will start with or I want to check if either of a title or the body contains this thing as
+
+168
+00:12:12,710 --> 00:12:14,490
+long as one do that's fine.
+
+169
+00:12:14,630 --> 00:12:18,360
+Right here we are going to set it up as an array of objects.
+
+170
+00:12:18,410 --> 00:12:23,560
+I'm going to go ahead and set up those two objects one for title and one for body right here.
+
+171
+00:12:23,570 --> 00:12:29,490
+I will use title underscore contains setting that equal to args dot queery.
+
+172
+00:12:29,540 --> 00:12:30,300
+Excellent.
+
+173
+00:12:30,440 --> 00:12:34,680
+And then down below I am going to use body underscore contains.
+
+174
+00:12:34,790 --> 00:12:39,300
+And for this one the value also comes from args dot query.
+
+175
+00:12:39,440 --> 00:12:40,180
+Awesome.
+
+176
+00:12:40,460 --> 00:12:43,070
+Now we can go ahead and actually test things out.
+
+177
+00:12:43,070 --> 00:12:49,300
+First up let me go ahead and delete all of the comments down below for the old version of this method.
+
+178
+00:12:49,440 --> 00:12:50,210
+And up above.
+
+179
+00:12:50,240 --> 00:12:54,950
+Also remove the challenge comments since we've knocked out hopefully successfully.
+
+180
+00:12:54,950 --> 00:12:56,870
+All three steps.
+
+181
+00:12:56,870 --> 00:13:03,720
+Now we can save queery dot J S and test our work over in localhost four thousand I have the Post's query
+
+182
+00:13:03,800 --> 00:13:04,940
+sitting right here.
+
+183
+00:13:05,120 --> 00:13:09,170
+And if I run things as we currently had them we still get our 1 post back.
+
+184
+00:13:09,200 --> 00:13:13,950
+Now if I go ahead and actually provide that argument we can make sure it filters correctly.
+
+185
+00:13:14,060 --> 00:13:15,040
+We have query.
+
+186
+00:13:15,290 --> 00:13:16,930
+Its value is a string.
+
+187
+00:13:17,060 --> 00:13:22,610
+And if I were to search for something like post I would expect this post to still show up since it is
+
+188
+00:13:22,610 --> 00:13:24,780
+contained in either the title or the body.
+
+189
+00:13:24,890 --> 00:13:27,820
+If I fire this off we do still get that post.
+
+190
+00:13:28,010 --> 00:13:32,480
+If I were to switch this over to something like that which is not contained in either field I would
+
+191
+00:13:32,480 --> 00:13:34,500
+expect to get no posts back.
+
+192
+00:13:34,640 --> 00:13:36,970
+And that is exactly what I get.
+
+193
+00:13:37,100 --> 00:13:37,960
+Perfect.
+
+194
+00:13:37,970 --> 00:13:43,880
+So now that we have this filtering in place for posts we're going to be able to easily search for posts
+
+195
+00:13:44,150 --> 00:13:49,250
+and that's great because that means on the user interface in either your mobile application or on the
+
+196
+00:13:49,250 --> 00:13:52,440
+browser you can have a text field for searching.
+
+197
+00:13:52,460 --> 00:13:54,020
+You can then just take that text.
+
+198
+00:13:54,050 --> 00:13:59,930
+Use it as the query argument and you'll be able to get just the data that actually matches what the
+
+199
+00:13:59,930 --> 00:14:01,270
+user wants to view.
+
+200
+00:14:01,280 --> 00:14:04,400
+Nothing more and nothing less.
+
+201
+00:14:04,400 --> 00:14:09,680
+Now that we have this in place we are all done for this video we have posts and users looking really
+
+202
+00:14:09,680 --> 00:14:10,780
+good so far.
+
+203
+00:14:10,880 --> 00:14:14,030
+We're going to continue on in this process in the next video.
+
+204
+00:14:14,030 --> 00:14:15,510
+I am excited to get to it.
+
+205
+00:14:15,530 --> 00:14:17,710
+So stay tuned and I'll see you soon.
+

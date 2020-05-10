@@ -1,0 +1,636 @@
+1
+00:00:00,270 --> 00:00:04,410
+In the last video you explore the basics of how subscriptions get set up.
+
+2
+00:00:04,410 --> 00:00:09,840
+But we did not explore a real world example in this video we are going to move on to a more real world
+
+3
+00:00:09,840 --> 00:00:15,240
+example of subscriptions and we're actually going to create two subscriptions that integrate with our
+
+4
+00:00:15,240 --> 00:00:16,820
+blogging application.
+
+5
+00:00:16,980 --> 00:00:21,300
+We're going to create one for subscribing to new comments on a particular post.
+
+6
+00:00:21,300 --> 00:00:25,370
+So you'll be able to get all of the comments as they're added in real time.
+
+7
+00:00:25,470 --> 00:00:30,420
+And you're going to create a second subscription allowing you to get new posts.
+
+8
+00:00:30,450 --> 00:00:35,910
+So whenever someone publishes a new post you'll be notified and you'll actually be able to do something
+
+9
+00:00:35,910 --> 00:00:40,950
+with that data like render it to the list of posts you're showing on the client.
+
+10
+00:00:41,010 --> 00:00:42,050
+So to take all of this off.
+
+11
+00:00:42,060 --> 00:00:44,970
+Let's go ahead and move in to schema data graph.
+
+12
+00:00:44,980 --> 00:00:50,150
+Q Well this is where we are going to set up one of those two subscriptions for the moment.
+
+13
+00:00:50,310 --> 00:00:56,550
+We're going to start with a subscription that allows you to subscribe to new comments for a post right
+
+14
+00:00:56,550 --> 00:00:57,110
+here.
+
+15
+00:00:57,150 --> 00:00:59,930
+We are going to call that one comment.
+
+16
+00:00:59,940 --> 00:01:05,330
+Now count return an individual number comment is going to return an individual comment.
+
+17
+00:01:05,340 --> 00:01:07,210
+The comment that was just created.
+
+18
+00:01:07,380 --> 00:01:12,520
+So we are going to use the comment object type as the value that comes back.
+
+19
+00:01:12,810 --> 00:01:18,510
+Now as I mentioned with a comment we are indeed going to take in an argument and the syntax for that
+
+20
+00:01:18,570 --> 00:01:24,630
+is going to be identical to the argument syntax for queries and for mutations we are going to take in
+
+21
+00:01:24,630 --> 00:01:30,750
+a single argument called post ID whose value is going to be required ID.
+
+22
+00:01:30,870 --> 00:01:35,650
+So in this case we are allowing you to subscribe to new comments for particular post.
+
+23
+00:01:35,730 --> 00:01:41,760
+You do have to provide the ID of the post you're trying to subscribe to now that we have this in place.
+
+24
+00:01:41,880 --> 00:01:48,040
+Our schema definition is actually all done for this first subscription and we can move in to subscription
+
+25
+00:01:48,090 --> 00:01:52,410
+data J S and start working on the resolver method.
+
+26
+00:01:52,410 --> 00:01:55,470
+So once again we have it count for our count subscription.
+
+27
+00:01:55,590 --> 00:02:01,950
+If we have a new comment subscription we're going to create a new comment object and comment is indeed
+
+28
+00:02:01,980 --> 00:02:05,940
+just an object and on there we add our subscribe method.
+
+29
+00:02:05,940 --> 00:02:11,270
+So right here we have subscribed and we have all of the same arguments we've come to expect.
+
+30
+00:02:11,360 --> 00:02:16,500
+We are going to have parent who are going to have args we are going to have context and we're going
+
+31
+00:02:16,500 --> 00:02:18,540
+to have info in here.
+
+32
+00:02:18,540 --> 00:02:25,170
+It's our job to one determine if that post actually exists and if it's published and then to return
+
+33
+00:02:25,170 --> 00:02:28,490
+an async iterator with a good channel name.
+
+34
+00:02:28,650 --> 00:02:31,740
+So let's talk about exactly how we can get both of those done.
+
+35
+00:02:31,740 --> 00:02:37,850
+First up verifying that the post ID is of a real published post that's pretty easy to write here.
+
+36
+00:02:37,950 --> 00:02:42,030
+All I'm going to do is structure args to get the data we have.
+
+37
+00:02:42,030 --> 00:02:48,590
+We just have one thing post ID and then we're going to set up a little system just like we did before.
+
+38
+00:02:48,600 --> 00:02:53,360
+I'm going to use find to try to find the post and then I'll throw an error if no post is found.
+
+39
+00:02:53,400 --> 00:02:56,320
+So Konst right here post equals.
+
+40
+00:02:56,520 --> 00:03:00,700
+I'm going to look over D-B Doc posts since I'm going to use D-B.
+
+41
+00:03:00,780 --> 00:03:03,280
+I will destructuring context right here.
+
+42
+00:03:03,300 --> 00:03:11,310
+Grabbing D-B perfect once again that is D-B dot posts dot find we are looking for posts that match the
+
+43
+00:03:11,310 --> 00:03:12,950
+following criteria.
+
+44
+00:03:12,960 --> 00:03:20,060
+First up the post ID needs to equal the posts ID that was actually passed in.
+
+45
+00:03:20,220 --> 00:03:25,680
+So here we are grabbing the id property off of the saved post and we're comparing it to the post ID
+
+46
+00:03:25,830 --> 00:03:28,800
+the argument provided to the comment subscription.
+
+47
+00:03:28,830 --> 00:03:34,740
+We also want to make sure it's published so we'll use the logical and operator looking at post.com published
+
+48
+00:03:34,830 --> 00:03:36,290
+to make sure it's true.
+
+49
+00:03:36,290 --> 00:03:39,630
+So right here post got published.
+
+50
+00:03:39,630 --> 00:03:41,870
+Now if we did not find anything will throw an error.
+
+51
+00:03:41,880 --> 00:03:45,730
+So if there is no post what are we going to do.
+
+52
+00:03:45,740 --> 00:03:51,890
+I'm going to throw a new error and what does provide an error message something along the lines of post
+
+53
+00:03:52,220 --> 00:03:53,860
+not found.
+
+54
+00:03:53,870 --> 00:03:59,030
+Now if there actually was a post that means you are good to go and you can actually subscribe to that
+
+55
+00:03:59,030 --> 00:04:00,350
+data right here.
+
+56
+00:04:00,350 --> 00:04:03,070
+We're going to set that up using the following.
+
+57
+00:04:03,120 --> 00:04:06,660
+We're just going to use pub sub Dom async iterator.
+
+58
+00:04:06,680 --> 00:04:12,920
+Once again I am going to deep structure pub sub off of the Context object just like I did for D-B.
+
+59
+00:04:12,920 --> 00:04:20,900
+Then down below we can return a call to pub sub Dom async iterator This allows us to once again provide
+
+60
+00:04:20,900 --> 00:04:22,260
+a channel name.
+
+61
+00:04:22,430 --> 00:04:26,350
+And in this case the channel name needs to contain that post ID.
+
+62
+00:04:26,480 --> 00:04:30,330
+I wanted channel specific to the comments for this post.
+
+63
+00:04:30,440 --> 00:04:34,920
+So something like comment Colan one where one is the post ID.
+
+64
+00:04:35,030 --> 00:04:40,970
+Or maybe you want to put it all in uppercase like it's a constant comment space followed by the post
+
+65
+00:04:40,970 --> 00:04:41,770
+ID.
+
+66
+00:04:41,780 --> 00:04:45,510
+There actually is no standard for what these channel names look like.
+
+67
+00:04:45,530 --> 00:04:51,920
+The only important thing is that you a pick a pattern and B stick with it throughout your entire application.
+
+68
+00:04:51,920 --> 00:04:56,900
+So I'm going to use a template string so I can easily inject that post ID and I'm just going to use
+
+69
+00:04:56,960 --> 00:04:59,910
+the actual subscription name and all lowercase.
+
+70
+00:05:00,230 --> 00:05:03,210
+Followed by the space followed by the post ID.
+
+71
+00:05:03,220 --> 00:05:10,640
+So right here I will inject that post ID so if the post ID was 44 the channel name would be the following
+
+72
+00:05:10,670 --> 00:05:12,270
+comment space 44.
+
+73
+00:05:12,290 --> 00:05:13,780
+Just like this.
+
+74
+00:05:13,790 --> 00:05:17,200
+Now this actually wraps up what we need to do in subscription.
+
+75
+00:05:17,300 --> 00:05:18,210
+J S.
+
+76
+00:05:18,230 --> 00:05:19,740
+This file is all done.
+
+77
+00:05:19,790 --> 00:05:25,190
+We first verify that the post exists then and we go ahead and actually return the async iterator which
+
+78
+00:05:25,190 --> 00:05:28,340
+allows the subscription to actually happen.
+
+79
+00:05:28,340 --> 00:05:33,960
+All we need to do is use pub sub dot publish in the correct moment.
+
+80
+00:05:33,980 --> 00:05:35,850
+Now when do comments get created.
+
+81
+00:05:35,960 --> 00:05:40,640
+Well comments get created over inside of our mutation database file.
+
+82
+00:05:40,670 --> 00:05:42,650
+We have the Create comment method.
+
+83
+00:05:42,650 --> 00:05:45,140
+This is exactly where comments get created.
+
+84
+00:05:45,200 --> 00:05:52,100
+So this is the best place to call pub sub dot publish since we are going to be calling the Publish method
+
+85
+00:05:52,130 --> 00:05:53,830
+on the pub sub object.
+
+86
+00:05:53,840 --> 00:05:58,050
+I am going to also DB structure that from the context object.
+
+87
+00:05:58,130 --> 00:05:59,450
+Now down below.
+
+88
+00:05:59,540 --> 00:06:06,670
+Let's say right after we push the comment onto the comments array we're going to call pub sub DUP publish
+
+89
+00:06:06,940 --> 00:06:08,320
+with the correct information.
+
+90
+00:06:08,320 --> 00:06:10,880
+Remember we have to provide those two arguments.
+
+91
+00:06:10,900 --> 00:06:16,780
+The first is the channel name and the second is the actual data for trying to publish.
+
+92
+00:06:16,780 --> 00:06:22,840
+Let's start with that first argument and once again the channel name is comment space followed by the
+
+93
+00:06:22,840 --> 00:06:24,220
+post ID.
+
+94
+00:06:24,220 --> 00:06:28,700
+Now we do have access to the post ID we've actually used it above args dot data.
+
+95
+00:06:28,710 --> 00:06:31,720
+That post is where we can access that value.
+
+96
+00:06:31,720 --> 00:06:34,330
+So right here we are just going to add that in.
+
+97
+00:06:34,330 --> 00:06:37,190
+That would be args data dot post.
+
+98
+00:06:37,240 --> 00:06:44,230
+Now the second argument is our object and on there we have to provide a value for the comment property
+
+99
+00:06:44,230 --> 00:06:44,540
+remember.
+
+100
+00:06:44,560 --> 00:06:50,350
+This matches up with the subscription name its value needs to be whatever we expected to come back right
+
+101
+00:06:50,350 --> 00:06:50,780
+here.
+
+102
+00:06:50,800 --> 00:06:55,990
+An instance of commet I mean actually already have that on the comment variable up above.
+
+103
+00:06:56,170 --> 00:07:00,100
+So we have a comment property with the value coming from a common variable.
+
+104
+00:07:00,130 --> 00:07:02,720
+We can just use the shorthand syntax for that.
+
+105
+00:07:02,980 --> 00:07:04,060
+And there we go.
+
+106
+00:07:04,060 --> 00:07:10,300
+We now have our comment subscription all set up and we can actually test this out over inside of graph.
+
+107
+00:07:10,450 --> 00:07:13,310
+Well now I am going to head over to DB Dhananjay.
+
+108
+00:07:13,310 --> 00:07:17,250
+Yes real quick and point out that we only have two published posts.
+
+109
+00:07:17,290 --> 00:07:22,890
+We can work with the post with an ID of 10 or the post with an ID of 12.
+
+110
+00:07:22,900 --> 00:07:24,520
+Those are two options.
+
+111
+00:07:24,520 --> 00:07:29,410
+So let's go ahead and head over to graft UL playground and actually test things out.
+
+112
+00:07:29,740 --> 00:07:34,240
+Now we could create a new tab but since the account subscription is going to get deleted shortly we
+
+113
+00:07:34,240 --> 00:07:37,300
+can actually just repurpose this one for our needs.
+
+114
+00:07:37,300 --> 00:07:42,310
+Right here I am going to remove count and replace it with comment and then we're going to set up the
+
+115
+00:07:42,310 --> 00:07:45,870
+one argument we know we need to pass in post ID.
+
+116
+00:07:46,000 --> 00:07:48,880
+We can use either the value 10 or 12.
+
+117
+00:07:48,880 --> 00:07:52,560
+Or you could create a new post and use its randomly generated ID.
+
+118
+00:07:52,570 --> 00:07:58,890
+I'll just stick with 10 for the moment and we know that comment sends a comment object back.
+
+119
+00:07:58,990 --> 00:08:04,310
+So we do have to provide a selection set determining what we want from each comment.
+
+120
+00:08:04,330 --> 00:08:07,270
+I'm going to say that I would like the comment ID.
+
+121
+00:08:07,300 --> 00:08:11,830
+I would also like the comment text and that also like a little bit of information about the author who
+
+122
+00:08:11,830 --> 00:08:12,860
+made the comment.
+
+123
+00:08:12,960 --> 00:08:19,860
+So right here I can grab the author asking for its ID and will say I'd also like the author name.
+
+124
+00:08:20,020 --> 00:08:20,840
+And there we go.
+
+125
+00:08:20,860 --> 00:08:23,380
+We now have our subscription all set up.
+
+126
+00:08:23,410 --> 00:08:28,450
+We can fire this off to allow it to start listening then we can create some new comments and make sure
+
+127
+00:08:28,450 --> 00:08:30,430
+that things react correctly.
+
+128
+00:08:30,430 --> 00:08:34,720
+I'm going to go ahead and fire this one off and we can see that it is indeed now listening.
+
+129
+00:08:34,720 --> 00:08:40,060
+And then we can move over to the tambour we can create comments and we can start creating some comments
+
+130
+00:08:40,480 --> 00:08:45,180
+now right here the data I already have in place does indeed work with post 10 which is great.
+
+131
+00:08:45,280 --> 00:08:49,150
+So you don't have to make any changes to the Create comment mutation.
+
+132
+00:08:49,150 --> 00:08:50,890
+We can go ahead and fire this one off.
+
+133
+00:08:50,980 --> 00:08:56,070
+We can see the new comment was created and we should have a notification about that over in our comment
+
+134
+00:08:56,080 --> 00:08:57,510
+subscription tab.
+
+135
+00:08:57,520 --> 00:08:59,170
+I'm going to click over to that one.
+
+136
+00:09:00,220 --> 00:09:05,990
+End right here we can see that we have indeed gotten just one notification about a new comment my new
+
+137
+00:09:06,000 --> 00:09:11,090
+comment with the idea that we just saw it generated and we also have our information about the author
+
+138
+00:09:11,100 --> 00:09:14,330
+we have the authors ID and the author's name.
+
+139
+00:09:14,460 --> 00:09:19,880
+Now in this case we are indeed seeing the data because the comment was made on post 10.
+
+140
+00:09:19,890 --> 00:09:24,530
+Let's go ahead and change the Create comment mutation to work with a different post.
+
+141
+00:09:24,540 --> 00:09:25,760
+Post 12.
+
+142
+00:09:25,820 --> 00:09:29,200
+So right here I'm going to change the post ID over to 12.
+
+143
+00:09:29,310 --> 00:09:34,920
+I'm going to fire that mutation off the comment was created and this time around we should not have
+
+144
+00:09:34,920 --> 00:09:36,810
+a notification about it.
+
+145
+00:09:36,810 --> 00:09:40,050
+If I click over to the subscription tab we should see nothing.
+
+146
+00:09:40,050 --> 00:09:47,250
+And we are seeing nothing because we did indeed create that comment on a post other than the one we
+
+147
+00:09:47,250 --> 00:09:48,840
+subscribed to.
+
+148
+00:09:48,870 --> 00:09:55,980
+Now one last test if I try to subscribe to post 11 things you should fail because post 11 is not published.
+
+149
+00:09:55,980 --> 00:10:00,600
+If I go ahead and try to create the subscription we can see that it crashes with the posts not found
+
+150
+00:10:00,600 --> 00:10:01,300
+error.
+
+151
+00:10:01,320 --> 00:10:02,020
+So there we go.
+
+152
+00:10:02,100 --> 00:10:07,980
+Everything is working really well so far allowing our clients to subscribe to new comments for particular
+
+153
+00:10:07,980 --> 00:10:13,950
+post later on in this section will also learn how we can subscribe to comment updates and comments being
+
+154
+00:10:13,950 --> 00:10:15,510
+removed as well.
+
+155
+00:10:15,510 --> 00:10:18,540
+But for the moment this is a great starting point.
+
+156
+00:10:18,540 --> 00:10:22,950
+That's where we're going to stop for this one in the next video which is a challenge video.
+
+157
+00:10:23,010 --> 00:10:28,710
+It's going to be up to you to use what you learned about subscriptions to create another subscription.
+
+158
+00:10:28,800 --> 00:10:30,150
+I'm excited to get to that.
+
+159
+00:10:30,150 --> 00:10:32,900
+So let's go ahead and jump right in to the next one.
+

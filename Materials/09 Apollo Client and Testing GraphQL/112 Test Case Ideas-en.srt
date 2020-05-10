@@ -1,0 +1,196 @@
+1
+00:00:00,270 --> 00:00:06,570
+You now know how to use Appollo client to fire off subscriptions queries and mutations and you also
+
+2
+00:00:06,570 --> 00:00:09,070
+know how to use geste to test your graph.
+
+3
+00:00:09,170 --> 00:00:14,490
+Well code now there are more test cases we could write based off of what we already know.
+
+4
+00:00:14,490 --> 00:00:20,460
+For example I can make sure that I can create a new comment when I'm authenticated and that I can't
+
+5
+00:00:20,460 --> 00:00:23,310
+create a new comment when I'm not authenticated.
+
+6
+00:00:23,310 --> 00:00:29,160
+Doing that would use techniques we're already familiar with and we've already gotten practice with instead
+
+7
+00:00:29,160 --> 00:00:32,630
+of creating 10 more videos to cover these test cases.
+
+8
+00:00:32,640 --> 00:00:38,220
+I'm going to create just this one and provide you with a list of additional tests you could write to
+
+9
+00:00:38,220 --> 00:00:40,990
+get more experience based off of what you already know.
+
+10
+00:00:41,010 --> 00:00:48,620
+You can find this list by heading over to the browser and going to links dummied dot I O forward slash
+
+11
+00:00:48,630 --> 00:00:55,290
+test ideas and all of the tests listed here are things you can already create using what you already
+
+12
+00:00:55,290 --> 00:00:55,870
+know.
+
+13
+00:00:55,890 --> 00:00:59,740
+There's no test here you can't write with the information covered in this section.
+
+14
+00:00:59,790 --> 00:01:04,800
+I have a little section for user post and comment related test cases.
+
+15
+00:01:04,800 --> 00:01:07,080
+Let's quickly go through the list and then we'll be done.
+
+16
+00:01:07,170 --> 00:01:12,510
+If for user we have some pretty basic ones should not sign up a user with an email that's already in
+
+17
+00:01:12,510 --> 00:01:13,170
+use.
+
+18
+00:01:13,200 --> 00:01:17,680
+So we want to sign up as a user using the same e-mail as a test database user.
+
+19
+00:01:17,680 --> 00:01:18,650
+It should fail.
+
+20
+00:01:18,720 --> 00:01:24,000
+We're going to expect it to throw an error then it should log in and provide authentication token.
+
+21
+00:01:24,000 --> 00:01:30,360
+In this case we will use the loggin mutation with valid credentials one of our test database users and
+
+22
+00:01:30,360 --> 00:01:32,070
+we'll ensure that it goes well.
+
+23
+00:01:32,070 --> 00:01:38,520
+It doesn't throw an error then we should reject me query without authentication and should hide emails
+
+24
+00:01:38,790 --> 00:01:40,380
+when fetching the list of users.
+
+25
+00:01:40,380 --> 00:01:44,880
+Remember that email field is hidden from the public eye.
+
+26
+00:01:45,030 --> 00:01:50,760
+Down below we have post should not be able to update another users post along with it should not be
+
+27
+00:01:50,760 --> 00:01:53,820
+able to delete another user's post.
+
+28
+00:01:53,820 --> 00:02:00,360
+From there we have it should require authentication to create a post and this could be a test case for
+
+29
+00:02:00,390 --> 00:02:07,020
+updating and deleting as well checking that those require authentication to Dambulla that should fetch
+
+30
+00:02:07,080 --> 00:02:09,280
+published post by ID.
+
+31
+00:02:09,390 --> 00:02:13,900
+So I should be able to fetch a published post even if I'm not authenticated.
+
+32
+00:02:14,130 --> 00:02:15,080
+Then it should fetch.
+
+33
+00:02:15,090 --> 00:02:16,700
+Own post by ID.
+
+34
+00:02:16,770 --> 00:02:23,190
+So if I am authenticated I should be able to fetch something like a draft post that I own and last up.
+
+35
+00:02:23,190 --> 00:02:27,550
+Another idea should not fetch draft post from another user.
+
+36
+00:02:27,650 --> 00:02:28,990
+Dambulla we have comment.
+
+37
+00:02:29,010 --> 00:02:29,750
+It should fetch.
+
+38
+00:02:29,760 --> 00:02:32,690
+Post comments should create a new comment.
+
+39
+00:02:32,790 --> 00:02:35,460
+Should not create a comment on a draft post.
+
+40
+00:02:35,640 --> 00:02:39,870
+Should update comment should not update another user's comment.
+
+41
+00:02:39,870 --> 00:02:42,240
+Should not delete another user's comment.
+
+42
+00:02:42,240 --> 00:02:49,170
+And finally you could add three test cases making sure that authentication is required when adding updating
+
+43
+00:02:49,200 --> 00:02:50,790
+and deleting a comment.
+
+44
+00:02:50,910 --> 00:02:54,000
+So you already know what you need in order to get all of this done.
+
+45
+00:02:54,000 --> 00:02:59,490
+It was all covered in the section and this is more optional than anything if you want a bit more experience
+
+46
+00:02:59,490 --> 00:03:00,770
+writing tests.
+
+47
+00:03:00,780 --> 00:03:03,800
+This is a great list to get started with.
+
+48
+00:03:03,810 --> 00:03:06,040
+All right that is it for this one.
+
+49
+00:03:06,150 --> 00:03:08,420
+Let's go ahead and jump into the next one.
+

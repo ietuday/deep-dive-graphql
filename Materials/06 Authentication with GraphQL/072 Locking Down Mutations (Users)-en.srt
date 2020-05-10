@@ -1,0 +1,812 @@
+1
+00:00:00,190 --> 00:00:03,630
+It now that are create post mutation is all locked down.
+
+2
+00:00:03,630 --> 00:00:09,960
+We've already done all of the heavy lifting necessary to set up our authentication scheme actually integrating
+
+3
+00:00:09,960 --> 00:00:16,300
+this same scheme into other mutations or queries or subscriptions is going to be a super easy process.
+
+4
+00:00:16,320 --> 00:00:18,290
+We already have everything in place.
+
+5
+00:00:18,330 --> 00:00:21,900
+We really just need to add a few lines of code for each.
+
+6
+00:00:21,900 --> 00:00:24,540
+Now we're going to start together and then there will be challenges.
+
+7
+00:00:24,540 --> 00:00:27,610
+Will you have to do this on your own and to start.
+
+8
+00:00:27,650 --> 00:00:30,750
+We're going to make some changes to update user.
+
+9
+00:00:30,750 --> 00:00:36,750
+Now if I go to schema and graph Google and scroll up to our update user mutation we can see that it
+
+10
+00:00:36,750 --> 00:00:43,620
+takes in two arguments it takes in the ID of the user to update and it also takes in the data the actual
+
+11
+00:00:43,650 --> 00:00:44,160
+updates.
+
+12
+00:00:44,160 --> 00:00:49,780
+We want to make when we integrate authentication you're not going to be able to upgrade any old user.
+
+13
+00:00:49,800 --> 00:00:52,280
+You're only going to be able to upgrade yourself.
+
+14
+00:00:52,290 --> 00:00:56,800
+Now we know your idea because we have the token which has your ID embedded.
+
+15
+00:00:56,940 --> 00:01:02,490
+So it's no longer necessary to pass the ID argument in to update a user.
+
+16
+00:01:02,490 --> 00:01:07,980
+All we need is your authentication token and the data you actually want to change because once again
+
+17
+00:01:08,160 --> 00:01:09,970
+you can only update yourself.
+
+18
+00:01:10,050 --> 00:01:12,190
+At least that's how we're setting it up.
+
+19
+00:01:12,240 --> 00:01:18,000
+So I'm going to save this schema graphics well with that ID argument are removed and over inside of
+
+20
+00:01:18,000 --> 00:01:18,900
+mutation.
+
+21
+00:01:18,920 --> 00:01:19,260
+J.
+
+22
+00:01:19,270 --> 00:01:22,970
+S. we're going to be switching things up a little bit from the context.
+
+23
+00:01:22,980 --> 00:01:30,190
+We are also going to grab a request like we did down below or right here and once we have a request
+
+24
+00:01:30,190 --> 00:01:32,040
+we are going to actually use it.
+
+25
+00:01:32,110 --> 00:01:35,250
+We are going to call get user ID once again.
+
+26
+00:01:35,260 --> 00:01:40,150
+So right here Konst user ID equals get user ID.
+
+27
+00:01:40,150 --> 00:01:45,040
+We're going to call this anywhere we actually want to force authentication and we know that we will
+
+28
+00:01:45,040 --> 00:01:51,140
+either have an error thrown if the user isn't authenticated or we'll get an I.D. back if they are.
+
+29
+00:01:51,220 --> 00:01:56,590
+So right here we would expect that if we are still running code in this function that we do indeed have
+
+30
+00:01:56,590 --> 00:01:58,110
+a user ID.
+
+31
+00:01:58,150 --> 00:01:59,880
+So where are we going to make use of this.
+
+32
+00:01:59,890 --> 00:02:06,190
+Well we're going to replace what originally was args dot I.D. remember you can't customize which user
+
+33
+00:02:06,190 --> 00:02:07,640
+you're updating any more.
+
+34
+00:02:07,660 --> 00:02:09,090
+You can only update yourself.
+
+35
+00:02:09,100 --> 00:02:15,300
+So right here the I.D. We're going to use is the I.D. found in the authentication token.
+
+36
+00:02:15,460 --> 00:02:16,500
+And there we go.
+
+37
+00:02:16,510 --> 00:02:23,770
+Now one update user is indeed locked down you have to be authenticated to use it and to customize the
+
+38
+00:02:23,770 --> 00:02:27,170
+behavior making sure you can only update your own profile.
+
+39
+00:02:27,340 --> 00:02:33,490
+With this in place let's go ahead and save update user and actually test things out over inside of graft
+
+40
+00:02:33,720 --> 00:02:34,420
+playground.
+
+41
+00:02:34,420 --> 00:02:39,490
+I'm going to grab the authentication token I already have in the headers area down below and copy that
+
+42
+00:02:39,490 --> 00:02:45,410
+to the clipboard and then going to move over to my tab for updating a user and paste the header in.
+
+43
+00:02:45,460 --> 00:02:46,480
+Perfect.
+
+44
+00:02:46,480 --> 00:02:48,790
+Next up we have to update our structure.
+
+45
+00:02:48,790 --> 00:02:54,310
+If I actually grab the latest schema we're going to see our call is invalid because the ID argument
+
+46
+00:02:54,310 --> 00:02:55,540
+is no longer accepted.
+
+47
+00:02:55,540 --> 00:02:56,520
+So we're going to remove it.
+
+48
+00:02:57,280 --> 00:03:00,610
+And right here we can specify the changes we'd like to make.
+
+49
+00:03:00,610 --> 00:03:04,920
+I'm just going to change the name for this user the name is already Andrew.
+
+50
+00:03:04,990 --> 00:03:07,050
+So I'll just change it to my last name.
+
+51
+00:03:07,090 --> 00:03:10,020
+Mead now Double-O I have my selections set.
+
+52
+00:03:10,030 --> 00:03:12,630
+I'm grabbing the id the name and the e-mail.
+
+53
+00:03:12,700 --> 00:03:16,000
+Let's go ahead and fire this off and see what happens right here.
+
+54
+00:03:16,000 --> 00:03:16,810
+What do we get.
+
+55
+00:03:16,810 --> 00:03:19,530
+We get our updated user showing up.
+
+56
+00:03:19,570 --> 00:03:25,630
+Now if I were to leave off the authentication token and fire off this same request we can see that we
+
+57
+00:03:25,630 --> 00:03:27,280
+are indeed getting our error.
+
+58
+00:03:27,280 --> 00:03:30,520
+So everything is working really well so far.
+
+59
+00:03:30,520 --> 00:03:34,890
+Now that we have this set up we can go ahead and move on to one of our other mutations.
+
+60
+00:03:34,900 --> 00:03:40,780
+As you can see now that we have the structure in place we have all of the architecture and infrastructure
+
+61
+00:03:40,810 --> 00:03:47,020
+set up actually locking down an individual mutation or queery or subscription really isn't going to
+
+62
+00:03:47,020 --> 00:03:48,030
+be that bad.
+
+63
+00:03:48,040 --> 00:03:53,800
+Let's go ahead and do one more together then I'll set you off on your own to do a few as a challenge
+
+64
+00:03:53,810 --> 00:04:00,250
+so up above we are going to knock out delete user now and the end of the day delete user 1 should require
+
+65
+00:04:00,250 --> 00:04:01,780
+you to be authenticated.
+
+66
+00:04:01,900 --> 00:04:05,650
+And when you actually delete a user you should only be able to delete your cell.
+
+67
+00:04:05,680 --> 00:04:09,390
+You shouldn't be able to delete any one just by providing their ID.
+
+68
+00:04:09,460 --> 00:04:15,580
+So to address this change the first thing we're going to do is remove the ID argument for the delete
+
+69
+00:04:15,640 --> 00:04:21,240
+user nutation no longer are we going to allow you to pass in the ID of the user.
+
+70
+00:04:21,250 --> 00:04:22,350
+You want to remove.
+
+71
+00:04:22,390 --> 00:04:25,050
+So we're going to remove the arguments list altogether.
+
+72
+00:04:25,060 --> 00:04:28,380
+We actually don't need any arguments to delete the user.
+
+73
+00:04:28,390 --> 00:04:29,380
+Now what are we going to do.
+
+74
+00:04:29,380 --> 00:04:36,040
+Well we're going to save schema engraft Well then over inside of mutation database we're actually going
+
+75
+00:04:36,040 --> 00:04:37,140
+to load in request.
+
+76
+00:04:37,150 --> 00:04:38,190
+So right here.
+
+77
+00:04:38,570 --> 00:04:46,480
+Request and then down below we are going to call get user id so Konst user ID equals calling yet user
+
+78
+00:04:46,480 --> 00:04:49,920
+id passing in the request object.
+
+79
+00:04:49,930 --> 00:04:56,380
+Now if we are actually deleting something if this code actually runs we know a user ID was found and
+
+80
+00:04:56,380 --> 00:05:01,810
+were going to use it right here where we were previously using the ID passed in via the argument.
+
+81
+00:05:01,810 --> 00:05:03,520
+So User ID.
+
+82
+00:05:03,610 --> 00:05:04,570
+Perfect.
+
+83
+00:05:04,630 --> 00:05:10,360
+Now delete user requires you to be authenticated and if you do actually get the chance to remove something
+
+84
+00:05:10,510 --> 00:05:17,530
+you can only remove yourself with this in place we can now say that nutation dot J S and test things
+
+85
+00:05:17,530 --> 00:05:18,090
+out.
+
+86
+00:05:18,100 --> 00:05:22,930
+Let's go ahead in time to delete the user from graft playground over here.
+
+87
+00:05:22,930 --> 00:05:28,810
+I'm going to start by grabbing this authentication token from the HTP hatters of update user and we
+
+88
+00:05:28,810 --> 00:05:32,870
+are going to scroll over to our delete user mutation.
+
+89
+00:05:32,920 --> 00:05:40,200
+I'm going to add the headers in and we are going to change the arguments lest we actually need none.
+
+90
+00:05:40,240 --> 00:05:44,560
+So we're going to remove the arguments list and when we refresh the schema we're going to see that's
+
+91
+00:05:44,560 --> 00:05:44,950
+valid.
+
+92
+00:05:44,950 --> 00:05:46,190
+Now we have no arguments.
+
+93
+00:05:46,210 --> 00:05:48,950
+We just remove the parentheses altogether.
+
+94
+00:05:49,270 --> 00:05:55,030
+So here we are deleting a user the user who has indeed authenticated and were grabbing their ID name
+
+95
+00:05:55,060 --> 00:05:56,410
+and email back.
+
+96
+00:05:56,410 --> 00:05:58,270
+I'm going to go ahead and fire this one off.
+
+97
+00:05:58,270 --> 00:05:59,350
+And what do we get.
+
+98
+00:05:59,350 --> 00:06:03,810
+Right here we get our request successfully returning the response.
+
+99
+00:06:03,850 --> 00:06:09,010
+We have the information about the deleted user and if I were to try to fire this off again it would
+
+100
+00:06:09,010 --> 00:06:09,570
+fail.
+
+101
+00:06:09,700 --> 00:06:14,640
+We would try to pull that idea out of the Tokin and we would see that there is no longer a user with
+
+102
+00:06:14,640 --> 00:06:16,670
+that Id sense they were just deleted.
+
+103
+00:06:16,690 --> 00:06:22,930
+Once again I fire off and we can see we are indeed getting an error saying there is no user with that
+
+104
+00:06:22,930 --> 00:06:23,700
+ID.
+
+105
+00:06:23,800 --> 00:06:24,730
+So there we go.
+
+106
+00:06:24,850 --> 00:06:30,890
+Now all of our user based mutations do indeed require you to be authenticated.
+
+107
+00:06:30,970 --> 00:06:36,220
+And we also restrict what you can do to just mutating yourself so you can delete yourself or you can
+
+108
+00:06:36,250 --> 00:06:37,260
+update yourself.
+
+109
+00:06:37,360 --> 00:06:43,510
+You can't delete or update others as I'm sitting here writing down what I'd like you to do for the challenge.
+
+110
+00:06:43,510 --> 00:06:48,850
+I realized there's one piece to the puzzle we haven't put together for some of our other nutation So
+
+111
+00:06:48,850 --> 00:06:49,840
+here's what we're going to do.
+
+112
+00:06:50,080 --> 00:06:52,630
+We're going to do just one more together I promise.
+
+113
+00:06:52,630 --> 00:06:59,920
+This is the final one more then in the next video you're going to update 1 2 three four on your own.
+
+114
+00:07:00,130 --> 00:07:04,710
+So the last one that we're going to change is going to be delete post.
+
+115
+00:07:04,810 --> 00:07:11,320
+Now you'll have to update update post create comment delete comment and update comment in the next video.
+
+116
+00:07:11,320 --> 00:07:16,570
+Let's take a quick moment to talk about why we're going through Duleep posts together when we delete
+
+117
+00:07:16,570 --> 00:07:17,020
+a post.
+
+118
+00:07:17,020 --> 00:07:19,830
+We want to take the user's ID into account.
+
+119
+00:07:19,840 --> 00:07:22,620
+So once again we want to grab request.
+
+120
+00:07:22,780 --> 00:07:31,170
+We want to get the user's ID by calling get user ID and what we want to do is only delete a post if
+
+121
+00:07:31,170 --> 00:07:35,550
+the ID matches up with the post Id passed and as the argument.
+
+122
+00:07:35,550 --> 00:07:40,820
+And if the post's author is indeed this user.
+
+123
+00:07:40,950 --> 00:07:42,270
+Now here's the problem.
+
+124
+00:07:42,270 --> 00:07:49,380
+Delete post does not accept any other arguments on where for example there is no way to delete a post
+
+125
+00:07:49,380 --> 00:07:53,750
+where the author has an ID that equals user ID.
+
+126
+00:07:53,850 --> 00:07:59,670
+This syntax doesn't work and we can just prove that by looking at the schema for delete posts at local
+
+127
+00:07:59,670 --> 00:08:07,980
+host for 4 6 6 over here we have our mutations we have our delete post mutation.
+
+128
+00:08:08,040 --> 00:08:15,260
+If I go to where what do we get we just get the ID so we can actually confirm that the post where deleting
+
+129
+00:08:15,280 --> 00:08:19,090
+belongs to this user without adding a bit more code.
+
+130
+00:08:19,230 --> 00:08:25,830
+Well we're going to do is actually use exists what we explored earlier to make sure that the post does
+
+131
+00:08:25,830 --> 00:08:30,540
+exist and that the author is indeed the person with this idea.
+
+132
+00:08:30,540 --> 00:08:32,350
+So let's go ahead and knock that out.
+
+133
+00:08:32,490 --> 00:08:35,690
+And that'll give us everything we need to know to do this again.
+
+134
+00:08:35,760 --> 00:08:38,900
+For update post and all of our comment mutations.
+
+135
+00:08:38,910 --> 00:08:45,510
+So right here we are going to first mark this as a sink since I am going to use a weight Konst right
+
+136
+00:08:45,510 --> 00:08:49,000
+here post exists or something similar.
+
+137
+00:08:49,200 --> 00:08:57,300
+And we're going to get its value by awaiting the promise that comes back from Prisma dot exists dot
+
+138
+00:08:57,320 --> 00:09:04,380
+and right here we are checking if a post exists now right here we can provide our criteria.
+
+139
+00:09:04,380 --> 00:09:10,200
+And this is where we can actually make sure a post exists that has the correct post ID and the correct
+
+140
+00:09:10,230 --> 00:09:11,010
+author ID.
+
+141
+00:09:11,010 --> 00:09:17,250
+So right here I am going to check if the post ID is indeed what was passed and as the argument and I
+
+142
+00:09:17,250 --> 00:09:23,860
+am going to check that the author's I.D. is indeed of the same value as the tokens ID.
+
+143
+00:09:24,150 --> 00:09:29,480
+So this is going to return true if it is a match and the post should be deleted.
+
+144
+00:09:29,520 --> 00:09:32,050
+It is going to return false if something's off.
+
+145
+00:09:32,160 --> 00:09:37,590
+If the post ID doesn't match up or if the post was created by a different user right here.
+
+146
+00:09:37,590 --> 00:09:44,590
+All we have to do is add a little condition if there was no post existing then we don't want to delete
+
+147
+00:09:44,590 --> 00:09:45,100
+the post.
+
+148
+00:09:45,100 --> 00:09:52,960
+Instead we are going to throw a new error and say something like unable to delete post or unable to
+
+149
+00:09:52,960 --> 00:09:58,180
+find posts or operation failed or whatever argument text makes sense.
+
+150
+00:09:58,180 --> 00:10:00,980
+Now let's go ahead and actually see this in action.
+
+151
+00:10:01,090 --> 00:10:06,250
+I'm going to save this file and well we're going to do is create two users so we already have one we're
+
+152
+00:10:06,250 --> 00:10:11,140
+going to create a second one since we just deleted our second user earlier and we're going to add a
+
+153
+00:10:11,140 --> 00:10:13,460
+post for each of those users.
+
+154
+00:10:13,570 --> 00:10:17,860
+Then as one of the users we're going to try to delete both posts.
+
+155
+00:10:17,950 --> 00:10:23,800
+When I try to delete the post I own it should get removed when I try to delete the post owned by someone
+
+156
+00:10:23,800 --> 00:10:24,370
+else.
+
+157
+00:10:24,370 --> 00:10:29,710
+The operation should fail and we should get our error message so let's go ahead and knock this out.
+
+158
+00:10:29,740 --> 00:10:33,240
+The first thing I'm going to do is sign up a second user.
+
+159
+00:10:33,280 --> 00:10:37,210
+Right now I only have just so I'll use create user to create.
+
+160
+00:10:37,220 --> 00:10:38,640
+Andrew once again.
+
+161
+00:10:38,740 --> 00:10:43,960
+And I'm going to grab his authentication token and create a post for him so I have create posts over
+
+162
+00:10:43,960 --> 00:10:45,070
+here.
+
+163
+00:10:45,070 --> 00:10:51,040
+I'm going to swap out the old authentication token for the deleted user and paste in the new one that
+
+164
+00:10:51,040 --> 00:10:58,150
+I just got from that sign up request and I'm going to create a post with a title like post by Andrew.
+
+165
+00:10:58,180 --> 00:11:02,280
+I'll leave this as a published post with nobody when I fire this off.
+
+166
+00:11:02,290 --> 00:11:03,090
+What do I get.
+
+167
+00:11:03,100 --> 00:11:05,920
+I can see that my post was indeed created.
+
+168
+00:11:05,920 --> 00:11:10,930
+Now I'm going to log in as my one existing user and create a post for her as well.
+
+169
+00:11:10,930 --> 00:11:13,150
+So over here the logon page.
+
+170
+00:11:13,150 --> 00:11:18,040
+I'm going to log in as Jess an example dot com which had that same password.
+
+171
+00:11:18,060 --> 00:11:24,270
+I'll log in I'll grab her token and I'll bring that over to the Create post mutation.
+
+172
+00:11:24,280 --> 00:11:32,100
+So over here we have great post and I am going to create a post with her token and I will change it
+
+173
+00:11:32,100 --> 00:11:33,790
+to post by Jess.
+
+174
+00:11:33,960 --> 00:11:35,040
+Excellent.
+
+175
+00:11:35,040 --> 00:11:41,190
+Now if I actually run a query like our users query I should see that we have our two users and each
+
+176
+00:11:41,220 --> 00:11:42,400
+has a post.
+
+177
+00:11:42,450 --> 00:11:46,450
+Now as Jess I'm going to try to delete both posts.
+
+178
+00:11:46,450 --> 00:11:51,970
+We'll see one fail and hopefully we'll see the other succeed over in the delete posts tab.
+
+179
+00:11:52,890 --> 00:11:57,720
+I'm going to use Jess's ID so in the headers area authorization
+
+180
+00:12:01,810 --> 00:12:04,810
+we have a barer space the token.
+
+181
+00:12:05,110 --> 00:12:07,910
+Now up above we're going to grab the correct IDs.
+
+182
+00:12:07,930 --> 00:12:13,270
+Let's start by deleting Jessy's posts so the one that should actually work right here I have her post
+
+183
+00:12:13,300 --> 00:12:14,260
+ID.
+
+184
+00:12:14,260 --> 00:12:17,610
+I'm going to bring that over to the delete post tab.
+
+185
+00:12:17,620 --> 00:12:19,050
+I'm going to paste it in.
+
+186
+00:12:19,120 --> 00:12:20,380
+Fire off that request.
+
+187
+00:12:20,380 --> 00:12:22,750
+And what happens while it looks like things worked well.
+
+188
+00:12:22,750 --> 00:12:29,080
+I have the data about the deleted post and I can run that same query once again to confirm right here
+
+189
+00:12:29,150 --> 00:12:32,840
+Jess's post is gone down below as Jess.
+
+190
+00:12:32,860 --> 00:12:37,170
+I'm going to try to delete injuries post so I'll grab that post ID.
+
+191
+00:12:37,180 --> 00:12:38,680
+I'll bring that over to delete.
+
+192
+00:12:38,680 --> 00:12:42,550
+Post pasted in and this time things should fail.
+
+193
+00:12:42,550 --> 00:12:44,410
+I fire that off and what do we get.
+
+194
+00:12:44,410 --> 00:12:46,660
+We get unable to delete post.
+
+195
+00:12:46,660 --> 00:12:47,520
+Why.
+
+196
+00:12:47,530 --> 00:12:54,610
+Because when we found the post by ID we saw that the author ID did not match up with the person who's
+
+197
+00:12:54,640 --> 00:12:56,050
+currently authenticated.
+
+198
+00:12:56,040 --> 00:13:02,470
+Jess was not the creator of this post so our IF statement ran and our error got thrown.
+
+199
+00:13:02,470 --> 00:13:08,530
+So now that we know how to use exists inside of our mutations when we're trying to confirm that a user
+
+200
+00:13:08,530 --> 00:13:14,410
+does own something you're ready to continue on to the next video which is going to be a challenge video
+
+201
+00:13:14,570 --> 00:13:17,420
+will you'll be updating the rest of our mutations.
+
+202
+00:13:17,560 --> 00:13:18,790
+I'm excited to get to that.
+
+203
+00:13:18,790 --> 00:13:22,070
+So let's go ahead and jump right in to the next one.
+

@@ -1,0 +1,596 @@
+1
+00:00:00,210 --> 00:00:06,150
+Remember when we first created data with Prisma we looked at that data NPG admen and we noticed a couple
+
+2
+00:00:06,150 --> 00:00:07,230
+of interesting things.
+
+3
+00:00:07,230 --> 00:00:13,380
+One we noticed that an I.D. was automatically generated for us and we also noticed that there were two
+
+4
+00:00:13,380 --> 00:00:19,710
+columns that we took no part in creating updated and created that we never specified these fields on
+
+5
+00:00:19,710 --> 00:00:23,550
+our type definitions and we never provided those values.
+
+6
+00:00:23,550 --> 00:00:29,810
+Well the truth is that ID updated and created at our all managed internally by Prisma.
+
+7
+00:00:29,910 --> 00:00:36,150
+We are currently making use of the ID field but we've never touched updated at or created at all that's
+
+8
+00:00:36,150 --> 00:00:37,890
+going to change in this video.
+
+9
+00:00:37,920 --> 00:00:44,520
+The goal of this video is to expose those values via our node Agellius app so the client can do something
+
+10
+00:00:44,520 --> 00:00:45,140
+with them.
+
+11
+00:00:45,270 --> 00:00:52,380
+Maybe for example they want to show when the post was published on a post page before anything meaningful
+
+12
+00:00:52,380 --> 00:00:55,740
+can be done with these time stamps we have to expose them via our No.
+
+13
+00:00:55,740 --> 00:01:03,690
+JS app and we're going to do that by changing both schema graphical and also data model data graph.
+
+14
+00:01:03,870 --> 00:01:07,120
+And I'd actually like to start there with the data model diagram.
+
+15
+00:01:07,130 --> 00:01:09,780
+Q L file in the Prisma directory.
+
+16
+00:01:09,780 --> 00:01:11,650
+This is where we define our three types.
+
+17
+00:01:11,670 --> 00:01:13,770
+User post and comment.
+
+18
+00:01:13,860 --> 00:01:19,540
+And if we want to work with updated at and created at we have to define them on these types as well.
+
+19
+00:01:19,590 --> 00:01:25,560
+Even though Prisma already has that data saved it's going to save that data regardless of whether or
+
+20
+00:01:25,560 --> 00:01:27,810
+not we use them right here though we are.
+
+21
+00:01:27,990 --> 00:01:31,230
+So we are going to set up two fields on our type.
+
+22
+00:01:31,230 --> 00:01:37,290
+I am going to configure updated at and I am going to configure created at.
+
+23
+00:01:37,290 --> 00:01:43,590
+Now both of these in the end of the day are going to be represented as strings but Prisma gives us a
+
+24
+00:01:43,590 --> 00:01:46,670
+type we have to use here in data model and graphs.
+
+25
+00:01:46,740 --> 00:01:48,850
+Well that is Date Time.
+
+26
+00:01:48,870 --> 00:01:50,850
+Capital D capital T.
+
+27
+00:01:50,910 --> 00:01:53,410
+And these have to be non nullable.
+
+28
+00:01:53,460 --> 00:01:59,160
+So I'm going to set up the exact same type definition for created that down below using the date time
+
+29
+00:01:59,160 --> 00:02:06,380
+type provided by Prisma and then using an exclamation mark to mark that as a non nullable field.
+
+30
+00:02:06,450 --> 00:02:12,400
+Now this is only half the puzzle once we save this we also need to redeploy our application.
+
+31
+00:02:12,510 --> 00:02:19,560
+So I am going to expand the terminal I'm going to shut down our server I'll use a CD to navigate into
+
+32
+00:02:19,560 --> 00:02:25,260
+the Prisma directory and from here I'm going to go ahead and run Prisma deploy a can and we haven't
+
+33
+00:02:25,260 --> 00:02:26,750
+used in a long time.
+
+34
+00:02:26,880 --> 00:02:33,120
+This is going to take the changes we just made to this file and it is going to deploy them to our instance
+
+35
+00:02:33,330 --> 00:02:36,870
+right here we can see that our fields were indeed changed.
+
+36
+00:02:36,870 --> 00:02:39,730
+We have our two fields on the user type.
+
+37
+00:02:39,780 --> 00:02:45,720
+Now from here what are we going to do well I am going to use C D dot dot to go back to the project root
+
+38
+00:02:46,110 --> 00:02:52,920
+and I am going to run NPM run get schema to fetch a new schema file.
+
+39
+00:02:52,980 --> 00:02:57,960
+So remember in generated we have the schema file that Prisma binding uses.
+
+40
+00:02:58,040 --> 00:03:02,010
+Anytime we change Prisma we should fetch a new schema.
+
+41
+00:03:02,190 --> 00:03:08,610
+Now that we have that in place we can just start up our app again using NPM start once the app is up
+
+42
+00:03:08,610 --> 00:03:14,490
+and running we can collapse the terminal and focus on the second half to the puzzle which is to make
+
+43
+00:03:14,490 --> 00:03:17,130
+some changes to schema engraft.
+
+44
+00:03:17,220 --> 00:03:21,150
+Well we've changed the user in our Prisma type definition.
+
+45
+00:03:21,180 --> 00:03:24,150
+Now we have to change the user over here.
+
+46
+00:03:24,150 --> 00:03:26,490
+Down below I have my user type.
+
+47
+00:03:26,640 --> 00:03:29,560
+There is no mention of updated at or create it at.
+
+48
+00:03:29,580 --> 00:03:30,720
+And we're going to fix that.
+
+49
+00:03:30,730 --> 00:03:38,960
+So right here updated at and created at and we're going to be setting the types for both of these to
+
+50
+00:03:38,980 --> 00:03:41,070
+non nullable strings.
+
+51
+00:03:41,080 --> 00:03:43,990
+So right here strings for each.
+
+52
+00:03:44,080 --> 00:03:45,190
+Excellent.
+
+53
+00:03:45,190 --> 00:03:51,420
+Now that we have this in place we're actually going to have access to those time stamps for all users.
+
+54
+00:03:51,490 --> 00:03:53,710
+Let's go ahead and see that in action.
+
+55
+00:03:53,710 --> 00:03:57,070
+I'm going to switch over to local host 4000 to my node.
+
+56
+00:03:57,090 --> 00:04:03,690
+J.S. grad school playground instance I'm going to switch over to my users query and refresh the schema.
+
+57
+00:04:03,760 --> 00:04:10,690
+And from here we're going to do is ask for both updated at and created at for each user.
+
+58
+00:04:10,690 --> 00:04:12,190
+Now we actually fire this off.
+
+59
+00:04:12,190 --> 00:04:15,790
+We should still see our users showing up and here they are.
+
+60
+00:04:15,790 --> 00:04:20,040
+The only difference is that now we have two time stamps for each.
+
+61
+00:04:20,080 --> 00:04:25,360
+We have one that lets us know when the user was last updated and a number that lets us know when the
+
+62
+00:04:25,360 --> 00:04:27,730
+user was originally created.
+
+63
+00:04:27,820 --> 00:04:34,870
+And now that we have this in place we are all done in terms of exposing those timestamps to the client.
+
+64
+00:04:34,870 --> 00:04:38,770
+It's important to note that this time stamp is not designed to be human readable.
+
+65
+00:04:38,770 --> 00:04:40,090
+This is for machines.
+
+66
+00:04:40,090 --> 00:04:44,920
+So this is not something you would just dump to your web app or to your mobile application.
+
+67
+00:04:44,920 --> 00:04:47,890
+This actually follows a standardized format.
+
+68
+00:04:47,980 --> 00:04:55,150
+And if I open a new tab you can find that format by googling ISO that's ISO 8 6 0 0 1.
+
+69
+00:04:55,180 --> 00:05:00,020
+This is the standard for describing time in a way that machines understand.
+
+70
+00:05:00,130 --> 00:05:04,420
+And in our case these are time zone independent time stamps.
+
+71
+00:05:04,420 --> 00:05:10,120
+If I crack open something like the Wikipedia page we can see some example values that look pretty similar
+
+72
+00:05:10,120 --> 00:05:12,150
+to what we have over here.
+
+73
+00:05:12,310 --> 00:05:18,160
+So the goal here is to not give the client the date in a way that's easy for a human to read.
+
+74
+00:05:18,160 --> 00:05:24,400
+The goal is for the server to give the client a date that's easy for machines to read the client which
+
+75
+00:05:24,400 --> 00:05:30,400
+is a machine can then go ahead and format that using some sort of time library and display or whatever
+
+76
+00:05:30,400 --> 00:05:32,220
+it is they want to display.
+
+77
+00:05:32,260 --> 00:05:37,750
+A good example of a library for javascript would be something like a moment Jay J.S. which can consume
+
+78
+00:05:37,750 --> 00:05:44,340
+this string and then it gives you an easy API for representing the date exactly as you want to.
+
+79
+00:05:44,440 --> 00:05:49,690
+You might be able to say something like three hours ago or maybe you want month day year.
+
+80
+00:05:49,740 --> 00:05:54,000
+Or maybe you just want the hour into the day at which the event occurred.
+
+81
+00:05:54,160 --> 00:05:57,300
+Regardless the server just needs to provide the client.
+
+82
+00:05:57,340 --> 00:06:00,080
+This single value to get all of that done.
+
+83
+00:06:00,190 --> 00:06:03,910
+We can also sort by both updated and created at.
+
+84
+00:06:03,970 --> 00:06:07,290
+Which is something we'll explore in the very next video.
+
+85
+00:06:07,300 --> 00:06:12,160
+Let's go ahead and wrap this one up with a challenge where you're going to expose the time stamps for
+
+86
+00:06:12,160 --> 00:06:16,920
+both posts and for comments I have some challenge comments right here.
+
+87
+00:06:16,930 --> 00:06:21,300
+There are three excuse me four stabs for getting this done.
+
+88
+00:06:21,310 --> 00:06:27,280
+The big picture goal is to configure both updated and created at four posts and comments step 1 you
+
+89
+00:06:27,280 --> 00:06:30,880
+have to update the Prisma models with those fields.
+
+90
+00:06:31,000 --> 00:06:32,830
+That's going to happen over here.
+
+91
+00:06:32,830 --> 00:06:38,380
+Then you're going to redeploy your Prisma application and fetch a new schema then you're going to update
+
+92
+00:06:38,410 --> 00:06:41,410
+your schema to include those fields as well.
+
+93
+00:06:41,410 --> 00:06:46,660
+And finally you're going to test your work you should be able to fetch posts and get their updated at
+
+94
+00:06:46,720 --> 00:06:52,060
+and create it out values and you should also be able to fetch comments getting those time stamps as
+
+95
+00:06:52,060 --> 00:06:52,700
+well.
+
+96
+00:06:52,870 --> 00:06:54,700
+So take some time to knock this out.
+
+97
+00:06:54,700 --> 00:06:58,750
+Don't forget to test your work when you're done come back and click play
+
+98
+00:07:02,690 --> 00:07:08,130
+how that go let's go ahead and kick things off by making some changes to data model don't graft well
+
+99
+00:07:08,150 --> 00:07:11,830
+down below we have post and comment both need to be changed.
+
+100
+00:07:11,900 --> 00:07:19,040
+We have to add updated at with the type of date time as a non nullable field and created at with the
+
+101
+00:07:19,040 --> 00:07:22,030
+exact same type date time.
+
+102
+00:07:22,070 --> 00:07:23,980
+Non nullable perfect.
+
+103
+00:07:23,990 --> 00:07:28,700
+Now we can take those two fields and copy them down below for comment as well.
+
+104
+00:07:28,730 --> 00:07:30,860
+And that's actually it for this file.
+
+105
+00:07:30,980 --> 00:07:36,110
+That brings us to step 2 we have to redeploy our app and fetch a new schema.
+
+106
+00:07:36,110 --> 00:07:40,030
+Otherwise things won't work or change when actually take effect.
+
+107
+00:07:40,250 --> 00:07:42,090
+I'm going to shut down the server.
+
+108
+00:07:42,290 --> 00:07:46,760
+I'm going to change directories into Prisma and run Prisma deploy.
+
+109
+00:07:46,910 --> 00:07:52,730
+Once that's done I'm going to shut that down and go back to the root of the project and fetch that new
+
+110
+00:07:52,730 --> 00:07:53,690
+schema.
+
+111
+00:07:53,710 --> 00:07:58,050
+So right here Prisma deployed C-D dot dot to go back to the root.
+
+112
+00:07:58,220 --> 00:08:02,310
+Then NPM run get schema to fetch that new schema.
+
+113
+00:08:02,420 --> 00:08:10,040
+Once that's done we can just start up our app and wrap up this challenge NPM start once the app is up
+
+114
+00:08:10,040 --> 00:08:10,480
+and running.
+
+115
+00:08:10,480 --> 00:08:11,700
+I'm going to shut down.
+
+116
+00:08:11,720 --> 00:08:13,970
+Well excuse me just collapse the terminal.
+
+117
+00:08:14,000 --> 00:08:18,890
+I'm still going to leave things running in the background and we're going to move on to Step 3.
+
+118
+00:08:18,890 --> 00:08:24,860
+We have to update our node J.S. app schema otherwise those values will never see the light of day.
+
+119
+00:08:24,860 --> 00:08:27,430
+So right here for a post I need to set.
+
+120
+00:08:27,470 --> 00:08:29,300
+Updated at and created at.
+
+121
+00:08:29,300 --> 00:08:30,740
+For both.
+
+122
+00:08:30,740 --> 00:08:37,320
+I'm going to set it as a non nullable string for updated add and also for created at perfect.
+
+123
+00:08:37,490 --> 00:08:43,550
+And once I have those in place I can just take those type definitions for those two fields bring them
+
+124
+00:08:43,550 --> 00:08:46,860
+down to comment save the file and we're all done.
+
+125
+00:08:46,910 --> 00:08:51,410
+Aren't Prisma app has been updated are no genius app has been updated.
+
+126
+00:08:51,530 --> 00:08:53,490
+And now we can test our work.
+
+127
+00:08:53,540 --> 00:08:55,760
+So I'm going to remove these comments.
+
+128
+00:08:55,760 --> 00:08:57,010
+I'm going to save the file.
+
+129
+00:08:57,050 --> 00:09:00,410
+And we're going to fetch some posts and some comments.
+
+130
+00:09:00,410 --> 00:09:03,020
+So right here I have my posts queery.
+
+131
+00:09:03,140 --> 00:09:09,110
+I am going to remove the part of the selection set that grabs the comments and I'm going to ask for.
+
+132
+00:09:09,140 --> 00:09:10,760
+Updated at.
+
+133
+00:09:10,760 --> 00:09:12,470
+And I'm also going to ask for.
+
+134
+00:09:12,470 --> 00:09:13,830
+Created at.
+
+135
+00:09:13,850 --> 00:09:15,550
+If I fire this off what do I get.
+
+136
+00:09:15,560 --> 00:09:17,240
+I get time stamps for each.
+
+137
+00:09:17,330 --> 00:09:22,960
+For all of my posts which is perfect I'm going to go ahead and do the same check for my comments.
+
+138
+00:09:22,970 --> 00:09:29,560
+Aside from grabbing the ID and the text also grab updated at as well as created at.
+
+139
+00:09:29,660 --> 00:09:35,680
+If I fire that off what do I get I get back those time stamps for each and every comment.
+
+140
+00:09:35,730 --> 00:09:39,010
+Notice that for some records the values are the same.
+
+141
+00:09:39,080 --> 00:09:40,360
+Like this one here.
+
+142
+00:09:40,400 --> 00:09:47,150
+That's because this comment was never updated so updated at and created at are identical for other records
+
+143
+00:09:47,210 --> 00:09:49,870
+like this one which actually was updated.
+
+144
+00:09:49,880 --> 00:09:55,630
+We have a different and more recent time stamp for updated at than we do 4 created at.
+
+145
+00:09:55,700 --> 00:10:02,900
+In this case it looks like this comment was updated about 3 or 4 minutes after it was originally created.
+
+146
+00:10:02,900 --> 00:10:07,640
+Now that we have these dates exposed the client can do whatever it wants with them and we're going to
+
+147
+00:10:07,640 --> 00:10:15,560
+go ahead and explore in the next video how we can soar by other fields and also by these date fields.
+
+148
+00:10:15,560 --> 00:10:16,920
+I'm excited to get to sorting.
+
+149
+00:10:16,940 --> 00:10:19,810
+So let's go ahead and jump right in to the next one.
+

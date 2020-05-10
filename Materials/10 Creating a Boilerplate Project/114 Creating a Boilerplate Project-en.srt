@@ -1,0 +1,1032 @@
+1
+00:00:00,180 --> 00:00:04,200
+We've spent this course building out a blogging application using graft.
+
+2
+00:00:04,260 --> 00:00:07,400
+Well but what happens when we're ready to build our next app.
+
+3
+00:00:07,470 --> 00:00:12,690
+Do we start from square one with an empty directory and start installing and configuring things.
+
+4
+00:00:12,690 --> 00:00:14,580
+And the answer is No.
+
+5
+00:00:14,760 --> 00:00:19,880
+We've already done all of the heavy lifting and to get graphed you Ellen Prisma playing nice together.
+
+6
+00:00:19,950 --> 00:00:21,760
+And we're not going to throw that away.
+
+7
+00:00:21,930 --> 00:00:25,800
+Instead what we're going to end up doing is duplicating the graph.
+
+8
+00:00:25,800 --> 00:00:30,500
+Q El Prisma directory then we're going to remove everything from it.
+
+9
+00:00:30,600 --> 00:00:36,930
+That's specific to a blogging application and we'll leave in place just a bare bones project that we
+
+10
+00:00:36,930 --> 00:00:38,150
+can build from.
+
+11
+00:00:38,340 --> 00:00:43,770
+So we're going to end up removing features like comments and posts which are pretty specific to a blogging
+
+12
+00:00:43,800 --> 00:00:50,220
+app and we'll end up keeping things like users and authentication which we're likely going to need no
+
+13
+00:00:50,220 --> 00:00:52,210
+matter what application we're building.
+
+14
+00:00:52,260 --> 00:00:56,600
+In the end we're going to have something that we can still run deploy and test.
+
+15
+00:00:56,610 --> 00:01:01,890
+It's just not going to be as full featured but it'll give us a good starting point for a new distinct
+
+16
+00:01:01,890 --> 00:01:02,820
+app.
+
+17
+00:01:02,820 --> 00:01:04,140
+So first things first.
+
+18
+00:01:04,170 --> 00:01:09,450
+Let's go ahead and close all files and collapse all directories and we're not going to touch the graphic.
+
+19
+00:01:09,490 --> 00:01:13,520
+Well Prisma folder at all that's still going to contain our blogging app.
+
+20
+00:01:13,550 --> 00:01:19,310
+What I'm going to do is create a new directory a copy of our project and I'll go ahead and call this
+
+21
+00:01:19,320 --> 00:01:23,720
+something like graft UL hyphen Prisma hyphen boilerplate.
+
+22
+00:01:23,730 --> 00:01:28,130
+This is going to be the folder we can copy when we're ready to start a new project.
+
+23
+00:01:28,140 --> 00:01:32,640
+This is going to contain everything that our application needs to get up and running.
+
+24
+00:01:32,670 --> 00:01:35,480
+It looks like a couple of them files are lagging behind.
+
+25
+00:01:35,610 --> 00:01:37,590
+They should be loaded in in a moment.
+
+26
+00:01:37,590 --> 00:01:42,630
+And in essence what we're going to do is go through all of our source code files one by one getting
+
+27
+00:01:42,690 --> 00:01:48,900
+things that we no longer want is actually not going to be that painful of a process as we're mostly
+
+28
+00:01:48,900 --> 00:01:52,220
+just going to be removing things all of the folders are here.
+
+29
+00:01:52,230 --> 00:01:55,560
+So we're just going to go top to bottom throughout the video.
+
+30
+00:01:55,710 --> 00:02:01,480
+But make sure you are deleting things from well Prisma boilerplate and not from your graphics.
+
+31
+00:02:01,560 --> 00:02:08,180
+Well Prisma project as always you can grab the final boilerplate in the lecture zip for this one the
+
+32
+00:02:08,190 --> 00:02:10,690
+configure your factory can stay exactly the same.
+
+33
+00:02:10,710 --> 00:02:15,720
+We have configuration files for our three environments and none of these contain anything specific to
+
+34
+00:02:15,720 --> 00:02:16,590
+the blogging app.
+
+35
+00:02:16,620 --> 00:02:22,320
+So we're going to leave that in place and the disk folder and the node modules folder those are both
+
+36
+00:02:22,320 --> 00:02:29,220
+generated directories and there is no need to copy those over to the new project as we can just regenerate
+
+37
+00:02:29,250 --> 00:02:32,400
+them by running our NPM scripts.
+
+38
+00:02:32,400 --> 00:02:34,180
+Next up we have the Prisma folder.
+
+39
+00:02:34,200 --> 00:02:38,390
+And in this folder there are some files we're going to end up changing actually.
+
+40
+00:02:38,430 --> 00:02:40,960
+Just one the data model file.
+
+41
+00:02:41,100 --> 00:02:44,290
+So docker can pose can stay exactly as it is.
+
+42
+00:02:44,370 --> 00:02:50,620
+So can Prisma dot why I smell the only file We're going to change is data model data graph.
+
+43
+00:02:50,700 --> 00:02:57,260
+Well this does contain things specific to the blogging app like post and comment definitions.
+
+44
+00:02:57,420 --> 00:03:01,940
+What I'm going to do is delete the comment and delete posts from there.
+
+45
+00:03:01,950 --> 00:03:07,860
+We're going to modify user all of the fields can stay in place except for posts and comments which now
+
+46
+00:03:07,860 --> 00:03:11,180
+need to go since those types have been removed.
+
+47
+00:03:11,190 --> 00:03:17,250
+I'm going to delete those two fields leaving things like ID name email and password in place.
+
+48
+00:03:17,250 --> 00:03:21,320
+And now we have the final version of our data model file.
+
+49
+00:03:21,360 --> 00:03:26,940
+From here we can close down all of those files were actually all done with the Prisma directory and
+
+50
+00:03:26,940 --> 00:03:30,490
+that's going to bring us to the next folder Prisma it Review Web site.
+
+51
+00:03:30,510 --> 00:03:36,360
+If you remember you created this a long time ago when we first explored Prisma as a challenge.
+
+52
+00:03:36,390 --> 00:03:38,690
+This already exists in the graph.
+
+53
+00:03:38,850 --> 00:03:39,910
+Prisma folder.
+
+54
+00:03:39,940 --> 00:03:44,640
+There's no need to have it in both places and it's not going to be part of our boilerplate so I'm going
+
+55
+00:03:44,640 --> 00:03:49,400
+to go ahead and delete that file perfect from there.
+
+56
+00:03:49,400 --> 00:03:54,020
+That brings us to the source directory and we have a lot of code inside of here and we want to move
+
+57
+00:03:54,050 --> 00:03:54,940
+delicately.
+
+58
+00:03:55,040 --> 00:04:01,400
+We want to extract the things we don't want while still leaving the things we do want in place the generated
+
+59
+00:04:01,400 --> 00:04:03,210
+directory can stay in place.
+
+60
+00:04:03,230 --> 00:04:10,100
+We can always generate a new Prisma digraph file using our NPM script but the folder should indeed stay
+
+61
+00:04:10,610 --> 00:04:14,420
+the resolvers folder contains a bunch of stuff which needs to change.
+
+62
+00:04:14,420 --> 00:04:19,820
+First off we actually want to delete the comment dot J S file completely.
+
+63
+00:04:20,120 --> 00:04:26,180
+And we're also going to delete post.com J as we are indeed going to leave the other files including
+
+64
+00:04:26,230 --> 00:04:26,950
+user data.
+
+65
+00:04:26,960 --> 00:04:29,290
+J.S. in place for the moment.
+
+66
+00:04:29,300 --> 00:04:34,010
+I'm going to shut down the test suite just so that doesn't run in the background that's going to start
+
+67
+00:04:34,010 --> 00:04:39,320
+running as we change files and we won't be done all of the changes so obviously things will fail we'll
+
+68
+00:04:39,320 --> 00:04:40,690
+start that up near the end.
+
+69
+00:04:40,790 --> 00:04:47,000
+To make sure that everything's still working the first file we have in here is index not J S in here.
+
+70
+00:04:47,000 --> 00:04:51,740
+All I need to do is remove the imports for a post and comment which no longer exists.
+
+71
+00:04:51,800 --> 00:04:57,680
+And then I'm also going to remove those two properties on the resolvers object just leaving these for
+
+72
+00:04:57,740 --> 00:05:01,230
+queery nutation subscription end user.
+
+73
+00:05:01,490 --> 00:05:04,140
+We can save this file and move on to the next one.
+
+74
+00:05:04,160 --> 00:05:05,520
+That is mutation.
+
+75
+00:05:05,650 --> 00:05:06,650
+J S.
+
+76
+00:05:06,780 --> 00:05:08,810
+Now in here we have a bunch of imports.
+
+77
+00:05:08,840 --> 00:05:11,560
+None of these are comment or post specific.
+
+78
+00:05:11,620 --> 00:05:14,130
+They are all related to users and authentication.
+
+79
+00:05:14,150 --> 00:05:15,520
+So we're going to leave those.
+
+80
+00:05:15,770 --> 00:05:22,640
+We're also going to leave create user log in delete user and update user.
+
+81
+00:05:22,640 --> 00:05:24,610
+The last six are going to go.
+
+82
+00:05:24,830 --> 00:05:26,320
+I'm going to start with the comma.
+
+83
+00:05:26,330 --> 00:05:33,920
+We're going to delete create post delete post update post as well as create comment delete comment an
+
+84
+00:05:33,980 --> 00:05:35,420
+update comment.
+
+85
+00:05:35,420 --> 00:05:37,230
+All of those are going to go.
+
+86
+00:05:37,340 --> 00:05:40,540
+The last mutation listed should be update user.
+
+87
+00:05:40,550 --> 00:05:43,170
+Assuming your stuff was in the same order as mine.
+
+88
+00:05:43,430 --> 00:05:46,040
+Now everything inside of here is user specific.
+
+89
+00:05:46,040 --> 00:05:47,810
+We want to keep that functionality.
+
+90
+00:05:47,840 --> 00:05:51,390
+There is nothing related to posts and comments so we're good to go.
+
+91
+00:05:51,680 --> 00:05:54,300
+I'm going to save this file and move on to queery.
+
+92
+00:05:54,380 --> 00:05:59,590
+Jay ass in here we have some queries that do indeed need to get deleted.
+
+93
+00:05:59,600 --> 00:06:02,860
+First up we have users that can stay.
+
+94
+00:06:03,080 --> 00:06:10,460
+We have my posts that's going to go we also have post which needs to go.
+
+95
+00:06:10,640 --> 00:06:13,240
+Then we have comment which needs to go.
+
+96
+00:06:13,250 --> 00:06:13,760
+We then have.
+
+97
+00:06:13,760 --> 00:06:15,380
+Me and me can stay.
+
+98
+00:06:15,380 --> 00:06:22,200
+So at this point we have users then a comma and then me after me what do we have.
+
+99
+00:06:22,200 --> 00:06:25,440
+We have a post that's going to go and that's the last one.
+
+100
+00:06:25,480 --> 00:06:27,610
+So let's remove it and there we go.
+
+101
+00:06:27,610 --> 00:06:35,020
+This leaves two properties on our queery object users and to me now that we have this in place we can
+
+102
+00:06:35,020 --> 00:06:40,720
+go ahead and save the query dot J ass I'm going to close this file down and we're going to move on to
+
+103
+00:06:40,720 --> 00:06:43,860
+subscription and Dot Jay ass in here.
+
+104
+00:06:43,960 --> 00:06:47,830
+We have a couple of subscriptions comment post and my post.
+
+105
+00:06:47,950 --> 00:06:53,110
+All of these are specific to the blogging app and I'm actually going to delete all three that's going
+
+106
+00:06:53,110 --> 00:06:58,750
+to leave us with an empty subscription object and you might say well why not just get rid of this altogether
+
+107
+00:06:58,750 --> 00:06:59,920
+if it's an empty object.
+
+108
+00:06:59,920 --> 00:07:06,070
+And remember the whole point is to give us a boilerplate we can build off of if we want new subscriptions.
+
+109
+00:07:06,070 --> 00:07:09,200
+In our next project it's going to be really easy to do.
+
+110
+00:07:09,310 --> 00:07:13,390
+If the file is already in place in linkup So we're going to keep it.
+
+111
+00:07:13,390 --> 00:07:15,830
+Next up we have user datt Jay ass.
+
+112
+00:07:15,850 --> 00:07:18,090
+There are two custom resolvers we have here.
+
+113
+00:07:18,100 --> 00:07:21,910
+One for the Post's field and one for the e-mail field.
+
+114
+00:07:22,000 --> 00:07:25,760
+We are going to delete the one for the posts field altogether.
+
+115
+00:07:25,780 --> 00:07:33,250
+That's going to leave one property on user email that can indeed stay exactly as it is.
+
+116
+00:07:33,250 --> 00:07:37,920
+Next up we have the utils directory and the utos directory is already good to go.
+
+117
+00:07:38,000 --> 00:07:42,750
+All of that is utility functions for working with authentication and users.
+
+118
+00:07:42,820 --> 00:07:45,670
+So there's no need to delete anything there.
+
+119
+00:07:45,670 --> 00:07:48,120
+Next up after you tells We have DBI.
+
+120
+00:07:48,160 --> 00:07:49,020
+Jay asks.
+
+121
+00:07:49,030 --> 00:07:51,700
+We haven't used this file in for ever.
+
+122
+00:07:51,700 --> 00:07:56,560
+This was created earlier in the course before we were even saving our data with Prisma.
+
+123
+00:07:56,560 --> 00:08:01,520
+This can indeed be deleted and next on our list.
+
+124
+00:08:01,530 --> 00:08:02,530
+We have indexed.
+
+125
+00:08:02,550 --> 00:08:07,290
+J s index yes is very generic and can stay as it is.
+
+126
+00:08:07,290 --> 00:08:10,990
+After that we have Prisma ADOT J s Prisma J ass.
+
+127
+00:08:11,070 --> 00:08:16,560
+Also has code that's going to stay as is but we have down below a whole bunch of comments from when
+
+128
+00:08:16,560 --> 00:08:18,780
+we first learned how to use Prisma.
+
+129
+00:08:18,810 --> 00:08:20,640
+These can indeed be removed.
+
+130
+00:08:20,640 --> 00:08:22,300
+I'm going to delete everything.
+
+131
+00:08:22,380 --> 00:08:25,450
+Wrapping up the file with our Prisma export.
+
+132
+00:08:25,530 --> 00:08:29,370
+Perfect after Prisma we have schema dot graph.
+
+133
+00:08:29,390 --> 00:08:36,540
+Q Well this contains queries mutation subscriptions and type definitions for things that we now want
+
+134
+00:08:36,540 --> 00:08:37,560
+to remove.
+
+135
+00:08:37,590 --> 00:08:43,440
+First up on line 1 we import post order by input and comment order by input.
+
+136
+00:08:43,440 --> 00:08:46,510
+Those are no longer going to exist in the new Prisma project.
+
+137
+00:08:46,530 --> 00:08:50,770
+So right here we're just going to import user order by input.
+
+138
+00:08:50,880 --> 00:08:51,790
+Perfect.
+
+139
+00:08:51,960 --> 00:08:55,870
+Now for our queries we have a user end to me which are going to stay.
+
+140
+00:08:55,920 --> 00:09:02,490
+Post is going to end up going so well posts my posts and comments so I'm going to take a moment to delete
+
+141
+00:09:02,730 --> 00:09:03,740
+those three.
+
+142
+00:09:03,780 --> 00:09:05,120
+This leaves just two.
+
+143
+00:09:05,310 --> 00:09:06,450
+Excellent.
+
+144
+00:09:06,480 --> 00:09:12,910
+Next up we have our mutations create user log delete user and update user can stay.
+
+145
+00:09:12,990 --> 00:09:19,250
+These last 6 there are going to go ahead and get deleted just like we deleted them from our file earlier
+
+146
+00:09:19,260 --> 00:09:25,050
+in this video that leads just those four matching up with the four we have over in the mutation.
+
+147
+00:09:25,080 --> 00:09:25,510
+J.S..
+
+148
+00:09:25,510 --> 00:09:28,590
+File 1 2 3 4.
+
+149
+00:09:28,620 --> 00:09:31,490
+Next up we have our subscriptions and we deleted all of those.
+
+150
+00:09:31,500 --> 00:09:36,480
+So we're going to delete them all from here as well and after that we have some in types.
+
+151
+00:09:36,480 --> 00:09:38,900
+We have auth payload that's going to stay.
+
+152
+00:09:39,090 --> 00:09:43,620
+We have create user input logon user input update user input.
+
+153
+00:09:43,650 --> 00:09:49,800
+Those are going to stay then we have create post input update post input and then we have the same thing
+
+154
+00:09:49,800 --> 00:09:50,610
+for comment.
+
+155
+00:09:50,610 --> 00:09:55,260
+Those four are going to end up getting deleted since they are no longer necessary.
+
+156
+00:09:55,260 --> 00:09:57,580
+That brings us to our type definitions.
+
+157
+00:09:57,680 --> 00:10:05,100
+We are going to remove comment and post altogether and on user We're going to remove the comments and
+
+158
+00:10:05,130 --> 00:10:06,930
+posts field.
+
+159
+00:10:07,170 --> 00:10:09,870
+We have our mutation type next that can stay.
+
+160
+00:10:09,960 --> 00:10:11,450
+Then we have our subscriptions.
+
+161
+00:10:11,460 --> 00:10:15,030
+Those got deleted so we can delete the payloads as well.
+
+162
+00:10:15,030 --> 00:10:15,630
+There we go.
+
+163
+00:10:15,630 --> 00:10:18,770
+Schema diagram is all done.
+
+164
+00:10:18,840 --> 00:10:24,080
+Next up we have server dot J as the final file in the source directory.
+
+165
+00:10:24,270 --> 00:10:25,520
+Here we do a few things.
+
+166
+00:10:25,520 --> 00:10:28,160
+One being importing DBI.
+
+167
+00:10:28,320 --> 00:10:31,550
+I'm going to remove the import and we were using it right here.
+
+168
+00:10:31,560 --> 00:10:36,990
+Passing it onto the context but we actually weren't using that property from the context any more.
+
+169
+00:10:36,990 --> 00:10:42,200
+We refactored that out some time ago so we can delete that save the file.
+
+170
+00:10:42,270 --> 00:10:47,030
+And that wraps up the changes necessary for the source directory.
+
+171
+00:10:47,040 --> 00:10:52,740
+I'm going to go ahead and close all open files and we're going to move on to the tasks directory where
+
+172
+00:10:52,740 --> 00:10:55,400
+once again will mostly be deleting stuff.
+
+173
+00:10:55,440 --> 00:10:59,050
+The changes to the test directory are going to be much smaller.
+
+174
+00:10:59,070 --> 00:11:00,710
+Let's go ahead and start with geste.
+
+175
+00:11:00,720 --> 00:11:05,790
+That's just a start up and a shut down of the server that's going to happen no matter what app or building
+
+176
+00:11:06,270 --> 00:11:11,130
+under utils we have get clients that can stay exactly as it is.
+
+177
+00:11:11,250 --> 00:11:13,830
+We have the old get client as well.
+
+178
+00:11:13,830 --> 00:11:18,030
+Now we also have operations and seed database and operations.
+
+179
+00:11:18,060 --> 00:11:26,010
+We're going to remove operations unrelated to users so create user get users log in get profile.
+
+180
+00:11:26,010 --> 00:11:27,250
+Those can stay.
+
+181
+00:11:27,270 --> 00:11:29,770
+We're gonna remove get posts.
+
+182
+00:11:29,790 --> 00:11:32,190
+We're also going to remove my posts.
+
+183
+00:11:32,370 --> 00:11:40,680
+Update post create posts delete posts delete comment subscribe to comment and subscribe to posts so
+
+184
+00:11:40,680 --> 00:11:41,940
+all of those are gonna go.
+
+185
+00:11:42,060 --> 00:11:48,450
+And then we're also going to remove their exports as well leaving just in my case the first for the
+
+186
+00:11:48,450 --> 00:11:50,640
+same exports as constants.
+
+187
+00:11:50,640 --> 00:11:52,300
+We left up above.
+
+188
+00:11:52,350 --> 00:11:55,320
+All right that is it for the operations file.
+
+189
+00:11:55,320 --> 00:11:58,840
+The next file we have in the mix is see database.
+
+190
+00:11:58,860 --> 00:12:04,760
+Now we do still want to see the database with some users so we can still test the user related functionality.
+
+191
+00:12:04,950 --> 00:12:07,570
+Posts and comments though those are going to go.
+
+192
+00:12:07,590 --> 00:12:16,710
+I'll be removing comment to comment one post to and post one leaving just user one end user to in place
+
+193
+00:12:17,190 --> 00:12:17,730
+down below.
+
+194
+00:12:17,730 --> 00:12:22,680
+There is no longer a need to delete many comments or to delete many posts as those are no longer going
+
+195
+00:12:22,680 --> 00:12:27,790
+to exist after we create the first two users we can remove everything else.
+
+196
+00:12:27,900 --> 00:12:30,520
+Here we do create post 1 Excuse me.
+
+197
+00:12:30,690 --> 00:12:32,290
+Then we create post 2.
+
+198
+00:12:32,460 --> 00:12:38,250
+Then we create comment 1 and we create comment to all of that was great while we were building out that
+
+199
+00:12:38,310 --> 00:12:42,120
+app but now it doesn't serve much of a purpose.
+
+200
+00:12:42,120 --> 00:12:45,100
+The last line in the file is where we have our exports.
+
+201
+00:12:45,120 --> 00:12:50,300
+We removed these four variables which means we have to remove the export as well.
+
+202
+00:12:50,310 --> 00:12:51,510
+Excellent.
+
+203
+00:12:51,510 --> 00:12:54,780
+Next up on our list are the individual test suites.
+
+204
+00:12:54,780 --> 00:12:57,630
+The comment test suite that's just going to get trashed.
+
+205
+00:12:57,630 --> 00:13:04,040
+No need to keep that file in place the same thing is true with the post test suite that can go their
+
+206
+00:13:04,160 --> 00:13:10,770
+users to test suite that contains all of the test cases associated with user related functionality.
+
+207
+00:13:10,950 --> 00:13:15,330
+And if you look at the imports of what we're testing it's just the four things we left and we're not
+
+208
+00:13:15,330 --> 00:13:19,560
+even importing comment or post from the C database file.
+
+209
+00:13:19,560 --> 00:13:21,450
+So this file can stay as is.
+
+210
+00:13:21,450 --> 00:13:23,100
+No need to change anything.
+
+211
+00:13:23,100 --> 00:13:26,500
+The last change that's necessary is a big picture change.
+
+212
+00:13:26,520 --> 00:13:31,230
+If you remember in the schema graphs you all file in the source directory.
+
+213
+00:13:31,290 --> 00:13:33,390
+We got rid of all of our subscriptions.
+
+214
+00:13:33,480 --> 00:13:37,280
+Having a type like this with nothing defined is actually invalid.
+
+215
+00:13:37,290 --> 00:13:42,600
+If we're going to define the subscription type we have to set up at least one that we don't need any.
+
+216
+00:13:42,600 --> 00:13:45,020
+So we're just going to comment this code out.
+
+217
+00:13:45,030 --> 00:13:51,450
+Removing the subscription type completely if we are copying this boilerplate to create a new project
+
+218
+00:13:51,480 --> 00:13:55,320
+in the future we would just uncomment this and add our subscription in.
+
+219
+00:13:55,620 --> 00:14:01,780
+Now if we are removing the subscription type from graph Q L we also have to remove it from all resolvers.
+
+220
+00:14:01,860 --> 00:14:06,450
+Now I'm not going to delete the file because once again we want to make it easy to get started in the
+
+221
+00:14:06,450 --> 00:14:07,350
+future.
+
+222
+00:14:07,350 --> 00:14:13,590
+All I'm going to do is comment out this one line right here where the subscription property gets set
+
+223
+00:14:13,650 --> 00:14:17,550
+up so we're no longer passing subscription into graph.
+
+224
+00:14:17,550 --> 00:14:21,830
+Q L yoga and we no longer have the subscription type and there we go.
+
+225
+00:14:21,840 --> 00:14:23,230
+We are all done.
+
+226
+00:14:23,280 --> 00:14:29,220
+We have a complete boilerplate project that could easily be duplicated as we want to work on something
+
+227
+00:14:29,220 --> 00:14:30,150
+new.
+
+228
+00:14:30,150 --> 00:14:33,160
+The last thing we're going to do is put it under version control.
+
+229
+00:14:33,240 --> 00:14:38,700
+Now it is indeed under version control but we're going to wipe that repository and start with a nice
+
+230
+00:14:38,700 --> 00:14:43,280
+clean one for the new boilerplate code to do this from the terminal.
+
+231
+00:14:43,290 --> 00:14:48,910
+I'm going to CD out of the graph Q prism folder and into graft.
+
+232
+00:14:48,960 --> 00:14:55,020
+Well Prisma boiler plate perfect once we're in there.
+
+233
+00:14:55,040 --> 00:15:00,830
+I'm going to clear the output and we're going to use a few commands to wipe the old repository completely
+
+234
+00:15:01,100 --> 00:15:05,300
+and then create a new one committing the boilerplate code right here.
+
+235
+00:15:05,300 --> 00:15:09,260
+We can use the R M command to remove the repository.
+
+236
+00:15:09,380 --> 00:15:10,050
+So our.
+
+237
+00:15:10,100 --> 00:15:16,820
+With the RF flag that's going to recursively delete a directory as well as all of its contents and the
+
+238
+00:15:16,820 --> 00:15:21,410
+folder we're trying to delete is dot get that's where the get repository is stored.
+
+239
+00:15:21,410 --> 00:15:26,290
+Now it's important to run this command exactly as typed from this exact folder.
+
+240
+00:15:26,390 --> 00:15:30,200
+Otherwise you might delete something you actually want to keep around in this case.
+
+241
+00:15:30,200 --> 00:15:36,710
+We are indeed safe by running it from this directory and once it's done we no longer have a repository
+
+242
+00:15:36,740 --> 00:15:40,140
+from there we're going to create a new one with a get in it.
+
+243
+00:15:40,270 --> 00:15:48,140
+We are going to use get at with DOT to add all of the files to the repositories staging area to be committed.
+
+244
+00:15:48,290 --> 00:15:54,440
+Now once again we already have good ignore in place so will be ignoring the dist config and node modules
+
+245
+00:15:54,500 --> 00:15:56,270
+folder down below.
+
+246
+00:15:56,270 --> 00:16:01,220
+You can always run a command like get status just to make sure everything looks right before committing.
+
+247
+00:16:01,220 --> 00:16:07,850
+Here we have files from the tests the source and the Prisma directories and we also have our root files
+
+248
+00:16:07,850 --> 00:16:09,300
+about 5 of them.
+
+249
+00:16:09,320 --> 00:16:12,070
+Everything looks good so let's go ahead and commit.
+
+250
+00:16:12,140 --> 00:16:12,890
+I'm going to use.
+
+251
+00:16:12,890 --> 00:16:18,640
+Get commit with the M flag to set up my message inside of quotes.
+
+252
+00:16:18,680 --> 00:16:22,400
+Let's use init commit and we are done.
+
+253
+00:16:22,430 --> 00:16:28,790
+We now have a complete get repository that we can use associated with our boilerplate project.
+
+254
+00:16:28,850 --> 00:16:33,680
+If you're wondering how exactly we're going to use the boiler plate project Well lucky you we're going
+
+255
+00:16:33,680 --> 00:16:36,920
+to cover the entire setup process in the next one.
+
+256
+00:16:36,950 --> 00:16:42,430
+You'll learn exactly what steps you need to take to use the boiler plate to start up a brand new project.
+
+257
+00:16:42,440 --> 00:16:43,620
+I'm excited to get to it.
+
+258
+00:16:43,640 --> 00:16:45,970
+So let's go ahead and jump right in.
+

@@ -1,0 +1,1168 @@
+1
+00:00:00,270 --> 00:00:05,850
+In this video as promised we're going to focus on this last step in the process we need to generate
+
+2
+00:00:05,880 --> 00:00:12,630
+and send back and authentication token this token is going to be something that the client stores and
+
+3
+00:00:12,630 --> 00:00:18,660
+passes along with future requests whenever it wants to do something that requires authentication like
+
+4
+00:00:18,660 --> 00:00:22,710
+creating a post or deleting a comment just as two examples.
+
+5
+00:00:22,800 --> 00:00:26,980
+Well there are plenty of different ways we could create authentication tokens in this course.
+
+6
+00:00:26,970 --> 00:00:33,970
+We're going to be using the very popular approach of the Jasen web token that is JWT for short.
+
+7
+00:00:33,990 --> 00:00:39,660
+This is an open standard that gives us a way to securely transmit information between parties and it's
+
+8
+00:00:39,660 --> 00:00:45,050
+also tamper proof so we can grant certain privileges to the holder of that token.
+
+9
+00:00:45,150 --> 00:00:51,300
+So the server generates the token the client then gets that token and the client can then use that token
+
+10
+00:00:51,300 --> 00:00:57,630
+for future requests that require authentication and each token is going to be associated with a specific
+
+11
+00:00:57,630 --> 00:01:01,130
+user they're going to expire after a certain amount of time.
+
+12
+00:01:01,140 --> 00:01:05,700
+So we'll be able to implement all of the features you would like to be able to use when working with
+
+13
+00:01:05,700 --> 00:01:11,160
+authentication and actually can do this to actually use adjacent web tokens.
+
+14
+00:01:11,190 --> 00:01:16,200
+We're going to be installing a library that gives us everything we needed to implement that into our
+
+15
+00:01:16,200 --> 00:01:17,430
+application.
+
+16
+00:01:17,460 --> 00:01:19,410
+That's exactly what I want to explore right now.
+
+17
+00:01:19,410 --> 00:01:25,810
+We can go over to the browser and in a new tab we are going to search for NPM.
+
+18
+00:01:26,070 --> 00:01:30,900
+Jason Webb tokin and the first result is the one we want.
+
+19
+00:01:30,900 --> 00:01:33,680
+It is the Jason a web tokin package.
+
+20
+00:01:33,720 --> 00:01:38,340
+We can go ahead and move over there and all we're going to do is install this and use it.
+
+21
+00:01:38,340 --> 00:01:43,560
+This is a super popular tool about a million weekly downloads.
+
+22
+00:01:43,590 --> 00:01:48,780
+So let's go ahead and actually get this into our program so we can learn more about these tokens down
+
+23
+00:01:48,780 --> 00:01:49,600
+below.
+
+24
+00:01:49,710 --> 00:01:59,330
+NPM install Jason Webb tokin at the latest version is eight point three point zero.
+
+25
+00:01:59,350 --> 00:02:05,520
+I'm going to fire off that command and then we're going to inport the library up above right here.
+
+26
+00:02:05,650 --> 00:02:11,560
+I'm going to import JWT for short that as a default export.
+
+27
+00:02:11,710 --> 00:02:14,800
+And we're going to grab that from the library we just install.
+
+28
+00:02:14,830 --> 00:02:18,000
+Jason Webb tokin awesome.
+
+29
+00:02:18,250 --> 00:02:23,770
+Now before we actually implement Jason Webb tokens into create user I just want to mess around with
+
+30
+00:02:23,770 --> 00:02:25,000
+them right here.
+
+31
+00:02:25,000 --> 00:02:30,010
+We'll use a few different methods from that library to explore how these tokens work and we'll use council
+
+32
+00:02:30,010 --> 00:02:35,920
+dialog to dump some output from the terminal once we understand how Jason Webb tokens work will actually
+
+33
+00:02:35,950 --> 00:02:38,510
+implement them and to create user itself.
+
+34
+00:02:38,530 --> 00:02:44,170
+The first method that we're going to use from Jason Webb token allows us to create a new token and in
+
+35
+00:02:44,170 --> 00:02:48,500
+the end of the day a token is nothing more than a really long string.
+
+36
+00:02:48,520 --> 00:02:51,470
+So let's go ahead and actually use it right here.
+
+37
+00:02:51,460 --> 00:02:55,240
+I'm going to use JWT dot sign.
+
+38
+00:02:55,240 --> 00:03:01,740
+This is how we create a brand new tokin and we passed to it to required arguments.
+
+39
+00:03:01,810 --> 00:03:04,860
+The first argument we provide to it is an object.
+
+40
+00:03:04,870 --> 00:03:06,840
+This is known as our payload.
+
+41
+00:03:07,030 --> 00:03:11,650
+And this is where we can provide information for our specific purposes.
+
+42
+00:03:11,800 --> 00:03:15,510
+So in this case we're using WTS for authentication.
+
+43
+00:03:15,700 --> 00:03:17,520
+So what are we going to put inside of here.
+
+44
+00:03:17,530 --> 00:03:20,240
+We're going to put inside of here the user's ID.
+
+45
+00:03:20,440 --> 00:03:27,970
+So if I'm trying to create an authentication token for a user with the idea of 46 I would set id to
+
+46
+00:03:27,980 --> 00:03:31,120
+46 something like this would get the job done.
+
+47
+00:03:31,120 --> 00:03:34,540
+Now it's important to note that it is not required to use ID.
+
+48
+00:03:34,540 --> 00:03:36,600
+There's nothing special about this.
+
+49
+00:03:36,670 --> 00:03:42,850
+In the end of the day we can put what ever we want into this object we can get as many properties as
+
+50
+00:03:42,850 --> 00:03:49,120
+we need in this case though we really just need to associate this token with a particular user by their
+
+51
+00:03:49,120 --> 00:03:50,230
+ID.
+
+52
+00:03:50,320 --> 00:03:53,710
+Now there is a second argument we have to pass to sign to.
+
+53
+00:03:53,740 --> 00:04:01,240
+This is known as a secret and this is used to verify the integrity of a token making sure that someone
+
+54
+00:04:01,240 --> 00:04:06,070
+doesn't get a token and try to change the ID to a different user for example.
+
+55
+00:04:06,070 --> 00:04:11,680
+So the secret is something that's only going to live on the node j s server as it can pick whatever
+
+56
+00:04:11,680 --> 00:04:12,150
+we want.
+
+57
+00:04:12,150 --> 00:04:15,700
+For the moment let's just use something like my secret.
+
+58
+00:04:15,700 --> 00:04:20,070
+Later on in the class We'll break this out into an environment variable.
+
+59
+00:04:20,080 --> 00:04:24,030
+Now what comes back from the sign method is indeed our token.
+
+60
+00:04:24,040 --> 00:04:27,570
+So we can actually save it in a variable and do something with it.
+
+61
+00:04:27,580 --> 00:04:35,500
+Konst token equals then down below I'm just going to use console dot Lague to dump the token to the
+
+62
+00:04:35,500 --> 00:04:36,160
+console.
+
+63
+00:04:36,160 --> 00:04:41,740
+Now let's save the file run our program and see what output we get down below I am going to use clear
+
+64
+00:04:41,740 --> 00:04:43,430
+to clear the terminal output.
+
+65
+00:04:43,480 --> 00:04:48,370
+I'm going to run the program with NPM start and once again we're looking for a really long string in
+
+66
+00:04:48,370 --> 00:04:52,660
+the output and where it is we have our Jason Webb token showing up.
+
+67
+00:04:52,660 --> 00:04:58,450
+This is the token that the server is going to send to the client when the client signs up or logs in
+
+68
+00:04:58,690 --> 00:05:04,240
+and at the same token that the client will then store and send along with future requests when it wants
+
+69
+00:05:04,240 --> 00:05:06,100
+to be authenticated.
+
+70
+00:05:06,100 --> 00:05:10,960
+Now what I want to take a moment to talk about is the fact that the payload what we've provided right
+
+71
+00:05:10,990 --> 00:05:13,960
+here it's not meant to be encrypted.
+
+72
+00:05:13,960 --> 00:05:16,450
+It's actually publicly readable.
+
+73
+00:05:16,450 --> 00:05:21,430
+Anybody who has access to this token can look at this data and that's perfectly fine.
+
+74
+00:05:21,430 --> 00:05:24,490
+That is all part of the JWT standard.
+
+75
+00:05:24,490 --> 00:05:28,530
+We can actually prove this by writing two more statements right here.
+
+76
+00:05:28,750 --> 00:05:37,190
+We're going to create a variable called Decoded and we're going to decode our token using JWT dot de-code
+
+77
+00:05:37,820 --> 00:05:39,140
+What do we pass to decode.
+
+78
+00:05:39,140 --> 00:05:40,950
+We pass our string tokens.
+
+79
+00:05:40,950 --> 00:05:46,970
+I'm going to pass in token the exact same super long string that we dumped to the console and then all
+
+80
+00:05:46,970 --> 00:05:53,960
+I'm going to do is dump the decoded object to the terminal so cancel that log decoded and we're going
+
+81
+00:05:53,960 --> 00:05:56,660
+to be able to see exactly what comes back.
+
+82
+00:05:56,660 --> 00:06:00,390
+Now notice we've gotten the token but we do not have the secret.
+
+83
+00:06:00,410 --> 00:06:01,860
+So without knowing this secret.
+
+84
+00:06:01,880 --> 00:06:04,480
+Yes you are able to read the payload.
+
+85
+00:06:04,490 --> 00:06:06,520
+It's not meant to be encrypted.
+
+86
+00:06:06,530 --> 00:06:12,290
+Now if I were to say mutation that Jay asked the program is going to rerun we get a newly generated
+
+87
+00:06:12,350 --> 00:06:16,880
+token sitting right here then down below we get our decoded object.
+
+88
+00:06:16,880 --> 00:06:22,290
+And you'll notice that there's two properties we have ID which is the one property that we provided.
+
+89
+00:06:22,310 --> 00:06:29,260
+So right here we can see this token is associated with something or someone who has an idea of 46.
+
+90
+00:06:29,390 --> 00:06:32,160
+Then we have a tree which stands for issued.
+
+91
+00:06:32,160 --> 00:06:36,740
+And and this is a time stamp of when the token was initially created.
+
+92
+00:06:36,860 --> 00:06:41,990
+So there are a few nice to have features like the initialization time stamp that are built right into
+
+93
+00:06:41,990 --> 00:06:44,020
+Jasen web tokens.
+
+94
+00:06:44,090 --> 00:06:47,800
+So far we've created a token which we saw required a secret.
+
+95
+00:06:47,900 --> 00:06:52,450
+We have then decoded that tokens payload which does not require a secret.
+
+96
+00:06:52,610 --> 00:06:58,360
+What we want to be able to do lastly is verify that a token was actually created by this server.
+
+97
+00:06:58,490 --> 00:07:05,000
+What's to stop someone from just creating a token on the client spoofing the ID using some other users
+
+98
+00:07:05,000 --> 00:07:08,060
+ID and then sending that token to the server.
+
+99
+00:07:08,180 --> 00:07:11,680
+Well what's stopping that from happening is the secret.
+
+100
+00:07:11,690 --> 00:07:19,220
+There is another method we're going to be using JWT data verify much like de-code it decodes the token
+
+101
+00:07:19,460 --> 00:07:25,560
+but it also verifies that the token was indeed created with a specific secret.
+
+102
+00:07:25,640 --> 00:07:32,330
+And this is how we're going to ensure that the tokens that we're reading are tokens created by US created
+
+103
+00:07:32,330 --> 00:07:33,290
+by this server.
+
+104
+00:07:33,290 --> 00:07:42,260
+So right here JWT dot verify takes into arguments it takes in the token we want to actually verify we
+
+105
+00:07:42,260 --> 00:07:44,390
+have that in the token variable.
+
+106
+00:07:44,390 --> 00:07:51,800
+And this one also requires the secret and if the token wasn't created with the same secret verify is
+
+107
+00:07:51,800 --> 00:07:52,970
+going to fail.
+
+108
+00:07:53,030 --> 00:07:56,390
+Only if it is a match is verify going to succeed.
+
+109
+00:07:56,390 --> 00:07:59,690
+So right here let's have it succeed by using the same secret.
+
+110
+00:07:59,690 --> 00:08:00,710
+My secret.
+
+111
+00:08:00,710 --> 00:08:04,300
+Exactly what the token was created with up above.
+
+112
+00:08:04,310 --> 00:08:06,940
+Now what comes back is once again decoded data.
+
+113
+00:08:07,010 --> 00:08:14,460
+I can create a cost decoded to and then dump that to the console console dot Lague printing decoded
+
+114
+00:08:14,460 --> 00:08:15,170
+too.
+
+115
+00:08:15,250 --> 00:08:19,450
+And now all we're going to do is run the program and watch things work.
+
+116
+00:08:19,510 --> 00:08:25,120
+Now in this case I would expect the verification to succeed since the token was created with the exact
+
+117
+00:08:25,120 --> 00:08:26,290
+same secret.
+
+118
+00:08:26,410 --> 00:08:28,090
+And that's what we see down below.
+
+119
+00:08:28,180 --> 00:08:34,830
+We have our token we have our decoded data that we have our decoded and verified data.
+
+120
+00:08:34,990 --> 00:08:36,700
+This data is less important.
+
+121
+00:08:36,700 --> 00:08:42,130
+We're never really going to trust what comes back from that the server is only going to trust the data
+
+122
+00:08:42,280 --> 00:08:48,090
+that comes back from varify because we verified that it was indeed created with the same secret.
+
+123
+00:08:48,160 --> 00:08:50,300
+And that means that came from our server.
+
+124
+00:08:50,310 --> 00:08:53,790
+Now let's see what happens when these secrets don't match up.
+
+125
+00:08:53,800 --> 00:08:59,440
+So let's say that a malicious client tries to create a token to spoof the user 46 when they're really
+
+126
+00:08:59,440 --> 00:09:03,900
+the user 22 they don't know what our secret is so they just type something it.
+
+127
+00:09:03,940 --> 00:09:11,790
+My best guess in this case when the token right here gets to the server and the server verifies it.
+
+128
+00:09:11,800 --> 00:09:13,950
+It is not going to see it as a match.
+
+129
+00:09:13,960 --> 00:09:19,210
+If I save things the program is going to rerun and you can see that we got an error that crashed the
+
+130
+00:09:19,210 --> 00:09:20,770
+program right here.
+
+131
+00:09:20,860 --> 00:09:22,780
+Jason Webb token error.
+
+132
+00:09:22,870 --> 00:09:24,900
+Invalid signature.
+
+133
+00:09:24,910 --> 00:09:30,820
+So this is letting us know that the token we tried to verify could not be verified which means that
+
+134
+00:09:30,820 --> 00:09:33,050
+it should not be trusted.
+
+135
+00:09:33,220 --> 00:09:37,990
+And this is how we're going to make sure that the client cannot tamper with the token.
+
+136
+00:09:37,990 --> 00:09:43,960
+It all comes down to the secret the client's not going to know the secret so it won't be able to ever
+
+137
+00:09:44,050 --> 00:09:49,860
+generate the exact same token that we would generate on the server where we do know that secret.
+
+138
+00:09:49,940 --> 00:09:55,180
+To wrap up our discussion on Jason Webb tokens the last thing that I want to do is give us a little
+
+139
+00:09:55,210 --> 00:10:01,580
+insight to what exactly is stored in this strain because it's not a completely random set of characters.
+
+140
+00:10:01,690 --> 00:10:06,140
+Well we're going to do is copy this string to the clipboard and we're going to bring it over to a Web
+
+141
+00:10:06,140 --> 00:10:08,960
+site that allows us to inspect this token.
+
+142
+00:10:09,070 --> 00:10:10,820
+We're going to head over to J.
+
+143
+00:10:10,840 --> 00:10:12,420
+W T Dot I.
+
+144
+00:10:12,450 --> 00:10:13,090
+Oh.
+
+145
+00:10:13,300 --> 00:10:17,620
+Now this Web site might have changed or it might have moved the debugging tool.
+
+146
+00:10:17,620 --> 00:10:22,660
+If you can't find it it's perfectly fine to just watch this portion of the video down below.
+
+147
+00:10:22,690 --> 00:10:26,650
+They have a debugger for Jason Webb tokens on the left hand side.
+
+148
+00:10:26,650 --> 00:10:31,690
+They have a dummy token on the right hand side they have the contents of that token.
+
+149
+00:10:31,690 --> 00:10:34,680
+Now all we're going to do is paste our token in.
+
+150
+00:10:34,810 --> 00:10:39,940
+So I'm going to paste things in and now you can see that the data on the right hand side has actually
+
+151
+00:10:39,940 --> 00:10:41,100
+changed.
+
+152
+00:10:41,110 --> 00:10:46,500
+Now we have a color coded sections of our token there are actually three distinct pieces.
+
+153
+00:10:46,510 --> 00:10:47,660
+We have our Hetter.
+
+154
+00:10:47,830 --> 00:10:50,840
+We have our payload and we have our signature.
+
+155
+00:10:50,980 --> 00:10:54,440
+And they're separated in our token by the period character.
+
+156
+00:10:54,490 --> 00:10:57,630
+So we have one right here and we have another right here.
+
+157
+00:10:57,640 --> 00:10:58,680
+This first piece.
+
+158
+00:10:58,680 --> 00:11:00,400
+This is the header data.
+
+159
+00:11:00,430 --> 00:11:02,700
+This second piece is our payload.
+
+160
+00:11:02,800 --> 00:11:05,710
+And the last piece is the signature.
+
+161
+00:11:05,710 --> 00:11:08,890
+Now you can see that the periods were not added by this Web site.
+
+162
+00:11:08,920 --> 00:11:11,280
+We had the exact same thing over here.
+
+163
+00:11:11,320 --> 00:11:16,570
+We have our first period separating the header and the payload and we have our second period character
+
+164
+00:11:16,720 --> 00:11:19,610
+separating the payload and the signature.
+
+165
+00:11:19,870 --> 00:11:24,310
+So what do we have on the right hand side while the header just contains some information about the
+
+166
+00:11:24,310 --> 00:11:24,720
+token.
+
+167
+00:11:24,720 --> 00:11:30,800
+In general this is not something that we the end user are ever going to modify or read from.
+
+168
+00:11:30,850 --> 00:11:33,170
+This is for internal purposes only.
+
+169
+00:11:33,280 --> 00:11:36,280
+It allows it to provide some information about the token type.
+
+170
+00:11:36,280 --> 00:11:42,190
+In this case it is a Jason Webb token and it also allows it to provide some information about the algorithm
+
+171
+00:11:42,250 --> 00:11:44,920
+used to generate the signature.
+
+172
+00:11:44,920 --> 00:11:48,430
+Now down below Hatter we have our payload as expected.
+
+173
+00:11:48,430 --> 00:11:50,950
+This is the data that we saw in the terminal.
+
+174
+00:11:50,980 --> 00:11:57,940
+We have the property that we added ID as well as the issued at data property showing when exactly the
+
+175
+00:11:57,940 --> 00:11:59,350
+token was created.
+
+176
+00:11:59,530 --> 00:12:02,710
+And finally we have the signature for the token.
+
+177
+00:12:02,710 --> 00:12:09,160
+This is what keeps everything tamper proof and secure the signature is nothing more than a hash.
+
+178
+00:12:09,160 --> 00:12:12,720
+So we hash the header and the payload together with our secret.
+
+179
+00:12:12,880 --> 00:12:15,990
+And that results in the signature we're seeing right here.
+
+180
+00:12:16,030 --> 00:12:21,250
+Now someone could indeed try to create a new header a new payload and generate a signature but that
+
+181
+00:12:21,250 --> 00:12:25,720
+signature is never going to be valid because they won't know the secret that we're going to end up using
+
+182
+00:12:25,750 --> 00:12:26,690
+on the server.
+
+183
+00:12:26,890 --> 00:12:34,450
+So both the sign and verify methods actually generate a signature when we sign a token it generates
+
+184
+00:12:34,450 --> 00:12:35,410
+that signature.
+
+185
+00:12:35,410 --> 00:12:40,510
+And as we can see here it adds it onto the end of the token when we verify a token.
+
+186
+00:12:40,510 --> 00:12:42,860
+We once again do the exact same thing.
+
+187
+00:12:42,920 --> 00:12:47,830
+I take the header and body data and I hash it with the secret provided here.
+
+188
+00:12:47,950 --> 00:12:54,210
+If I get the same signature that shown in the token I know the token is valid since things match up.
+
+189
+00:12:54,310 --> 00:12:59,560
+If I get a different signature then I know that the token was created with a different secret.
+
+190
+00:12:59,620 --> 00:13:03,660
+And that's why we're getting different results when we hash the data together.
+
+191
+00:13:03,790 --> 00:13:07,630
+So this is what keeps things secure and tamper proof.
+
+192
+00:13:07,630 --> 00:13:14,210
+Now it's important to note that while this data might encrypted it's not it is just base 64 encoded.
+
+193
+00:13:14,400 --> 00:13:20,550
+So to prove this the last thing I want to do is take the purple taxed our payload data between the two
+
+194
+00:13:20,550 --> 00:13:25,950
+periods and we're going to bring it over to a generic base 64 decoder.
+
+195
+00:13:26,070 --> 00:13:31,400
+So I'm just going to Google base 64 decode online.
+
+196
+00:13:31,500 --> 00:13:33,360
+We'll pick whatever first site comes up.
+
+197
+00:13:33,360 --> 00:13:36,060
+Any of these sites will get the job done.
+
+198
+00:13:36,060 --> 00:13:38,160
+We're going to dump that text in.
+
+199
+00:13:38,160 --> 00:13:39,320
+We're going to decode it.
+
+200
+00:13:39,330 --> 00:13:40,040
+And what do we get.
+
+201
+00:13:40,050 --> 00:13:41,810
+We get some Jason data.
+
+202
+00:13:41,850 --> 00:13:49,770
+So this is where the Jason and Jason web token comes from our header and our payload are just base 64
+
+203
+00:13:49,950 --> 00:13:51,550
+encoded Jason.
+
+204
+00:13:51,900 --> 00:13:57,660
+So now that we've seen the inner workings of the Jason Webb token we're ready to actually use it inside
+
+205
+00:13:57,660 --> 00:14:04,380
+of our create user mutation if you have any questions whatsoever about anything discussed here or you
+
+206
+00:14:04,380 --> 00:14:06,810
+want to know more about how exactly this works.
+
+207
+00:14:06,930 --> 00:14:12,990
+Just crack open a question in the Q&amp;A we could talk all day about header's payloads and signatures and
+
+208
+00:14:12,990 --> 00:14:18,270
+hashing algorithms but I don't want to dive too deep into the inner workings of JWT.
+
+209
+00:14:18,390 --> 00:14:23,730
+I just wanted to give you a brief overview so you can understand exactly what's happening.
+
+210
+00:14:23,740 --> 00:14:29,840
+All right I'm going to shut this tab down and we're actually going to use this in create user down below.
+
+211
+00:14:29,970 --> 00:14:36,420
+Our goal is to create a new token and return it along with the newly created user.
+
+212
+00:14:36,420 --> 00:14:40,470
+The first thing I'm going to do is actually change up our return statement.
+
+213
+00:14:40,470 --> 00:14:44,650
+We're no longer going to return directly what comes back from create user.
+
+214
+00:14:44,670 --> 00:14:46,800
+Instead I'm going to get that user.
+
+215
+00:14:46,950 --> 00:14:51,060
+So Konst user equals then I will await that promise.
+
+216
+00:14:51,210 --> 00:14:56,520
+And down below that's where we're actually going to set up our return statement because remember we
+
+217
+00:14:56,520 --> 00:14:59,550
+want to return an object that has 2 things on it.
+
+218
+00:14:59,580 --> 00:15:03,830
+The user information and the token which we're about to create.
+
+219
+00:15:03,990 --> 00:15:06,030
+Let's go ahead and get that done right here.
+
+220
+00:15:06,180 --> 00:15:09,360
+We are going to add a return statement into the mix.
+
+221
+00:15:09,510 --> 00:15:13,580
+We are going to set it up as an object and we're going to add on those two properties.
+
+222
+00:15:13,590 --> 00:15:20,190
+I am going to set up user to come from the User variable created above and I am going to set up token
+
+223
+00:15:20,400 --> 00:15:24,390
+and we will use JWT data sign right here.
+
+224
+00:15:24,390 --> 00:15:26,400
+Now we're going to pass in those two arguments.
+
+225
+00:15:26,400 --> 00:15:32,880
+We know we have to provide the first is our payload and the second is our secret for the secret.
+
+226
+00:15:32,880 --> 00:15:42,000
+Let's just use this is a secret and for the payload we're going to do is set user id equal to the user
+
+227
+00:15:42,000 --> 00:15:48,480
+ID that we just got back from creating a user's are right here user dot ID.
+
+228
+00:15:48,570 --> 00:15:49,530
+Perfect.
+
+229
+00:15:49,530 --> 00:15:55,810
+Now we actually have everything in place in terms of what needs to go inside of this method.
+
+230
+00:15:55,830 --> 00:16:02,220
+We do still have to change the return value of create user though inside of schema Dom graft well over
+
+231
+00:16:02,220 --> 00:16:08,130
+in schema Dom graphed Well currently create user should be returning in just a user that is no longer
+
+232
+00:16:08,130 --> 00:16:09,020
+the case.
+
+233
+00:16:09,060 --> 00:16:11,370
+So were going to make a slight modification.
+
+234
+00:16:11,390 --> 00:16:17,030
+Instead we're going to be returning a type that has token end user on it.
+
+235
+00:16:17,130 --> 00:16:26,250
+So down below we can actually create a brand new type I can call this something like off a payload and
+
+236
+00:16:26,260 --> 00:16:32,230
+we're going to set it up with two fields we're going to have token as a nun at nullable string and we're
+
+237
+00:16:32,230 --> 00:16:39,700
+going to have user as a non nullable user then we can set that up as the return value from create user.
+
+238
+00:16:39,700 --> 00:16:44,290
+So we remove user and we swap it out with off payload.
+
+239
+00:16:44,290 --> 00:16:49,930
+Now the value we're expecting to come back matches up with the value we're actually returning and we
+
+240
+00:16:49,930 --> 00:16:54,500
+are ready to test things out and make sure that our token comes back.
+
+241
+00:16:54,520 --> 00:16:59,800
+Now down below we are still getting our error and that's coming from the mis matched secrets we were
+
+242
+00:16:59,800 --> 00:17:00,970
+using up above.
+
+243
+00:17:00,970 --> 00:17:05,490
+We can actually just remove all of this stuff that was added for example purposes only.
+
+244
+00:17:05,500 --> 00:17:11,230
+And it no longer serves much of a purpose and now we're going to save this file and move over to local
+
+245
+00:17:11,230 --> 00:17:14,610
+host 4000 to create a new user.
+
+246
+00:17:14,620 --> 00:17:16,680
+Now jazzes already in the database.
+
+247
+00:17:16,690 --> 00:17:19,090
+So let's switch up the name and the e-mail.
+
+248
+00:17:19,180 --> 00:17:26,470
+I'm going to use my name and my example email and it's important to note that this request is actually
+
+249
+00:17:26,500 --> 00:17:27,790
+going to fail.
+
+250
+00:17:27,970 --> 00:17:29,430
+Let's go out and talk about why.
+
+251
+00:17:29,440 --> 00:17:33,220
+Well first up we know that right now this is going to fail because it's invalid.
+
+252
+00:17:33,220 --> 00:17:35,070
+We just changed what comes back.
+
+253
+00:17:35,170 --> 00:17:42,940
+We no longer have ID name and e-mail but we have access to our user and tokin for user I can choose
+
+254
+00:17:42,940 --> 00:17:49,650
+to grab ID name and email if that's what I want and I'm also going to grab the auth token.
+
+255
+00:17:49,660 --> 00:17:52,120
+So I can actually do something with it.
+
+256
+00:17:52,120 --> 00:17:53,240
+Perfect.
+
+257
+00:17:53,290 --> 00:17:58,840
+Now that we have this in place it's important to note that the request is still going to fail if we
+
+258
+00:17:58,840 --> 00:18:00,360
+actually send it off.
+
+259
+00:18:00,400 --> 00:18:02,510
+We're going to get the following message.
+
+260
+00:18:02,510 --> 00:18:07,020
+Field create user of type user must have a sub selection.
+
+261
+00:18:07,240 --> 00:18:13,900
+So what's happening here is that we're taking this selection set and we're passing it in to create user
+
+262
+00:18:13,990 --> 00:18:15,790
+via the info argument.
+
+263
+00:18:15,790 --> 00:18:22,620
+The problem with this is that we can't select a token or a user on what comes back.
+
+264
+00:18:22,630 --> 00:18:25,240
+We can only select the fields from the user.
+
+265
+00:18:25,450 --> 00:18:30,970
+So in this case where we're returning something a bit custom like this object using info is actually
+
+266
+00:18:30,970 --> 00:18:32,200
+not what we want.
+
+267
+00:18:32,290 --> 00:18:36,700
+Instead what we're going to do is leave off that second argument altogether.
+
+268
+00:18:36,880 --> 00:18:42,210
+And as we discussed previously in the course this will return all scalar fields.
+
+269
+00:18:42,220 --> 00:18:47,830
+So for the user it would return any of these scalar fields we have listed over and R-Type definition
+
+270
+00:18:48,160 --> 00:18:52,350
+that would include ID name email and password.
+
+271
+00:18:52,360 --> 00:18:56,410
+Now for the moment yes even password will actually make that private.
+
+272
+00:18:56,440 --> 00:19:00,650
+A bit later in the class for now let's save this file and test things out.
+
+273
+00:19:00,670 --> 00:19:06,370
+So I'm going to save mutations jast the server restarted over here we're going to take the exact same
+
+274
+00:19:06,370 --> 00:19:11,010
+mutation which previously failed and we're going to fire that off when we do.
+
+275
+00:19:11,020 --> 00:19:11,890
+What do we get.
+
+276
+00:19:11,890 --> 00:19:17,210
+We get our successful data showing up we have our newly created user information.
+
+277
+00:19:17,380 --> 00:19:23,950
+And we also have an authentication token that the client can store and use later to perform privileged
+
+278
+00:19:23,950 --> 00:19:30,820
+operations like creating a post or updating a comment both of which will require authentication.
+
+279
+00:19:30,820 --> 00:19:37,180
+Now if we actually go over to PGE admin and refresh our users table we can see that right here we have
+
+280
+00:19:37,210 --> 00:19:41,440
+Andrew showing up alongside of gests exactly as we would expect.
+
+281
+00:19:41,440 --> 00:19:47,200
+So the only thing we've done is we've moved all of those user fields onto a user property and we've
+
+282
+00:19:47,200 --> 00:19:50,440
+added the addition of a token property.
+
+283
+00:19:50,470 --> 00:19:54,850
+Now if any of this didn't make too much sense it's probably because we only have half of the picture
+
+284
+00:19:54,880 --> 00:19:55,780
+completed.
+
+285
+00:19:55,810 --> 00:20:01,810
+We know how to generate tokens but we don't know how to actually verify a token and use that to determine
+
+286
+00:20:01,810 --> 00:20:03,930
+whether or not someone can do something.
+
+287
+00:20:04,000 --> 00:20:05,860
+Can this user delete this post.
+
+288
+00:20:05,860 --> 00:20:06,610
+I don't know.
+
+289
+00:20:06,700 --> 00:20:11,430
+We're going to dive into all of that in more in the next several videos.
+
+290
+00:20:11,440 --> 00:20:12,760
+I'm excited to get to it.
+
+291
+00:20:12,760 --> 00:20:16,340
+For now we just have the token creation process locked down.
+
+292
+00:20:16,420 --> 00:20:19,250
+Let's go ahead and jump right in to the next one.
+

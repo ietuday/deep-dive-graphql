@@ -1,0 +1,848 @@
+1
+00:00:00,330 --> 00:00:05,040
+You now have Prisma binding all set up and in this video we're actually going to read and write from
+
+2
+00:00:05,040 --> 00:00:07,220
+the database right here inside of Node.
+
+3
+00:00:07,230 --> 00:00:13,620
+Jay ass so we're going to spend some time looking at what exactly comes back on this Prisma object.
+
+4
+00:00:13,620 --> 00:00:17,580
+We'll see how we can use that to perform all of the graphical operations.
+
+5
+00:00:17,610 --> 00:00:18,790
+We want to.
+
+6
+00:00:18,900 --> 00:00:23,220
+Now the cool thing is that all of this is actually going to read and write from the database for the
+
+7
+00:00:23,220 --> 00:00:23,660
+moment.
+
+8
+00:00:23,670 --> 00:00:27,430
+We're going to work through some examples in this file just right down below.
+
+9
+00:00:27,540 --> 00:00:33,150
+But once we understand how it works we'll actually be integrating it into our resolvers for both queries
+
+10
+00:00:33,150 --> 00:00:35,750
+and subscriptions as well as mutations.
+
+11
+00:00:35,850 --> 00:00:41,130
+Now in this video we are going to start to use asynchronous javascript which is listed as a pre-req
+
+12
+00:00:41,130 --> 00:00:41,940
+for this class.
+
+13
+00:00:41,940 --> 00:00:47,430
+So remember in order to take this course you need to know about node and javascript that includes Asynchronous
+
+14
+00:00:47,520 --> 00:00:54,930
+JavaScript So things like callbacks things like promises and things like async Oh wait if you don't
+
+15
+00:00:54,930 --> 00:00:59,550
+know about these three things you should go ahead and learn about them before continuing on with the
+
+16
+00:00:59,550 --> 00:01:03,510
+Course because I am going to assume that you understand how they work.
+
+17
+00:01:03,570 --> 00:01:05,940
+Now maybe you've read a book or a blog post on them.
+
+18
+00:01:05,970 --> 00:01:06,960
+That's fine.
+
+19
+00:01:06,960 --> 00:01:10,070
+Maybe you took my beginner Noad course which covers all three.
+
+20
+00:01:10,080 --> 00:01:11,260
+That's fine too.
+
+21
+00:01:11,370 --> 00:01:15,040
+Or maybe you took a different course by a different instructor and learned about these.
+
+22
+00:01:15,060 --> 00:01:16,530
+That's also OK.
+
+23
+00:01:16,720 --> 00:01:19,770
+As you know about them and then you're ready to continue on.
+
+24
+00:01:19,770 --> 00:01:22,560
+Now I know someone's going to ask why not cover them here.
+
+25
+00:01:22,560 --> 00:01:26,650
+The point is that all three of these are fundamental javascript features.
+
+26
+00:01:26,700 --> 00:01:32,170
+They're not specific to graph Q L in any way and I don't want to take away from time spent on graphs
+
+27
+00:01:32,700 --> 00:01:38,370
+to cover basic javascript so that's why I've made the choice to not cover them here and list them as
+
+28
+00:01:38,370 --> 00:01:40,470
+pre-req for the class instead.
+
+29
+00:01:40,470 --> 00:01:43,460
+Now that's not to say I'm not going to talk about how we're using them.
+
+30
+00:01:43,500 --> 00:01:47,990
+As always I'm going to describe what I'm doing in the code in great detail.
+
+31
+00:01:48,030 --> 00:01:52,180
+I'm just not going to talk about their core underlying functionality.
+
+32
+00:01:52,200 --> 00:01:54,510
+All right let's go ahead and jump in on this.
+
+33
+00:01:54,510 --> 00:01:55,500
+Prisma object.
+
+34
+00:01:55,500 --> 00:01:58,890
+There are four key properties that we're going to be using.
+
+35
+00:01:58,890 --> 00:02:01,590
+We have Prisma dot queery.
+
+36
+00:02:01,590 --> 00:02:04,400
+This contains all of the queries we have access to.
+
+37
+00:02:04,590 --> 00:02:06,870
+We have a Prisma dot mutation.
+
+38
+00:02:06,870 --> 00:02:09,800
+This contains all of the mutations we have access to.
+
+39
+00:02:09,990 --> 00:02:16,320
+And we also have a Prisma daat subscription which as you can probably guess contains all of the subscriptions
+
+40
+00:02:16,410 --> 00:02:17,940
+we have access to.
+
+41
+00:02:17,940 --> 00:02:19,240
+There's also one more.
+
+42
+00:02:19,320 --> 00:02:21,720
+This is Prisma that exists.
+
+43
+00:02:21,720 --> 00:02:27,300
+This contains some handy utility methods which we'll be exploring later in this section in this video
+
+44
+00:02:27,300 --> 00:02:30,000
+in particular where it is going to start with square one.
+
+45
+00:02:30,000 --> 00:02:36,180
+We're going to start by exploring Prisma query and figuring out how we can fetch data from the database
+
+46
+00:02:36,270 --> 00:02:37,740
+right here inside of no.
+
+47
+00:02:37,730 --> 00:02:43,080
+J.S. Prisma dumb query itself is nothing more than an object on that object.
+
+48
+00:02:43,080 --> 00:02:45,590
+There are a set of methods available to you.
+
+49
+00:02:45,600 --> 00:02:49,530
+There is one method for every query that the API supports.
+
+50
+00:02:49,530 --> 00:02:55,950
+So for example if I go over to grab Q Well playground and open up the schema there is a method on that
+
+51
+00:02:55,950 --> 00:03:00,840
+Prisma query object for all of these queries and we access it by name.
+
+52
+00:03:00,960 --> 00:03:06,620
+So if I want to fetch the comments I can use the comments method if I want to fetch an individual post.
+
+53
+00:03:06,630 --> 00:03:10,760
+I can use the post method I want to go ahead and fetch some users.
+
+54
+00:03:10,860 --> 00:03:18,990
+So right here I will use Prisma dot query dot users where the method name matches up exactly with the
+
+55
+00:03:19,020 --> 00:03:19,800
+query name.
+
+56
+00:03:19,800 --> 00:03:25,560
+So I have users sitting right here now with this in place we can go ahead and call it as a function
+
+57
+00:03:25,560 --> 00:03:32,070
+since it is one and we can talk about the arguments that users accepts all of our Prisma methods take
+
+58
+00:03:32,070 --> 00:03:33,270
+two arguments.
+
+59
+00:03:33,270 --> 00:03:38,430
+The first are your operation arguments and the second is your selection set.
+
+60
+00:03:38,430 --> 00:03:43,530
+Now we know that for some operations like our mutations they do require operation arguments.
+
+61
+00:03:43,560 --> 00:03:50,130
+We have to provide data when creating a user but for our users query the operation arguments are completely
+
+62
+00:03:50,130 --> 00:03:50,790
+optional.
+
+63
+00:03:50,850 --> 00:03:54,020
+So we are going to go ahead and ignore them by not passing any in.
+
+64
+00:03:54,030 --> 00:03:58,820
+So right here as the first argument I am going to pass in null.
+
+65
+00:03:58,860 --> 00:04:04,230
+Now the second argument to all of our Prisma binding methods is the selection set.
+
+66
+00:04:04,260 --> 00:04:06,140
+So I'm asking for all of the users.
+
+67
+00:04:06,150 --> 00:04:09,720
+But what do I want about each user over here for example.
+
+68
+00:04:09,720 --> 00:04:15,720
+We're getting the user's ID their name their email and the idea of any posts they're associated with.
+
+69
+00:04:15,720 --> 00:04:22,390
+We can go ahead and provide our selection set as the second argument and this is represented as a string.
+
+70
+00:04:22,440 --> 00:04:27,660
+In here we open and close a set of curly braces and we list out all of the things we want just like
+
+71
+00:04:27,660 --> 00:04:29,520
+we list them out in the curly braces.
+
+72
+00:04:29,520 --> 00:04:36,030
+Over here we can do all of this on a single line so I can say that for each user I want their ID and
+
+73
+00:04:36,030 --> 00:04:36,650
+their name.
+
+74
+00:04:36,660 --> 00:04:40,050
+For example I can also choose to grab their email.
+
+75
+00:04:40,200 --> 00:04:43,760
+So now we have a completely valid operation.
+
+76
+00:04:43,800 --> 00:04:49,110
+We are asking for the users and we've provided our selection set for each user We want all of their
+
+77
+00:04:49,110 --> 00:04:52,670
+scalar fields ID name and email.
+
+78
+00:04:52,680 --> 00:04:55,740
+Now what comes back from the user's function.
+
+79
+00:04:55,740 --> 00:04:58,400
+Well what comes back is actually a promise.
+
+80
+00:04:58,500 --> 00:05:04,290
+Which means that need to use either then or catch to wait for the promise to resolve.
+
+81
+00:05:04,290 --> 00:05:09,810
+This is an asynchronous operation so it takes time to go off and make a request to the graph queue out
+
+82
+00:05:09,840 --> 00:05:15,990
+Prisma API and it takes time for a Prisma to make a request to the underlying database.
+
+83
+00:05:16,170 --> 00:05:18,570
+So we do not get the data back right here.
+
+84
+00:05:18,570 --> 00:05:21,230
+Konst users equals whatever comes back.
+
+85
+00:05:21,240 --> 00:05:23,360
+This is not going to work as expected.
+
+86
+00:05:23,400 --> 00:05:30,210
+We actually get a promise back so we are going to wait for this promise to resolve by using the then
+
+87
+00:05:30,270 --> 00:05:30,740
+method.
+
+88
+00:05:30,750 --> 00:05:34,890
+So right here then passing in our callback function.
+
+89
+00:05:34,910 --> 00:05:40,020
+This is the function that's going to get called when the user's query is done and it gets called with
+
+90
+00:05:40,020 --> 00:05:41,390
+a single argument.
+
+91
+00:05:41,400 --> 00:05:43,670
+The data that came back from the query.
+
+92
+00:05:43,950 --> 00:05:49,550
+So the data argument is basically the same as what we see on the right hand side over here.
+
+93
+00:05:49,650 --> 00:05:52,270
+It represents the response from the API.
+
+94
+00:05:52,530 --> 00:05:56,450
+So for our purposes let's go ahead and just dump this day that to the council.
+
+95
+00:05:56,520 --> 00:06:02,490
+Although later on we'll be integrating all of this into our resolvers files console dialog and data
+
+96
+00:06:02,490 --> 00:06:04,000
+is going to get the job done.
+
+97
+00:06:04,020 --> 00:06:07,530
+Now before we actually run the project we have to make a couple of small changes.
+
+98
+00:06:07,530 --> 00:06:10,850
+First up the protocol is required with the end point.
+
+99
+00:06:11,010 --> 00:06:15,380
+So we want to put HTP colon forward slash forward slash upfront.
+
+100
+00:06:15,540 --> 00:06:18,910
+The other quick change we need to make is to index Dhananjay.
+
+101
+00:06:18,930 --> 00:06:21,520
+Because currently this file isn't even going to run.
+
+102
+00:06:21,780 --> 00:06:27,810
+So in index dot J.S. I'm going to inport Prisma Dhananjay s just so the file actually executes right
+
+103
+00:06:27,810 --> 00:06:28,670
+here.
+
+104
+00:06:28,710 --> 00:06:34,740
+I'm going to add an import statement on we're not grabbing any default or named exports so we can leave
+
+105
+00:06:34,740 --> 00:06:37,820
+off our exports list and the from keyword.
+
+106
+00:06:37,910 --> 00:06:43,400
+We can just go right to the file name the file We're trying to import is in the same directory as indexed.
+
+107
+00:06:43,440 --> 00:06:43,990
+J S.
+
+108
+00:06:44,010 --> 00:06:47,980
+So don't forward slash Prisma is going to get the job done.
+
+109
+00:06:48,210 --> 00:06:51,320
+Now this in effect is just running the file and that's all we want.
+
+110
+00:06:51,330 --> 00:06:52,950
+We just want misfiled to run.
+
+111
+00:06:53,070 --> 00:06:59,190
+So it actually executes our query and dumps our data to the console with those changes in place.
+
+112
+00:06:59,250 --> 00:07:05,070
+We can now head over to the terminal and drawn NPM start to actually get our program up and running.
+
+113
+00:07:05,070 --> 00:07:06,750
+I'm going to go ahead and fire that off.
+
+114
+00:07:06,750 --> 00:07:10,080
+The program has started and right here what do we have.
+
+115
+00:07:10,080 --> 00:07:12,060
+We have an array of objects.
+
+116
+00:07:12,060 --> 00:07:18,360
+So since we have queried for users we're going to get an array back and each object represents a user.
+
+117
+00:07:18,360 --> 00:07:21,610
+So we have victim 1 victim 2 and Andrew.
+
+118
+00:07:21,630 --> 00:07:27,300
+Each object has those three properties we have ID we have name and we have e-mail.
+
+119
+00:07:27,330 --> 00:07:31,800
+Now we could also change up our selection set to change the values that come back.
+
+120
+00:07:31,800 --> 00:07:37,710
+For example if I remove email and save the file gnomon is going to restart and we're going to see that
+
+121
+00:07:37,710 --> 00:07:42,730
+property is now got for each user We just have the ID and the name.
+
+122
+00:07:42,840 --> 00:07:44,820
+So the selection set is very important.
+
+123
+00:07:44,820 --> 00:07:51,090
+It determines the structure of the data that comes back which is exactly what we saw over and graphical
+
+124
+00:07:51,150 --> 00:07:52,660
+playground as well.
+
+125
+00:07:52,710 --> 00:07:53,660
+So there we go.
+
+126
+00:07:53,670 --> 00:07:59,930
+We now have our very first query in place actually fetching data out of the post gress database right
+
+127
+00:07:59,940 --> 00:08:00,940
+inside of our node.
+
+128
+00:08:00,980 --> 00:08:02,080
+J.S. app..
+
+129
+00:08:02,130 --> 00:08:04,320
+We can also query for related data.
+
+130
+00:08:04,320 --> 00:08:09,150
+For example I can grab some information about the posts for all of these users just like we do over
+
+131
+00:08:09,150 --> 00:08:09,620
+here.
+
+132
+00:08:09,720 --> 00:08:13,340
+Here we grabbed the ID for every post that belongs to a user.
+
+133
+00:08:13,350 --> 00:08:14,600
+Let's do the same thing in no.
+
+134
+00:08:14,600 --> 00:08:15,360
+J.S..
+
+135
+00:08:15,540 --> 00:08:20,870
+So we grab ID we grab name then we grab posts right after posts.
+
+136
+00:08:20,880 --> 00:08:26,610
+We have to open and close a another set of curly braces and in here we provide the selection set for
+
+137
+00:08:26,610 --> 00:08:27,510
+posts.
+
+138
+00:08:27,510 --> 00:08:33,110
+Let's say that we wanted the ID and the title for every post that belongs to the user.
+
+139
+00:08:33,120 --> 00:08:37,880
+Now if we go ahead and save Prisma dot J as we're going to see our data structure changes a little bit
+
+140
+00:08:37,890 --> 00:08:41,630
+down below for the first user we have the posts array.
+
+141
+00:08:41,730 --> 00:08:47,370
+It does indeed have an object inside of there and for the second and third users we can see that they
+
+142
+00:08:47,430 --> 00:08:51,020
+have an empty array since they have no posts which is indeed correct.
+
+143
+00:08:51,040 --> 00:08:57,180
+The reason that we're not seeing the actual object data for this post is because the council is just
+
+144
+00:08:57,180 --> 00:09:00,990
+hiding some of the output to prevent it from becoming too complex.
+
+145
+00:09:01,020 --> 00:09:06,990
+We can fix that by switching up our console dialog call right here inside of the arguments list for
+
+146
+00:09:06,990 --> 00:09:08,240
+console dialog.
+
+147
+00:09:08,250 --> 00:09:12,180
+I'm going to call Jason in upper case dot string if I.
+
+148
+00:09:12,180 --> 00:09:17,100
+This is an easy way to convert a javascript object or array into Jason data.
+
+149
+00:09:17,100 --> 00:09:22,850
+And that's going to allow us to customize how it's formatted in the output we pass in three arguments.
+
+150
+00:09:22,860 --> 00:09:24,170
+The first is the data.
+
+151
+00:09:24,210 --> 00:09:26,100
+So we have our data object.
+
+152
+00:09:26,130 --> 00:09:28,950
+The second is what's called a replacer function.
+
+153
+00:09:28,950 --> 00:09:31,520
+This allows us to remove and replace properties.
+
+154
+00:09:31,530 --> 00:09:32,940
+We don't want to do any of that.
+
+155
+00:09:32,970 --> 00:09:35,180
+We just want to see our data as is.
+
+156
+00:09:35,280 --> 00:09:41,430
+So we can pass in undefined for that second argument and the third argument allows us to determine how
+
+157
+00:09:41,430 --> 00:09:46,860
+many spaces we want to use when indenting our Jason common values would be 2 or 4.
+
+158
+00:09:46,860 --> 00:09:50,430
+I'm just going to stick with for now if we save Prisma.
+
+159
+00:09:50,500 --> 00:09:54,600
+J.S. once again we're going to see that our data is much easier to read.
+
+160
+00:09:54,600 --> 00:10:00,050
+Here we have our second and third users neither of them having any posts and if I roll up we have our
+
+161
+00:10:00,050 --> 00:10:01,310
+first user.
+
+162
+00:10:01,310 --> 00:10:06,050
+This one does have that Post's property and there is a single post inside of there.
+
+163
+00:10:06,050 --> 00:10:11,280
+That post has the ID and title exactly as specified over here.
+
+164
+00:10:11,360 --> 00:10:17,550
+So using Prisma binding from node j as we can do anything we would be able to do from graft.
+
+165
+00:10:17,660 --> 00:10:18,380
+Playground.
+
+166
+00:10:18,380 --> 00:10:23,390
+The advantage though is that it's actually inside of our code so we can actually use it to build out
+
+167
+00:10:23,450 --> 00:10:24,400
+our app.
+
+168
+00:10:24,560 --> 00:10:27,400
+That's where we're going to stop for this video before we go.
+
+169
+00:10:27,470 --> 00:10:32,750
+I do want you to run through a quick challenge querying for some other data down below.
+
+170
+00:10:32,750 --> 00:10:38,390
+Your challenge is to use Prisma binding to fetch all of the comments in the database right here big
+
+171
+00:10:38,390 --> 00:10:41,630
+picture goal fecche comments using Prisma binding.
+
+172
+00:10:41,660 --> 00:10:45,370
+Step 1 you want to use the comments query right inside of Node.
+
+173
+00:10:45,450 --> 00:10:48,810
+J.S. to fetch all of the comments for each comment.
+
+174
+00:10:48,830 --> 00:10:55,910
+Grab the ID and the text and also grab some of the associated data grab some information about the comment
+
+175
+00:10:55,970 --> 00:10:56,480
+author.
+
+176
+00:10:56,480 --> 00:10:59,570
+In this case the ID and the name will suffice.
+
+177
+00:10:59,570 --> 00:11:05,510
+Step two test your work by saving this file and making sure you actually see the data down below.
+
+178
+00:11:05,540 --> 00:11:11,390
+You can use the same trick I used here with Jason docstring if I to format the data and make it easier
+
+179
+00:11:11,390 --> 00:11:14,260
+to see those nested data structures.
+
+180
+00:11:14,270 --> 00:11:14,820
+All right.
+
+181
+00:11:14,820 --> 00:11:16,280
+Take some time to knock that out.
+
+182
+00:11:16,280 --> 00:11:19,850
+Test your work when you're done come back and click play
+
+183
+00:11:22,710 --> 00:11:30,080
+how that go let's go ahead and kick things off up above by using Prisma dot queery dot right here comments.
+
+184
+00:11:30,120 --> 00:11:37,290
+So we have that comments a query in our schema which means we have a comments method on the query object.
+
+185
+00:11:37,290 --> 00:11:40,440
+Now we know that comments doesn't require any operation arguments.
+
+186
+00:11:40,460 --> 00:11:44,920
+I'm going to pass in Knol though we know we do have to provide our selection set.
+
+187
+00:11:45,000 --> 00:11:47,370
+What do we want about each commet.
+
+188
+00:11:47,370 --> 00:11:51,340
+I'm going to go ahead and provide my selection set right here in curly braces.
+
+189
+00:11:51,360 --> 00:11:57,300
+I want the comment Id I want the text value for the comment and I also want some information about the
+
+190
+00:11:57,300 --> 00:11:58,620
+comments author.
+
+191
+00:11:58,620 --> 00:12:02,670
+I'm going to choose to grab the ID and the name for the author.
+
+192
+00:12:02,670 --> 00:12:03,710
+Perfect.
+
+193
+00:12:03,750 --> 00:12:09,660
+Now with this in place we do have to use the then method to actually wait for the data to come back.
+
+194
+00:12:09,660 --> 00:12:15,390
+We provide our callback function and then we get the data as the first and only argument from here.
+
+195
+00:12:15,420 --> 00:12:19,240
+We're just going to dump it to the console so console dot log.
+
+196
+00:12:19,290 --> 00:12:23,970
+I'll use Jason docstring if I once again passing in those three arguments.
+
+197
+00:12:24,030 --> 00:12:30,570
+We have our data we have undefined for the second argument and we have our indentation for the third.
+
+198
+00:12:30,570 --> 00:12:33,230
+I'm going to indent by two spaces once again.
+
+199
+00:12:33,300 --> 00:12:36,270
+And now we should actually be able to test our work.
+
+200
+00:12:36,270 --> 00:12:39,140
+I'm going to save the file and view the terminal output.
+
+201
+00:12:39,300 --> 00:12:42,310
+Now we're going to have two separate values printing right.
+
+202
+00:12:42,330 --> 00:12:45,150
+Here we have our array for comments.
+
+203
+00:12:45,150 --> 00:12:46,590
+So I have my one comment.
+
+204
+00:12:46,620 --> 00:12:50,160
+The text for the comment was a comment from a Prisma graph.
+
+205
+00:12:50,190 --> 00:12:55,620
+Well I had my ID and I also have the author property with some information about the author.
+
+206
+00:12:55,620 --> 00:13:03,450
+Here I have the authors ID and name all as expected based off of these selections set I provided.
+
+207
+00:13:03,450 --> 00:13:04,370
+So there we go.
+
+208
+00:13:04,380 --> 00:13:07,530
+We now know how to query data right inside of node j ass.
+
+209
+00:13:07,530 --> 00:13:13,170
+We're going to continue on in the next video by looking at how we can use Prisma mutation and we're
+
+210
+00:13:13,170 --> 00:13:16,690
+going to explore how we can pass in operation arguments.
+
+211
+00:13:16,710 --> 00:13:17,800
+I'm excited to get to that.
+
+212
+00:13:17,850 --> 00:13:20,030
+So let's go ahead and jump right in.
+

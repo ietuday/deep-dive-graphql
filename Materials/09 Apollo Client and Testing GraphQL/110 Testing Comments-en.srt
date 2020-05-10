@@ -1,0 +1,1100 @@
+1
+00:00:00,300 --> 00:00:05,340
+In this video we're going to see the database with some comment test data and then we're going to write
+
+2
+00:00:05,340 --> 00:00:08,960
+a couple of test cases associated with our comments.
+
+3
+00:00:08,970 --> 00:00:12,710
+Now all of this is going to be a challenge since we've done all of this before.
+
+4
+00:00:12,840 --> 00:00:18,360
+We're wrapping up the section and I want to give you as much experience as possible testing because
+
+5
+00:00:18,360 --> 00:00:22,270
+I find when people don't know how to test they don't test.
+
+6
+00:00:22,320 --> 00:00:28,290
+So let's go ahead and move into the seed database file and talk about the first of two challenges and
+
+7
+00:00:28,290 --> 00:00:33,690
+the first challenge you're going to set up the necessary seed data in the second challenge you'll actually
+
+8
+00:00:33,690 --> 00:00:35,450
+write the test cases.
+
+9
+00:00:35,460 --> 00:00:38,250
+So here's what I'd like you to do for this first challenge.
+
+10
+00:00:38,250 --> 00:00:41,670
+The goal is to set up some test comment data.
+
+11
+00:00:41,790 --> 00:00:43,890
+You're going to create three new things.
+
+12
+00:00:43,890 --> 00:00:50,400
+First up you're going to create a second user alongside of user 1 and then you're going to create a
+
+13
+00:00:50,400 --> 00:00:55,420
+comment on our published post authored by the second user.
+
+14
+00:00:55,560 --> 00:01:01,870
+Then step three you're going to create a comment on the published post authored by that first user.
+
+15
+00:01:01,890 --> 00:01:07,200
+So we'll have the published post sitting right here with two comments by the end.
+
+16
+00:01:07,200 --> 00:01:14,190
+Step 4 you're going to export those three things user to comment one and comment two then you're going
+
+17
+00:01:14,190 --> 00:01:17,730
+to save the file and look at the database to check your work.
+
+18
+00:01:17,730 --> 00:01:22,930
+You should see a nother user showing up and you should see two comments showing up.
+
+19
+00:01:22,950 --> 00:01:24,920
+So take some time to knock this one out.
+
+20
+00:01:24,960 --> 00:01:27,140
+You're going to define the variables with the input.
+
+21
+00:01:27,140 --> 00:01:32,190
+Up above then in the C database function you'll actually add everything in.
+
+22
+00:01:32,190 --> 00:01:34,960
+Also make sure to delete comments right here.
+
+23
+00:01:35,100 --> 00:01:38,290
+Let's actually go ahead and add that in before we even get started.
+
+24
+00:01:38,460 --> 00:01:38,970
+Oh wait.
+
+25
+00:01:38,970 --> 00:01:42,930
+Prisma dot nutation dot right here.
+
+26
+00:01:42,930 --> 00:01:45,630
+Delete many comments.
+
+27
+00:01:45,630 --> 00:01:46,460
+Perfect.
+
+28
+00:01:46,740 --> 00:01:48,780
+All right the rest is up to you.
+
+29
+00:01:48,780 --> 00:01:50,740
+Take some time to knock this one out.
+
+30
+00:01:50,760 --> 00:01:51,860
+Then test your work.
+
+31
+00:01:51,930 --> 00:01:57,210
+When you're done come back and click play.
+
+32
+00:01:57,230 --> 00:01:57,830
+How'd you do.
+
+33
+00:01:57,830 --> 00:01:59,680
+This is something we've done before.
+
+34
+00:01:59,690 --> 00:02:01,310
+So let's go ahead and get to it.
+
+35
+00:02:01,310 --> 00:02:04,880
+Down below we're going to start by creating that second user.
+
+36
+00:02:04,910 --> 00:02:08,580
+It's going to look similar in terms of structure to User 1.
+
+37
+00:02:08,630 --> 00:02:14,070
+So I'm just going to copy this object pasted down below and swap out the name.
+
+38
+00:02:14,090 --> 00:02:16,640
+User 1 for the name user 2.
+
+39
+00:02:16,820 --> 00:02:19,330
+Now for this user we can pick any one we like.
+
+40
+00:02:19,340 --> 00:02:21,520
+I'll go ahead and use Geoff.
+
+41
+00:02:21,590 --> 00:02:30,080
+That would be Jeff at example dot com and I'll change the password over to something like pass for Jeff.
+
+42
+00:02:30,140 --> 00:02:31,270
+Perfect.
+
+43
+00:02:31,280 --> 00:02:34,480
+Now we have that user to defined in terms of the object.
+
+44
+00:02:34,490 --> 00:02:39,770
+And down below we're going to end up adding it to the database so down here below where we create user
+
+45
+00:02:39,770 --> 00:02:42,390
+1 we're going to create user 2.
+
+46
+00:02:42,410 --> 00:02:46,940
+Now once again since we're going to follow these same steps I'm just going to take these two statements
+
+47
+00:02:47,600 --> 00:02:54,290
+bring them down below change the comment to create user to then right here will change our references
+
+48
+00:02:54,290 --> 00:03:02,250
+so user to dot user We're going to use user to dot input to create the user then down below that.
+
+49
+00:03:02,300 --> 00:03:11,840
+Just two more instances will set user to JWT and right here we'll use the ID from user to user ID which
+
+50
+00:03:11,840 --> 00:03:14,000
+we set up above perfect.
+
+51
+00:03:14,270 --> 00:03:16,640
+So that is the first user all done.
+
+52
+00:03:16,760 --> 00:03:19,800
+Let's go ahead and create a couple of comments.
+
+53
+00:03:19,880 --> 00:03:27,080
+We have step one knocked out step to create a comment by that new user for the published post.
+
+54
+00:03:27,230 --> 00:03:29,590
+So down below let's go ahead and get this done.
+
+55
+00:03:29,600 --> 00:03:36,680
+I'm going to create a new object Konst comment one sending an equal to an object and we're gonna set
+
+56
+00:03:36,680 --> 00:03:40,790
+up an input property like we've done for all of our other objects so far.
+
+57
+00:03:40,790 --> 00:03:48,980
+Whether it's a user or a post and down below input I'll be setting up a comment property.
+
+58
+00:03:49,040 --> 00:03:54,740
+This is where we're going to end up storing the final data that Prisma sends us back.
+
+59
+00:03:54,770 --> 00:04:02,290
+Now for this comment all we need to provide at least right here is the text so I can say something like.
+
+60
+00:04:02,330 --> 00:04:05,770
+Great post thanks for sharing.
+
+61
+00:04:05,810 --> 00:04:12,440
+As an example now that we have comment ones object defined down below we're actually going to use that
+
+62
+00:04:12,440 --> 00:04:14,880
+to add a comment for post 1.
+
+63
+00:04:15,050 --> 00:04:16,520
+Let's go ahead and knock that out.
+
+64
+00:04:16,520 --> 00:04:23,790
+Down at the bottom of the function right here I'll leave a little comment create comment 1.
+
+65
+00:04:23,900 --> 00:04:26,880
+And now we're actually going to use Prisma to get that done.
+
+66
+00:04:26,900 --> 00:04:29,950
+That's going to be comment one dot comment.
+
+67
+00:04:29,960 --> 00:04:36,910
+And here we are going to get its value from a weight awaiting Prisma dot mutation dot create comment
+
+68
+00:04:36,920 --> 00:04:38,870
+passing in all of the arguments.
+
+69
+00:04:38,870 --> 00:04:41,160
+We just have data and on data.
+
+70
+00:04:41,210 --> 00:04:42,470
+What are we going to provide.
+
+71
+00:04:42,480 --> 00:04:45,430
+We're going to provide all of the input necessary.
+
+72
+00:04:45,440 --> 00:04:50,720
+This includes things like that text but it also includes things like the link to the author and the
+
+73
+00:04:50,720 --> 00:04:53,570
+post we want this comment to be associated with.
+
+74
+00:04:53,570 --> 00:05:01,220
+So right here I'm going to go ahead and start by spreading out comment one dot input to set up the text
+
+75
+00:05:01,220 --> 00:05:04,610
+property then I'll link it with the correct author.
+
+76
+00:05:04,610 --> 00:05:09,970
+Now we already have the ID for that author on user to dot user.
+
+77
+00:05:09,980 --> 00:05:16,910
+So right here I'm going to connect to an existing user where ID is going to equal user to that user
+
+78
+00:05:17,180 --> 00:05:18,470
+done ID.
+
+79
+00:05:18,620 --> 00:05:19,670
+Perfect.
+
+80
+00:05:19,670 --> 00:05:22,330
+Next up we have to link to the correct post.
+
+81
+00:05:22,340 --> 00:05:28,880
+So down below post here we will also use connect to connect to an existing post and I want to add the
+
+82
+00:05:28,880 --> 00:05:31,340
+comment for the published post that is.
+
+83
+00:05:31,340 --> 00:05:32,780
+Post number one.
+
+84
+00:05:32,780 --> 00:05:36,990
+Post Number 1 defined up above as a published value of truth.
+
+85
+00:05:37,340 --> 00:05:40,780
+So down here that would be linked by ID.
+
+86
+00:05:40,910 --> 00:05:44,140
+Post one done Post dot ID.
+
+87
+00:05:44,210 --> 00:05:45,080
+Perfect.
+
+88
+00:05:45,260 --> 00:05:51,420
+Now that we have this in place the last thing left to do is to create a second comment so up above.
+
+89
+00:05:51,630 --> 00:05:59,520
+I'm going to duplicate comment one calling it something like comment to then I am going to set up the
+
+90
+00:05:59,550 --> 00:06:03,560
+text property and I'll respond saying something like.
+
+91
+00:06:03,570 --> 00:06:07,690
+I'm glad you enjoyed it.
+
+92
+00:06:07,690 --> 00:06:13,720
+Next up we can go ahead and duplicate the code down below to actually create that comment modifying
+
+93
+00:06:13,720 --> 00:06:15,010
+it to fit our needs.
+
+94
+00:06:15,010 --> 00:06:19,330
+I'm going to grab the comment along with the code that creates the comment.
+
+95
+00:06:19,720 --> 00:06:25,030
+I'm just going to swap out some values so create comment to then write here.
+
+96
+00:06:25,060 --> 00:06:33,470
+That would be a comment to doc comment and then comment to input and last up we want to make sure this
+
+97
+00:06:33,470 --> 00:06:35,790
+one is written by the other author.
+
+98
+00:06:35,930 --> 00:06:40,450
+That would be user 1 instead of user 2 and we'll leave the post the same.
+
+99
+00:06:40,460 --> 00:06:45,150
+This comment from user 1 is also going to be on that published post.
+
+100
+00:06:45,320 --> 00:06:50,840
+Now that we have this in place we can go ahead and move on to Step Number Four.
+
+101
+00:06:50,870 --> 00:06:56,720
+We want to make sure that we correctly export this stuff from our project and that's going to allow
+
+102
+00:06:56,720 --> 00:07:02,610
+us to use it over in our test suites down at the bottom.
+
+103
+00:07:02,620 --> 00:07:07,630
+All we're going to do is add those on as named exports so I'll keep things in order by group.
+
+104
+00:07:07,650 --> 00:07:13,590
+I'll put the user to right here after user 1 then I'll put the comments on the end though the order
+
+105
+00:07:13,590 --> 00:07:18,490
+isn't necessarily going to affect the functionality at all it's just to stay organized.
+
+106
+00:07:18,510 --> 00:07:21,020
+Comment 1 followed by comment.
+
+107
+00:07:21,070 --> 00:07:22,860
+Too perfect.
+
+108
+00:07:22,860 --> 00:07:26,160
+Now on the second part of step 4 was to test our work.
+
+109
+00:07:26,250 --> 00:07:32,280
+So I'm going to save the seed database file and we're going to make sure that over inside of our database
+
+110
+00:07:32,280 --> 00:07:35,850
+we actually have these new records showing up now down below.
+
+111
+00:07:35,850 --> 00:07:39,100
+You'll also notice that one test case is now failing.
+
+112
+00:07:39,180 --> 00:07:42,040
+This is failing because we've added more data.
+
+113
+00:07:42,060 --> 00:07:49,170
+If I scroll up we can see that we were expecting one but we got two and this was for our test should
+
+114
+00:07:49,170 --> 00:07:54,120
+expose public author profiles over in user dot test dot J.
+
+115
+00:07:54,110 --> 00:07:54,600
+S..
+
+116
+00:07:54,780 --> 00:08:01,930
+It's perfectly normal to need it to adjust your test cases as you change the seed database.
+
+117
+00:08:01,960 --> 00:08:07,260
+Right here we're no longer expecting just one user to exist in this case.
+
+118
+00:08:07,410 --> 00:08:14,220
+We would be expecting two users to exist since we have added a second one into the mix making this change
+
+119
+00:08:14,370 --> 00:08:17,070
+should affect that specific assertion.
+
+120
+00:08:17,070 --> 00:08:22,250
+Bringing it back to a nice working state down below the test suite is wrapping up.
+
+121
+00:08:22,290 --> 00:08:25,700
+And right here we have 10 passing tests once again.
+
+122
+00:08:25,980 --> 00:08:29,130
+Now let's head into the database and see what our data looks like.
+
+123
+00:08:29,130 --> 00:08:33,750
+I'm going to switch over to P.G. admin and I'll start by loading up the users.
+
+124
+00:08:33,780 --> 00:08:34,780
+So right here.
+
+125
+00:08:34,970 --> 00:08:38,820
+View all rows it's loading in the data now.
+
+126
+00:08:38,820 --> 00:08:39,660
+And what do we got.
+
+127
+00:08:39,660 --> 00:08:42,050
+We have two users we have Jenna and Jeff.
+
+128
+00:08:42,090 --> 00:08:44,210
+Let's also load in the comments.
+
+129
+00:08:44,220 --> 00:08:46,770
+So previously we had no comments.
+
+130
+00:08:46,800 --> 00:08:49,300
+I would now expect to have a couple and there we go.
+
+131
+00:08:49,320 --> 00:08:54,180
+We do indeed have 2 comments in the mix now that we have this in place.
+
+132
+00:08:54,180 --> 00:09:01,380
+We are done seeding the database we have all of the data we need to test every single part of our application.
+
+133
+00:09:01,380 --> 00:09:07,050
+The second challenge is going to be for you to actually use the comments to write a couple of test cases
+
+134
+00:09:07,350 --> 00:09:10,270
+and that's going to happen over in a new test suite.
+
+135
+00:09:10,320 --> 00:09:17,540
+So we'll be creating a new file in the tests folder and I'll call this one something like comment dot
+
+136
+00:09:17,550 --> 00:09:19,520
+test dot J S.
+
+137
+00:09:19,560 --> 00:09:25,320
+So this one is going to sit alongside of our other two test files and in here we're going to add a couple
+
+138
+00:09:25,320 --> 00:09:27,330
+of different test cases.
+
+139
+00:09:27,330 --> 00:09:32,450
+Now down below we have our one failing test suite and that's because there are no test cases inside
+
+140
+00:09:32,460 --> 00:09:32,960
+of here.
+
+141
+00:09:33,090 --> 00:09:36,470
+Let's go ahead and fix that by looking at the challenge comments.
+
+142
+00:09:36,510 --> 00:09:40,770
+The big picture goal here is to write two test cases related to comments.
+
+143
+00:09:40,770 --> 00:09:47,130
+One they should delete own comment and two should not delete other users comment.
+
+144
+00:09:47,130 --> 00:09:52,350
+So when the first test case we're going to authenticate as one of our users and delete their comment
+
+145
+00:09:52,410 --> 00:09:57,030
+we can then assert that it was indeed removed in the second test case.
+
+146
+00:09:57,090 --> 00:10:02,190
+We're going to authenticate as one of the users but we're going to try to delete the other person's
+
+147
+00:10:02,190 --> 00:10:03,120
+comment.
+
+148
+00:10:03,120 --> 00:10:05,910
+And in this case I would expect it to throw an error.
+
+149
+00:10:06,120 --> 00:10:12,090
+So we can use the to throw functionality we explored when signing up with bad data to make sure that
+
+150
+00:10:12,090 --> 00:10:13,740
+the request fails.
+
+151
+00:10:13,740 --> 00:10:19,050
+Then you can test your work so you can actually save the file and fire those test cases off.
+
+152
+00:10:19,070 --> 00:10:25,770
+Remember you're also going to have to set up the necessary imports to get everything this file requires.
+
+153
+00:10:25,890 --> 00:10:29,080
+And when you define your operations for deleting a comment.
+
+154
+00:10:29,160 --> 00:10:33,830
+Go ahead and add that over in the operations doc J.S. file.
+
+155
+00:10:33,840 --> 00:10:34,350
+All right.
+
+156
+00:10:34,350 --> 00:10:36,180
+Take some time to knock that one out.
+
+157
+00:10:36,180 --> 00:10:42,340
+Test your work and when you're done come back and click play.
+
+158
+00:10:42,390 --> 00:10:43,730
+All right let's get to it.
+
+159
+00:10:43,740 --> 00:10:48,720
+Up top I'm going to start by adding in some of the imports we've used in our other test suites.
+
+160
+00:10:48,720 --> 00:10:56,480
+I'll start by grabbing cross vetches polyphenols so inport cross Ifan fetch a forward slash Pylea fill.
+
+161
+00:10:56,580 --> 00:11:00,900
+After that we're going to go ahead and grab some things that I know we're going to need for this test
+
+162
+00:11:00,900 --> 00:11:02,400
+case as an example.
+
+163
+00:11:02,460 --> 00:11:08,160
+We're going to need a user one user to as well as our comments from the C database.
+
+164
+00:11:08,160 --> 00:11:16,230
+We're also going to need things like get client so right here I'm going to import ceed database as well
+
+165
+00:11:16,230 --> 00:11:23,130
+as a couple of other things from the following module data forward slash tills a forward slash seed
+
+166
+00:11:23,550 --> 00:11:24,520
+database.
+
+167
+00:11:24,690 --> 00:11:26,130
+So right here what am I going to grab.
+
+168
+00:11:26,130 --> 00:11:30,100
+I'll grab user 1 I'll grab a user too.
+
+169
+00:11:30,250 --> 00:11:32,370
+Actually I really only need one user.
+
+170
+00:11:32,550 --> 00:11:36,990
+I'll grab comment one and I'll also grab a comment too.
+
+171
+00:11:37,020 --> 00:11:38,190
+Perfect.
+
+172
+00:11:38,190 --> 00:11:42,270
+Next up after this we can go ahead and grab a client which we will be using.
+
+173
+00:11:42,270 --> 00:11:51,810
+So import get client from the following location Dant forward slash you tills forward slash get client
+
+174
+00:11:51,840 --> 00:12:00,600
+perfect and last up for the moment we are going to go ahead and grab Prisma importing Prisma from the
+
+175
+00:12:00,600 --> 00:12:05,790
+following location dot dot burrowers slash source forwards slash Prisma.
+
+176
+00:12:05,790 --> 00:12:06,990
+Perfect.
+
+177
+00:12:06,990 --> 00:12:10,860
+Now let's go ahead and set up the basic test cases down below.
+
+178
+00:12:10,950 --> 00:12:17,070
+I'm going to add two test calls so we'll have our first one that will be for the first test case should
+
+179
+00:12:17,880 --> 00:12:22,970
+delete own comment that will be set up with an async function.
+
+180
+00:12:24,520 --> 00:12:28,080
+And then we'll also add that second test case right here.
+
+181
+00:12:28,090 --> 00:12:33,470
+Should not delete other users comment.
+
+182
+00:12:33,700 --> 00:12:36,550
+We'll set that up as an async function as well.
+
+183
+00:12:36,550 --> 00:12:39,850
+And now we can focus on those test cases themselves.
+
+184
+00:12:39,850 --> 00:12:43,510
+Both are going to use the delete comment mutation.
+
+185
+00:12:43,510 --> 00:12:49,480
+So before we can actually try to delete the comments we're going to have to set up that operation over
+
+186
+00:12:49,480 --> 00:12:56,320
+in operations dot Jay as I'm going to adjust the indentation of delete to post and add one more down
+
+187
+00:12:56,320 --> 00:12:56,850
+below.
+
+188
+00:12:56,860 --> 00:13:00,030
+Konst delete comment.
+
+189
+00:13:00,070 --> 00:13:05,240
+We'll set this up with GQ L. and our template string right here.
+
+190
+00:13:05,240 --> 00:13:11,810
+This is indeed going to be a mutation and we are indeed going to need the ID of the comment to remove.
+
+191
+00:13:11,810 --> 00:13:13,920
+So we'll set that up as a variable.
+
+192
+00:13:14,120 --> 00:13:23,640
+The variable name ID of the type ID below the mutation itself is called Delete comment.
+
+193
+00:13:23,830 --> 00:13:28,690
+I'm going to provide that ID as an argument.
+
+194
+00:13:28,890 --> 00:13:31,580
+And then finally we can provide our selection set.
+
+195
+00:13:31,860 --> 00:13:37,230
+In this case I'm going to go ahead and just grab the ID of the comment that was supposed to be removed.
+
+196
+00:13:37,320 --> 00:13:38,370
+Perfect.
+
+197
+00:13:38,370 --> 00:13:43,490
+Now we can actually add delete comment onto the export list after delete post.
+
+198
+00:13:44,670 --> 00:13:46,620
+I'll add on delete comment.
+
+199
+00:13:46,620 --> 00:13:51,820
+Now we can save our operations file and actually take advantage of this operation.
+
+200
+00:13:51,900 --> 00:13:56,160
+Over inside of our test suite the first thing we have to do is inport it.
+
+201
+00:13:56,160 --> 00:14:06,490
+So let's add one more inport statement in porting right here the following delete comment and we're
+
+202
+00:14:06,490 --> 00:14:11,520
+going to grab that from that forward slash you tills forward slash operations.
+
+203
+00:14:11,520 --> 00:14:12,300
+Excellent.
+
+204
+00:14:12,300 --> 00:14:17,210
+Now we can use get client along with before each to see the database right here.
+
+205
+00:14:17,250 --> 00:14:23,460
+Konst client equals we'll call get client with no off token to create a generic client that can be used
+
+206
+00:14:23,460 --> 00:14:29,430
+by any test case where authentication isn't required and I'll be setting up before each calling that
+
+207
+00:14:29,670 --> 00:14:32,420
+passing in the seed database.
+
+208
+00:14:32,460 --> 00:14:34,110
+Function perfect.
+
+209
+00:14:34,110 --> 00:14:38,350
+Now let's move on to the individual test cases and we'll start with the first one.
+
+210
+00:14:38,430 --> 00:14:44,410
+In this case we're going to go ahead and generate a new client where we're authenticated as user 1.
+
+211
+00:14:44,670 --> 00:14:52,460
+So Konst client equals Abi calling get client passing in user 1 dot JWT.
+
+212
+00:14:52,620 --> 00:14:55,260
+And from there we can actually set up our variable.
+
+213
+00:14:55,290 --> 00:15:02,040
+So Konst variables equals all we have to do is define the ID of the comment we're trying to remove.
+
+214
+00:15:02,040 --> 00:15:05,250
+Now remember user one created comment too.
+
+215
+00:15:05,370 --> 00:15:08,340
+And in this case we're making sure we can delete our own comments.
+
+216
+00:15:08,340 --> 00:15:10,510
+So that's the comment I'm going to remove.
+
+217
+00:15:10,620 --> 00:15:12,800
+Comment to comment.
+
+218
+00:15:12,840 --> 00:15:14,250
+Dot ID.
+
+219
+00:15:14,400 --> 00:15:19,230
+Next up we can actually fire this off so I am going to await the following.
+
+220
+00:15:19,260 --> 00:15:25,320
+We are going to use client does mutate to pass in our options object and right here we're going to set
+
+221
+00:15:25,320 --> 00:15:30,300
+up the mutation to be delete comment as imported up above.
+
+222
+00:15:30,300 --> 00:15:36,150
+Next up we're going to link in those variables and on the next line we can focus on making our assertion.
+
+223
+00:15:36,160 --> 00:15:38,710
+Now there are a few ways we could have gotten this done.
+
+224
+00:15:38,760 --> 00:15:42,500
+Maybe you query for all comments and make sure there's just one left.
+
+225
+00:15:42,510 --> 00:15:47,940
+Maybe you use the exists functionality to try to find this specific comment and make sure it doesn't
+
+226
+00:15:47,940 --> 00:15:48,780
+exist.
+
+227
+00:15:48,780 --> 00:15:50,680
+That's the approach that I'm going to take.
+
+228
+00:15:50,730 --> 00:15:58,050
+So Konst exists is going to be a boolean which will get its value from using a way with Prisma dot exists
+
+229
+00:15:58,110 --> 00:16:00,420
+dot uppercase C comment.
+
+230
+00:16:00,420 --> 00:16:03,240
+Now we're looking for a comment by its ID.
+
+231
+00:16:03,240 --> 00:16:10,560
+So we're going to set up Id only and the ID is stored under comment to dot comment dot dot ID.
+
+232
+00:16:10,560 --> 00:16:13,470
+From here we can actually set up the expect assertions.
+
+233
+00:16:13,500 --> 00:16:20,100
+I'm going to expect that the exists variable equals using to be false.
+
+234
+00:16:20,100 --> 00:16:24,170
+We are expecting it to be gone it should not exist.
+
+235
+00:16:24,340 --> 00:16:27,840
+Now that we have this in place we can test our one test case.
+
+236
+00:16:27,930 --> 00:16:34,470
+Well talking about our second one in this case we're going to stay authenticated as User 1 but we're
+
+237
+00:16:34,470 --> 00:16:36,550
+going to try to delete comment 1.
+
+238
+00:16:36,630 --> 00:16:40,560
+And we should not be able to do that since we didn't create it.
+
+239
+00:16:40,770 --> 00:16:45,690
+Down below we can see the test suite is wrapping up and everything went really well so far.
+
+240
+00:16:45,780 --> 00:16:48,510
+Let's go ahead and start by setting up a client.
+
+241
+00:16:48,510 --> 00:16:54,150
+So Konst client equals I'll be calling get client passing in right here.
+
+242
+00:16:54,150 --> 00:16:56,850
+User 1 dot JWT.
+
+243
+00:16:56,850 --> 00:17:01,950
+Then we're going to set up our variables ID equals.
+
+244
+00:17:01,960 --> 00:17:04,250
+In this case the ID for comment 1.
+
+245
+00:17:04,420 --> 00:17:08,140
+That's comment one damn comment dot ID.
+
+246
+00:17:08,140 --> 00:17:11,320
+And after variable's we can actually fire this thing off.
+
+247
+00:17:11,320 --> 00:17:19,810
+So in this case I'm going to await a call to client dot mutate and we are going to pass in what we are
+
+248
+00:17:19,810 --> 00:17:28,200
+going to pass in nutation still using delete comment and we're also going to pass in our variables.
+
+249
+00:17:28,220 --> 00:17:31,870
+Never remember we are expecting this operation to fail.
+
+250
+00:17:31,970 --> 00:17:37,520
+So we have to use the functionality we explored earlier and expect that allows us to see if a given
+
+251
+00:17:37,520 --> 00:17:38,780
+premise fails.
+
+252
+00:17:38,780 --> 00:17:45,290
+Right now we're just firing it off on its own instead we are going to use expect we're going to pass
+
+253
+00:17:45,290 --> 00:17:47,320
+our promise in right here.
+
+254
+00:17:47,630 --> 00:17:53,930
+Then we'll use dot rejects dot to throw to ensure that it throws an error and we'll use a weight up
+
+255
+00:17:53,930 --> 00:17:54,640
+front.
+
+256
+00:17:54,980 --> 00:17:57,830
+So all we have to do is provide the promise right here.
+
+257
+00:17:57,830 --> 00:18:01,950
+I'm going to break that out onto its own line and copy the code from above.
+
+258
+00:18:02,090 --> 00:18:06,450
+Everything from the client all the way to the closing parentheses.
+
+259
+00:18:06,920 --> 00:18:08,640
+I'm going to paste that in.
+
+260
+00:18:08,660 --> 00:18:12,090
+Remove the extra await which is no longer necessary.
+
+261
+00:18:12,230 --> 00:18:15,030
+And right here we have the finalized test case.
+
+262
+00:18:15,110 --> 00:18:16,820
+We're going to try to delete a comment.
+
+263
+00:18:16,820 --> 00:18:18,480
+We shouldn't be able to remove.
+
+264
+00:18:18,530 --> 00:18:21,950
+And we're going to make sure that it does indeed throw an error.
+
+265
+00:18:21,980 --> 00:18:27,890
+Now we can go ahead and save the comment test suite for hopefully the last time in this video.
+
+266
+00:18:28,010 --> 00:18:32,350
+And I would expect to still have 12 passing test cases.
+
+267
+00:18:32,390 --> 00:18:37,820
+We already had 12 since we had saved the file when both of those test cases were empty and remember
+
+268
+00:18:38,060 --> 00:18:41,500
+an empty test case is always going to pass down below.
+
+269
+00:18:41,510 --> 00:18:42,170
+What do we have.
+
+270
+00:18:42,170 --> 00:18:47,850
+We have 12 passing test cases which is a fantastic step in the right direction.
+
+271
+00:18:48,170 --> 00:18:50,610
+That's where we're going to stop for this video.
+
+272
+00:18:50,720 --> 00:18:55,490
+I'm going to remove the challenge comments and in the next video we're going to start to wrap up this
+
+273
+00:18:55,490 --> 00:19:00,830
+section by exploring the last thing we haven't tested and that is a subscription.
+
+274
+00:19:01,010 --> 00:19:02,120
+I'm excited to get to that.
+
+275
+00:19:02,120 --> 00:19:04,910
+So let's go ahead and jump right in to the next one.
+

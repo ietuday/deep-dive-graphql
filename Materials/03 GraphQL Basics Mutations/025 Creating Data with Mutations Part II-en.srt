@@ -1,0 +1,1284 @@
+1
+00:00:00,210 --> 00:00:03,920
+In this video we're going to continue to talk mutations together.
+
+2
+00:00:04,050 --> 00:00:07,990
+We'll be creating a mutation called create post for adding a new post.
+
+3
+00:00:08,070 --> 00:00:13,020
+And as your challenge for the video you'll be creating a third mutation called create content which
+
+4
+00:00:13,020 --> 00:00:18,660
+will allow someone to add a comment onto a post together that we are going to start with that create
+
+5
+00:00:18,660 --> 00:00:24,360
+post mutation and we're also going to explore a couple other features of graft Well that make working
+
+6
+00:00:24,360 --> 00:00:26,900
+with our mutations just a little bit easier.
+
+7
+00:00:26,910 --> 00:00:33,600
+Up above though we are going to start by setting up the definition for create post right here after.
+
+8
+00:00:33,600 --> 00:00:39,510
+Create user will be setting up the Create post mutation and once again we need a set of arguments and
+
+9
+00:00:39,510 --> 00:00:44,670
+we have to determine what data comes back what's going to come back from Create post will indeed be
+
+10
+00:00:44,670 --> 00:00:45,350
+a post.
+
+11
+00:00:45,360 --> 00:00:47,130
+So we'll set that up first.
+
+12
+00:00:47,130 --> 00:00:52,480
+Now it's time to determine what values we actually need to create a new post.
+
+13
+00:00:52,530 --> 00:00:58,350
+What we don't need an ID that's going to be randomly generated we need a title we need a body we need
+
+14
+00:00:58,350 --> 00:01:04,080
+published and we also need to know which author this post should be associated with.
+
+15
+00:01:04,080 --> 00:01:10,900
+So I actually need a user id passed along with Create post and any create post resolver method.
+
+16
+00:01:11,040 --> 00:01:15,860
+We're going to verify that that user ID actually matches up with one of our users.
+
+17
+00:01:15,960 --> 00:01:16,460
+So right here.
+
+18
+00:01:16,470 --> 00:01:18,420
+Let's go ahead and list all of that out.
+
+19
+00:01:18,660 --> 00:01:21,730
+We're going to have title as a non nullable string.
+
+20
+00:01:22,380 --> 00:01:26,970
+After that we're going to go ahead and have a body once again a non nullable string.
+
+21
+00:01:27,300 --> 00:01:32,350
+Then we're going to have published this will be a non nullable boolean.
+
+22
+00:01:32,440 --> 00:01:36,970
+And then finally we have author which will be a non nullable ID.
+
+23
+00:01:37,120 --> 00:01:37,990
+So there we go.
+
+24
+00:01:38,080 --> 00:01:43,260
+We have the mutation definition all set up for create post and down below.
+
+25
+00:01:43,330 --> 00:01:46,090
+We can actually set up the resolver method for it.
+
+26
+00:01:46,240 --> 00:01:53,470
+So down here along side of create user right after it I'll add a comma a new line and we'll set up create
+
+27
+00:01:53,470 --> 00:01:57,490
+post and will also define all of the arguments for this one.
+
+28
+00:01:57,530 --> 00:02:02,740
+So we have our parent we have args we have context and we have info.
+
+29
+00:02:02,930 --> 00:02:07,250
+Once again we only know about a couple of these we will learn about the other ones as we progress through
+
+30
+00:02:07,250 --> 00:02:07,720
+the class.
+
+31
+00:02:07,730 --> 00:02:12,350
+But for the moment they're not particularly useful but we're actually trying to do.
+
+32
+00:02:12,680 --> 00:02:18,740
+So the first thing we're going to do inside of Kreep post is make sure that the author ID they gave
+
+33
+00:02:18,740 --> 00:02:22,960
+us actually matches up with the ID for one of our users.
+
+34
+00:02:23,000 --> 00:02:27,660
+The code for getting this done is going to look pretty similar to what we have up above though the opposite.
+
+35
+00:02:27,770 --> 00:02:32,330
+Instead of trying to make sure there is no person with that email we're going to try to make sure that
+
+36
+00:02:32,330 --> 00:02:34,910
+there is a person with that ID.
+
+37
+00:02:34,910 --> 00:02:41,160
+So right here a variable a constant something along the lines of user exists will get the job done.
+
+38
+00:02:41,360 --> 00:02:45,230
+And once again we'll be using the same method on our users array.
+
+39
+00:02:45,230 --> 00:02:47,470
+So users dot some.
+
+40
+00:02:47,750 --> 00:02:53,300
+Now we set up our callback function where we get access to the individual user and we are going to return
+
+41
+00:02:53,360 --> 00:03:00,390
+true if the user's ID matches up with the args dot author value.
+
+42
+00:03:00,470 --> 00:03:03,910
+If they do match up then we know we have found a match.
+
+43
+00:03:03,950 --> 00:03:10,040
+And as long as one of these match some will return TRUE meaning that the user does indeed exist.
+
+44
+00:03:10,040 --> 00:03:15,020
+Now in this case we do still want to throw an error related to this variable but we only want to throw
+
+45
+00:03:15,020 --> 00:03:17,480
+an error when the user does not exist.
+
+46
+00:03:17,480 --> 00:03:23,670
+So here we set up our IF statement if user exists is the opposite of what we want.
+
+47
+00:03:23,690 --> 00:03:28,840
+So I will flip that using the logical operator then we can add our code.
+
+48
+00:03:28,850 --> 00:03:32,230
+And in this case the code can once again just throw an error.
+
+49
+00:03:32,240 --> 00:03:36,850
+So throw in new error and we can say something like.
+
+50
+00:03:36,850 --> 00:03:39,010
+User not found.
+
+51
+00:03:39,140 --> 00:03:40,100
+Awesome.
+
+52
+00:03:40,130 --> 00:03:47,300
+So now all of the code down below this if statement is only going to run if we actually did find a matching
+
+53
+00:03:47,330 --> 00:03:48,090
+user.
+
+54
+00:03:48,110 --> 00:03:51,290
+Well we can do now is similar to what we did right here.
+
+55
+00:03:51,290 --> 00:03:52,750
+We're going to create a new post.
+
+56
+00:03:52,820 --> 00:03:55,790
+We're going to save it by pushing it onto that array.
+
+57
+00:03:55,790 --> 00:03:59,960
+And finally we are going to return the post object.
+
+58
+00:03:59,960 --> 00:04:03,260
+I'm going to start by creating a new constant called post.
+
+59
+00:04:03,260 --> 00:04:07,810
+This will be the object and we are going to generate a random ID for this post.
+
+60
+00:04:07,820 --> 00:04:16,160
+So ID equals we will be using a u u ID V for a function to generate that brand new ID.
+
+61
+00:04:16,280 --> 00:04:20,180
+And once we have it generated we're going to provide the other values necessary.
+
+62
+00:04:20,300 --> 00:04:27,210
+So we have tidal which lives on args title we have a body which lives on args dot body.
+
+63
+00:04:27,260 --> 00:04:32,450
+And then finally we have published which lives on args dot published.
+
+64
+00:04:32,450 --> 00:04:35,420
+I said finally but there actually is one more we can't forget.
+
+65
+00:04:35,420 --> 00:04:41,140
+Author also necessary author lives on args dot author.
+
+66
+00:04:41,150 --> 00:04:47,050
+Now we're going to learn how to clean all of this up with the object spread operator in the next video.
+
+67
+00:04:47,150 --> 00:04:53,510
+But before we actually add support for that syntax with babble This is indeed going to get the job done.
+
+68
+00:04:53,540 --> 00:04:54,480
+Now what do we do.
+
+69
+00:04:54,500 --> 00:04:56,550
+We push that on to our array.
+
+70
+00:04:56,690 --> 00:04:58,820
+So we have our posts array.
+
+71
+00:04:58,820 --> 00:05:00,580
+I'm going to use push to add it.
+
+72
+00:05:00,650 --> 00:05:01,850
+And what are we going to push.
+
+73
+00:05:01,850 --> 00:05:03,810
+We're going to push that object.
+
+74
+00:05:03,830 --> 00:05:10,920
+And finally we will return the post and there we go our create post mutation is all done.
+
+75
+00:05:10,940 --> 00:05:15,900
+Let's go ahead and actually test this out by moving over to graphical playground.
+
+76
+00:05:16,070 --> 00:05:20,980
+So the first thing we have to do is decide which user we want to add this post for.
+
+77
+00:05:21,020 --> 00:05:26,000
+I'm going to go ahead and create a new user adding the post for them since I just saved the project
+
+78
+00:05:26,000 --> 00:05:26,410
+file.
+
+79
+00:05:26,420 --> 00:05:28,780
+All of the old users have been reset.
+
+80
+00:05:28,790 --> 00:05:30,960
+I can create a new user with this data.
+
+81
+00:05:31,220 --> 00:05:33,670
+And what do I get back I get back the ID.
+
+82
+00:05:33,680 --> 00:05:39,490
+I'm going to copy that to the clipboard because we're going to use this value in our create post mutation.
+
+83
+00:05:39,740 --> 00:05:44,120
+We can create a nother tab for that sitting right here and we're going to start off by setting up the
+
+84
+00:05:44,120 --> 00:05:49,040
+mutation and we are going to be using the Create post mutation right here.
+
+85
+00:05:49,040 --> 00:05:53,610
+We're going to set up our arguments and we're going to set up our selection set.
+
+86
+00:05:53,660 --> 00:05:57,890
+Now when you have a lot of arguments you can actually break those onto multiple lines.
+
+87
+00:05:57,890 --> 00:06:03,290
+It's common to hit enter right here and define all of your arguments on their own lines that would look
+
+88
+00:06:03,290 --> 00:06:04,840
+a little bit like the following.
+
+89
+00:06:04,970 --> 00:06:09,410
+We'll start off with the title which every create post mutation has to have.
+
+90
+00:06:09,590 --> 00:06:11,390
+Right here we have our title.
+
+91
+00:06:11,420 --> 00:06:16,850
+I will use my new post after the title we can add the body in for this one.
+
+92
+00:06:16,850 --> 00:06:20,400
+Let's say I just started and I haven't actually written anything yet.
+
+93
+00:06:20,420 --> 00:06:21,980
+Then we can set up published.
+
+94
+00:06:21,980 --> 00:06:24,480
+Since I haven't written anything yet let's get published.
+
+95
+00:06:24,500 --> 00:06:25,910
+Equal to false.
+
+96
+00:06:25,940 --> 00:06:28,960
+And lastly we have to provide the author value.
+
+97
+00:06:28,970 --> 00:06:30,590
+Who wrote this post.
+
+98
+00:06:30,590 --> 00:06:37,130
+And in this case I copied that so right inside of quotes I'm going to paste the ID I copy to the clipboard.
+
+99
+00:06:37,130 --> 00:06:38,240
+Now down below.
+
+100
+00:06:38,360 --> 00:06:41,890
+We can actually determine what we want and get back for each post.
+
+101
+00:06:41,900 --> 00:06:44,310
+Let's go ahead and grab the ID.
+
+102
+00:06:44,320 --> 00:06:52,360
+I'm also going to grab the title I'll grab the body I'll grab a published and we can actually grab related
+
+103
+00:06:52,360 --> 00:06:56,890
+data as well so I could choose to grab something about the author if I wanted to.
+
+104
+00:06:56,890 --> 00:06:59,820
+For example I can grab the author's name.
+
+105
+00:06:59,980 --> 00:07:05,830
+And lastly I'll also grab the comments just to show you that that would work well even though no comments
+
+106
+00:07:05,830 --> 00:07:08,290
+exist since the post is about to get created.
+
+107
+00:07:08,510 --> 00:07:12,770
+So right here I could say I want the ID for every single comment for example.
+
+108
+00:07:13,030 --> 00:07:18,100
+So with this operation in place let's go ahead and actually run things when I do what happens well our
+
+109
+00:07:18,100 --> 00:07:20,440
+create post mutation runs.
+
+110
+00:07:20,500 --> 00:07:26,080
+We have our data property with the Create post property in there we have all of the data we selected
+
+111
+00:07:26,320 --> 00:07:28,420
+about this newly created post.
+
+112
+00:07:28,450 --> 00:07:34,450
+I have the ID title body published and I have related data in this case I have the author name Andrew
+
+113
+00:07:34,600 --> 00:07:35,870
+which is indeed correct.
+
+114
+00:07:35,890 --> 00:07:38,180
+That is the exact name I used over here.
+
+115
+00:07:38,290 --> 00:07:41,780
+And I also have my comments array since the post was just created.
+
+116
+00:07:41,800 --> 00:07:44,280
+It has no comments but that's OK.
+
+117
+00:07:44,680 --> 00:07:50,210
+Now if we try to create a post using an ID that didn't match a user we would get an error.
+
+118
+00:07:50,230 --> 00:07:56,260
+So let's go ahead and add just a couple of characters up front if I rerun the exact same operation this
+
+119
+00:07:56,260 --> 00:08:03,460
+time around I get user not found it sends this ID does not match up with any user in the database.
+
+120
+00:08:03,460 --> 00:08:06,670
+Now we were able to successfully add at least one post.
+
+121
+00:08:06,820 --> 00:08:12,370
+That means that if I run the Post's query I should see that one is showing up.
+
+122
+00:08:12,370 --> 00:08:18,280
+Let's switch over to the other tab where we use the Post's query here grabbing the id the title and
+
+123
+00:08:18,280 --> 00:08:19,600
+the author's name.
+
+124
+00:08:19,660 --> 00:08:24,320
+If I actually run the same exact operation we can see we have our initials 3.
+
+125
+00:08:24,520 --> 00:08:29,400
+Then down below we have the one that we just created with the title my new post.
+
+126
+00:08:29,530 --> 00:08:30,400
+So there we go.
+
+127
+00:08:30,550 --> 00:08:32,830
+We have the Create post mutation.
+
+128
+00:08:32,830 --> 00:08:33,760
+All done.
+
+129
+00:08:33,850 --> 00:08:35,200
+It's now working really well.
+
+130
+00:08:35,200 --> 00:08:37,990
+We have create user we have create post.
+
+131
+00:08:38,020 --> 00:08:43,350
+It is going to be your challenge for this video to add create comment.
+
+132
+00:08:43,360 --> 00:08:48,520
+Let's go ahead and move into the challenge portion of this video and up above at the very top of the
+
+133
+00:08:48,520 --> 00:08:49,220
+file.
+
+134
+00:08:49,270 --> 00:08:53,490
+I'm going to outline the exact steps I'd like you to take to knock this one out.
+
+135
+00:08:53,530 --> 00:08:58,630
+Right here we have all of the steps necessary but in the end of the day the big picture goal is to just
+
+136
+00:08:58,660 --> 00:09:02,450
+allow clients to create new comments.
+
+137
+00:09:02,470 --> 00:09:05,410
+So let's talk about all the steps necessary to get this done.
+
+138
+00:09:05,410 --> 00:09:09,460
+Step one is to define a new create commnet mutation.
+
+139
+00:09:09,580 --> 00:09:12,180
+So this mutation should take three arguments.
+
+140
+00:09:12,190 --> 00:09:14,190
+We're going to have the actual comment text.
+
+141
+00:09:14,200 --> 00:09:16,050
+So what are you trying to say.
+
+142
+00:09:16,270 --> 00:09:18,840
+We're also going to have the authors ID.
+
+143
+00:09:18,880 --> 00:09:22,190
+So which user is actually trying to leave this comment.
+
+144
+00:09:22,330 --> 00:09:29,860
+And we additionally need the post ID right here we need this so we know what post we're commenting on.
+
+145
+00:09:29,860 --> 00:09:32,940
+So with Create post we had a single ID argument.
+
+146
+00:09:32,950 --> 00:09:35,260
+That was author with create comment.
+
+147
+00:09:35,260 --> 00:09:40,500
+We're going to have to we need the author and we need the post in order to create the comment.
+
+148
+00:09:40,750 --> 00:09:45,630
+Now the comment is going to end up returning a comment just like we have done for the other mutations
+
+149
+00:09:45,790 --> 00:09:49,420
+create user returns and user create post returns a post.
+
+150
+00:09:49,570 --> 00:09:56,170
+So that brings us to step 2 which is to actually define the resolver method for create comment right
+
+151
+00:09:56,170 --> 00:09:56,940
+here to start.
+
+152
+00:09:56,950 --> 00:10:00,550
+What you have to do is make sure that the user actually exists.
+
+153
+00:10:00,550 --> 00:10:04,190
+So when they call create comment they are passing in an author ID.
+
+154
+00:10:04,270 --> 00:10:08,380
+You have to verify the author Id actually matches up with a user.
+
+155
+00:10:08,410 --> 00:10:10,410
+If it does not you're going to throw an error.
+
+156
+00:10:10,690 --> 00:10:16,030
+Additionally you also want to make sure that the post exists and that it is published.
+
+157
+00:10:16,030 --> 00:10:22,540
+So you want to try to find a post in that array whose I.D. matches up with the post argument and whose
+
+158
+00:10:22,540 --> 00:10:24,760
+published value is true.
+
+159
+00:10:24,760 --> 00:10:29,750
+If you do not find the post and it's not published you also want to throw an error.
+
+160
+00:10:29,770 --> 00:10:33,230
+Now if you find the user and you find the published post.
+
+161
+00:10:33,280 --> 00:10:38,860
+Lastly you will create the comment and return it steps 3 and 4 involve testing your work.
+
+162
+00:10:38,860 --> 00:10:43,960
+So for Step three you're going to run the mutation and actually add a new comment for a given author
+
+163
+00:10:43,960 --> 00:10:50,080
+on a given post and for Step 4 you're just going to use the comments query to fetch all of the comments
+
+164
+00:10:50,080 --> 00:10:53,790
+and make sure that the one you created actually shows up.
+
+165
+00:10:53,800 --> 00:10:56,900
+So take as much time as you need to knock this one out.
+
+166
+00:10:56,920 --> 00:11:02,320
+It's slightly more complex than the resolvers we've created so far because there are two checks you
+
+167
+00:11:02,320 --> 00:11:03,060
+have to make.
+
+168
+00:11:03,130 --> 00:11:04,660
+But you know how to get that done.
+
+169
+00:11:04,660 --> 00:11:07,150
+You just have to do the same thing twice.
+
+170
+00:11:07,150 --> 00:11:12,170
+Feel free to use the code down below any videos so far in the course to knock this out.
+
+171
+00:11:12,220 --> 00:11:19,950
+Take as much time as you need when you're done come back and click play.
+
+172
+00:11:19,950 --> 00:11:21,190
+All right let's get to it.
+
+173
+00:11:21,210 --> 00:11:22,500
+We're going to start with step one.
+
+174
+00:11:22,500 --> 00:11:26,800
+We have to define our mutation before we can create that resolver function.
+
+175
+00:11:26,970 --> 00:11:29,310
+So right here we have our type definitions.
+
+176
+00:11:29,340 --> 00:11:35,630
+I'm going to be adding a new one after create user and after create Post called create comment we're
+
+177
+00:11:35,640 --> 00:11:40,880
+going to set up the arguments and our return value which as I mentioned will just be a comment.
+
+178
+00:11:41,010 --> 00:11:43,380
+We need three arguments for create comment.
+
+179
+00:11:43,380 --> 00:11:45,540
+First up we have to know the comment text.
+
+180
+00:11:45,540 --> 00:11:48,360
+What exactly are you trying to say with this new comment.
+
+181
+00:11:48,360 --> 00:11:50,400
+This will be a required string.
+
+182
+00:11:50,550 --> 00:11:53,550
+Then we're going to have the two IDs necessary.
+
+183
+00:11:53,550 --> 00:11:57,280
+We need the author right here a non nullable ID.
+
+184
+00:11:57,360 --> 00:12:00,600
+And we also need to know the posts Id right here.
+
+185
+00:12:00,600 --> 00:12:03,340
+Another non nullable ID and there we go.
+
+186
+00:12:03,360 --> 00:12:06,000
+That is all you had to do for step 1.
+
+187
+00:12:06,000 --> 00:12:07,850
+That brings us to step 2.
+
+188
+00:12:08,010 --> 00:12:13,710
+We want to go ahead and define that resolver method and set up all of the logic necessary to verify
+
+189
+00:12:13,710 --> 00:12:17,950
+that the user exists and that the published post exists.
+
+190
+00:12:17,970 --> 00:12:20,190
+We're going to knock that down below.
+
+191
+00:12:20,190 --> 00:12:25,770
+Now this is one of those situations where there are plenty of different valid ways you could have solved
+
+192
+00:12:25,770 --> 00:12:26,850
+this problem.
+
+193
+00:12:26,850 --> 00:12:31,120
+There are basically an endless number of solutions to some of these challenges.
+
+194
+00:12:31,200 --> 00:12:32,650
+And that's OK.
+
+195
+00:12:32,700 --> 00:12:37,800
+So if your solutions not character for character the same as mine don't stress out about it.
+
+196
+00:12:37,800 --> 00:12:42,510
+If you have any questions or you're concerned that you might be missing some sort of edge case just
+
+197
+00:12:42,510 --> 00:12:46,690
+crack open a new question in the Q&amp;A and post your solution there.
+
+198
+00:12:46,770 --> 00:12:51,090
+We'll be happy to take a look and make sure there isn't anything that could potentially cause problems.
+
+199
+00:12:51,090 --> 00:12:56,850
+So right here we are going to create the Create comment method setting up those four arguments.
+
+200
+00:12:56,850 --> 00:13:03,800
+We have our parent we have arx we have context and we have info excellence inside of here.
+
+201
+00:13:03,810 --> 00:13:10,830
+The first thing we're going to do is verify that the user exists and that the published post exists.
+
+202
+00:13:10,830 --> 00:13:13,890
+I'm going to start by verifying that the user exists.
+
+203
+00:13:13,920 --> 00:13:18,170
+So right here a Konst user exists will get the job done like it did before.
+
+204
+00:13:18,420 --> 00:13:24,270
+I'll also use users got some passing in that callback function where we get access to the individual
+
+205
+00:13:24,270 --> 00:13:25,180
+user.
+
+206
+00:13:25,230 --> 00:13:31,910
+I'm going to return TRUE saying we've found a match if the user's I.D. matches up with the args dot
+
+207
+00:13:31,980 --> 00:13:33,630
+author property.
+
+208
+00:13:33,630 --> 00:13:36,760
+Now we can do the exact same thing for the post sir right here.
+
+209
+00:13:36,770 --> 00:13:38,710
+Conc post exists.
+
+210
+00:13:38,820 --> 00:13:42,740
+We are going to use posts dot some to try to find that match.
+
+211
+00:13:42,870 --> 00:13:45,360
+And this one is going to be slightly different.
+
+212
+00:13:45,360 --> 00:13:51,150
+So we're going to verify that not only we can find the post by ID but also that the post is published
+
+213
+00:13:51,420 --> 00:13:56,320
+so we get access to the Post's argument right here and we can return the following.
+
+214
+00:13:56,340 --> 00:13:58,740
+We're going to use the logical and operator.
+
+215
+00:13:58,770 --> 00:14:03,830
+So I want to confirm that the post I.D. matches up with the exact post property.
+
+216
+00:14:03,840 --> 00:14:04,820
+That's step one.
+
+217
+00:14:05,070 --> 00:14:15,160
+But I also only want to return true if in this case if the Post dot published property is indeed true.
+
+218
+00:14:15,180 --> 00:14:21,150
+So I only want to return true if the post is published now sends this value is going to be either true
+
+219
+00:14:21,150 --> 00:14:21,860
+or false.
+
+220
+00:14:21,900 --> 00:14:26,520
+We can actually remove the equality operator and just use that boolean value directly.
+
+221
+00:14:26,520 --> 00:14:28,470
+This is the exact same functionality.
+
+222
+00:14:28,680 --> 00:14:32,820
+And now that we've written this out I am going to convert it to the shorthand so I'll take everything
+
+223
+00:14:32,820 --> 00:14:33,950
+that we return.
+
+224
+00:14:34,290 --> 00:14:36,000
+Copy it to the clipboard.
+
+225
+00:14:36,000 --> 00:14:40,250
+Remove the curly braces and then just implicitly return it.
+
+226
+00:14:40,260 --> 00:14:44,370
+So this is the same functionality just with the shorthand syntax.
+
+227
+00:14:44,370 --> 00:14:49,290
+Now we can use an IF statement to actually throw an error if something's not quite right.
+
+228
+00:14:49,320 --> 00:14:51,220
+Now you might have used one if statement for each.
+
+229
+00:14:51,220 --> 00:14:56,110
+For the user and the post I'm going to go ahead and just add one totals are not one each.
+
+230
+00:14:56,160 --> 00:15:01,790
+Right here if and what we're going to do is check if there was no user.
+
+231
+00:15:01,800 --> 00:15:07,240
+So if there is no user exists here using the logical operator to flip the boolean value.
+
+232
+00:15:07,500 --> 00:15:13,800
+So if there was no user or there wasn't a post so right here if there was no post referencing the post
+
+233
+00:15:13,860 --> 00:15:15,250
+exists variable.
+
+234
+00:15:15,390 --> 00:15:21,850
+If there was no user or there was no post we want to throw an error right here throw new error.
+
+235
+00:15:21,930 --> 00:15:24,140
+We can print whatever message we see fit.
+
+236
+00:15:24,150 --> 00:15:31,240
+I'll just say unable to find user and post and now down below.
+
+237
+00:15:31,380 --> 00:15:37,450
+We can write the code for when we do find the user and we do find that published post right here.
+
+238
+00:15:37,530 --> 00:15:39,620
+Let's go ahead and actually knock that out.
+
+239
+00:15:39,630 --> 00:15:45,210
+We're going to create our common object so Konst comment equals a brand new object and we're gonna set
+
+240
+00:15:45,210 --> 00:15:46,710
+up the four properties we need.
+
+241
+00:15:46,770 --> 00:15:53,640
+The first being our randomly generated ID which we get by calling the u you ID V for function.
+
+242
+00:15:53,730 --> 00:15:54,630
+Excellent.
+
+243
+00:15:54,750 --> 00:16:01,280
+All of the other three come right off of args so we have text which comes from args dot text.
+
+244
+00:16:01,470 --> 00:16:05,520
+I have author which comes from args dot author.
+
+245
+00:16:05,610 --> 00:16:10,320
+And finally we also have posts which comes from args dot post.
+
+246
+00:16:10,320 --> 00:16:16,170
+Now we can go ahead and push this object on to the comments array and return it right here.
+
+247
+00:16:16,560 --> 00:16:17,100
+Comments.
+
+248
+00:16:17,100 --> 00:16:17,450
+Drop.
+
+249
+00:16:17,450 --> 00:16:20,180
+Push pushing on the brand new comment.
+
+250
+00:16:20,340 --> 00:16:24,800
+In effect saving it and then finally return comment.
+
+251
+00:16:24,900 --> 00:16:25,780
+Excellent.
+
+252
+00:16:25,860 --> 00:16:29,430
+So this is just one way you could have solved step 2.
+
+253
+00:16:29,460 --> 00:16:31,930
+Maybe you've created three variables up here.
+
+254
+00:16:31,950 --> 00:16:33,810
+Maybe you used multiple if statements.
+
+255
+00:16:33,810 --> 00:16:35,810
+All of that is perfectly fine.
+
+256
+00:16:35,820 --> 00:16:39,120
+You do not need to match me character for character.
+
+257
+00:16:39,180 --> 00:16:42,010
+What you need to match me for is the functionality.
+
+258
+00:16:42,060 --> 00:16:43,980
+So let's go ahead and save this file.
+
+259
+00:16:43,980 --> 00:16:49,650
+And that brings us to steps 3 and 4 which we're actually going to do over engraft you playground.
+
+260
+00:16:49,710 --> 00:16:55,020
+We want to create a brand new comment and then we want to verify it was actually created by using the
+
+261
+00:16:55,020 --> 00:16:56,460
+comments query.
+
+262
+00:16:56,460 --> 00:17:00,960
+Now what we're going to need a user ID and a post ID to create that comment.
+
+263
+00:17:00,960 --> 00:17:04,490
+I could create a user and create a post with my two mutations.
+
+264
+00:17:04,500 --> 00:17:07,250
+I'm going to go ahead though and just use some of the static data.
+
+265
+00:17:07,500 --> 00:17:13,170
+I'm going to say that this third user with an ID of 3 is leaving a comment on this last post with an
+
+266
+00:17:13,170 --> 00:17:14,450
+ID of 12.
+
+267
+00:17:14,550 --> 00:17:17,180
+So those are the two IDs I'm going to use.
+
+268
+00:17:17,280 --> 00:17:22,430
+We can now create a new tab engraft UL playground and set up our create comment mutation.
+
+269
+00:17:22,500 --> 00:17:29,310
+So right here it is a mutation operation and we are using the Create comment mutation and we are going
+
+270
+00:17:29,310 --> 00:17:31,240
+to provide a list of arguments.
+
+271
+00:17:31,260 --> 00:17:36,860
+I'm going to use one line for each argument and we're also going to provide our selection set.
+
+272
+00:17:36,870 --> 00:17:38,730
+Let's go ahead and set up our arguments.
+
+273
+00:17:38,730 --> 00:17:41,990
+First we need the text but say I'll say something like.
+
+274
+00:17:42,000 --> 00:17:46,950
+You should check out David cutter music.
+
+275
+00:17:46,980 --> 00:17:48,470
+You actually should check that out.
+
+276
+00:17:48,560 --> 00:17:54,530
+Some of my favorite programming music is completely instrumental and it has a really nice vibe to it.
+
+277
+00:17:54,540 --> 00:17:59,360
+I'm also going to provide the author and the post ID so for author.
+
+278
+00:17:59,370 --> 00:18:01,240
+I said it was three I believe.
+
+279
+00:18:01,740 --> 00:18:02,940
+And then for a post.
+
+280
+00:18:02,940 --> 00:18:04,280
+Let's go ahead and double check.
+
+281
+00:18:04,290 --> 00:18:05,480
+I believe it was 13.
+
+282
+00:18:05,520 --> 00:18:06,580
+Nope it was 12.
+
+283
+00:18:06,690 --> 00:18:08,990
+So let's go ahead and use that ID right here.
+
+284
+00:18:10,760 --> 00:18:15,650
+Now we have all of the arguments set up and the last thing we have to do is provide our selection set.
+
+285
+00:18:15,680 --> 00:18:20,800
+So I'm going to grab the idea I'm going to grab the text and I'll also grab some related data.
+
+286
+00:18:20,900 --> 00:18:30,190
+I'll grab the author's name and I'll also choose to grab the post's title right here post title perfect
+
+287
+00:18:30,730 --> 00:18:35,980
+with all of this set up we can refresh the schema see that we have a completely valid operation and
+
+288
+00:18:35,980 --> 00:18:37,780
+actually fire this off.
+
+289
+00:18:37,780 --> 00:18:38,830
+I'm going to go ahead and create it.
+
+290
+00:18:38,830 --> 00:18:39,770
+And what do I see.
+
+291
+00:18:39,880 --> 00:18:43,450
+Unable to find user and post wups.
+
+292
+00:18:43,570 --> 00:18:47,170
+I actually think I picked a post that was not published.
+
+293
+00:18:47,170 --> 00:18:53,080
+Yes I did only the first post is published so I'm going to go ahead and just SWIP excuse me swap this
+
+294
+00:18:53,080 --> 00:18:55,900
+published value from false to true.
+
+295
+00:18:56,140 --> 00:18:57,600
+And we'll go ahead and try that again.
+
+296
+00:18:57,700 --> 00:19:03,910
+So I'll save index dot J s over here I'm going to rerun the same operation and this time it is indeed
+
+297
+00:19:03,910 --> 00:19:04,630
+working.
+
+298
+00:19:04,630 --> 00:19:09,470
+So we've already verified that our published check is indeed working correctly.
+
+299
+00:19:09,520 --> 00:19:10,580
+So right here what do we have.
+
+300
+00:19:10,600 --> 00:19:11,680
+We have our data.
+
+301
+00:19:11,950 --> 00:19:13,720
+We have our create common data.
+
+302
+00:19:13,720 --> 00:19:15,330
+We have the ID for the comment.
+
+303
+00:19:15,340 --> 00:19:16,840
+We have the common text.
+
+304
+00:19:16,840 --> 00:19:21,890
+The comment was left by Mike and it was left on a post called programming music.
+
+305
+00:19:21,910 --> 00:19:24,280
+All of that is indeed correct.
+
+306
+00:19:24,400 --> 00:19:29,050
+The last step is to run that comments query and make sure it was actually saved.
+
+307
+00:19:29,050 --> 00:19:31,720
+I have the comments queries sitting right over here.
+
+308
+00:19:31,780 --> 00:19:36,150
+I'm going to run that I get my static comment and then at the bottom what do I get.
+
+309
+00:19:36,190 --> 00:19:39,250
+I get my newly generated comment from the Create comment.
+
+310
+00:19:39,250 --> 00:19:40,060
+Mutation.
+
+311
+00:19:40,090 --> 00:19:44,940
+I have all of the same data I had over there because in the end of the day the selection set is identical.
+
+312
+00:19:44,950 --> 00:19:48,580
+I'm getting the author's name and I am getting the Post's title.
+
+313
+00:19:48,670 --> 00:19:49,630
+So there we go.
+
+314
+00:19:49,660 --> 00:19:54,630
+We've learned a bit more about how to use mutations when working with related data.
+
+315
+00:19:54,670 --> 00:20:01,480
+We now have mutations for creating a user for creating a post end for creating a comment.
+
+316
+00:20:01,600 --> 00:20:07,450
+What I'd like to spend the next couple of videos on are a few optimizations allowing us to improve our
+
+317
+00:20:07,450 --> 00:20:14,200
+arguments for mutations and allowing us to improve the actual code right inside in the next video we're
+
+318
+00:20:14,200 --> 00:20:20,500
+going to set up support for the object spread operator in our project allowing us to simplify the code
+
+319
+00:20:20,530 --> 00:20:21,960
+in these resolver methods.
+
+320
+00:20:21,970 --> 00:20:23,700
+I'm super excited to get to that.
+
+321
+00:20:23,740 --> 00:20:28,120
+So let's go ahead and jump right into the next one after saving index dot J as.
+

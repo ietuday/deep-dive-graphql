@@ -1,0 +1,56 @@
+1
+00:00:01,910 --> 00:00:04,370
+This course it contains a lot of new information.
+
+2
+00:00:04,370 --> 00:00:10,910
+So to make that information easier to digest and remember I've included a PTF companion with the class
+
+3
+00:00:11,150 --> 00:00:17,510
+this PTF guide can be downloaded as part of the lecture resources for this lesson and they recommend
+
+4
+00:00:17,510 --> 00:00:19,730
+taking just a quick moment to download it.
+
+5
+00:00:19,730 --> 00:00:25,970
+Crack it open and see what it's all about the guide itself contains lecture notes as well as documentation
+
+6
+00:00:25,970 --> 00:00:30,050
+links and code samples for everything we talk about in the class.
+
+7
+00:00:30,050 --> 00:00:35,240
+It's a much more scanning or friendly version of the Course that's not meant to be read front to back
+
+8
+00:00:35,240 --> 00:00:36,120
+like a book.
+
+9
+00:00:36,230 --> 00:00:39,200
+It's meant to be your companion as you move through the class.
+
+10
+00:00:39,200 --> 00:00:44,720
+So if you forget where I said something or exactly what we talked about the PTF guide can get you that
+
+11
+00:00:44,720 --> 00:00:47,390
+information quickly and easily.
+
+12
+00:00:47,390 --> 00:00:49,010
+All right that's it for this one.
+
+13
+00:00:49,100 --> 00:00:52,510
+Let's go ahead and talk about why we should ever use graphs.
+
+14
+00:00:52,550 --> 00:00:52,870
+Well.
+

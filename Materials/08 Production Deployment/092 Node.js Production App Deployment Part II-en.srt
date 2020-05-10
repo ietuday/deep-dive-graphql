@@ -1,0 +1,1140 @@
+1
+00:00:00,270 --> 00:00:04,850
+In the last video we made some great progress towards getting our app Heroku ready.
+
+2
+00:00:04,860 --> 00:00:08,500
+Things are working in development which is good at least it's not broken there.
+
+3
+00:00:08,640 --> 00:00:14,630
+And in this one we're going to finish up the process actually getting our app deployed live to the Web.
+
+4
+00:00:14,640 --> 00:00:16,340
+So what's the first thing we're going to do.
+
+5
+00:00:16,350 --> 00:00:22,050
+Well the first thing we're going to do is talk about the scripts that Heroku is going to run in the
+
+6
+00:00:22,050 --> 00:00:25,370
+end of the day Heroku is going to run the start script.
+
+7
+00:00:25,380 --> 00:00:30,500
+That's what's going to start up our app and we want to use node to run our application.
+
+8
+00:00:30,510 --> 00:00:35,840
+We want to make sure that index dot J s executes so it can get everything started.
+
+9
+00:00:35,980 --> 00:00:42,450
+The other thing that we can do though is use a series of other scripts that Heroku supports to do things
+
+10
+00:00:42,450 --> 00:00:46,080
+like run babbel to make sure all of that is in order as well.
+
+11
+00:00:46,080 --> 00:00:52,830
+There are actually plenty of scripts that Heroku supports and it allows you to tap in to the lifecycle
+
+12
+00:00:52,920 --> 00:00:54,180
+of your application.
+
+13
+00:00:54,390 --> 00:01:03,380
+And we can find those by googling Heroku node G-S support and the article we're looking for is titled
+
+14
+00:01:03,440 --> 00:01:11,310
+No JS support Heroku no js support is right here and we're looking for these scripts related to Heroku.
+
+15
+00:01:11,330 --> 00:01:16,680
+Now if we scroll down the list we are looking for customizing the build process.
+
+16
+00:01:16,730 --> 00:01:23,210
+If I click that it brings us to various scripts we can use the ones that we're going to talk about our
+
+17
+00:01:23,270 --> 00:01:25,090
+down below just a little bit.
+
+18
+00:01:25,100 --> 00:01:29,210
+We have Heroku pre-build and Heroku post build.
+
+19
+00:01:29,300 --> 00:01:32,180
+We want to use Heroku post build.
+
+20
+00:01:32,210 --> 00:01:36,740
+This is going to fire just before NPM start runs.
+
+21
+00:01:36,770 --> 00:01:43,430
+So it is a great place to run babbel so over inside of package Scott Jason we're going to add that into
+
+22
+00:01:43,430 --> 00:01:46,400
+the mix as well just below our start script.
+
+23
+00:01:46,400 --> 00:01:48,140
+We're going to set up a new one.
+
+24
+00:01:48,350 --> 00:01:53,140
+The name for this script needs to be Heroku hyphen post build.
+
+25
+00:01:53,150 --> 00:01:54,290
+Exactly.
+
+26
+00:01:54,290 --> 00:01:59,810
+If there are any typos inside of their Heroku is going to think you didn't provide it and it's not going
+
+27
+00:01:59,810 --> 00:02:02,290
+to run but we end up putting in the script.
+
+28
+00:02:02,390 --> 00:02:08,390
+So in summary this script is going to run our code through Babel and this script is actually going to
+
+29
+00:02:08,390 --> 00:02:10,900
+start up the node application.
+
+30
+00:02:10,910 --> 00:02:18,410
+Now for the Heroku post build script we're not actually going to use Babel node babbel node is great
+
+31
+00:02:18,410 --> 00:02:24,140
+for local development purposes but as the babbel team will tell you themselves that's not suited for
+
+32
+00:02:24,140 --> 00:02:24,800
+production.
+
+33
+00:02:24,800 --> 00:02:30,720
+So right here we're going to just use Babel which we already have installed since we've installed babbel
+
+34
+00:02:30,730 --> 00:02:31,340
+down below.
+
+35
+00:02:31,340 --> 00:02:33,220
+We have access to both of these.
+
+36
+00:02:33,410 --> 00:02:37,250
+Now we are going to use babbel providing a series of arguments.
+
+37
+00:02:37,280 --> 00:02:41,210
+The first thing we do is list out where our code lives.
+
+38
+00:02:41,210 --> 00:02:44,330
+In this case it is in the source directory.
+
+39
+00:02:44,330 --> 00:02:48,520
+Next up we have to list out where we want to put the output.
+
+40
+00:02:48,590 --> 00:02:51,590
+So Babel is going to take all of our files and transform them.
+
+41
+00:02:51,710 --> 00:02:54,500
+When those files are transformed where do they go.
+
+42
+00:02:54,710 --> 00:02:58,380
+So unlike babbel node which just runs our app on the fly.
+
+43
+00:02:58,520 --> 00:03:01,240
+The battle command actually doesn't run our app.
+
+44
+00:03:01,340 --> 00:03:05,760
+It just transforms the files so the input is the source directory.
+
+45
+00:03:05,830 --> 00:03:08,520
+Right here we use hyphen hyphen out.
+
+46
+00:03:08,600 --> 00:03:09,940
+Hi Van Der.
+
+47
+00:03:10,040 --> 00:03:12,800
+And then we provide the output directory.
+
+48
+00:03:12,800 --> 00:03:15,480
+I'm just going to call that d'Este.
+
+49
+00:03:15,500 --> 00:03:18,560
+So at this point Babel would read our source directory.
+
+50
+00:03:18,710 --> 00:03:24,140
+It would run everything through all of the presets and plug ins we've installed and it would spit those
+
+51
+00:03:24,140 --> 00:03:26,710
+files out into the disk directory.
+
+52
+00:03:26,900 --> 00:03:29,540
+Let's go ahead and actually see that in action.
+
+53
+00:03:29,540 --> 00:03:31,710
+So I'm going to save package dot Jason.
+
+54
+00:03:31,970 --> 00:03:34,560
+Closing down all directories and opening up graft.
+
+55
+00:03:34,580 --> 00:03:44,230
+Well Prisma from the terminal all we're going to do is run NPM run Heroku hyphen post build.
+
+56
+00:03:44,310 --> 00:03:50,190
+And when we do this it is indeed going to run babbel and we'll notice that there is a single new directory
+
+57
+00:03:50,250 --> 00:03:57,180
+the dist folder this contains all of our javascript files and if we were to crack just one of them open
+
+58
+00:03:57,330 --> 00:04:00,030
+we can see that they have indeed been transformed.
+
+59
+00:04:00,030 --> 00:04:02,620
+This looks nothing like the code we wrote.
+
+60
+00:04:02,910 --> 00:04:08,140
+So in the end of the day this is the directory that we are going to run from Heroku.
+
+61
+00:04:08,160 --> 00:04:14,610
+Now the only thing you'll notice is that some files are missing files that aren't G-S related don't
+
+62
+00:04:14,610 --> 00:04:17,730
+get processed by babbel and are actually getting skipped here.
+
+63
+00:04:17,880 --> 00:04:25,050
+We can fix that by using the hyphen hyphen Copie hyphen files flag.
+
+64
+00:04:25,080 --> 00:04:29,400
+This is going to make sure to copy all files even if it's not getting processed.
+
+65
+00:04:29,400 --> 00:04:35,850
+This is going to include our graph Cuil files like schema dot graft well and our generated graphics
+
+66
+00:04:36,040 --> 00:04:36,910
+file.
+
+67
+00:04:37,170 --> 00:04:43,020
+Now that save package data Jason and run that exact same script again this time around we're still going
+
+68
+00:04:43,020 --> 00:04:44,670
+to have that disk directory.
+
+69
+00:04:44,760 --> 00:04:49,560
+But you'll notice we have some newcomer's We do indeed have our schema file and we also now have our
+
+70
+00:04:49,560 --> 00:04:51,130
+generated directory.
+
+71
+00:04:51,330 --> 00:04:57,840
+So this contains everything that node needs to run our application and we have to do to startup the
+
+72
+00:04:57,840 --> 00:05:05,690
+app is use node and run a file from the disk directory called index dot J ass.
+
+73
+00:05:05,730 --> 00:05:09,950
+Now we are going to test this out so let's go ahead and toss Ian V.
+
+74
+00:05:09,950 --> 00:05:11,660
+CM d up front.
+
+75
+00:05:11,700 --> 00:05:18,450
+And for this we are going to load in our production file that's dot forward slash config forwards slash
+
+76
+00:05:18,450 --> 00:05:20,880
+Prod. dot E and V.
+
+77
+00:05:21,060 --> 00:05:22,020
+Perfect.
+
+78
+00:05:22,080 --> 00:05:28,200
+And if we actually run this it's gonna fail and we're going to talk about why I'm going to go down to
+
+79
+00:05:28,200 --> 00:05:30,960
+the terminal and run NPM start.
+
+80
+00:05:30,960 --> 00:05:33,480
+This is going to try to start everything up.
+
+81
+00:05:33,490 --> 00:05:39,580
+But we are going to be greeted with an error and if we scroll up we can look at the error.
+
+82
+00:05:39,600 --> 00:05:45,330
+Right here we have our message or reference error a regenerator runtime is not defined.
+
+83
+00:05:45,360 --> 00:05:51,000
+So this is something that's provided when we use babbel node but it's not provided when we just use
+
+84
+00:05:51,250 --> 00:05:53,640
+babbel we can use Babel node in development.
+
+85
+00:05:53,640 --> 00:05:58,820
+We can't use it in production which means that we have to make a small change to our app.
+
+86
+00:05:58,890 --> 00:06:01,960
+And I promise this one is also pretty easy to address.
+
+87
+00:06:02,130 --> 00:06:04,530
+So babbel has a whole bunch of different things.
+
+88
+00:06:04,530 --> 00:06:11,600
+If we go over to babbel J as I go we can go ahead and take a look at what they have and if we go to
+
+89
+00:06:11,600 --> 00:06:13,040
+the docs.
+
+90
+00:06:13,370 --> 00:06:20,960
+One of the things they offer us is a poly fell down in the side bar there is babbel poly fell this adds
+
+91
+00:06:20,960 --> 00:06:27,500
+a whole bunch of stuff that's necessary and on the first line you can see it includes a custom regenerator
+
+92
+00:06:27,500 --> 00:06:33,410
+runtime that allows us to use advanced features like a sink and a weight down below you'll notice it
+
+93
+00:06:33,410 --> 00:06:40,640
+explicitly says this poly Thale is automatically included when you're using babbel node.
+
+94
+00:06:40,640 --> 00:06:43,580
+That's why we didn't run into this issue earlier.
+
+95
+00:06:43,580 --> 00:06:46,250
+In reality salving it is very simple.
+
+96
+00:06:46,250 --> 00:06:51,110
+We install something then down below we simply require it or inport it.
+
+97
+00:06:51,110 --> 00:06:54,070
+That's all we have to do to get this to work.
+
+98
+00:06:54,110 --> 00:06:55,100
+So let's do it.
+
+99
+00:06:55,100 --> 00:07:00,570
+We are going to go ahead and move into the terminal and install it using the command we have right here.
+
+100
+00:07:00,740 --> 00:07:10,430
+I'm going to clear the output and run NPM install the module we're installing is at Babel forward slash
+
+101
+00:07:10,520 --> 00:07:13,910
+poly Phil and we're gonna grab the latest version.
+
+102
+00:07:13,910 --> 00:07:17,960
+So at seven point zero point zero perfect.
+
+103
+00:07:17,960 --> 00:07:25,550
+Now when we install this to get things to work all we need to do is make a microscopic change to index
+
+104
+00:07:25,550 --> 00:07:29,810
+Dhananjay ass not the one in d'Este remember that's auto generated.
+
+105
+00:07:29,810 --> 00:07:32,930
+We can actually just remove that directory altogether.
+
+106
+00:07:32,960 --> 00:07:40,440
+For the moment we need to make a small change to index data and J.S. in the source folder up top.
+
+107
+00:07:40,540 --> 00:07:46,610
+We're going to do is load in that Polly fill and we want to do it before any of our code we can even
+
+108
+00:07:46,610 --> 00:07:49,980
+put it as the top line in the file right here.
+
+109
+00:07:50,180 --> 00:07:53,160
+We are going to import the following file.
+
+110
+00:07:53,180 --> 00:07:54,650
+We don't need anything from it.
+
+111
+00:07:54,650 --> 00:08:00,380
+So we can go right to our quotes that is at Babel forward slash poly fill.
+
+112
+00:08:00,440 --> 00:08:01,330
+Perfect.
+
+113
+00:08:01,340 --> 00:08:06,550
+So now our project is going to work with or without babbel node which is great.
+
+114
+00:08:06,560 --> 00:08:09,290
+It's a little more robust now.
+
+115
+00:08:09,320 --> 00:08:13,610
+From the terminal we can rerun our commands and make sure that things working right here.
+
+116
+00:08:13,610 --> 00:08:17,490
+NPM run Heroku hyphen.
+
+117
+00:08:17,510 --> 00:08:18,590
+Post build.
+
+118
+00:08:18,710 --> 00:08:24,960
+So we are going to rebuild our application generating a nudist directory and here it is.
+
+119
+00:08:24,980 --> 00:08:29,610
+Next up we are going to use NPM start or NPM run start.
+
+120
+00:08:29,630 --> 00:08:31,570
+They're both the exact same thing.
+
+121
+00:08:31,640 --> 00:08:35,540
+This previously failed but this time around it should indeed work.
+
+122
+00:08:35,540 --> 00:08:37,400
+And right here we have our message.
+
+123
+00:08:37,400 --> 00:08:40,000
+The server is up.
+
+124
+00:08:40,040 --> 00:08:42,230
+So now our scripts are good to go.
+
+125
+00:08:42,230 --> 00:08:44,360
+We are all set for Heroku.
+
+126
+00:08:44,390 --> 00:08:50,870
+I'm going to shut down our server and from the terminal run clear the goal from here on out is to get
+
+127
+00:08:50,870 --> 00:08:53,310
+everything in a get repository.
+
+128
+00:08:53,360 --> 00:08:59,300
+We're then going to send that repository with all of our code off to Heroku and Heroku is going to be
+
+129
+00:08:59,300 --> 00:09:01,730
+able to use that to run our application.
+
+130
+00:09:01,730 --> 00:09:03,890
+Heroku is going to run this script.
+
+131
+00:09:03,890 --> 00:09:04,810
+It knows about it.
+
+132
+00:09:04,820 --> 00:09:07,260
+It's a custom script supported by them.
+
+133
+00:09:07,340 --> 00:09:10,890
+Then it's going to run this script to startup the app.
+
+134
+00:09:10,910 --> 00:09:12,430
+So let's go ahead and get started.
+
+135
+00:09:12,440 --> 00:09:15,800
+First up we have to create a new get repository.
+
+136
+00:09:15,920 --> 00:09:18,540
+So once again it is a requirement for this course.
+
+137
+00:09:18,590 --> 00:09:23,810
+I'm not going to cover all the commands in detail but we will go one at a time from the root of our
+
+138
+00:09:23,810 --> 00:09:24,410
+project.
+
+139
+00:09:24,410 --> 00:09:25,740
+We're going to run it get in it.
+
+140
+00:09:25,760 --> 00:09:31,580
+It is super important that you run this from the root of our project not the root of the Course folder
+
+141
+00:09:31,820 --> 00:09:37,220
+and not some nested directory like the Prisma directory which we have been switching in and out of throughout
+
+142
+00:09:37,220 --> 00:09:37,990
+the class.
+
+143
+00:09:38,000 --> 00:09:43,550
+So before you hit enter just confirm you're in the right folder then we can run the command now from
+
+144
+00:09:43,550 --> 00:09:48,800
+here I am getting a few messages sent Visual Studio code has built in get support.
+
+145
+00:09:48,800 --> 00:09:54,970
+I'm just going to close that down and we're going to run and get status to get the status of our repository.
+
+146
+00:09:55,040 --> 00:10:00,330
+Right here we have a whole bunch of files in red under the header untracked files.
+
+147
+00:10:00,350 --> 00:10:03,870
+This is everything in our application and we want to track them.
+
+148
+00:10:03,890 --> 00:10:05,360
+But not all of them.
+
+149
+00:10:05,570 --> 00:10:08,080
+There are two directories we're going to ignore.
+
+150
+00:10:08,120 --> 00:10:11,450
+There's two directories we're not going to send to Heroku.
+
+151
+00:10:11,450 --> 00:10:17,300
+The first is node modules Heroku is going to run NPM install anyways and it's going to find all of the
+
+152
+00:10:17,300 --> 00:10:19,320
+dependencies we have listed here.
+
+153
+00:10:19,340 --> 00:10:22,140
+It can regenerate that folder no problem.
+
+154
+00:10:22,160 --> 00:10:27,700
+The other is the config directory which contains secrets and confidential information.
+
+155
+00:10:27,710 --> 00:10:33,110
+It's a best practice to avoid committing these to your repository.
+
+156
+00:10:33,110 --> 00:10:37,610
+So we want to leave those off as well to leave off both of those folders.
+
+157
+00:10:37,610 --> 00:10:41,770
+We're going to create a good ignore file in the root of our project in the graph.
+
+158
+00:10:41,770 --> 00:10:43,700
+Q El Prisma folder.
+
+159
+00:10:43,700 --> 00:10:51,910
+That file is called Gadot get ignore and we are going to ignore those two folders first up we have node
+
+160
+00:10:51,970 --> 00:10:53,310
+underscore modules.
+
+161
+00:10:53,320 --> 00:10:55,930
+Second up we have config.
+
+162
+00:10:55,930 --> 00:11:02,800
+Now if we save this file and to rerun the exact same get status command we can see the those two folders
+
+163
+00:11:02,800 --> 00:11:04,560
+are gone which is a good thing.
+
+164
+00:11:04,780 --> 00:11:10,720
+Now there's another directory We want to ignore as well and that's the dist folder for almost all purposes.
+
+165
+00:11:10,720 --> 00:11:12,550
+We're never going to have this locally.
+
+166
+00:11:12,550 --> 00:11:17,660
+We only have it locally because we were testing out the scripts that Heroku is going to run.
+
+167
+00:11:17,830 --> 00:11:20,320
+But since there is a chance it could exist.
+
+168
+00:11:20,410 --> 00:11:22,610
+Let's go ahead and ignore that as well.
+
+169
+00:11:22,750 --> 00:11:23,710
+Awesome.
+
+170
+00:11:23,740 --> 00:11:26,410
+So now we've ignored everything we wanted to ignore.
+
+171
+00:11:26,440 --> 00:11:29,330
+And we can go ahead and actually commit our code.
+
+172
+00:11:29,500 --> 00:11:32,510
+I'm going to start by running get ad dot.
+
+173
+00:11:32,650 --> 00:11:36,970
+This is going to add all of those untracked files to the staging area.
+
+174
+00:11:37,020 --> 00:11:42,430
+They're going to be committed the next time I make a commit and if I rerun get status we can see that
+
+175
+00:11:42,730 --> 00:11:49,390
+here we have a list of all files in the staging area under the header changes to be committed.
+
+176
+00:11:49,390 --> 00:11:56,440
+Now let's go ahead and actually create that first commit commit with the flag which is short for a message
+
+177
+00:11:56,740 --> 00:12:02,910
+and inside of a set of quotes we're going to provide the typical first commit message in it.
+
+178
+00:12:03,130 --> 00:12:03,760
+Commit.
+
+179
+00:12:03,910 --> 00:12:04,960
+Excellent.
+
+180
+00:12:04,960 --> 00:12:06,310
+Now we can fire this off.
+
+181
+00:12:06,310 --> 00:12:07,540
+And what do we have.
+
+182
+00:12:07,540 --> 00:12:10,720
+We have code committed to our repository.
+
+183
+00:12:10,720 --> 00:12:17,200
+Now you'll notice that inside of package dot Jason we're using the config file and I told you that this
+
+184
+00:12:17,200 --> 00:12:20,010
+script is going to be executed by Heroku.
+
+185
+00:12:20,200 --> 00:12:22,540
+But we've also just ignored that folder.
+
+186
+00:12:22,550 --> 00:12:28,540
+So the folder isn't actually going to get sent to Heroku and to address this all we're going to do is
+
+187
+00:12:28,540 --> 00:12:35,750
+remove ENVI CMT as well as the path to that file we'll be configuring the environment variable for our
+
+188
+00:12:35,750 --> 00:12:41,440
+Heroku app via the Heroku command line interface so we can just bring it back to what we had before
+
+189
+00:12:41,650 --> 00:12:45,260
+node running the index file in the disk folder.
+
+190
+00:12:45,280 --> 00:12:46,170
+Perfect.
+
+191
+00:12:46,210 --> 00:12:49,520
+I'm going to save that file and that calls for a nother commit.
+
+192
+00:12:49,530 --> 00:12:52,530
+So right here get status.
+
+193
+00:12:52,660 --> 00:13:00,940
+We have that one modified file get commit with the AM flag a is going to add all of my changed files
+
+194
+00:13:00,940 --> 00:13:04,540
+to the commit and and allows me to provide that message.
+
+195
+00:13:04,570 --> 00:13:14,480
+I can just say something like updated or excuse me update start script for Heroku and commit that.
+
+196
+00:13:14,580 --> 00:13:17,620
+Now I'm ready to create the Heroku application.
+
+197
+00:13:17,760 --> 00:13:22,940
+Now we could create the Heroku app via the web site but we can also just do it right here inside of
+
+198
+00:13:22,950 --> 00:13:23,860
+the terminal.
+
+199
+00:13:23,910 --> 00:13:30,150
+So I am going to clear the terminal output and run Heroku create to create our application.
+
+200
+00:13:30,330 --> 00:13:32,250
+This is only going to take about a second.
+
+201
+00:13:32,370 --> 00:13:36,350
+And there are three useful pieces of information that are going to get spit out.
+
+202
+00:13:36,390 --> 00:13:38,430
+One we have our application.
+
+203
+00:13:38,430 --> 00:13:42,760
+This is useful for finding it inside of the web app version of Heroku.
+
+204
+00:13:42,900 --> 00:13:46,910
+We also have that you Arel where our code will eventually be visible.
+
+205
+00:13:46,920 --> 00:13:49,550
+So whatever our app does can be found here.
+
+206
+00:13:49,590 --> 00:13:51,600
+Now I could alt click it right now.
+
+207
+00:13:51,660 --> 00:13:56,730
+Check out the keyboard shortcut for your operating system and when I get brought to is just an empty
+
+208
+00:13:56,730 --> 00:14:02,310
+page it's saying welcome to your new app but it's not showing our app because we haven't pushed our
+
+209
+00:14:02,310 --> 00:14:04,220
+code up now.
+
+210
+00:14:04,260 --> 00:14:10,170
+Just before we push our code we need to make sure that all of the environment variables that are code
+
+211
+00:14:10,170 --> 00:14:12,280
+or relies on are actually set.
+
+212
+00:14:12,300 --> 00:14:14,230
+We have to in index.
+
+213
+00:14:14,330 --> 00:14:15,750
+Yes we have port.
+
+214
+00:14:15,750 --> 00:14:18,020
+This is automatically set by Heroku.
+
+215
+00:14:18,030 --> 00:14:21,200
+We don't have to do anything to get support for this.
+
+216
+00:14:21,210 --> 00:14:22,270
+The other one though.
+
+217
+00:14:22,320 --> 00:14:26,260
+Inside of Prisma dot ingenius is something we want to configure.
+
+218
+00:14:26,280 --> 00:14:28,960
+We want to configure a value for Prisma end point.
+
+219
+00:14:29,010 --> 00:14:32,740
+So in this code runs it actually uses the correct string.
+
+220
+00:14:32,850 --> 00:14:34,760
+Now over inside of Prod..
+
+221
+00:14:34,910 --> 00:14:37,320
+Ian VI we have that strength.
+
+222
+00:14:37,500 --> 00:14:43,680
+We can actually take this entire line copy it to the clipboard and we're going to use it in a terminal
+
+223
+00:14:43,680 --> 00:14:50,070
+command down below that command is Heroku config Colan set.
+
+224
+00:14:50,070 --> 00:14:54,500
+Here we can set key value pairs using key equals value.
+
+225
+00:14:54,500 --> 00:14:58,550
+We are just going to paste in what we copied from the file up above.
+
+226
+00:14:58,590 --> 00:15:00,060
+I'm going to paste it in.
+
+227
+00:15:00,060 --> 00:15:00,690
+Hit enter.
+
+228
+00:15:00,690 --> 00:15:04,650
+And that is going to set the environment variable on Heroku.
+
+229
+00:15:04,650 --> 00:15:10,800
+Now if I were to run something like Heroku config we would be able to view all of the environment variables
+
+230
+00:15:10,800 --> 00:15:16,620
+that are set by us and right here we do indeed have the one we just set which is fantastic none the
+
+231
+00:15:16,620 --> 00:15:23,490
+last piece of information from that Heroku create command was actually the repository you Arel and Heroku
+
+232
+00:15:23,520 --> 00:15:26,460
+create automatically adds that as a get remote.
+
+233
+00:15:26,610 --> 00:15:32,700
+So if I run get remote with the V flag which is short for verbose we can see all of the remotes set
+
+234
+00:15:32,700 --> 00:15:33,100
+up.
+
+235
+00:15:33,120 --> 00:15:37,080
+We have set up none but Heroku did set up one called Heroku.
+
+236
+00:15:37,230 --> 00:15:38,720
+That's what we're going to push too.
+
+237
+00:15:38,910 --> 00:15:46,340
+So he can push to it using get push Heroku which is the remote name Master which is the default brand
+
+238
+00:15:46,350 --> 00:15:46,900
+name.
+
+239
+00:15:47,040 --> 00:15:53,580
+If we fire this off it's actually going to send all of the committed code up to her Roku Heroku is then
+
+240
+00:15:53,580 --> 00:15:55,710
+going to install our modules.
+
+241
+00:15:55,740 --> 00:16:00,390
+It's going to run the code through Babel and it's going to start up our application.
+
+242
+00:16:00,570 --> 00:16:05,650
+Now the process for deploying can take anywhere from maybe 20 to 40 seconds.
+
+243
+00:16:05,790 --> 00:16:12,240
+So I'm just going to kill some time by saying some words until the process completes.
+
+244
+00:16:12,240 --> 00:16:15,140
+So right here we can see that the modules were installed.
+
+245
+00:16:15,150 --> 00:16:20,350
+It's now running our command we can see all of the files being copied and everything is done.
+
+246
+00:16:20,370 --> 00:16:22,700
+The last step is compression.
+
+247
+00:16:22,740 --> 00:16:25,710
+The app should indeed be deployed in just a few moments.
+
+248
+00:16:25,830 --> 00:16:30,930
+And it's important to note that once the app is deployed it can typically take three to five seconds
+
+249
+00:16:30,960 --> 00:16:32,070
+for it to show up.
+
+250
+00:16:32,070 --> 00:16:37,530
+So when I refresh the page we might have to wait just a little bit of time but that's only for the first
+
+251
+00:16:37,710 --> 00:16:39,000
+time you deploy.
+
+252
+00:16:39,120 --> 00:16:43,620
+If I were to refresh again it would load instantly right here what do we have.
+
+253
+00:16:43,620 --> 00:16:46,880
+We have a graph Well playground instance.
+
+254
+00:16:47,010 --> 00:16:55,680
+This is a production version of our node app connected to the production version of our Prisma application.
+
+255
+00:16:55,770 --> 00:16:56,670
+What does that mean.
+
+256
+00:16:56,820 --> 00:17:00,540
+Well that means we should be able to access that one user we created.
+
+257
+00:17:00,540 --> 00:17:03,470
+Remember this guy I'm going to go ahead and do just that.
+
+258
+00:17:03,600 --> 00:17:08,660
+So for him or her Roku app you RL I am going to use a query.
+
+259
+00:17:08,700 --> 00:17:13,530
+Now I have access to any of the queries we've set up for our node app right over here we can see we
+
+260
+00:17:13,530 --> 00:17:15,190
+have a few different options.
+
+261
+00:17:15,210 --> 00:17:20,460
+I'm just going to use the user's query to try to match that one user that I know lives in our production
+
+262
+00:17:20,460 --> 00:17:21,920
+database right here.
+
+263
+00:17:22,290 --> 00:17:23,180
+Users.
+
+264
+00:17:23,430 --> 00:17:28,890
+The selection set will just grab the id the name and the email for every user.
+
+265
+00:17:29,010 --> 00:17:30,970
+And if I fire that off what do we get back.
+
+266
+00:17:30,990 --> 00:17:36,300
+We get back the idea in the name and we don't get back the e-mail sends we're not authenticated.
+
+267
+00:17:36,330 --> 00:17:37,280
+And there we go.
+
+268
+00:17:37,410 --> 00:17:44,570
+We now have the production version of our Prisma service our database and our Heroku app up and running
+
+269
+00:17:44,820 --> 00:17:48,360
+which takes care of all three things we wanted to accomplish.
+
+270
+00:17:48,360 --> 00:17:50,850
+Now that does not mean we're done yet.
+
+271
+00:17:50,850 --> 00:17:56,250
+There are a few other things I want to talk about in this section and some are super important related
+
+272
+00:17:56,250 --> 00:17:57,480
+to security.
+
+273
+00:17:57,480 --> 00:18:02,910
+I mentioned that we should include that config directory because it contains sensitive information but
+
+274
+00:18:02,910 --> 00:18:05,990
+we still have sensitive information in our project.
+
+275
+00:18:06,000 --> 00:18:10,770
+For example inside of our Prisma file we have our secret.
+
+276
+00:18:10,770 --> 00:18:16,800
+That's definitely something we want to pull out into an environment variable and handle more securely.
+
+277
+00:18:16,800 --> 00:18:21,360
+We're going to knock out that as well as other topics throughout the rest of this section.
+
+278
+00:18:21,390 --> 00:18:24,230
+So stay tuned and I will see you soon.
+
+279
+00:18:24,330 --> 00:18:28,290
+Oh quick reminder that PTF guide contains all of these steps.
+
+280
+00:18:28,320 --> 00:18:33,690
+So you probably went along as you watch the videos if you deploy again and you forget don't watch the
+
+281
+00:18:33,690 --> 00:18:34,390
+videos again.
+
+282
+00:18:34,410 --> 00:18:37,850
+Just go back to the PTF guide and work through the steps from there.
+
+283
+00:18:37,860 --> 00:18:39,750
+The process will be way quicker.
+
+284
+00:18:39,750 --> 00:18:40,250
+All right.
+
+285
+00:18:40,270 --> 00:18:40,630
+C-A.
+

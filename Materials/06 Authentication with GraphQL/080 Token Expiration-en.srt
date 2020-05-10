@@ -1,0 +1,656 @@
+1
+00:00:00,270 --> 00:00:05,760
+Hey this is Indri with a quick update on my section to authentication I realized that while going through
+
+2
+00:00:05,760 --> 00:00:11,940
+the editing of this section I never showed you how to expire a Jason Webb token when we created Jason
+
+3
+00:00:11,940 --> 00:00:18,600
+Webb token we can set it up to be valid for a certain period of time whether it's one hour two days
+
+4
+00:00:18,630 --> 00:00:19,980
+or a month.
+
+5
+00:00:19,980 --> 00:00:24,690
+Now in this video we're going to quickly go through that process and the good news is that the Jasen
+
+6
+00:00:24,720 --> 00:00:29,810
+web token library has built in support for tokin expiration.
+
+7
+00:00:29,820 --> 00:00:33,880
+The only thing we need to do is make a small change to our calling.
+
+8
+00:00:33,900 --> 00:00:35,870
+JWT dot sign.
+
+9
+00:00:36,030 --> 00:00:41,160
+Right now we're calling it with two arguments we're calling it with our payload and we are calling it
+
+10
+00:00:41,160 --> 00:00:42,470
+with our secret.
+
+11
+00:00:42,510 --> 00:00:48,040
+There's actually a third optional argument we can provide this as an options object.
+
+12
+00:00:48,090 --> 00:00:53,660
+And this is where we can specify how long this token should be considered valid.
+
+13
+00:00:53,940 --> 00:00:58,470
+Now let's go ahead and pull up the documentation real quick so we can see where we can learn more about
+
+14
+00:00:58,500 --> 00:00:59,240
+this.
+
+15
+00:00:59,340 --> 00:01:06,360
+If I head over to Google and Google NPM and Jason Webb token it should pull up the package page right
+
+16
+00:01:06,360 --> 00:01:06,810
+here.
+
+17
+00:01:06,810 --> 00:01:14,540
+We have it and if I scroll down on the read me documentation we are looking for the docs for JWT sign.
+
+18
+00:01:14,580 --> 00:01:17,280
+We have our Palen we have our secret.
+
+19
+00:01:17,400 --> 00:01:23,990
+We have our optional options object and down below we can see all of the options we can configure.
+
+20
+00:01:24,060 --> 00:01:28,230
+Now I've used this library on a ton of different client projects.
+
+21
+00:01:28,230 --> 00:01:34,770
+I've used it on personal projects as well and the only option I've ever specified is this one right
+
+22
+00:01:34,770 --> 00:01:42,300
+here expires in this lets us set up a specific amount of time in which the token should expire and we
+
+23
+00:01:42,300 --> 00:01:45,140
+express it in a human readable way.
+
+24
+00:01:45,150 --> 00:01:49,050
+So right here a valid string value would be two days.
+
+25
+00:01:49,050 --> 00:01:53,550
+We have 10 H for 10 hours 7 D for 7 days.
+
+26
+00:01:53,670 --> 00:01:57,010
+And the actual syntax for what you can use is right here.
+
+27
+00:01:57,010 --> 00:02:03,110
+There's another library that allows you to express time as sentences as we're seeing there.
+
+28
+00:02:03,210 --> 00:02:06,670
+And if you pull that up you can see all of the ways it can be used.
+
+29
+00:02:06,780 --> 00:02:13,040
+So right here we have two days 2.5 hours minus three days one y for one year.
+
+30
+00:02:13,110 --> 00:02:20,580
+All of these are perfectly valid and what we're going to do is express our expires in value using the
+
+31
+00:02:20,580 --> 00:02:21,660
+syntax.
+
+32
+00:02:21,660 --> 00:02:23,590
+So let's go ahead and actually set that up.
+
+33
+00:02:23,610 --> 00:02:31,560
+We're going to configure expires in we're right here in our options object so expires in we're going
+
+34
+00:02:31,560 --> 00:02:37,290
+to provide a string value and we're going to determine how long this token should be valid.
+
+35
+00:02:37,320 --> 00:02:41,500
+Maybe it is one hour maybe it is two years.
+
+36
+00:02:41,580 --> 00:02:45,220
+In our case let's go ahead and start with one second.
+
+37
+00:02:45,330 --> 00:02:50,790
+So this token is only going to be valid for a single second and that's going to allow us to see what
+
+38
+00:02:50,790 --> 00:02:54,990
+happens when we try to use an expired token.
+
+39
+00:02:54,990 --> 00:03:00,540
+Now it's important to remember that this is not the only call to JWT sign we have we have another one
+
+40
+00:03:00,540 --> 00:03:05,370
+down below in our loggin request so we can add this one as well.
+
+41
+00:03:05,370 --> 00:03:12,560
+Right here we can create an options object I can set up expires in configuring it to 1 second.
+
+42
+00:03:12,720 --> 00:03:13,600
+Perfect.
+
+43
+00:03:13,770 --> 00:03:19,350
+Now that we have this in place let's go ahead and test things out on actually going to save mutation
+
+44
+00:03:19,520 --> 00:03:23,160
+J S and over inside of local host 4000.
+
+45
+00:03:23,160 --> 00:03:25,350
+We're going to loggin after a second.
+
+46
+00:03:25,380 --> 00:03:28,780
+The token will expire and we're going to try to use it.
+
+47
+00:03:28,800 --> 00:03:31,010
+So right here I have my loggin mutation.
+
+48
+00:03:31,140 --> 00:03:37,200
+I'm going to fire off a new request and get a brand new token this token should already be expired since
+
+49
+00:03:37,200 --> 00:03:41,310
+it's been more than a second since I've clicked that button and we're going to try to use it in one
+
+50
+00:03:41,310 --> 00:03:44,400
+of our operations that requires authentication.
+
+51
+00:03:44,400 --> 00:03:49,430
+I'm going to use the query where I get a user's profile down below.
+
+52
+00:03:49,530 --> 00:03:54,840
+I'm going to remove the old token which didn't have an expiration date and I'm going to paste in the
+
+53
+00:03:54,840 --> 00:03:57,010
+new one which is already expired.
+
+54
+00:03:57,210 --> 00:04:00,290
+If I actually fire this operation off what do I get.
+
+55
+00:04:00,330 --> 00:04:01,690
+Right here I get an error.
+
+56
+00:04:01,830 --> 00:04:03,530
+I get an error with the message.
+
+57
+00:04:04,050 --> 00:04:06,330
+W.T. expired.
+
+58
+00:04:06,570 --> 00:04:12,290
+So Jason Webb token the library has built in support for this expires in property.
+
+59
+00:04:12,420 --> 00:04:17,970
+So all we have to do is configure it when creating the token we don't need to make any changes to how
+
+60
+00:04:17,970 --> 00:04:21,120
+we're verifying it over in get user ID.
+
+61
+00:04:21,270 --> 00:04:28,260
+The JWT Daten verify method is going to verify everything it was verifying before like the payload with
+
+62
+00:04:28,260 --> 00:04:29,910
+the secret for example.
+
+63
+00:04:29,970 --> 00:04:37,590
+But it's also going to verify that the token is not expired if it is this will throw an error.
+
+64
+00:04:37,590 --> 00:04:41,430
+So we have to make no changes to this file to get things to work.
+
+65
+00:04:41,430 --> 00:04:45,480
+The only change we needed to make was to how the tokens get generated.
+
+66
+00:04:45,750 --> 00:04:49,780
+Now let's go ahead and use a more realistic expires in value.
+
+67
+00:04:49,890 --> 00:04:53,580
+I'm going to stick with something like seven days.
+
+68
+00:04:53,700 --> 00:04:59,490
+I'm going to use seven days for signing up and I'm going to use seven days for logging in.
+
+69
+00:04:59,490 --> 00:05:01,130
+Now if I save mutation.
+
+70
+00:05:01,210 --> 00:05:08,100
+Jess we should see things working over inside of localhost 4000 I'm going to log in once again this
+
+71
+00:05:08,100 --> 00:05:14,280
+brand new token should be around and valid for 7 days which means that if I tried to get the user's
+
+72
+00:05:14,280 --> 00:05:19,960
+profile using it I would expect it to work since seven days have not passed right here.
+
+73
+00:05:20,070 --> 00:05:22,910
+I'm going to delete my old expired token.
+
+74
+00:05:23,040 --> 00:05:25,170
+I'm going to paste in that brand new one.
+
+75
+00:05:25,290 --> 00:05:27,030
+I'm going to fire off the operation.
+
+76
+00:05:27,030 --> 00:05:27,900
+And what do I get.
+
+77
+00:05:27,900 --> 00:05:29,410
+I can see that right here.
+
+78
+00:05:29,460 --> 00:05:31,980
+I am indeed getting the profile back.
+
+79
+00:05:32,010 --> 00:05:37,920
+Now if I were to sit here and wait for seven days and fire this off again the request would indeed fail
+
+80
+00:05:38,070 --> 00:05:41,520
+saying that the j w t has expired.
+
+81
+00:05:41,520 --> 00:05:42,310
+So there we go.
+
+82
+00:05:42,390 --> 00:05:48,120
+That's all that's necessary to make sure that our Jason Webb tokens expire after a certain amount of
+
+83
+00:05:48,120 --> 00:05:48,660
+time.
+
+84
+00:05:48,660 --> 00:05:54,390
+Now it's Challenge time and for this challenge you're going to be creating a new utility function for
+
+85
+00:05:54,420 --> 00:05:56,690
+generating authentication tokens.
+
+86
+00:05:56,820 --> 00:06:02,220
+Currently we have this in two places which is pretty error prone especially when it comes to something
+
+87
+00:06:02,220 --> 00:06:04,680
+as important as authentication.
+
+88
+00:06:04,710 --> 00:06:07,860
+So there's a chance that we change one and don't change the other.
+
+89
+00:06:07,870 --> 00:06:13,350
+That would be best to not have duplicate code which is exactly what we have the code highlighted here
+
+90
+00:06:13,560 --> 00:06:17,170
+is identical to the code highlighted down below.
+
+91
+00:06:17,400 --> 00:06:18,820
+So how are we going to address this.
+
+92
+00:06:18,810 --> 00:06:22,560
+Well we're not you are as you're a challenge up above.
+
+93
+00:06:22,650 --> 00:06:24,750
+Let's talk about what I'd like you to do.
+
+94
+00:06:24,750 --> 00:06:30,280
+The big picture goal is to create a utility function for generating our JWT leads.
+
+95
+00:06:30,330 --> 00:06:36,500
+So you're going to create a new file in the utility directory alongside of get user ID.
+
+96
+00:06:36,790 --> 00:06:43,290
+You're going to create a function in that file which takes in the ID of the user to generate a token
+
+97
+00:06:43,290 --> 00:06:46,110
+for and it returns the generated token.
+
+98
+00:06:46,450 --> 00:06:52,800
+Then with that function in place you're going to replace our two existing calls to JWT don't sign this
+
+99
+00:06:52,800 --> 00:06:57,610
+one and this one with calls to the new function that you've just defined.
+
+100
+00:06:57,720 --> 00:07:02,280
+So in the end of the day the goal isn't to change the functionality at all.
+
+101
+00:07:02,310 --> 00:07:05,590
+Things should work exactly as they're working right now.
+
+102
+00:07:05,610 --> 00:07:09,290
+The goal is to just dry up our code dry standing for.
+
+103
+00:07:09,330 --> 00:07:11,410
+Don't repeat yourself.
+
+104
+00:07:11,490 --> 00:07:15,490
+So take as much time as you need to knock this one out and then test your work.
+
+105
+00:07:15,540 --> 00:07:21,650
+Make sure you can still get an authentication token that's valid when you trying to log in positive
+
+106
+00:07:21,660 --> 00:07:24,510
+video when you're done come back and click play
+
+107
+00:07:28,340 --> 00:07:30,720
+how that go let's get to it step one.
+
+108
+00:07:30,740 --> 00:07:38,130
+I'm going to create a brand new file inside of the tills directory called generate token dot J S and
+
+109
+00:07:38,130 --> 00:07:42,420
+in here we're going to define our function and properly export it.
+
+110
+00:07:42,420 --> 00:07:45,290
+And I'm just going to follow the pattern I used over here.
+
+111
+00:07:45,450 --> 00:07:48,840
+I'll create the function and I'll export it as a default.
+
+112
+00:07:48,840 --> 00:07:50,770
+So right here Step 1.
+
+113
+00:07:50,820 --> 00:07:58,370
+I am going to inport JWT from Jason Webb a token since we're gonna be calling JWT sign inside of here.
+
+114
+00:07:58,500 --> 00:08:00,240
+Then I'm going to create that function.
+
+115
+00:08:00,240 --> 00:08:03,090
+So Konst generate token.
+
+116
+00:08:03,210 --> 00:08:07,980
+This is indeed going to be a function and I can just define it as an arrow function and we're going
+
+117
+00:08:07,980 --> 00:08:08,700
+to export it.
+
+118
+00:08:08,700 --> 00:08:09,790
+So right here.
+
+119
+00:08:10,020 --> 00:08:16,950
+Export we're going to export generate tokin and we're going to export it as the default.
+
+120
+00:08:16,950 --> 00:08:17,910
+Perfect.
+
+121
+00:08:17,970 --> 00:08:22,560
+Now with this in place we can go ahead and worry about filling this function out.
+
+122
+00:08:22,560 --> 00:08:29,820
+We're going to take in the User ID which I could just call I.D. or user ID and we are going to return
+
+123
+00:08:29,880 --> 00:08:31,360
+the generated token.
+
+124
+00:08:31,380 --> 00:08:32,040
+So right here.
+
+125
+00:08:32,040 --> 00:08:40,100
+Return and we're going to call JWT dot sign passing in the exact same arguments we had over here.
+
+126
+00:08:40,280 --> 00:08:45,510
+They're going to be so similar in fact that we can just go ahead and copy the whole call over.
+
+127
+00:08:45,510 --> 00:08:49,550
+So I'm going to copy one of our two JWT unsigned calls.
+
+128
+00:08:49,620 --> 00:08:51,850
+I'm going to bring it over to this file.
+
+129
+00:08:51,900 --> 00:08:55,530
+And the only thing I'm going to change is where the I.D. comes from.
+
+130
+00:08:55,530 --> 00:08:59,190
+No longer do we have a user object with an id property.
+
+131
+00:08:59,190 --> 00:09:01,940
+Instead we just have I.D. directly.
+
+132
+00:09:01,980 --> 00:09:07,800
+Now I am going to call this user ID so I can take advantage of the object property shorthand and there
+
+133
+00:09:07,800 --> 00:09:08,460
+we go.
+
+134
+00:09:08,490 --> 00:09:12,050
+We have a completely valid version of generate tokin.
+
+135
+00:09:12,150 --> 00:09:14,730
+It's OK if yours looks slightly different.
+
+136
+00:09:14,730 --> 00:09:18,530
+The big picture goal is to just get things functionally equivalent.
+
+137
+00:09:18,750 --> 00:09:24,650
+Now I'm going to save the generate token file as you can take advantage of it from inside of mutation.
+
+138
+00:09:24,650 --> 00:09:29,670
+Dot J S that is step 3 we no longer need to import.
+
+139
+00:09:29,700 --> 00:09:34,810
+Jason Webb token directly since we're going to remove all of our calls from inside of this file.
+
+140
+00:09:34,920 --> 00:09:41,670
+And I am going to import right here generate token and I'm going to grab that from I've got to go up
+
+141
+00:09:41,670 --> 00:09:48,610
+a folder into the utility directory and we have our generate token file.
+
+142
+00:09:48,630 --> 00:09:51,160
+Now we can actually call this down below.
+
+143
+00:09:51,240 --> 00:09:58,590
+So right here instead of calling JWT sign directly I'm going to call and generate token and I'm going
+
+144
+00:09:58,590 --> 00:10:00,730
+to pass in the user's ID.
+
+145
+00:10:00,750 --> 00:10:04,840
+We have user data ID and the same thing is true for longan.
+
+146
+00:10:04,830 --> 00:10:11,490
+So right here I'm no longer going to manually sign that token instead I'm going to defer that off to
+
+147
+00:10:11,550 --> 00:10:13,660
+generate token passing in.
+
+148
+00:10:13,680 --> 00:10:16,360
+Once again user data ID.
+
+149
+00:10:16,470 --> 00:10:17,490
+Excellent.
+
+150
+00:10:17,490 --> 00:10:23,580
+The last thing we can do before we save the file is clean up our challenge comments up above.
+
+151
+00:10:23,580 --> 00:10:27,440
+Now we have a single source of truth when it comes to generating tokens.
+
+152
+00:10:27,540 --> 00:10:32,940
+If we want to learn how our tokens are generated we don't have to look all around our project for everywhere
+
+153
+00:10:32,940 --> 00:10:33,780
+they're generated.
+
+154
+00:10:33,780 --> 00:10:39,660
+Instead we can just focus on a single function generate token to wrap this up.
+
+155
+00:10:39,660 --> 00:10:45,600
+Let's go ahead and test out the tokens that we get back over in localhost or 4000 after saving all of
+
+156
+00:10:45,600 --> 00:10:46,290
+my files.
+
+157
+00:10:46,290 --> 00:10:49,180
+Of course I am going to log in once again.
+
+158
+00:10:49,410 --> 00:10:54,580
+I'm going to grab this newly generated token and I'm going to try to use it with my me.
+
+159
+00:10:54,600 --> 00:11:01,140
+Queries are over here getting rid of the old token pasting the new token in firing off the request.
+
+160
+00:11:01,140 --> 00:11:02,010
+And what do I get.
+
+161
+00:11:02,040 --> 00:11:05,460
+I get my profile back which is fantastic.
+
+162
+00:11:05,490 --> 00:11:10,240
+We now have a way to generate tokens that expire after a certain period of time.
+
+163
+00:11:10,410 --> 00:11:16,430
+And this finally is indeed the end of the section that is for bearing with me through this bonus video
+
+164
+00:11:16,440 --> 00:11:19,440
+let's go ahead and jump right in to the next one.
+

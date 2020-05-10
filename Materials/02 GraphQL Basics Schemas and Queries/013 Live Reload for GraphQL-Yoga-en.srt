@@ -1,0 +1,300 @@
+1
+00:00:00,210 --> 00:00:05,400
+In this video we're going to take just a few moments to make some changes to our local development environment
+
+2
+00:00:05,430 --> 00:00:08,270
+to make going through this course a bit easier.
+
+3
+00:00:08,340 --> 00:00:11,570
+So we're going to set things up to automatically restart the server.
+
+4
+00:00:11,650 --> 00:00:14,980
+Any time we make any changes to our application code.
+
+5
+00:00:15,060 --> 00:00:20,850
+So if I change how my type definitions work for example I won't need to manually shut the server down
+
+6
+00:00:20,850 --> 00:00:22,120
+and start it up again.
+
+7
+00:00:22,150 --> 00:00:25,230
+It'll just automatically restart in the background.
+
+8
+00:00:25,320 --> 00:00:29,380
+So if I have typos like I do right here I won't have to restart things.
+
+9
+00:00:29,430 --> 00:00:34,720
+I have is stock that should have been in stock and it should have been in stock down below.
+
+10
+00:00:34,800 --> 00:00:38,100
+But when I save my changes what happens nothing happens.
+
+11
+00:00:38,100 --> 00:00:41,030
+I have to remember to manually restart things.
+
+12
+00:00:41,130 --> 00:00:45,660
+And when you're quickly iterating in development so locally on your machine that can be a real burden
+
+13
+00:00:45,890 --> 00:00:51,870
+now to fix all of this we're going to be using a very popular NPM module called gnomon that's going
+
+14
+00:00:51,870 --> 00:00:57,500
+to allow us to start up our application and restart it when any of its files change.
+
+15
+00:00:57,660 --> 00:01:01,350
+Let's head over to package Scott Jason and actually set this up.
+
+16
+00:01:01,440 --> 00:01:03,990
+In the end of the day we will be doing just two things.
+
+17
+00:01:04,050 --> 00:01:09,700
+We will install one new module node gnomon and we're going to make a change to the start script.
+
+18
+00:01:09,720 --> 00:01:10,440
+That's it.
+
+19
+00:01:10,470 --> 00:01:12,780
+We don't have to make any changes to indexed.
+
+20
+00:01:12,850 --> 00:01:17,830
+J.S. to get this automatic restarting feature set up down below.
+
+21
+00:01:17,900 --> 00:01:22,770
+I am going to shut down the server I'll use clear to clear the terminal output.
+
+22
+00:01:22,860 --> 00:01:27,250
+And we're going to be using NPM install to install gnomon.
+
+23
+00:01:27,510 --> 00:01:32,970
+I am going to install the latest version that has at one point seventeen point five.
+
+24
+00:01:33,150 --> 00:01:40,680
+And I'll also toss on the Save dev flag to save this one as a development dependency something not necessary
+
+25
+00:01:40,830 --> 00:01:42,340
+in production.
+
+26
+00:01:42,450 --> 00:01:47,460
+Once we run this command it's going to go through that installation process and as I mentioned the only
+
+27
+00:01:47,460 --> 00:01:52,740
+thing we're going to end up doing now is changing our start script instead of running the babbel node
+
+28
+00:01:52,740 --> 00:01:53,370
+command.
+
+29
+00:01:53,370 --> 00:01:55,600
+We will be running the node on command.
+
+30
+00:01:55,740 --> 00:01:57,580
+So let's take a look at how that's going to go.
+
+31
+00:01:57,780 --> 00:02:01,800
+While the command will look similar it'll be different enough where I am just going to start from an
+
+32
+00:02:01,830 --> 00:02:05,150
+empty command and we start off with gnomon.
+
+33
+00:02:05,490 --> 00:02:08,430
+No gnomon expects the file that you're going to actually run.
+
+34
+00:02:08,430 --> 00:02:16,000
+So the starting point for your application for us that is still source forward slash index dot J S.
+
+35
+00:02:16,080 --> 00:02:18,250
+Now this alone would normally be enough.
+
+36
+00:02:18,360 --> 00:02:20,570
+But since we're using babbel it's not.
+
+37
+00:02:20,610 --> 00:02:26,220
+We also need to tell gnomon that when it actually runs our file it shouldn't just run it through node
+
+38
+00:02:26,520 --> 00:02:28,910
+it should run it through Babel node.
+
+39
+00:02:29,040 --> 00:02:33,670
+We can do that by specifying the X E.S. argument.
+
+40
+00:02:33,750 --> 00:02:35,960
+So by default it looks like this.
+
+41
+00:02:36,030 --> 00:02:39,180
+We run the file through node but we don't want that.
+
+42
+00:02:39,180 --> 00:02:43,510
+We want to run it through Babel node perfect.
+
+43
+00:02:43,530 --> 00:02:44,710
+So what's this going to do.
+
+44
+00:02:44,820 --> 00:02:49,950
+It is going to start up our application by running this file through babbel node node is then going
+
+45
+00:02:49,950 --> 00:02:54,270
+to continue to watch our application files for changes if they ever change.
+
+46
+00:02:54,270 --> 00:02:59,010
+It's going to restart the server running the new file through babbel node once again.
+
+47
+00:02:59,250 --> 00:02:59,830
+And there we go.
+
+48
+00:02:59,850 --> 00:03:01,680
+We have everything all set up.
+
+49
+00:03:01,680 --> 00:03:06,580
+We can save package data Jason and actually test this out down below.
+
+50
+00:03:06,690 --> 00:03:12,720
+I'm going to use clear to clear the terminal output then we'll use NPM run start to start things up
+
+51
+00:03:12,930 --> 00:03:13,950
+when we run the command.
+
+52
+00:03:13,950 --> 00:03:14,940
+What do we end up getting.
+
+53
+00:03:14,940 --> 00:03:20,460
+We get a little extra output we get some output from gnomon telling us exactly what it's doing now and
+
+54
+00:03:20,460 --> 00:03:25,110
+the end of the day though we do still get our server is up message which means in the background we
+
+55
+00:03:25,110 --> 00:03:26,790
+can still run things.
+
+56
+00:03:27,000 --> 00:03:33,870
+Never remember I changed that typo in my schema I had is stock instead of the correct in stock.
+
+57
+00:03:33,870 --> 00:03:36,320
+And you'll notice that over here things haven't updated.
+
+58
+00:03:36,510 --> 00:03:41,940
+You can either once again manually refresh the page or you can just click this little guy keeping all
+
+59
+00:03:41,940 --> 00:03:44,590
+of your data in place but just refreshing the schema.
+
+60
+00:03:44,640 --> 00:03:50,370
+And now we can see it's invalid and I can switch it over to the valid in-stock run things and everything
+
+61
+00:03:50,370 --> 00:03:52,390
+is working as expected.
+
+62
+00:03:52,410 --> 00:03:57,810
+Now as we iterate on our application and actually make changes we can see those changes quickly.
+
+63
+00:03:57,840 --> 00:04:02,070
+We can actually collapse the terminal since it's no longer something we're going to have to use every
+
+64
+00:04:02,070 --> 00:04:03,690
+single time we make a change.
+
+65
+00:04:03,690 --> 00:04:07,650
+For example I can change the release year to something like 2008.
+
+66
+00:04:07,650 --> 00:04:12,330
+I don't really know what year the book was released just to say that was it over here without making
+
+67
+00:04:12,330 --> 00:04:14,620
+any changes to restarting the server.
+
+68
+00:04:14,640 --> 00:04:19,150
+I can save the file click that play button and I get my new data showing up.
+
+69
+00:04:19,200 --> 00:04:21,420
+So that's all I wanted to talk about in this video.
+
+70
+00:04:21,420 --> 00:04:26,610
+Just a slightly better set up for our local development allowing us to work on the graphics.
+
+71
+00:04:26,640 --> 00:04:32,910
+Well part of the application and not have to manually restart things in the terminal in the next video
+
+72
+00:04:33,090 --> 00:04:36,180
+you're going to explore how you can create your own custom types.
+
+73
+00:04:36,180 --> 00:04:38,070
+I am super excited to get to that.
+
+74
+00:04:38,160 --> 00:04:41,080
+That's where things are going to start to get a bit more real world.
+
+75
+00:04:41,100 --> 00:04:43,440
+So let's go ahead and jump right into that.
+

@@ -1,0 +1,552 @@
+1
+00:00:00,210 --> 00:00:04,100
+In this video as promised we're going to continue to talk pagination.
+
+2
+00:00:04,140 --> 00:00:06,760
+We currently have two arguments set up.
+
+3
+00:00:06,810 --> 00:00:12,930
+But if you remember Prisma gives us five separate arguments to add pagination into our projects.
+
+4
+00:00:12,930 --> 00:00:16,910
+Currently we're just using skip and first in this video.
+
+5
+00:00:16,920 --> 00:00:25,660
+I want to focus on after after takes as its value a string and this string is a ID for a record.
+
+6
+00:00:25,680 --> 00:00:31,410
+So if I'm paginate ing over posts it would end up being the ID for a post.
+
+7
+00:00:31,410 --> 00:00:35,110
+Now this allows us to start pagination at that point.
+
+8
+00:00:35,160 --> 00:00:41,910
+So we would only be paginate ing over records after that record which is a very useful technique.
+
+9
+00:00:41,910 --> 00:00:45,530
+Now we're not actually going to use before or last.
+
+10
+00:00:45,630 --> 00:00:52,250
+Both of those allow us to paginate in reverse order but that's not particularly useful for our purposes.
+
+11
+00:00:52,320 --> 00:00:59,430
+So we're going to stick with just skip after and first before we actually change any of our application
+
+12
+00:00:59,430 --> 00:00:59,890
+code.
+
+13
+00:00:59,910 --> 00:01:05,320
+Let's see what this can do for us over here in the Prisma instance of graft well play ground.
+
+14
+00:01:05,370 --> 00:01:11,620
+I'm going to grab the first five and I'm going to skip the zero sum grabbing the first five posts.
+
+15
+00:01:11,640 --> 00:01:12,840
+And here they are.
+
+16
+00:01:12,840 --> 00:01:16,880
+Now we're going to use after so alongside of first and skip.
+
+17
+00:01:16,890 --> 00:01:20,820
+I'm going to specify after setting its value to a string.
+
+18
+00:01:20,820 --> 00:01:25,360
+One of the post ideas and let's just use one of the ID's we have here.
+
+19
+00:01:25,500 --> 00:01:26,850
+I'm going to grab this ID.
+
+20
+00:01:26,880 --> 00:01:29,960
+The ID for the second post.
+
+21
+00:01:29,970 --> 00:01:35,880
+Now when I use that for after we're saying that we want to start paginate ing after that record.
+
+22
+00:01:35,880 --> 00:01:42,210
+So skipping 0 would result in this being the first post we should see and then we're going to grab the
+
+23
+00:01:42,210 --> 00:01:45,110
+next four for a total of five.
+
+24
+00:01:45,120 --> 00:01:50,940
+So if I fire that off I would expect to see a post by just two as the first one followed by four more
+
+25
+00:01:50,940 --> 00:01:51,600
+posts.
+
+26
+00:01:51,630 --> 00:01:53,910
+And if I do that's exactly what I get.
+
+27
+00:01:54,090 --> 00:01:55,920
+I have post by just two.
+
+28
+00:01:56,040 --> 00:01:59,840
+Then down below I have the next four posts in order.
+
+29
+00:01:59,910 --> 00:02:06,480
+So after allows us to start after a specific record which can be super useful when all you have is the
+
+30
+00:02:06,480 --> 00:02:10,050
+ID of the last thing rendered to the screen.
+
+31
+00:02:10,050 --> 00:02:15,960
+Now that we have this in place we are going to also implement After into our application we have a couple
+
+32
+00:02:16,020 --> 00:02:22,680
+of queries that already have basic pagination support and we have two that currently don't support pagination
+
+33
+00:02:22,680 --> 00:02:23,490
+at all.
+
+34
+00:02:23,490 --> 00:02:25,680
+We're going to address those as well.
+
+35
+00:02:25,740 --> 00:02:30,130
+To start we're going to add the after argument onto both users and posts.
+
+36
+00:02:30,150 --> 00:02:36,690
+So after we'll use the same name as Prisma does then the optional string the same type as Prisma does
+
+37
+00:02:36,870 --> 00:02:41,360
+and we'll do that down below as well after being an optional string.
+
+38
+00:02:41,370 --> 00:02:44,530
+Now we can save this file and move in to queery.
+
+39
+00:02:44,650 --> 00:02:50,190
+Ass in here we're going to update our resolvers we're currently passing through first and skip.
+
+40
+00:02:50,310 --> 00:02:57,180
+We're also going to pass through after getting its value from args after spelled correctly of course
+
+41
+00:02:57,420 --> 00:03:03,360
+and we're going to do the exact same thing down below for the Post's query right here alongside of our
+
+42
+00:03:03,360 --> 00:03:04,140
+other three.
+
+43
+00:03:04,140 --> 00:03:08,760
+We're going to be adding on after args after is where that value lives.
+
+44
+00:03:08,760 --> 00:03:09,840
+Excellent.
+
+45
+00:03:09,840 --> 00:03:15,600
+Now that we have this in place we can actually save queery dot J S and test our work.
+
+46
+00:03:15,750 --> 00:03:22,920
+I'm going to move over to local host 4000 and we're going to change both our users and posts queries.
+
+47
+00:03:23,190 --> 00:03:27,740
+Now for users Let's go ahead and grab the first three skipping zero.
+
+48
+00:03:27,870 --> 00:03:33,240
+And then I'm going to grab the ID of the first one and use that as the after value.
+
+49
+00:03:33,240 --> 00:03:38,750
+So I would expect to start with Andrew as the first record once this argument is in place right here
+
+50
+00:03:39,360 --> 00:03:43,740
+after I'm going to provide that ID as a string.
+
+51
+00:03:43,740 --> 00:03:46,940
+I'm going to refresh the schema of fire that off.
+
+52
+00:03:46,950 --> 00:03:47,860
+And what do I get.
+
+53
+00:03:47,880 --> 00:03:48,170
+I get.
+
+54
+00:03:48,180 --> 00:03:51,090
+Andrew Jen and Sarah as expected.
+
+55
+00:03:51,330 --> 00:03:57,720
+Let's do the same thing for posts right here I'm going to grab the first five and skip the zero.
+
+56
+00:03:57,900 --> 00:04:06,750
+Then I'm going to use this ID the third post as the value for after right here adding on the after argument
+
+57
+00:04:07,040 --> 00:04:11,660
+setting an equal to a string then we can go ahead and fire this off.
+
+58
+00:04:11,670 --> 00:04:13,650
+Let's go ahead and do just that.
+
+59
+00:04:13,920 --> 00:04:16,110
+And what do we get we get what we expected.
+
+60
+00:04:16,110 --> 00:04:22,210
+We start with that fourth post and then we have the next down the list and there we go.
+
+61
+00:04:22,320 --> 00:04:29,880
+We now have support for first for Skip and for after really letting us fine tune exactly which records
+
+62
+00:04:29,910 --> 00:04:31,020
+we want to get back.
+
+63
+00:04:31,080 --> 00:04:36,730
+Keeping everything efficient there's no need to transmit thousands of records across the wire.
+
+64
+00:04:36,780 --> 00:04:39,240
+That's expensive to actually fetch.
+
+65
+00:04:39,240 --> 00:04:43,020
+It's expensive to transfer and it's expensive to render.
+
+66
+00:04:43,020 --> 00:04:48,630
+It's best to render a reasonable amount maybe 10 20 or 30 at a time.
+
+67
+00:04:48,810 --> 00:04:54,340
+Now that we have this in place it's going to be your challenge to do the exact same thing for both the
+
+68
+00:04:54,360 --> 00:04:58,230
+my posts query and for the comments query.
+
+69
+00:04:58,230 --> 00:05:00,640
+So let's talk about what I'd like you to do.
+
+70
+00:05:00,860 --> 00:05:07,260
+Right here you're going do and pagination for those two queries just mentioned Step one is to add the
+
+71
+00:05:07,260 --> 00:05:13,380
+necessary arguments to the query definitions and schema Audograph UL then you're going to pass those
+
+72
+00:05:13,380 --> 00:05:17,130
+arguments through to Prisma in the resolvers down below.
+
+73
+00:05:17,130 --> 00:05:21,660
+And finally you're going to test your work and make sure that things work as expected.
+
+74
+00:05:21,660 --> 00:05:24,570
+So take as much time as you need to knock that one out.
+
+75
+00:05:24,600 --> 00:05:27,780
+Test your work and when you're done come back and click play
+
+76
+00:05:31,810 --> 00:05:32,580
+how that go.
+
+77
+00:05:32,620 --> 00:05:36,020
+Let's go ahead and kick things off over in schema engraft.
+
+78
+00:05:36,040 --> 00:05:38,320
+Well we're going to be setting up those arguments.
+
+79
+00:05:38,320 --> 00:05:40,530
+Let's start with my posts right here.
+
+80
+00:05:40,720 --> 00:05:43,360
+We can configure first to be an integer.
+
+81
+00:05:43,480 --> 00:05:48,690
+We can configure script to be an integer and we can configure after to be a string.
+
+82
+00:05:48,760 --> 00:05:51,090
+And we're going to do the same thing for comments.
+
+83
+00:05:51,100 --> 00:05:53,980
+Now comments currently has zero arguments.
+
+84
+00:05:53,980 --> 00:06:01,300
+So we have to add those parentheses in them we can set up all three pagination arguments first and then
+
+85
+00:06:01,360 --> 00:06:03,220
+we have Skip Int.
+
+86
+00:06:03,670 --> 00:06:06,410
+And finally we have after as a string.
+
+87
+00:06:06,490 --> 00:06:07,610
+Excellent.
+
+88
+00:06:07,630 --> 00:06:14,050
+Now we can save this file and move into queery J as and on to Step Two down below.
+
+89
+00:06:14,050 --> 00:06:19,080
+We have to pass all of those arguments through and we'll start with my posts.
+
+90
+00:06:19,120 --> 00:06:25,050
+So with my posts We already set up where on op args we have to set up those other three.
+
+91
+00:06:25,060 --> 00:06:31,450
+So I can start with first getting its value from args dot first then we're going to have Skip coming
+
+92
+00:06:31,450 --> 00:06:33,130
+from args dot Skipp.
+
+93
+00:06:33,160 --> 00:06:37,280
+And finally after coming from args dot after.
+
+94
+00:06:37,540 --> 00:06:41,970
+And we're going to end up doing the same thing for other query as well.
+
+95
+00:06:42,020 --> 00:06:48,100
+Double-O we have comments now comments currently doesn't even pass in an options object.
+
+96
+00:06:48,100 --> 00:06:50,670
+So you get to go ahead and create one and pass it in.
+
+97
+00:06:50,920 --> 00:06:54,420
+Maybe you passed it in inline by creating it right here.
+
+98
+00:06:54,550 --> 00:06:58,230
+Or maybe you went ahead and defined a variable and then referenced that.
+
+99
+00:06:58,360 --> 00:07:00,070
+That's the approach I'm going to take.
+
+100
+00:07:00,250 --> 00:07:06,400
+So I'm going to create an op args object like I did for my other queries and I will create it right
+
+101
+00:07:06,400 --> 00:07:08,150
+here on args.
+
+102
+00:07:08,320 --> 00:07:11,800
+Setting it up as an object and passing it in to Prisma.
+
+103
+00:07:11,800 --> 00:07:15,600
+Now on here we can just set up those three arguments like we've done elsewhere.
+
+104
+00:07:15,610 --> 00:07:21,770
+First comes from args dot first then skip comes from args dot Skipp.
+
+105
+00:07:21,790 --> 00:07:27,870
+And finally after comes from args dot after excellent from here.
+
+106
+00:07:27,880 --> 00:07:30,020
+We're actually done with step 2.
+
+107
+00:07:30,130 --> 00:07:35,490
+We can go ahead and save the file and move on to step three which is to test our work.
+
+108
+00:07:35,530 --> 00:07:42,910
+So over inside of local host 4000 I have the comments query right here and if I were to fire it off
+
+109
+00:07:42,910 --> 00:07:48,480
+without passing in any arguments I would expect to see a whole bunch of records like I was seeing before.
+
+110
+00:07:48,550 --> 00:07:51,620
+And that's exactly what I end up getting from here.
+
+111
+00:07:51,670 --> 00:07:55,630
+We're now going to go ahead and provide those pagination arguments.
+
+112
+00:07:55,630 --> 00:07:57,250
+I'm going to go ahead and configure them.
+
+113
+00:07:57,250 --> 00:07:59,800
+Let's go ahead and set up Skip.
+
+114
+00:07:59,890 --> 00:08:02,530
+So we are going to skip zero records.
+
+115
+00:08:02,530 --> 00:08:03,400
+We're going to grab.
+
+116
+00:08:03,400 --> 00:08:09,550
+Let's say we want to grab the first two records and we're going to start after the following.
+
+117
+00:08:09,550 --> 00:08:11,280
+I'll start after this comment.
+
+118
+00:08:11,320 --> 00:08:16,810
+So I would expect to see the next two records based off of what I have here which would be Andrew comment
+
+119
+00:08:16,880 --> 00:08:19,210
+to Andrew comment 3.
+
+120
+00:08:19,420 --> 00:08:25,420
+I'm going to add after into the mix I can go ahead and grab that latest schema fire this off and what
+
+121
+00:08:25,420 --> 00:08:31,670
+do I see I see exactly what I expected and if I wanted to grab the next set of two I could change Skipton
+
+122
+00:08:31,710 --> 00:08:36,380
+to then I could change Skepta for so on and so forth.
+
+123
+00:08:36,400 --> 00:08:44,050
+Now that comment is working let's go ahead and use my posts my posts is just going to return the posts
+
+124
+00:08:44,050 --> 00:08:45,400
+for a given user.
+
+125
+00:08:45,400 --> 00:08:48,520
+In this case I am seeing all of the posts for G-S.
+
+126
+00:08:48,610 --> 00:08:51,140
+We're going to set up our arguments here as well.
+
+127
+00:08:51,160 --> 00:08:57,430
+Let's go ahead and configure them I am going to set first equal to lets use for this time.
+
+128
+00:08:57,640 --> 00:09:05,520
+Then I will skip 0 so I'm getting the first four and I am going to provide an after value of this ID
+
+129
+00:09:05,530 --> 00:09:06,680
+the first one.
+
+130
+00:09:06,790 --> 00:09:14,410
+So right here after pasting in the ID so I would expect to see the first four posts after that one which
+
+131
+00:09:14,410 --> 00:09:17,440
+would be 2 3 4 and 5.
+
+132
+00:09:17,500 --> 00:09:22,260
+If I actually fire this off that's exactly what I get to 3 4 and 5.
+
+133
+00:09:22,270 --> 00:09:25,180
+The other post by Jess is nowhere to be found.
+
+134
+00:09:25,180 --> 00:09:31,450
+All right that is it for this video and that is it for pagination it's now all set up and when clients
+
+135
+00:09:31,450 --> 00:09:36,970
+are interacting with our app they don't have to be burdened by a ton of unnecessary data.
+
+136
+00:09:37,030 --> 00:09:41,350
+They can use those arguments to grab just the data they need.
+
+137
+00:09:41,350 --> 00:09:43,570
+That's where we're going to stop for this one.
+
+138
+00:09:43,570 --> 00:09:45,350
+I'll see you in the next video.
+

@@ -1,0 +1,840 @@
+1
+00:00:00,200 --> 00:00:05,610
+It the goal of this section is to get a production ready version of our application deployed live to
+
+2
+00:00:05,610 --> 00:00:07,320
+the Web in this video.
+
+3
+00:00:07,320 --> 00:00:12,330
+We're going to explore the tools we'll be using in order to get that done in the end of the day.
+
+4
+00:00:12,330 --> 00:00:14,570
+There are three things we need to get done.
+
+5
+00:00:14,640 --> 00:00:20,770
+One we need a production database so we need a place to host our production data too.
+
+6
+00:00:20,790 --> 00:00:25,880
+We need a place to host our Prisma docker container.
+
+7
+00:00:26,040 --> 00:00:30,360
+We're currently running docker locally but that's not going to work if we want people outside of our
+
+8
+00:00:30,360 --> 00:00:33,030
+local network to be able to access it.
+
+9
+00:00:33,030 --> 00:00:38,490
+And third we need a place to host our node J.S. application.
+
+10
+00:00:38,520 --> 00:00:40,410
+So those are our three needs.
+
+11
+00:00:40,410 --> 00:00:43,770
+And we're going to fulfill those needs with two services.
+
+12
+00:00:43,770 --> 00:00:51,270
+The first is Heroku Heroku is where we're going to host our database host our docker container and host
+
+13
+00:00:51,270 --> 00:00:58,320
+our node J.S. application the other service we're going to use Prisma cloud is going to make it really
+
+14
+00:00:58,320 --> 00:01:02,870
+easy to manage those Heroku Prisma instances.
+
+15
+00:01:02,910 --> 00:01:08,280
+So we're not going to have to do anything fancy to get the database and the containers set up Prisma
+
+16
+00:01:08,310 --> 00:01:10,800
+cloud is going to handle that for us.
+
+17
+00:01:10,800 --> 00:01:16,680
+And the good news is that we can get started for free with Heroku and for free with Prisma cloud.
+
+18
+00:01:16,680 --> 00:01:20,720
+They have generous free tiers that don't expire after a month or a year.
+
+19
+00:01:20,820 --> 00:01:23,820
+They just require you to pay if you want to collaborate with others.
+
+20
+00:01:23,820 --> 00:01:28,920
+So for our purposes we can deploy our applications to production for free.
+
+21
+00:01:28,920 --> 00:01:31,550
+And that's exactly what we're going to end up doing.
+
+22
+00:01:31,560 --> 00:01:36,870
+Now we already have a Heroku account we created that earlier in the course to get our database that
+
+23
+00:01:36,870 --> 00:01:39,460
+we've used throughout the class so far with Prisma.
+
+24
+00:01:39,600 --> 00:01:42,210
+But we do need to explore Prisma cloud.
+
+25
+00:01:42,210 --> 00:01:43,980
+So let's go ahead and pull that up.
+
+26
+00:01:44,160 --> 00:01:46,820
+We can find it by heading over to Prisma dot.
+
+27
+00:01:46,860 --> 00:01:51,400
+I know it's a product released by the official Prisma team.
+
+28
+00:01:51,480 --> 00:01:57,510
+Now they currently have two products they have Prisma cloud the one we'll be using and Prisma enterprise
+
+29
+00:01:57,510 --> 00:02:04,230
+targeted at larger corporations if we actually click on Prisma cloud we can learn more about the tool
+
+30
+00:02:04,260 --> 00:02:09,110
+and if we scroll all the way to the bottom of this page we can look at the pricing table.
+
+31
+00:02:09,300 --> 00:02:12,740
+So for our purposes the free tier has everything we need.
+
+32
+00:02:12,780 --> 00:02:17,370
+We could collaborate with a couple of other people though if we want more than three we have to start
+
+33
+00:02:17,370 --> 00:02:18,040
+paying.
+
+34
+00:02:18,120 --> 00:02:23,600
+We also get less metrics and lobbying and support but all of those are just nice to have.
+
+35
+00:02:23,600 --> 00:02:29,850
+They're nonessential and we do get some Barebone ones which is great if you are moving into a application
+
+36
+00:02:29,850 --> 00:02:34,740
+where you have clients who are paying or you're building an app for someone else maybe the team plan
+
+37
+00:02:34,740 --> 00:02:39,590
+makes more sense and enterprise is a bit extreme for larger corporations.
+
+38
+00:02:39,580 --> 00:02:42,620
+But once again for us free is just fine.
+
+39
+00:02:42,660 --> 00:02:47,510
+It has everything we need to deploy our app securely to production.
+
+40
+00:02:47,610 --> 00:02:53,110
+So let's go ahead and actually create an account creating an account is free no credit card required.
+
+41
+00:02:53,110 --> 00:02:57,000
+All we have to do is go through the sign up process.
+
+42
+00:02:57,090 --> 00:03:00,620
+I'll take a quick moment to log out so you can see what it's like.
+
+43
+00:03:00,660 --> 00:03:05,700
+You just got to sign up with your e-mail and password or you can connect to your get have account.
+
+44
+00:03:05,700 --> 00:03:07,840
+Either approach works just fine.
+
+45
+00:03:07,920 --> 00:03:13,500
+In this case I am using my get how the account as my log in and once we log in we're going to be brought
+
+46
+00:03:13,500 --> 00:03:16,620
+to the Prisma cloud dashboard.
+
+47
+00:03:16,620 --> 00:03:21,960
+Now the first time you log in there's going to be a little survey asking you why exactly you're using
+
+48
+00:03:21,960 --> 00:03:27,090
+the service it's a new service so they're still trying to gauge what features are important and who
+
+49
+00:03:27,090 --> 00:03:30,360
+exactly is using it and for what purposes.
+
+50
+00:03:30,360 --> 00:03:34,130
+Now on Prisma cloud there are three main pages we have services.
+
+51
+00:03:34,170 --> 00:03:40,020
+We have servers and we have settings settings is just a basic page for account management.
+
+52
+00:03:40,140 --> 00:03:44,370
+The ones that we're going to be focusing on are services and servers.
+
+53
+00:03:44,370 --> 00:03:51,600
+So with servers we are going to create a single Prisma instance so we're going to take that container
+
+54
+00:03:51,750 --> 00:03:54,330
+and we're going to deploy it to Heroku.
+
+55
+00:03:54,390 --> 00:04:01,020
+This is going to give us something similar to the server we have locally at localhost 4 4 6 6.
+
+56
+00:04:01,140 --> 00:04:04,890
+So we're only ever going to create a single server.
+
+57
+00:04:05,040 --> 00:04:10,980
+Now under services we can have as many services as we want and we proved that earlier in this class
+
+58
+00:04:11,100 --> 00:04:12,000
+locally.
+
+59
+00:04:12,000 --> 00:04:17,690
+Remember we created the Prisma folder which contained everything for our blogging application.
+
+60
+00:04:17,850 --> 00:04:24,420
+But as a challenge you also created the Prisma review Web site and we didn't create another doctor container
+
+61
+00:04:24,420 --> 00:04:25,230
+for that.
+
+62
+00:04:25,260 --> 00:04:32,970
+They were both using the exact same server and this worked because inside of our database under schemas
+
+63
+00:04:33,210 --> 00:04:36,340
+we have our data organized under default default.
+
+64
+00:04:36,360 --> 00:04:43,650
+We have all of our data for our default service at the default stage and then down below we had the
+
+65
+00:04:43,650 --> 00:04:47,000
+reviews service at the default stage as well.
+
+66
+00:04:47,070 --> 00:04:48,980
+And that's where all that data lived.
+
+67
+00:04:48,990 --> 00:04:54,210
+So long story short we're going to have a single server and multiple services.
+
+68
+00:04:54,210 --> 00:04:58,700
+Let's go ahead and kick things off by actually creating a server.
+
+69
+00:04:58,920 --> 00:05:03,730
+Now if you click over the servers page you're going to have two things already there.
+
+70
+00:05:03,730 --> 00:05:09,900
+These are default servers managed by Prisma and you cannot manage or access them.
+
+71
+00:05:10,000 --> 00:05:12,790
+So we're going to go ahead and create a brand new one.
+
+72
+00:05:13,030 --> 00:05:17,950
+We're going to add our own server and it's going to bring us through this little wizard where we pick
+
+73
+00:05:17,950 --> 00:05:21,970
+things like our server name our databases and our server size.
+
+74
+00:05:22,120 --> 00:05:25,690
+So let's go ahead and stick with a nice specific name.
+
+75
+00:05:25,810 --> 00:05:28,070
+The name you're going to enter is globally shared.
+
+76
+00:05:28,090 --> 00:05:31,690
+So you don't want to use something generic like blogging application.
+
+77
+00:05:31,770 --> 00:05:33,830
+I'll typically use my name first.
+
+78
+00:05:33,940 --> 00:05:39,190
+You want to stick with just characters using hyphens to separate your words so I could use something
+
+79
+00:05:39,190 --> 00:05:39,430
+like.
+
+80
+00:05:39,460 --> 00:05:44,950
+Andrew Mead blogging app as an example that would be a pretty unique name.
+
+81
+00:05:45,070 --> 00:05:49,900
+Then down below just a quick description blogging application.
+
+82
+00:05:49,930 --> 00:05:50,960
+Awesome.
+
+83
+00:05:50,980 --> 00:05:55,150
+Now we can go ahead and click Create server we want to create a new one.
+
+84
+00:05:55,330 --> 00:06:01,150
+And first up we're going to create the database we're going to create a new database so make sure to
+
+85
+00:06:01,150 --> 00:06:05,550
+follow the same steps I'm following now and we create a new database.
+
+86
+00:06:05,590 --> 00:06:11,710
+It's going to ask us where we want to create that new database and currently Prisma cloud only integrates
+
+87
+00:06:11,710 --> 00:06:12,490
+with Heroku.
+
+88
+00:06:12,490 --> 00:06:17,470
+The other services are coming down the line so we're going to stick with Heroku which works really well
+
+89
+00:06:17,470 --> 00:06:20,260
+for us because we already have that set up.
+
+90
+00:06:20,260 --> 00:06:25,390
+Now when you click that it's going to bring you over to a list of all connected Heroku accounts you're
+
+91
+00:06:25,390 --> 00:06:28,780
+going to go ahead and connect an existing one that you have.
+
+92
+00:06:28,780 --> 00:06:31,150
+So click connect a new account.
+
+93
+00:06:31,180 --> 00:06:33,350
+This is going to redirect you to her Roku.
+
+94
+00:06:33,520 --> 00:06:39,300
+You'll have to click a button that says you allow Prisma cloud to manage your Heroku account then it'll
+
+95
+00:06:39,310 --> 00:06:44,920
+redirect you back to this site and the page you end up on will look a little bit like this.
+
+96
+00:06:44,980 --> 00:06:49,720
+It's going to ask for some details about the database you want to create.
+
+97
+00:06:49,720 --> 00:06:54,430
+Now we're going to stick with postgresql the only one supported and when it comes to your region you
+
+98
+00:06:54,430 --> 00:07:02,100
+can either pick us Virginia or EU Dublin just pick the one closest to you and your users down below
+
+99
+00:07:02,110 --> 00:07:04,180
+we have our database plan.
+
+100
+00:07:04,280 --> 00:07:08,920
+We are going to stick with the hobby dev plan which is completely free and doesn't require us to enter
+
+101
+00:07:09,100 --> 00:07:11,430
+any sort of credit card information.
+
+102
+00:07:11,440 --> 00:07:16,990
+You can always upgrade as users start to use your app down below we can actually create this database
+
+103
+00:07:17,020 --> 00:07:21,150
+and the process for creating the database just takes a couple of seconds.
+
+104
+00:07:21,160 --> 00:07:25,230
+It's communicating with Heroku getting that database set up for us.
+
+105
+00:07:25,360 --> 00:07:30,310
+And once the database is set up it's going to ask us to set up a server and that's what we're going
+
+106
+00:07:30,310 --> 00:07:32,380
+to do to wrap up this process.
+
+107
+00:07:32,380 --> 00:07:37,000
+We're going to click Set up a server and once again we can pick from different options.
+
+108
+00:07:37,030 --> 00:07:42,820
+We are going to use Heroku the only one currently supported even if there was other options supported
+
+109
+00:07:42,850 --> 00:07:44,740
+I would still be using Heroku.
+
+110
+00:07:44,770 --> 00:07:50,560
+It really is my preferred service because it's so easy to use flexible and customizable.
+
+111
+00:07:50,560 --> 00:07:56,920
+Right here we are sticking with that free plan once again as you have more users making requests to
+
+112
+00:07:56,920 --> 00:07:57,620
+your app.
+
+113
+00:07:57,650 --> 00:07:59,660
+Maybe it makes sense to upgrade.
+
+114
+00:07:59,770 --> 00:08:03,540
+I use the hobby plan for a lot of my client projects.
+
+115
+00:08:03,550 --> 00:08:08,180
+I honestly don't really need more than that for most applications down below.
+
+116
+00:08:08,200 --> 00:08:12,650
+We are going to create this server and this is where the wizard is going to stop.
+
+117
+00:08:12,730 --> 00:08:15,490
+Once the server is created we're all done.
+
+118
+00:08:15,490 --> 00:08:21,660
+Everything is set up and we can get back to looking at how Prisma cloud is going to help us.
+
+119
+00:08:21,670 --> 00:08:27,100
+Now the process of creating the server takes a bit longer than working with that database but once it
+
+120
+00:08:27,160 --> 00:08:33,460
+is done we're actually going to be able to see both the database and the server over on our Heroku account
+
+121
+00:08:33,670 --> 00:08:39,490
+and we'll even be able to connect it to our production database using PGE admin just like we were able
+
+122
+00:08:39,490 --> 00:08:42,520
+to connect to our other Heroku database.
+
+123
+00:08:42,520 --> 00:08:43,000
+All right.
+
+124
+00:08:43,000 --> 00:08:44,350
+Everything is done.
+
+125
+00:08:44,410 --> 00:08:50,120
+And now we can view the server viewing the server just brings us over to the servers page.
+
+126
+00:08:50,140 --> 00:08:56,830
+So we might as well just click that and if we give things a refresh we should see a third item in the
+
+127
+00:08:56,830 --> 00:09:00,520
+list 3 to 1 and there it is.
+
+128
+00:09:00,550 --> 00:09:02,670
+Andrew Mead blogging app.
+
+129
+00:09:02,860 --> 00:09:08,440
+It's currently in the booting stage and if we click on that we can see that there is the server and
+
+130
+00:09:08,440 --> 00:09:11,590
+there is the database both hosted on Heroku.
+
+131
+00:09:11,800 --> 00:09:15,870
+So the server listed here that's going to take care of this requirement.
+
+132
+00:09:15,880 --> 00:09:21,380
+It's going to run our Prisma Dakar container and the database down below.
+
+133
+00:09:21,460 --> 00:09:27,040
+That's going to take care of this requirement that's going to be our production database where data
+
+134
+00:09:27,100 --> 00:09:29,290
+for our real users is stored.
+
+135
+00:09:29,290 --> 00:09:35,220
+Now we haven't done anything to deploy our code to that Prisma container that's running and that's OK.
+
+136
+00:09:35,290 --> 00:09:37,780
+We'll focus on doing that in the next video.
+
+137
+00:09:37,870 --> 00:09:40,070
+And we also haven't done anything with our node.
+
+138
+00:09:40,100 --> 00:09:42,250
+JS app and that's fine too.
+
+139
+00:09:42,250 --> 00:09:46,150
+We'll address that later in the section to wrap up this video.
+
+140
+00:09:46,150 --> 00:09:52,680
+The only thing I want to do is connect to our production database via PGE admin.
+
+141
+00:09:52,840 --> 00:09:54,810
+So what are we going to do to get that done.
+
+142
+00:09:54,820 --> 00:09:57,730
+Step one we're going to head over to PGE admin.
+
+143
+00:09:57,740 --> 00:10:04,360
+We are going to Right-Click servers list and we are going to create a server and then we have to provide
+
+144
+00:10:04,390 --> 00:10:06,860
+all of those connection details.
+
+145
+00:10:06,970 --> 00:10:08,950
+I can call this whatever I want.
+
+146
+00:10:09,040 --> 00:10:14,380
+I could say something like Heroku production database as an example.
+
+147
+00:10:14,530 --> 00:10:19,300
+And then on the connection page we have to fill out all of those connection details.
+
+148
+00:10:19,300 --> 00:10:20,280
+Where do we get them.
+
+149
+00:10:20,290 --> 00:10:22,040
+We get them from Heroku.
+
+150
+00:10:22,240 --> 00:10:27,880
+I'm going to go ahead and knock this out by heading over to the Prisma cloud page right here and clicking
+
+151
+00:10:27,970 --> 00:10:30,730
+view on Heroku for the database.
+
+152
+00:10:30,730 --> 00:10:36,790
+This is going to bring us over to that Heroku application and once we're here we can actually get into
+
+153
+00:10:36,790 --> 00:10:42,790
+the connection details by clicking Heroku post grass which has automatically been added for us.
+
+154
+00:10:42,790 --> 00:10:48,970
+If I click that it's going to bring us over to the database connection details like we saw earlier in
+
+155
+00:10:48,970 --> 00:10:50,240
+the class right here.
+
+156
+00:10:50,320 --> 00:10:57,400
+We can go over to settings we can go to View credentials and this is all the stuff we have to enter
+
+157
+00:10:57,520 --> 00:10:58,910
+inside of PGE admin.
+
+158
+00:10:58,930 --> 00:11:01,110
+So let's go ahead and get started.
+
+159
+00:11:01,150 --> 00:11:03,820
+The first thing we're going to do is grab that host.
+
+160
+00:11:03,820 --> 00:11:05,140
+I'm going to copy that.
+
+161
+00:11:05,140 --> 00:11:07,680
+Pasting it over into the host label.
+
+162
+00:11:07,690 --> 00:11:08,970
+Next up is our port.
+
+163
+00:11:08,980 --> 00:11:10,860
+The port should be the same value.
+
+164
+00:11:10,900 --> 00:11:12,970
+Five four three two is the default.
+
+165
+00:11:12,970 --> 00:11:16,100
+I'm seeing that here as well after the port.
+
+166
+00:11:16,120 --> 00:11:18,550
+We have our maintenance database.
+
+167
+00:11:18,550 --> 00:11:22,720
+We're going to go ahead and toss in our database name right here.
+
+168
+00:11:22,720 --> 00:11:24,430
+I'm going to paste that in.
+
+169
+00:11:24,430 --> 00:11:31,450
+Then we have our user name so we have to copy the user name from Heroku and paste that in.
+
+170
+00:11:31,660 --> 00:11:37,110
+And the last thing we have is our password the password is really long it's sitting over here.
+
+171
+00:11:37,180 --> 00:11:38,290
+I'm going to copy it.
+
+172
+00:11:38,320 --> 00:11:44,650
+I'm going to bring it over to PGE admin and paste it in ticking that save password box so I don't have
+
+173
+00:11:44,650 --> 00:11:46,970
+to enter it over and over again.
+
+174
+00:11:47,020 --> 00:11:53,950
+Now if I actually save the connection we can see it showing up in the left hand side I'm going to go
+
+175
+00:11:53,950 --> 00:11:56,180
+ahead and close the other servers.
+
+176
+00:11:56,200 --> 00:12:03,320
+Expand that one expand the databases and we should get a really long list of databases once again.
+
+177
+00:12:03,430 --> 00:12:05,750
+But one of those is ours.
+
+178
+00:12:05,890 --> 00:12:11,430
+Now to find it we can always just grab the first few characters here it's d three one.
+
+179
+00:12:11,440 --> 00:12:21,270
+Q For me I'm going to use command to search on page 3 1 Q And right here I can see my database.
+
+180
+00:12:21,340 --> 00:12:27,610
+It's gold which means I do have access to actually explore it and if I open it up cracking open the
+
+181
+00:12:27,610 --> 00:12:29,290
+schemas What do we see.
+
+182
+00:12:29,290 --> 00:12:33,210
+We don't see anything like default default or default Prod..
+
+183
+00:12:33,220 --> 00:12:35,210
+We haven't added any services.
+
+184
+00:12:35,290 --> 00:12:39,170
+We haven't deployed Prisma So this is completely expected.
+
+185
+00:12:39,280 --> 00:12:45,130
+As long as we're able to expand that database we are indeed successfully connected and that's where
+
+186
+00:12:45,130 --> 00:12:47,260
+we're going to stop for this video.
+
+187
+00:12:47,470 --> 00:12:52,570
+So let's take a quick moment to talk about exactly what we did in this video.
+
+188
+00:12:52,570 --> 00:12:54,750
+We signed up for Prisma cloud.
+
+189
+00:12:54,880 --> 00:12:59,770
+It's a service that makes it really easy to host your Prisma applications.
+
+190
+00:12:59,770 --> 00:13:05,380
+It makes it really easy because it directly integrates with cloud providers like Heroku and it manages
+
+191
+00:13:05,380 --> 00:13:10,600
+all of the setup for us so we don't have to in the end of the day it's going to give us all the tools
+
+192
+00:13:10,600 --> 00:13:14,990
+we need to deploy new versions and manage our various services.
+
+193
+00:13:15,100 --> 00:13:21,040
+It's important to note that Prisma cloud is not a requirement for hosting Prisma neither of these are
+
+194
+00:13:21,040 --> 00:13:22,030
+they're both optional.
+
+195
+00:13:22,030 --> 00:13:25,040
+There are a ton of other choices you could have made as well.
+
+196
+00:13:25,060 --> 00:13:28,260
+This is just my preferred stack for example.
+
+197
+00:13:28,330 --> 00:13:33,230
+The only thing you really need is a hosting service that supports containers.
+
+198
+00:13:33,340 --> 00:13:40,270
+Amazon Web Services does Heroku does other services like digital ocean do there are a ton of container
+
+199
+00:13:40,270 --> 00:13:45,150
+hosting services out there and you need a service that can give you a post gresse database.
+
+200
+00:13:45,220 --> 00:13:50,410
+That's also a dime a dozen There are hundreds of different services that allow you to set up a post
+
+201
+00:13:50,410 --> 00:13:51,780
+gresse database.
+
+202
+00:13:51,880 --> 00:13:56,980
+So in the end of the day these are just a couple of tools we can use to make the job easy.
+
+203
+00:13:56,980 --> 00:14:01,680
+They are by no means the only tools you can use to get this done.
+
+204
+00:14:01,870 --> 00:14:02,480
+All right.
+
+205
+00:14:02,620 --> 00:14:03,700
+That's it for this one.
+
+206
+00:14:03,700 --> 00:14:09,610
+We have the basic setup in place and the next video we're going to focus on making some changes to our
+
+207
+00:14:09,610 --> 00:14:15,970
+project so we can actually get one of our services deployed and then we'll be able to interact with
+
+208
+00:14:15,970 --> 00:14:19,440
+that database reading and writing from the production database.
+
+209
+00:14:19,450 --> 00:14:20,680
+I'm excited to get to that.
+
+210
+00:14:20,680 --> 00:14:23,680
+So let's go ahead and jump right in to the next one.
+

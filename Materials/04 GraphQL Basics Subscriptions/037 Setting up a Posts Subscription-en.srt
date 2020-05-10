@@ -1,0 +1,508 @@
+1
+00:00:00,270 --> 00:00:04,920
+In this challenge video it's going to be up to you to create a brand new subscription using what you've
+
+2
+00:00:04,920 --> 00:00:10,440
+learned so far with the comment to subscription already in place you're going to be creating a brand
+
+3
+00:00:10,440 --> 00:00:16,410
+new subscription called Post allowing the client to subscribe to new posts so they'll be able to get
+
+4
+00:00:16,410 --> 00:00:19,070
+notified whenever a new post is published.
+
+5
+00:00:19,080 --> 00:00:21,240
+There are a few steps for getting this done.
+
+6
+00:00:21,240 --> 00:00:25,770
+So let's go ahead and work through all four of these then I'll give you some time to actually knock
+
+7
+00:00:25,770 --> 00:00:26,530
+this out.
+
+8
+00:00:26,550 --> 00:00:31,080
+First up the big picture goal is to create a subscription for the new posts and there are four steps
+
+9
+00:00:31,080 --> 00:00:32,530
+to solving this challenge.
+
+10
+00:00:32,550 --> 00:00:39,240
+Step one is to actually define the new post subscription over inside of your type definitions.
+
+11
+00:00:39,240 --> 00:00:41,710
+There are no arguments necessary for this one.
+
+12
+00:00:41,730 --> 00:00:47,520
+And the response should just be a post object much like the response for the comment subscription is
+
+13
+00:00:47,520 --> 00:00:49,930
+just a comment object.
+
+14
+00:00:49,980 --> 00:00:56,160
+Now step two is where we actually define the resolver or subscribe method for the new subscription.
+
+15
+00:00:56,160 --> 00:01:01,920
+Since there are no arguments you can use a generic channel name something like post would work just
+
+16
+00:01:01,920 --> 00:01:02,720
+fine.
+
+17
+00:01:02,730 --> 00:01:06,920
+We're not concerned about subscribing to posts from a particular user.
+
+18
+00:01:06,990 --> 00:01:11,880
+We're just concerned about getting all posts so we're just going to have a single channel name for this
+
+19
+00:01:12,000 --> 00:01:13,470
+subscription.
+
+20
+00:01:13,470 --> 00:01:18,750
+Now that means that the SUBSCRIBE method is going to be very very short just a single line where you
+
+21
+00:01:18,750 --> 00:01:21,020
+return the async iterator.
+
+22
+00:01:21,210 --> 00:01:22,770
+That brings us to step three.
+
+23
+00:01:22,800 --> 00:01:28,230
+You're going to modify the mutation where new posts get created and you're going to publish the new
+
+24
+00:01:28,230 --> 00:01:31,420
+post data just like we did for creating comments.
+
+25
+00:01:31,420 --> 00:01:33,310
+Now there's only one catch to this.
+
+26
+00:01:33,450 --> 00:01:39,270
+When a comment is created it's always public but when a post is created it might have its published
+
+27
+00:01:39,270 --> 00:01:42,880
+value set to false meaning it's a draft post.
+
+28
+00:01:42,900 --> 00:01:51,240
+We only want to call pub sub dot publish if the new post was created with a published value set to true.
+
+29
+00:01:51,240 --> 00:01:56,160
+Now if the published value is set to false it can always be published later inside of the update.
+
+30
+00:01:56,160 --> 00:01:57,340
+Post mutation.
+
+31
+00:01:57,420 --> 00:02:01,690
+We're not going to worry about that for the moment you only have to modify create post.
+
+32
+00:02:01,740 --> 00:02:04,930
+You do not need to touch update post or delete posts.
+
+33
+00:02:05,040 --> 00:02:06,710
+We'll handle that later.
+
+34
+00:02:06,900 --> 00:02:11,880
+So in this case the subscription is only going to fire if someone creates a new post and when they create
+
+35
+00:02:11,880 --> 00:02:14,140
+it the published value is set to true.
+
+36
+00:02:14,490 --> 00:02:16,630
+The last step is to test your work.
+
+37
+00:02:16,710 --> 00:02:19,880
+So you're going to create a subscription to actually listen for the posts.
+
+38
+00:02:19,980 --> 00:02:25,740
+Then you're going to go ahead and define a few new posts that are indeed published when they start getting
+
+39
+00:02:25,740 --> 00:02:28,980
+created and that should fire off the subscription.
+
+40
+00:02:28,980 --> 00:02:32,900
+So take as much time as you need to actually knock this one out.
+
+41
+00:02:32,910 --> 00:02:35,400
+Feel free to refer to anything we've done so far.
+
+42
+00:02:35,400 --> 00:02:36,480
+Pause the video.
+
+43
+00:02:36,480 --> 00:02:39,410
+Test your work and when you're done click play.
+
+44
+00:02:43,210 --> 00:02:43,870
+How that go.
+
+45
+00:02:43,870 --> 00:02:47,790
+Let's go ahead and move through these steps one at a time starting with step one.
+
+46
+00:02:47,800 --> 00:02:51,080
+We're going to define our post subscription in schema graph.
+
+47
+00:02:51,090 --> 00:02:54,400
+Q Well over here we're going to call it post.
+
+48
+00:02:54,400 --> 00:02:58,620
+We're not setting up any arguments just like we didn't set up any arguments for count.
+
+49
+00:02:58,750 --> 00:03:02,770
+And what comes back is indeed going to be a post object.
+
+50
+00:03:02,800 --> 00:03:03,330
+Perfect.
+
+51
+00:03:03,370 --> 00:03:04,160
+So there we go.
+
+52
+00:03:04,210 --> 00:03:04,930
+Step one.
+
+53
+00:03:05,020 --> 00:03:05,920
+All done.
+
+54
+00:03:06,010 --> 00:03:11,050
+That brings us to step 2 which is to actually define our resolver inside of subscription.
+
+55
+00:03:11,210 --> 00:03:12,130
+J S.
+
+56
+00:03:12,250 --> 00:03:15,010
+I'm going to add that just below the comment object.
+
+57
+00:03:15,010 --> 00:03:18,130
+So right here we need a post object.
+
+58
+00:03:18,460 --> 00:03:23,050
+Then we have to set up the SUBSCRIBE method for a post naming.
+
+59
+00:03:23,080 --> 00:03:28,230
+All of those arguments we have parent we do indeed have args.
+
+60
+00:03:28,240 --> 00:03:31,670
+We also have the context which I'm just going to do structure to grab.
+
+61
+00:03:31,680 --> 00:03:34,130
+Pub sub since I know I'm going to use that.
+
+62
+00:03:34,210 --> 00:03:37,570
+And finally we have info awesome down below.
+
+63
+00:03:37,570 --> 00:03:38,580
+What do we need to do.
+
+64
+00:03:38,580 --> 00:03:47,890
+All we have to do is return pub sub dot async iterator and we're going to use a generic channel name
+
+65
+00:03:47,950 --> 00:03:49,580
+like post perfect.
+
+66
+00:03:49,600 --> 00:03:51,700
+That is it for step 2.
+
+67
+00:03:51,760 --> 00:03:57,170
+That brings us to step 3 which is to modify the mutation where new posts get created.
+
+68
+00:03:57,340 --> 00:04:00,430
+So I'm going to save this file and we're going to move over to mutation.
+
+69
+00:04:00,450 --> 00:04:01,100
+Dot J.
+
+70
+00:04:01,100 --> 00:04:08,080
+As I believe it is above just a little bit where we have the Create post method inside of here.
+
+71
+00:04:08,140 --> 00:04:15,400
+We want to actually publish the post if it was indeed created with the published value set to true.
+
+72
+00:04:15,610 --> 00:04:18,460
+We could actually just add an if statement right here to check that.
+
+73
+00:04:18,490 --> 00:04:25,380
+If args dot data dot published is true.
+
+74
+00:04:26,130 --> 00:04:27,240
+What are we going to do.
+
+75
+00:04:27,330 --> 00:04:32,360
+We are going to call pub sub dot publish to actually publish that data.
+
+76
+00:04:32,730 --> 00:04:38,820
+Now currently we do not have access to pub sub let's destruction that off the context object as well.
+
+77
+00:04:38,820 --> 00:04:41,790
+And now we can provide the two things necessary.
+
+78
+00:04:41,790 --> 00:04:44,890
+The first is the channel name we used post.
+
+79
+00:04:45,000 --> 00:04:50,530
+The second is an object with the post property set equal to the post object.
+
+80
+00:04:50,580 --> 00:04:55,840
+I already have a variable with the name post so we can use the object shorthand to get that done.
+
+81
+00:04:56,100 --> 00:04:56,900
+And there we go.
+
+82
+00:04:56,940 --> 00:04:58,670
+That is step three.
+
+83
+00:04:58,710 --> 00:05:01,890
+This brings us to the final step which is step 4.
+
+84
+00:05:01,980 --> 00:05:06,700
+Testing our work we can go ahead and do that by creating a brand new subscription.
+
+85
+00:05:06,720 --> 00:05:16,140
+One new tab right here I'm going to use the subscription operation we are then going to set up a subscription
+
+86
+00:05:16,140 --> 00:05:21,150
+to post since there are no arguments necessary we're not going to provide anything but we are going
+
+87
+00:05:21,150 --> 00:05:23,130
+to provide our selection set.
+
+88
+00:05:23,130 --> 00:05:26,510
+So in a new post is created I'm going to ask for the ID.
+
+89
+00:05:26,760 --> 00:05:31,590
+I'm going to ask for the title of an ask for the body as well.
+
+90
+00:05:31,650 --> 00:05:34,740
+And I'm also going to ask for some info about the author.
+
+91
+00:05:34,740 --> 00:05:40,630
+Let's go ahead and grab the authors ID and name Serat here author ID and author name.
+
+92
+00:05:40,680 --> 00:05:41,580
+Excellent.
+
+93
+00:05:41,670 --> 00:05:47,340
+If I refreshed the application schema this should turn into a valid subscription operation.
+
+94
+00:05:47,430 --> 00:05:50,150
+And now we can actually go ahead and fire that off.
+
+95
+00:05:50,160 --> 00:05:53,280
+Here it is indeed listening for new posts to be created.
+
+96
+00:05:53,280 --> 00:05:55,310
+So let's go ahead and test things out.
+
+97
+00:05:55,500 --> 00:05:58,850
+I'm going to move over to our create post mutation tab.
+
+98
+00:05:59,070 --> 00:06:03,080
+Now in this case we're creating a post but published is set to false.
+
+99
+00:06:03,090 --> 00:06:09,390
+So if I fire this off it does indeed create the post but I should see no change over my subscription
+
+100
+00:06:09,390 --> 00:06:14,670
+tab since we did not create a post whose published value is true.
+
+101
+00:06:14,670 --> 00:06:19,020
+Let's go ahead and move back to that tab and actually create a new public post.
+
+102
+00:06:19,080 --> 00:06:21,710
+So right here we have our create post mutation.
+
+103
+00:06:21,780 --> 00:06:28,700
+I'm going to change published to true and I'll just change the title a published post.
+
+104
+00:06:28,860 --> 00:06:33,710
+If I go ahead and fire this one off we can see that the post was indeed created with our title and the
+
+105
+00:06:33,710 --> 00:06:38,820
+correct published value this time since the post was created as published.
+
+106
+00:06:38,850 --> 00:06:41,820
+We should see a notification over here.
+
+107
+00:06:41,820 --> 00:06:47,330
+If I click over to the post subscription tab I do indeed have a new post data showing up.
+
+108
+00:06:47,370 --> 00:06:53,070
+I had my ID the title we picked the body and I also have some information about the author who wrote
+
+109
+00:06:53,130 --> 00:06:53,890
+the post.
+
+110
+00:06:53,910 --> 00:06:54,640
+So there we go.
+
+111
+00:06:54,660 --> 00:06:56,190
+That is it for this challenge.
+
+112
+00:06:56,190 --> 00:07:01,020
+We can now go ahead and clean things up just a little bit over inside of our project.
+
+113
+00:07:01,020 --> 00:07:03,300
+I'm going to remove the challenge comments.
+
+114
+00:07:03,300 --> 00:07:08,800
+We can delete all of them and I'm also going to remove the count subscription.
+
+115
+00:07:08,800 --> 00:07:13,900
+That helped us explore how subscriptions work but it's not going to make it into the final version of
+
+116
+00:07:13,900 --> 00:07:16,660
+the app so I'm going to delete it from subscription.
+
+117
+00:07:16,660 --> 00:07:17,480
+J s.
+
+118
+00:07:17,500 --> 00:07:21,520
+And I'm also going to remove it from our subscription type definition.
+
+119
+00:07:21,520 --> 00:07:22,420
+Perfect.
+
+120
+00:07:22,480 --> 00:07:24,760
+Now we have two subscriptions in place.
+
+121
+00:07:24,880 --> 00:07:30,550
+We have comment which allows us to get new comments for a particular post and we have post which allows
+
+122
+00:07:30,550 --> 00:07:33,540
+us to get new posts that are published.
+
+123
+00:07:33,580 --> 00:07:37,630
+We're going to continue on with this section exploring all of the other different operations that we
+
+124
+00:07:37,630 --> 00:07:38,800
+can subscribe to.
+
+125
+00:07:38,830 --> 00:07:41,450
+Whether it's something being updated or deleted.
+
+126
+00:07:41,540 --> 00:07:43,700
+I'm excited to continue on with subscriptions.
+
+127
+00:07:43,720 --> 00:07:47,220
+So let's go ahead and jump right in to the very next video.
+

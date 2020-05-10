@@ -1,0 +1,1160 @@
+1
+00:00:00,210 --> 00:00:05,910
+All of our mutations are now sitting behind authentication which means that people cannot create update
+
+2
+00:00:05,940 --> 00:00:12,840
+or delete data without being properly authenticated the entire database though is still publicly readable.
+
+3
+00:00:12,840 --> 00:00:17,640
+So in this video we're going to turn our attention towards locking down our queries.
+
+4
+00:00:17,640 --> 00:00:23,160
+We want to make sure that some data is still accessible to the public like all of the published posts
+
+5
+00:00:23,400 --> 00:00:28,150
+but things like my private drafts should not be exposed to the outside world.
+
+6
+00:00:28,230 --> 00:00:31,290
+That should only be viewable by me when I'm authenticated.
+
+7
+00:00:31,290 --> 00:00:35,070
+So we're going to start the process of getting all of that set up.
+
+8
+00:00:35,070 --> 00:00:40,230
+Now there is a reason that I've chosen to lock down our queries after already locking down our mutations
+
+9
+00:00:40,230 --> 00:00:43,740
+and that's because it's a bit harder to lock down our queries.
+
+10
+00:00:43,740 --> 00:00:46,830
+There's some gray area there with our mutations.
+
+11
+00:00:46,830 --> 00:00:52,000
+It was really black and white a given mutation either did or did not require authentication.
+
+12
+00:00:52,080 --> 00:00:54,310
+That is not true with our queries.
+
+13
+00:00:54,450 --> 00:00:57,190
+Let's look at the post query for example.
+
+14
+00:00:57,210 --> 00:01:01,550
+This can be useful in both a public and an authenticated setting.
+
+15
+00:01:01,680 --> 00:01:07,680
+When it comes to public use I want to use post to fetch the given information about a post so I can
+
+16
+00:01:07,680 --> 00:01:12,780
+show it to the user when they're on a poster page and they're trying to read it from an authenticated
+
+17
+00:01:12,780 --> 00:01:17,340
+standpoint I might want to use this to fetch a draft post.
+
+18
+00:01:17,340 --> 00:01:21,740
+So if you're authenticated you should be able to fetch a draft if it's your draft.
+
+19
+00:01:21,840 --> 00:01:26,370
+If you're not authenticated you should only be able to get back public posts.
+
+20
+00:01:26,370 --> 00:01:32,370
+So in this case there are ways to use the post query with and without authentication.
+
+21
+00:01:32,370 --> 00:01:37,710
+And that just requires a little extra effort which is why we're tackling it after already seeing the
+
+22
+00:01:37,710 --> 00:01:41,130
+basic set up in our mutation database file.
+
+23
+00:01:41,400 --> 00:01:43,700
+So we're actually going to start with this query.
+
+24
+00:01:43,830 --> 00:01:49,320
+Now the first thing we need to do is get an I.D. passed in the whole point of the post query is to be
+
+25
+00:01:49,320 --> 00:01:52,500
+able to get a individual post by ID.
+
+26
+00:01:52,740 --> 00:01:54,560
+So over in schema autographs.
+
+27
+00:01:54,630 --> 00:01:57,990
+Well I'm going to update the post query right here.
+
+28
+00:01:58,020 --> 00:02:00,660
+Some of our queries do have arguments set up.
+
+29
+00:02:00,660 --> 00:02:01,650
+Others don't.
+
+30
+00:02:01,650 --> 00:02:06,930
+We're going to go ahead and add an arguments list on for post and we're just going to take in a single
+
+31
+00:02:06,930 --> 00:02:13,050
+argument which I'll call ID of the type ID and I am going to make that required if you're going to fetch
+
+32
+00:02:13,050 --> 00:02:14,070
+an individual post.
+
+33
+00:02:14,070 --> 00:02:16,880
+I need to know the posts ID.
+
+34
+00:02:16,980 --> 00:02:17,810
+Perfect.
+
+35
+00:02:17,940 --> 00:02:22,950
+Now that we have this in place we can actually make use of that inside of our resolver function over
+
+36
+00:02:22,950 --> 00:02:29,100
+here and to start I'm going to name out our four arguments we have parent we have args which is where
+
+37
+00:02:29,100 --> 00:02:30,810
+that idea is going to live.
+
+38
+00:02:30,810 --> 00:02:35,130
+We have our context and I'm just going to grab it Prisma from that.
+
+39
+00:02:35,240 --> 00:02:37,240
+And then lastly we have info.
+
+40
+00:02:37,310 --> 00:02:41,930
+Now the first thing we want to do inside of our method is figure out if the request is coming from an
+
+41
+00:02:41,930 --> 00:02:43,770
+authenticated user or not.
+
+42
+00:02:43,850 --> 00:02:47,510
+And currently the only way we can get that done is with get user ID.
+
+43
+00:02:47,510 --> 00:02:54,480
+So Konst user ID equals get user id like we've done plenty of times before and we are going to do the
+
+44
+00:02:54,560 --> 00:03:00,170
+structure request and we are going to pass that in as the first and only argument.
+
+45
+00:03:00,170 --> 00:03:06,230
+Now the problem with this solution is that the code down below this code it's only going to run if the
+
+46
+00:03:06,230 --> 00:03:10,220
+user is authenticated if the user is not authenticated.
+
+47
+00:03:10,220 --> 00:03:16,340
+This function actually throws an error stopping our post method in its tracks meaning that we can't
+
+48
+00:03:16,340 --> 00:03:20,710
+really do one thing if they're authenticated and another if they're not.
+
+49
+00:03:20,780 --> 00:03:26,240
+Now we could go ahead and added try catch around this to catch that error and run some other code.
+
+50
+00:03:26,240 --> 00:03:31,040
+But the approach that I'm going to take is going to be a little cleaner and a little easier to reuse
+
+51
+00:03:31,340 --> 00:03:35,930
+what we're going to do is make a small tweak to get user ID.
+
+52
+00:03:36,080 --> 00:03:40,320
+We're going to add on a second argument right after request.
+
+53
+00:03:40,340 --> 00:03:46,460
+The second argument is going to be called require off and this is going to allow us to use get user
+
+54
+00:03:46,460 --> 00:03:49,270
+id in two different ways now by default.
+
+55
+00:03:49,370 --> 00:03:55,820
+We are going to set this boolean value to true so you can pass in either true or false as the value
+
+56
+00:03:55,820 --> 00:03:56,180
+for.
+
+57
+00:03:56,180 --> 00:03:57,540
+Require uthe.
+
+58
+00:03:57,650 --> 00:04:03,830
+If you pass in a value of true we're going to throw an error if you are not authenticated if you pass
+
+59
+00:04:03,830 --> 00:04:09,560
+in a require off value of false we're not going to throw an error will return undefined as opposed to
+
+60
+00:04:09,560 --> 00:04:11,350
+returning a user ID.
+
+61
+00:04:11,570 --> 00:04:16,340
+So in the end of the day this argument is just going to give us a bit more flexibility.
+
+62
+00:04:16,340 --> 00:04:21,400
+Now the reason I'm setting a default value is so that we don't have to change everything over here.
+
+63
+00:04:21,470 --> 00:04:26,440
+We don't have to pass in a second argument because by default require auth is true.
+
+64
+00:04:26,570 --> 00:04:28,940
+And that's what all of our mutations expect.
+
+65
+00:04:29,030 --> 00:04:35,290
+They want to throw an error if there is no authentication I don't want to run the code below.
+
+66
+00:04:35,540 --> 00:04:40,940
+The nice thing though is that with this argument in place I could change my call over here passing and
+
+67
+00:04:40,940 --> 00:04:43,130
+false for that second argument.
+
+68
+00:04:43,130 --> 00:04:48,920
+This would not result in an error being thrown if someone was authenticated it would just result in
+
+69
+00:04:48,920 --> 00:04:51,240
+user id being undefined.
+
+70
+00:04:51,410 --> 00:04:56,350
+So let's go ahead and actually change a user ID to support this argument.
+
+71
+00:04:56,360 --> 00:05:01,220
+Now the first thing we're going to do is actually not going to change the functionality of our function
+
+72
+00:05:01,340 --> 00:05:02,370
+whatsoever.
+
+73
+00:05:02,390 --> 00:05:05,940
+We're just going to do a little restructuring to start with down below.
+
+74
+00:05:05,960 --> 00:05:08,080
+We're going to flip our IF statement on its head.
+
+75
+00:05:08,090 --> 00:05:12,500
+So instead of doing something when there is no better we're going to do something when there is a hatter
+
+76
+00:05:12,500 --> 00:05:13,380
+and what are we going to do.
+
+77
+00:05:13,370 --> 00:05:16,510
+Well we're going to do the same things we were doing down below.
+
+78
+00:05:16,730 --> 00:05:19,550
+So I'm actually going to copy these three lines.
+
+79
+00:05:19,550 --> 00:05:25,370
+I'm going to move those into the if statement then I'm going to take our air and move that out.
+
+80
+00:05:25,370 --> 00:05:30,080
+So at this point we haven't changed the functionality of get user ID at all.
+
+81
+00:05:30,080 --> 00:05:32,630
+We've just changed its structure.
+
+82
+00:05:32,630 --> 00:05:38,540
+Now the reason we're doing this is so that we can conditionally throw this error based off of the value
+
+83
+00:05:38,720 --> 00:05:40,050
+of require off.
+
+84
+00:05:40,070 --> 00:05:46,870
+So right here we're going to add an if statement if we are going to check if required off is true.
+
+85
+00:05:47,060 --> 00:05:52,670
+If it is true and authentication is required We're going to throw an error if authentication is not
+
+86
+00:05:52,670 --> 00:05:53,380
+required.
+
+87
+00:05:53,390 --> 00:05:54,980
+The rest of the function will run.
+
+88
+00:05:55,010 --> 00:05:56,510
+There is no more of the function.
+
+89
+00:05:56,600 --> 00:05:59,870
+So it will implicitly return undefined.
+
+90
+00:05:59,870 --> 00:06:04,340
+So once again we still care about the matter if the headers provided we're going to get you authenticated
+
+91
+00:06:04,400 --> 00:06:07,010
+and we're going to return your user ID.
+
+92
+00:06:07,010 --> 00:06:11,210
+The only thing we've changed is what happens when there is no header.
+
+93
+00:06:11,330 --> 00:06:13,490
+In this case sometimes we throw an error.
+
+94
+00:06:13,490 --> 00:06:14,770
+Other times we don't.
+
+95
+00:06:14,780 --> 00:06:20,720
+In the case of our mutations the error will get thrown in the case of our queery the error won't get
+
+96
+00:06:20,720 --> 00:06:27,080
+thrown allowing us to actually do what we want to do at this point in the code a user ID is either a
+
+97
+00:06:27,080 --> 00:06:33,470
+string if the user is authenticated or it's undefined if the user is not authenticated allowing us to
+
+98
+00:06:33,470 --> 00:06:35,340
+do what it is we need to do.
+
+99
+00:06:35,480 --> 00:06:38,830
+Now what are we going to do well we're going to grab that post out of the database.
+
+100
+00:06:38,840 --> 00:06:43,020
+No longer are we going to return that dummy data down below.
+
+101
+00:06:43,250 --> 00:06:49,500
+Now there are two main queries we can use to grab a post that Prisma provides us over in localhost 4
+
+102
+00:06:49,510 --> 00:06:50,450
+4 6 6.
+
+103
+00:06:50,450 --> 00:06:51,810
+We can explore this.
+
+104
+00:06:51,830 --> 00:06:55,960
+We have posts plural and we have post Cingular.
+
+105
+00:06:56,120 --> 00:07:01,580
+Now when it comes to querying data the Cingular version gives us way fewer options.
+
+106
+00:07:01,580 --> 00:07:08,300
+We can only limit buy things that actually make that post unique which in this case is just the ID when
+
+107
+00:07:08,300 --> 00:07:10,250
+it comes to posts plural.
+
+108
+00:07:10,310 --> 00:07:17,930
+We get way more options in where here I can actually filter posts by all sorts of interesting things.
+
+109
+00:07:18,140 --> 00:07:24,440
+And even though we only want a single post for the post query we are actually going to take advantage
+
+110
+00:07:24,530 --> 00:07:31,700
+of posts from Prisma just to use some of our where arguments let's go ahead and start the process of
+
+111
+00:07:31,730 --> 00:07:34,780
+setting this up over inside of our resolver.
+
+112
+00:07:34,810 --> 00:07:40,830
+Right here I am going to create a constant called posts so pleural post.
+
+113
+00:07:41,230 --> 00:07:50,450
+Then we are going to await Prisma dot queery dot posts plural passing in those two arguments we have
+
+114
+00:07:50,450 --> 00:07:53,270
+our operation arguments and we have info.
+
+115
+00:07:53,270 --> 00:07:56,920
+Now if I'm going to be using a wait I do have to mark this as an async function.
+
+116
+00:07:56,960 --> 00:07:58,350
+So let's knock that out.
+
+117
+00:07:58,550 --> 00:08:03,920
+And then we can turn our attention to what's honestly going to be the bulk of the code in this method
+
+118
+00:08:04,180 --> 00:08:10,040
+are aware argument what do we want to do to grab the correct post.
+
+119
+00:08:10,040 --> 00:08:16,580
+Well first we do indeed want to limit by ID so the post needs to have an ID value that matches up with
+
+120
+00:08:16,580 --> 00:08:18,180
+the ID argument.
+
+121
+00:08:18,200 --> 00:08:23,530
+This is already going to restrict it to a single post sense Id is unique.
+
+122
+00:08:23,600 --> 00:08:28,170
+So we either have no posts in the posts array or we have just one.
+
+123
+00:08:28,310 --> 00:08:31,200
+There's no chance we're ever going to get more than one.
+
+124
+00:08:31,370 --> 00:08:36,170
+Now the next thing we're going to do is determine whether or not this particular person should be able
+
+125
+00:08:36,170 --> 00:08:37,730
+to access this post.
+
+126
+00:08:37,910 --> 00:08:40,060
+So we are going to consider it a match.
+
+127
+00:08:40,130 --> 00:08:47,780
+If the post is either published or this user is the author We're going to get that done using our or
+
+128
+00:08:48,210 --> 00:08:48,930
+queery.
+
+129
+00:08:48,960 --> 00:08:57,020
+So over here inside of our schema definition for where we have or and or like and allows us to consider
+
+130
+00:08:57,020 --> 00:09:00,530
+something a match if one of many things is true.
+
+131
+00:09:00,680 --> 00:09:06,230
+So in this case if the post is published or the person is the author.
+
+132
+00:09:06,230 --> 00:09:12,590
+Now over here we can actually knock that out or get set equal to an array of objects where the object
+
+133
+00:09:12,860 --> 00:09:15,340
+is just the exact same thing we have here.
+
+134
+00:09:15,440 --> 00:09:17,380
+So we can limit by anything.
+
+135
+00:09:17,450 --> 00:09:20,720
+And in this case we are going to limit by published.
+
+136
+00:09:20,720 --> 00:09:23,000
+So right here published.
+
+137
+00:09:23,240 --> 00:09:24,430
+True.
+
+138
+00:09:24,470 --> 00:09:29,560
+Now we want to pass another object to or so we can limit by something else as well.
+
+139
+00:09:29,660 --> 00:09:35,540
+So the post is either published or this person is the author and we're going to check that by looking
+
+140
+00:09:35,540 --> 00:09:42,110
+at author setting that equal to an object and looking at the author's ID the value we're going to use
+
+141
+00:09:42,140 --> 00:09:45,190
+is whatever is stored in user id up above.
+
+142
+00:09:45,200 --> 00:09:50,510
+So if there is a user authenticated we'll have a real user id getting passed in if there there's no
+
+143
+00:09:50,510 --> 00:09:56,090
+user authenticated we're actually going to be setting this value equal to undefined which is the same
+
+144
+00:09:56,090 --> 00:09:57,760
+as having not provided it.
+
+145
+00:09:57,770 --> 00:10:04,430
+And that's a problem because that means this or query right here isn't going to be searching for anything.
+
+146
+00:10:04,430 --> 00:10:09,350
+Which means that it's always going to consider something a match if it's not actually limiting by anything.
+
+147
+00:10:09,410 --> 00:10:13,430
+And that's a problem so to fix that quick tweak to get user ID.
+
+148
+00:10:13,430 --> 00:10:17,320
+All we're going to do is return NULL.
+
+149
+00:10:17,380 --> 00:10:18,150
+Perfect.
+
+150
+00:10:18,160 --> 00:10:23,950
+So instead of returning undefined if you are not authenticated and require auth is false we are going
+
+151
+00:10:23,950 --> 00:10:26,430
+to return NULL instead.
+
+152
+00:10:26,440 --> 00:10:28,930
+Now with this in place we are all done.
+
+153
+00:10:28,990 --> 00:10:36,010
+We have successfully set up our query and the last thing we have to do is one throw an error if no post
+
+154
+00:10:36,010 --> 00:10:37,650
+was found and 2.
+
+155
+00:10:37,720 --> 00:10:43,730
+If a post was found actually send its data back down below we can knock both of those things out.
+
+156
+00:10:43,750 --> 00:10:52,310
+If we're going to look at posts length if the length is equal to zero then we can throw a new error
+
+157
+00:10:52,400 --> 00:10:59,570
+saying something like post not found otherwise what are we going to do.
+
+158
+00:10:59,570 --> 00:11:05,920
+Well we do indeed have our post and I am going to return it so I'm going to return from the Post's array.
+
+159
+00:11:05,950 --> 00:11:08,700
+The first and only element.
+
+160
+00:11:08,840 --> 00:11:09,540
+Awesome.
+
+161
+00:11:09,770 --> 00:11:16,070
+So once again we are taking advantage of the Post's query plural so we can set up our conditional logic
+
+162
+00:11:16,280 --> 00:11:22,190
+inside of where now that we have this in place we're actually all done with the post query and we can
+
+163
+00:11:22,190 --> 00:11:26,150
+go ahead and test things out before we start up our application.
+
+164
+00:11:26,150 --> 00:11:26,690
+Up above.
+
+165
+00:11:26,690 --> 00:11:35,650
+We do need to import the get user ID function in Port get a user ID from the file where it's defined
+
+166
+00:11:35,680 --> 00:11:38,330
+dot dot to get out of the resolver directory.
+
+167
+00:11:38,440 --> 00:11:44,200
+Forward slash utils to go into that folder then forward slash get user ID which is the file that we
+
+168
+00:11:44,200 --> 00:11:45,720
+actually want to load.
+
+169
+00:11:45,720 --> 00:11:48,800
+Now we can save queery dot J as startup.
+
+170
+00:11:48,820 --> 00:11:55,090
+The server with NPM start and switch over to graft UL playground to mess around with things so over
+
+171
+00:11:55,090 --> 00:11:57,060
+in local host 4000.
+
+172
+00:11:57,220 --> 00:12:02,620
+We actually don't even have a tab for the post query so let's go ahead and create one all the way on
+
+173
+00:12:02,620 --> 00:12:08,120
+the right hand side and right here we're going to set it up so it is indeed a query.
+
+174
+00:12:08,230 --> 00:12:09,940
+The query name is Post.
+
+175
+00:12:10,030 --> 00:12:12,370
+We're going to set up our arguments which is just one.
+
+176
+00:12:12,400 --> 00:12:18,280
+The ID will grab the ID in just a moment and then will provide our selection set and I'm just going
+
+177
+00:12:18,280 --> 00:12:24,790
+to grab my scalar fields so we have ID title body and finally published.
+
+178
+00:12:24,790 --> 00:12:25,630
+Perfect.
+
+179
+00:12:25,810 --> 00:12:31,510
+Let's go ahead and kick things off by leaving ourselves unauthenticated and trying to read a published
+
+180
+00:12:31,540 --> 00:12:32,110
+post.
+
+181
+00:12:32,140 --> 00:12:35,980
+That should work if I go over to the user's query.
+
+182
+00:12:35,980 --> 00:12:37,840
+I'm currently asking for posts.
+
+183
+00:12:37,840 --> 00:12:42,040
+I'm also going to grab their published statuses so I know what they are.
+
+184
+00:12:42,040 --> 00:12:44,940
+And right here we have this first post for Jess.
+
+185
+00:12:44,980 --> 00:12:46,870
+It is indeed published.
+
+186
+00:12:46,930 --> 00:12:48,380
+So let's go ahead and try to get it.
+
+187
+00:12:48,390 --> 00:12:50,740
+I'm going to copy the ID to the clipboard.
+
+188
+00:12:50,890 --> 00:12:54,340
+I'm going to head back over to my post queery.
+
+189
+00:12:54,370 --> 00:12:55,440
+I'm going to paste it in.
+
+190
+00:12:55,450 --> 00:12:56,770
+Fire off the operation.
+
+191
+00:12:56,770 --> 00:12:57,860
+And what do I get.
+
+192
+00:12:57,880 --> 00:13:01,030
+I do indeed get the post data showing up.
+
+193
+00:13:01,060 --> 00:13:03,840
+Now let's go ahead and unpublished this post.
+
+194
+00:13:03,970 --> 00:13:10,750
+I could do that via the update post mutation or I can just change the data directly in the database
+
+195
+00:13:10,750 --> 00:13:13,970
+for the post with the title post by just one.
+
+196
+00:13:14,350 --> 00:13:17,570
+Over here I have all of my post titles.
+
+197
+00:13:17,770 --> 00:13:20,040
+Here is post by gests one.
+
+198
+00:13:20,110 --> 00:13:21,080
+I'm going to double click.
+
+199
+00:13:21,100 --> 00:13:24,220
+True I can either check or uncheck the box.
+
+200
+00:13:24,220 --> 00:13:27,390
+If you leave it at question mark that sets the value to normal.
+
+201
+00:13:27,550 --> 00:13:29,560
+We want unchecked which is false.
+
+202
+00:13:29,560 --> 00:13:30,880
+Checked is true.
+
+203
+00:13:30,940 --> 00:13:31,820
+I click away.
+
+204
+00:13:32,020 --> 00:13:36,680
+I clicked Save up above and now the post we're working with is not published.
+
+205
+00:13:36,700 --> 00:13:39,790
+I should not be able to fetch it since I'm not authenticated.
+
+206
+00:13:39,790 --> 00:13:42,210
+If I fire off the operation what do I get.
+
+207
+00:13:42,310 --> 00:13:44,800
+I get post not found.
+
+208
+00:13:44,830 --> 00:13:51,310
+Now I should also get posts not found if I am authenticated but I'm not authenticated as Jess who's
+
+209
+00:13:51,340 --> 00:13:58,220
+the owner of the post so I'm going to use the Ilog in request to log in as Andrew.
+
+210
+00:13:58,290 --> 00:14:03,440
+I'm going to grab that token and I'm going to authenticate as him over here down below.
+
+211
+00:14:03,570 --> 00:14:05,960
+We have our HTP headers.
+
+212
+00:14:05,970 --> 00:14:09,820
+I'm going to set up authorization.
+
+213
+00:14:09,870 --> 00:14:13,770
+I'm going to set up a barer pasting in that token.
+
+214
+00:14:14,210 --> 00:14:18,290
+And now we can fire off our request again and this time what do we get.
+
+215
+00:14:18,320 --> 00:14:23,510
+We get post not found we are authenticated but we're not the post owner.
+
+216
+00:14:23,510 --> 00:14:28,240
+Now we can go to log in and log in as Jess right here I'm going to log in as her.
+
+217
+00:14:28,760 --> 00:14:30,630
+This is her authentication token.
+
+218
+00:14:30,650 --> 00:14:35,070
+She should be able to read the post because she is indeed the author.
+
+219
+00:14:35,300 --> 00:14:37,640
+I'm going to delete the old token.
+
+220
+00:14:37,640 --> 00:14:41,890
+I'm going to paste in the new one and we're going to fire off that operation right here.
+
+221
+00:14:41,900 --> 00:14:44,940
+I'm asking for the same post as before and this time.
+
+222
+00:14:44,960 --> 00:14:49,610
+I am indeed getting the data back so we can see this post is not published.
+
+223
+00:14:49,670 --> 00:14:55,300
+But since I am authenticated as the author I am able to get this data back and that's a good thing.
+
+224
+00:14:55,310 --> 00:15:00,290
+Maybe I want to show this in the back and dashboard and give the user a couple of text fields where
+
+225
+00:15:00,290 --> 00:15:04,370
+they can actually change the existing post content.
+
+226
+00:15:04,370 --> 00:15:09,560
+So now that we have this in place we have one of our queries completely locked down.
+
+227
+00:15:09,560 --> 00:15:15,590
+Remember it doesn't require authentication we just limit what you can do based off of whether or not
+
+228
+00:15:15,740 --> 00:15:16,970
+your authenticated.
+
+229
+00:15:16,970 --> 00:15:20,550
+Let's go ahead and wrap up this video with a quick challenge for you.
+
+230
+00:15:20,570 --> 00:15:22,970
+Up above we have our Me query.
+
+231
+00:15:23,090 --> 00:15:25,210
+You're going to go ahead and lock this one down.
+
+232
+00:15:25,220 --> 00:15:32,300
+Now for me we require authentication there's no way to get you without knowing who you are and we're
+
+233
+00:15:32,300 --> 00:15:37,470
+going to know who you are by grabbing your ID out of that authentication token.
+
+234
+00:15:37,490 --> 00:15:39,140
+So what are you going to do for this one.
+
+235
+00:15:39,140 --> 00:15:45,320
+Step one you are going to require authentication like we've done with our mutations unlike what we did
+
+236
+00:15:45,320 --> 00:15:46,340
+down below.
+
+237
+00:15:46,550 --> 00:15:53,210
+Step 2 you're going to use the correct Prisma query to get and return a user by their ID.
+
+238
+00:15:53,330 --> 00:15:55,460
+Then three you're going to test your work.
+
+239
+00:15:55,640 --> 00:16:02,390
+So if I'm logged in as Jess I should be able to use the query and get my profile if I'm logged in as
+
+240
+00:16:02,390 --> 00:16:06,990
+Andrew I should be able to use the query and get that profile.
+
+241
+00:16:07,020 --> 00:16:09,610
+Instead take some time to knock this out.
+
+242
+00:16:09,620 --> 00:16:16,600
+Test your work and when you're done go ahead and click play.
+
+243
+00:16:16,640 --> 00:16:17,370
+How'd that go.
+
+244
+00:16:17,390 --> 00:16:20,980
+Let's go ahead and kick things off by setting up all of our arguments.
+
+245
+00:16:20,990 --> 00:16:21,890
+So what do we have.
+
+246
+00:16:21,890 --> 00:16:26,220
+We have parent we have our eggs we have our context.
+
+247
+00:16:26,240 --> 00:16:27,410
+I'm going to grab a both.
+
+248
+00:16:27,410 --> 00:16:30,030
+Prisma and a request off of there.
+
+249
+00:16:30,110 --> 00:16:33,870
+And then finally we have info perfect down below.
+
+250
+00:16:34,010 --> 00:16:36,910
+We are going to start by requiring authentication.
+
+251
+00:16:36,920 --> 00:16:45,990
+So Konst user id we're going to get that value from calling it get user id passing in just request.
+
+252
+00:16:46,000 --> 00:16:52,510
+Now I could also choose to pass in true for the require off argument but remember we made it true by
+
+253
+00:16:52,510 --> 00:16:55,000
+default so we can actually leave that off.
+
+254
+00:16:55,000 --> 00:16:56,450
+In this particular case.
+
+255
+00:16:56,530 --> 00:17:02,200
+And down below we can now use the correct Prisma query to get and return our users.
+
+256
+00:17:02,200 --> 00:17:10,060
+So right here I am going to return here we're going to call Prisma data queery dot user and I am going
+
+257
+00:17:10,060 --> 00:17:18,040
+to search for the user by their IDs so where ID equals user ID from our argument up above.
+
+258
+00:17:18,040 --> 00:17:20,290
+And that's actually all we need to do inside of here.
+
+259
+00:17:20,290 --> 00:17:21,500
+Not too bad.
+
+260
+00:17:21,610 --> 00:17:27,780
+Now maybe you also used Prisma data exists that user to check if the user exists first.
+
+261
+00:17:27,790 --> 00:17:32,220
+So you could throw a custom error that would be perfectly fine as well.
+
+262
+00:17:32,230 --> 00:17:36,150
+You could also fall back on Prisma allowing it to throw its own error.
+
+263
+00:17:36,160 --> 00:17:38,450
+Now we can remove those challenge comments.
+
+264
+00:17:38,500 --> 00:17:42,250
+I'm going to go ahead and save query japes and test things out.
+
+265
+00:17:42,280 --> 00:17:44,220
+I'm going to create a new tab.
+
+266
+00:17:44,440 --> 00:17:51,890
+I'm going to set up the query for me grabbing ID name and email.
+
+267
+00:17:51,910 --> 00:17:55,160
+Now when I do that and I'm not authenticated I would expect an error.
+
+268
+00:17:55,180 --> 00:18:01,100
+So down below I'm going to remove this token which got copied by default from the last tab I was on.
+
+269
+00:18:01,420 --> 00:18:03,280
+If I actually run things what do I get.
+
+270
+00:18:03,280 --> 00:18:05,680
+I get authentication required which is good.
+
+271
+00:18:06,010 --> 00:18:11,260
+If I grab the logon information so I'm gonna grab the token for Jess for example.
+
+272
+00:18:11,350 --> 00:18:14,770
+We should now be able to see her profile when we actually log in.
+
+273
+00:18:14,770 --> 00:18:17,200
+So down below we'll set up our header's
+
+274
+00:18:21,470 --> 00:18:25,690
+And once we have the headers in place we're going to fire off the exact same query.
+
+275
+00:18:25,820 --> 00:18:26,680
+And what do we get.
+
+276
+00:18:26,720 --> 00:18:28,990
+We get Jess's profile information.
+
+277
+00:18:29,000 --> 00:18:29,890
+So there we go.
+
+278
+00:18:30,020 --> 00:18:35,390
+We now have Army query sitting completely behind authentication.
+
+279
+00:18:35,510 --> 00:18:38,540
+So this is actually a great set of queries right here.
+
+280
+00:18:38,570 --> 00:18:43,490
+We have comments comments is never going to sit behind authentication we're actually not going to make
+
+281
+00:18:43,520 --> 00:18:45,200
+any changes to that.
+
+282
+00:18:45,200 --> 00:18:47,770
+There are no such things as private comments.
+
+283
+00:18:47,780 --> 00:18:52,370
+If there is a comment on a post we know that comment is publicly readable.
+
+284
+00:18:52,520 --> 00:18:56,900
+So this is completely public me on the other hand is completely private.
+
+285
+00:18:56,900 --> 00:19:01,450
+We can't do anything unless you're authenticated and post sits right in between.
+
+286
+00:19:01,520 --> 00:19:07,500
+You don't have to be authenticated but if you are you get access to a different set of operations.
+
+287
+00:19:07,520 --> 00:19:13,580
+Now that we have some of our queries set up let's go ahead and jump in to the very next video and talk
+
+288
+00:19:13,580 --> 00:19:16,880
+about how he can handle some of the other ones that we have.
+
+289
+00:19:16,880 --> 00:19:17,420
+All right.
+
+290
+00:19:17,450 --> 00:19:18,890
+I'll see you in the next one.
+

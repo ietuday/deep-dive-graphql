@@ -1,0 +1,528 @@
+1
+00:00:00,240 --> 00:00:06,230
+In part one for our little challenge we set up the basics of the comments type in this video part two.
+
+2
+00:00:06,300 --> 00:00:10,860
+We're going to start to focus on the relationship between the comment type and the other types in our
+
+3
+00:00:10,860 --> 00:00:11,750
+application.
+
+4
+00:00:11,970 --> 00:00:18,380
+And this video specifically will be focusing on the relationship between the comment and the user will
+
+5
+00:00:18,390 --> 00:00:23,410
+focus on the relationship between the comment and the post in the next video.
+
+6
+00:00:23,450 --> 00:00:29,010
+So up above let's go ahead and remove the challenge comments from the last video and I'm going to paste
+
+7
+00:00:29,010 --> 00:00:31,380
+in the part to challenge comments.
+
+8
+00:00:31,380 --> 00:00:33,680
+Now I know this might seem like a lot of information.
+
+9
+00:00:33,810 --> 00:00:38,000
+I just wanted to give you discrete steps you could follow to knock this out.
+
+10
+00:00:38,010 --> 00:00:43,800
+The first thing you're going to do is set up an author field on the comment type Saddam Blough like
+
+11
+00:00:43,800 --> 00:00:46,020
+we have an author for a post.
+
+12
+00:00:46,100 --> 00:00:51,260
+All comments are also going to have an author associated with them who wrote the comment.
+
+13
+00:00:51,480 --> 00:00:54,110
+So that's step one just setting up that property there.
+
+14
+00:00:54,120 --> 00:00:59,880
+Step two they're going to update all the comments in our array of data to have the new author field
+
+15
+00:01:00,090 --> 00:01:05,270
+and you're going to have the value be one of the user IDs similar to what we ended up doing with posts.
+
+16
+00:01:05,400 --> 00:01:11,730
+So all of these comments need to be associated with one of our users via the author property whose value
+
+17
+00:01:11,730 --> 00:01:13,560
+is the string ID.
+
+18
+00:01:13,860 --> 00:01:20,580
+That brings us to step three create a resolver for the comments author field that returns the user who
+
+19
+00:01:20,580 --> 00:01:21,990
+wrote the comment.
+
+20
+00:01:21,990 --> 00:01:27,050
+This is very similar to what we did for the post's author field down below.
+
+21
+00:01:27,180 --> 00:01:31,830
+You have to create a resolver for the comment author field.
+
+22
+00:01:31,830 --> 00:01:37,170
+That brings us to the next steps are right here we have a step for you can run a sample query that gets
+
+23
+00:01:37,170 --> 00:01:39,910
+all of the comments and gets the author's name.
+
+24
+00:01:40,050 --> 00:01:46,970
+So if at all comments like we do here but also choose to include the author's name by accessing that.
+
+25
+00:01:47,010 --> 00:01:50,410
+Now steps 5 6 and 7 are the same thing in the other direction.
+
+26
+00:01:50,490 --> 00:01:56,460
+So you're going to set up a comments field on the user then you're going to set up the resolver for
+
+27
+00:01:56,460 --> 00:02:00,490
+user comments to return all of the comments that belong to that user.
+
+28
+00:02:00,510 --> 00:02:02,560
+And then finally run a sample query.
+
+29
+00:02:02,700 --> 00:02:07,140
+So fetch all users and also include all of the comments they've made.
+
+30
+00:02:07,290 --> 00:02:13,770
+So this is similar to what we did with posts a user has the Post's property and user is also going to
+
+31
+00:02:13,770 --> 00:02:15,760
+have the comments property.
+
+32
+00:02:15,960 --> 00:02:20,070
+So in the end of the day when I have a comment I should be able to get the author.
+
+33
+00:02:20,130 --> 00:02:24,300
+And whenever I have a user I should be able to get all of the comments they've written.
+
+34
+00:02:24,300 --> 00:02:29,790
+So we're going to run and run those two queries to verify everything is working as expected.
+
+35
+00:02:29,790 --> 00:02:30,470
+All right.
+
+36
+00:02:30,540 --> 00:02:36,210
+Take a moment to pause the video and knock this out then run some sample queries making sure you can
+
+37
+00:02:36,210 --> 00:02:39,000
+actually get to everything pause the video.
+
+38
+00:02:39,000 --> 00:02:46,970
+Test your work when you're done come back and click play.
+
+39
+00:02:46,990 --> 00:02:47,530
+How'd you do.
+
+40
+00:02:47,530 --> 00:02:50,950
+Hopefully you were able to knock that out without too much trouble.
+
+41
+00:02:50,950 --> 00:02:55,720
+I'm going to kick things off by adding the author field on to comment so down below.
+
+42
+00:02:55,720 --> 00:02:57,170
+We already have comment.
+
+43
+00:02:57,430 --> 00:03:02,890
+I'm just going to add author on here and sense every single comment is going to have an author associated
+
+44
+00:03:02,890 --> 00:03:04,130
+with it right here.
+
+45
+00:03:04,180 --> 00:03:06,920
+User not unknowable perfect.
+
+46
+00:03:06,940 --> 00:03:08,670
+That brings us to step two.
+
+47
+00:03:08,740 --> 00:03:14,250
+Step two is to update the actual comments array to include the author field.
+
+48
+00:03:14,500 --> 00:03:19,490
+So I'm going to say that this first comment came from Mike that would be our third user.
+
+49
+00:03:19,490 --> 00:03:20,390
+So right here.
+
+50
+00:03:20,620 --> 00:03:23,080
+Author his ID for Mike.
+
+51
+00:03:23,080 --> 00:03:28,690
+That is three then I'll say that this one is a response from myself.
+
+52
+00:03:28,700 --> 00:03:29,960
+The first user.
+
+53
+00:03:29,990 --> 00:03:33,940
+So right here I'll have an author value of one.
+
+54
+00:03:34,140 --> 00:03:37,940
+Then right here I will use the second user.
+
+55
+00:03:38,030 --> 00:03:40,310
+So an author a value of two.
+
+56
+00:03:40,580 --> 00:03:42,650
+And then finally I'll use myself again.
+
+57
+00:03:42,650 --> 00:03:48,140
+So author of one and the end of the day it doesn't matter what you did for these values as long as all
+
+58
+00:03:48,140 --> 00:03:54,520
+of the author fields have a value that matches up with one of the three IDs up above.
+
+59
+00:03:54,530 --> 00:04:01,700
+All right so that is the end of step two step three Kriti resolver the comments author field that returns
+
+60
+00:04:01,760 --> 00:04:05,060
+the user who wrote the individual comment.
+
+61
+00:04:05,120 --> 00:04:09,320
+So down below we're doing something similar to what we did with posts.
+
+62
+00:04:09,350 --> 00:04:16,190
+So right after the post property I can add on the comment property I can set up my object and once again
+
+63
+00:04:16,220 --> 00:04:21,320
+we're going to add a single method inside of year author and we're going to have all of those same arguments
+
+64
+00:04:21,320 --> 00:04:24,800
+parent args context and info.
+
+65
+00:04:24,800 --> 00:04:25,950
+Perfect.
+
+66
+00:04:25,970 --> 00:04:28,070
+Now it's the job of this function.
+
+67
+00:04:28,070 --> 00:04:33,640
+Given the comment the parent to return the correct author.
+
+68
+00:04:33,650 --> 00:04:36,050
+So right here I am going to return.
+
+69
+00:04:36,440 --> 00:04:41,170
+I'm going to use user's dat find to find a specific item from this array.
+
+70
+00:04:41,240 --> 00:04:44,370
+Here we are going to get access to the individual user.
+
+71
+00:04:44,600 --> 00:04:45,560
+And what am I going to do.
+
+72
+00:04:45,560 --> 00:04:51,950
+I'm going to return true if the user's I.D. matches up with the comments author property.
+
+73
+00:04:52,010 --> 00:04:54,710
+That would be parent dot author.
+
+74
+00:04:54,710 --> 00:04:55,510
+Excellent.
+
+75
+00:04:55,640 --> 00:05:01,310
+So we have that in place and then actually brings us to step 4 where we test out this initial piece
+
+76
+00:05:01,310 --> 00:05:02,000
+to the puzzle.
+
+77
+00:05:02,120 --> 00:05:07,640
+So I want to make sure that I can actually actually access the author property on comments and we're
+
+78
+00:05:07,640 --> 00:05:11,810
+going to do that by just asking for it right here so I'm going to save index.
+
+79
+00:05:11,870 --> 00:05:17,510
+Yes I'm going to ask for the author and let's say in this case we just need the author's name and I
+
+80
+00:05:17,510 --> 00:05:20,990
+will go ahead and refresh the schema to get the latest schema.
+
+81
+00:05:20,990 --> 00:05:23,630
+And now we can see this query is completely valid.
+
+82
+00:05:23,630 --> 00:05:25,860
+If I actually go ahead and run it what do I get.
+
+83
+00:05:25,940 --> 00:05:30,840
+I get Mike for the first comment which is correct but I have Andrew for the second comment.
+
+84
+00:05:30,860 --> 00:05:34,210
+I have Sara for the third and Andrew again for the fourth.
+
+85
+00:05:34,220 --> 00:05:35,230
+So there we go.
+
+86
+00:05:35,270 --> 00:05:41,230
+We have a relationship set up in one direction so that knocks out steps 1 through 4.
+
+87
+00:05:41,240 --> 00:05:47,330
+We're going to move on to 5 through 7 where we set up the relationship in the opposite direction.
+
+88
+00:05:47,450 --> 00:05:50,960
+Let's start by setting up a comments field on user.
+
+89
+00:05:50,960 --> 00:05:55,700
+So down below we have our user type a user already has posts.
+
+90
+00:05:55,700 --> 00:06:00,370
+Let's also give a user comments it will be an array.
+
+91
+00:06:00,720 --> 00:06:03,780
+Any individual items will be of the comment type.
+
+92
+00:06:03,780 --> 00:06:04,290
+Excellent.
+
+93
+00:06:04,300 --> 00:06:08,010
+That's actually all we have to do for Step Five.
+
+94
+00:06:08,010 --> 00:06:14,990
+Step Six is to set up the resolver and actually tells graft well how to get the value for comets.
+
+95
+00:06:15,000 --> 00:06:18,230
+So we're going to do that way down below.
+
+96
+00:06:18,290 --> 00:06:21,920
+We already have user posts alongside of posts.
+
+97
+00:06:21,950 --> 00:06:24,860
+We're going to be adding comments so right here.
+
+98
+00:06:24,860 --> 00:06:26,580
+We set up comments.
+
+99
+00:06:26,750 --> 00:06:31,670
+I'm going to set up all of those arguments parent args context and info.
+
+100
+00:06:31,820 --> 00:06:37,300
+And now all we need to do is given the user determine what comments belong to then.
+
+101
+00:06:37,400 --> 00:06:40,730
+And we're going to do that via comments dot filter.
+
+102
+00:06:40,820 --> 00:06:45,020
+So right here return comments dot filter.
+
+103
+00:06:45,160 --> 00:06:47,740
+We are going to provide our callback function.
+
+104
+00:06:47,800 --> 00:06:53,470
+It's going to get called one time for each comment with the individual comment object we return true
+
+105
+00:06:53,500 --> 00:06:56,150
+if it does belong to that users are right here.
+
+106
+00:06:56,200 --> 00:07:01,910
+Return does comment dot author match up with the user's ID.
+
+107
+00:07:01,920 --> 00:07:05,660
+So is equal to parent dot ID.
+
+108
+00:07:05,680 --> 00:07:06,380
+All right.
+
+109
+00:07:06,490 --> 00:07:10,810
+Now we have this in place and we can move on to the final step for this challenge.
+
+110
+00:07:10,810 --> 00:07:12,780
+That is step 7.
+
+111
+00:07:12,880 --> 00:07:17,410
+Run a sample query that gets all of the comments for a user.
+
+112
+00:07:17,470 --> 00:07:19,630
+I'm going to do that over here inside of the browser.
+
+113
+00:07:19,900 --> 00:07:25,660
+I have that second tab which currently gets all of the users information and I had used that to test
+
+114
+00:07:25,690 --> 00:07:27,400
+the posts field.
+
+115
+00:07:27,400 --> 00:07:33,250
+I'm going to remove the posts field and I'm just going to ask for every user getting their ID their
+
+116
+00:07:33,250 --> 00:07:39,660
+name their email their age and then right here the comments they've created for each comment.
+
+117
+00:07:39,670 --> 00:07:43,560
+I will ask for the ID and the text getting all information about them.
+
+118
+00:07:43,840 --> 00:07:47,030
+I can refresh the schema run this query.
+
+119
+00:07:47,080 --> 00:07:50,070
+And what do I get back I get back all of my comments.
+
+120
+00:07:50,110 --> 00:07:56,530
+So right here for the first user we have the two comments that they've actually created for the second
+
+121
+00:07:56,530 --> 00:07:57,990
+user we have their comment.
+
+122
+00:07:58,000 --> 00:08:01,390
+And for the third one Mike we have his comment as well.
+
+123
+00:08:01,390 --> 00:08:02,440
+And there we go.
+
+124
+00:08:02,440 --> 00:08:05,380
+That is the end of this part to challenge.
+
+125
+00:08:05,410 --> 00:08:13,030
+We now have the relationship between our users and our comments in the next video we're going to wrap
+
+126
+00:08:13,090 --> 00:08:18,400
+up this section by creating a relationship between comments and posts.
+
+127
+00:08:18,490 --> 00:08:24,760
+So all comments belong to a specific post and all posts had a collection of comments that have been
+
+128
+00:08:24,760 --> 00:08:26,780
+left on that individual post.
+
+129
+00:08:26,980 --> 00:08:31,780
+That's going to wrap up all of the relationships we actually need for these three types.
+
+130
+00:08:31,780 --> 00:08:33,650
+I am super excited to get to that.
+
+131
+00:08:33,730 --> 00:08:37,660
+I'm going to go ahead and just wrap up this one by removing the challenge comments.
+
+132
+00:08:37,660 --> 00:08:41,470
+Stay tuned and I will see you in the very next video.
+

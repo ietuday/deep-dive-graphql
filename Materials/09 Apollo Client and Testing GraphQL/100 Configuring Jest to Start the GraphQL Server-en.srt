@@ -1,0 +1,852 @@
+1
+00:00:00,270 --> 00:00:06,120
+In the last video you learn how to use the Apollo Boost library to fire off graphic operations from
+
+2
+00:00:06,120 --> 00:00:07,710
+javascript in the browser.
+
+3
+00:00:07,710 --> 00:00:13,740
+This was fantastic because it allowed us to fetch data like users and posts and actually render those
+
+4
+00:00:13,740 --> 00:00:16,150
+to the screen for users to see.
+
+5
+00:00:16,170 --> 00:00:21,390
+This is a great step in the right direction and we're actually going to end up using the same technique
+
+6
+00:00:21,450 --> 00:00:27,300
+in our test cases though instead of fetching data and then rendering that data we would fetch data and
+
+7
+00:00:27,300 --> 00:00:33,270
+then make assertions about it expecting for example a certain amount of posts to come back or expecting
+
+8
+00:00:33,270 --> 00:00:38,010
+a user to have a specific name all using our expect assertions.
+
+9
+00:00:38,010 --> 00:00:43,560
+So let's take a moment to close down at the Apollo client directory and also all of the files we have
+
+10
+00:00:43,560 --> 00:00:46,960
+open and we're going to bring our attention back to the graphics.
+
+11
+00:00:47,100 --> 00:00:53,600
+Prisma project and are just test suite for our test suite to be able to communicate with the graphics
+
+12
+00:00:53,600 --> 00:00:58,820
+UL application the application needs to be up and running when the test suite starts.
+
+13
+00:00:58,830 --> 00:01:01,770
+Now there are a couple of approaches we could use to get this done.
+
+14
+00:01:01,920 --> 00:01:05,560
+And you might be saying that what's the problem the server is already up and running.
+
+15
+00:01:05,580 --> 00:01:08,920
+But remember we started the server using the dev script.
+
+16
+00:01:08,940 --> 00:01:10,580
+This is using the dev environment.
+
+17
+00:01:10,590 --> 00:01:12,780
+We don't want to use the dev environment here.
+
+18
+00:01:12,810 --> 00:01:16,370
+We want to use the test environment so we have two options.
+
+19
+00:01:16,370 --> 00:01:23,550
+One we could create another script very similar to this dev one just swapping out the files here or
+
+20
+00:01:23,670 --> 00:01:30,460
+we can use Jeste configuration options to tell just to startup the server before the test suite runs.
+
+21
+00:01:30,630 --> 00:01:36,750
+And to tell just to shut down the server when the test suite finishes and that's the approach that we're
+
+22
+00:01:36,750 --> 00:01:42,660
+going to take it will allow us to continue to run just a single command and PM test to do everything
+
+23
+00:01:42,660 --> 00:01:43,560
+and that's what we want.
+
+24
+00:01:43,680 --> 00:01:49,110
+It should be as easy as possible to test because that's the only way we're ever going to do it if testing's
+
+25
+00:01:49,140 --> 00:01:49,690
+hard.
+
+26
+00:01:49,800 --> 00:01:54,240
+We're going to stop writing tests we're not going to run the suite and we might as well not even waste
+
+27
+00:01:54,240 --> 00:01:55,010
+our time.
+
+28
+00:01:55,020 --> 00:02:00,900
+We want to make it easy so let's go ahead and go back to the Jeste Web site and explore the tools we
+
+29
+00:02:00,900 --> 00:02:02,550
+have available to us.
+
+30
+00:02:02,550 --> 00:02:06,420
+Once again you can find that at just J s dot I O.
+
+31
+00:02:06,540 --> 00:02:10,740
+Here we are going to head back over to the only page we've used so far.
+
+32
+00:02:10,740 --> 00:02:16,730
+The API documentation page and we're looking for the geste configuration details.
+
+33
+00:02:16,890 --> 00:02:22,720
+If we scroll down to the bottom of the page in the left hand sidebar we have a configuring jetzt.
+
+34
+00:02:22,770 --> 00:02:28,140
+This is going to walk us through the process of actually setting up one of many different configuration
+
+35
+00:02:28,200 --> 00:02:30,000
+options available to us.
+
+36
+00:02:30,030 --> 00:02:32,180
+There are dozens and dozens of them.
+
+37
+00:02:32,460 --> 00:02:37,260
+Now there are a few different ways we can actually define our configuration up at the top of the page.
+
+38
+00:02:37,260 --> 00:02:39,850
+Once again we can define it right in packaged.
+
+39
+00:02:39,870 --> 00:02:40,330
+Jason.
+
+40
+00:02:40,350 --> 00:02:42,080
+That's the approach we're going to take.
+
+41
+00:02:42,090 --> 00:02:48,030
+We could also define a separate javascript file where we define the configuration object and lastly
+
+42
+00:02:48,030 --> 00:02:50,800
+we could indeed define adjacent file as well.
+
+43
+00:02:50,820 --> 00:02:53,150
+We're only going to be setting up two properties though.
+
+44
+00:02:53,310 --> 00:02:56,040
+I'm just going to configure things right in package.
+
+45
+00:02:56,070 --> 00:03:00,530
+Jason all we have to do is set up a root just property.
+
+46
+00:03:00,570 --> 00:03:02,090
+I can put that wherever I want.
+
+47
+00:03:02,100 --> 00:03:05,100
+I'm going to put it right after scripts and before author.
+
+48
+00:03:05,310 --> 00:03:12,060
+So that's just setting it up as an object and then inside of here we can add on any of those configuration
+
+49
+00:03:12,120 --> 00:03:13,540
+options we need.
+
+50
+00:03:13,560 --> 00:03:18,600
+There are two options we're going to configure for just right here in the sidebar we have a list of
+
+51
+00:03:18,600 --> 00:03:20,350
+everything available to us.
+
+52
+00:03:20,400 --> 00:03:24,660
+We'll be setting up a global set up as well as global tear down.
+
+53
+00:03:24,810 --> 00:03:30,360
+Global setup is going to allow us to start the server and global tear down will allow us to shut down
+
+54
+00:03:30,360 --> 00:03:31,110
+the server.
+
+55
+00:03:31,290 --> 00:03:38,610
+Now both of these take a string value and the value for each needs to be the path to a custom file.
+
+56
+00:03:38,610 --> 00:03:44,760
+So right year global setup this option allows you to use a custom global setup module which exports
+
+57
+00:03:44,760 --> 00:03:48,750
+and async function that is triggered once before all test suites.
+
+58
+00:03:48,840 --> 00:03:54,660
+Down below we have the exact same thing but the global tear down function is triggered once after all
+
+59
+00:03:54,720 --> 00:03:56,020
+test suites.
+
+60
+00:03:56,070 --> 00:04:02,190
+So in the end of the day we're going to end up setting up two very short files one about seven lines
+
+61
+00:04:02,190 --> 00:04:04,010
+and the other about three.
+
+62
+00:04:04,020 --> 00:04:09,500
+So let's go ahead and kick things off by defining those two files in the tests directory.
+
+63
+00:04:09,630 --> 00:04:14,270
+I'm going to create a new folder I'm going to call this just.
+
+64
+00:04:14,300 --> 00:04:19,840
+You could call it something like config or set up whatever you want and in the geste directory we're
+
+65
+00:04:19,840 --> 00:04:28,520
+going to make two files one called Global set up so global set up Dhananjay s and the other global tear
+
+66
+00:04:28,520 --> 00:04:28,970
+down.
+
+67
+00:04:29,000 --> 00:04:35,270
+So global tear down and Dot J as in global setup will start up the server in global tear down will shut
+
+68
+00:04:35,270 --> 00:04:36,200
+it down.
+
+69
+00:04:36,230 --> 00:04:38,890
+Now the path to those files needs to be provided.
+
+70
+00:04:38,900 --> 00:04:41,270
+As the value in the just configuration.
+
+71
+00:04:41,390 --> 00:04:44,990
+So let's go ahead and get that done and we'll start with global set up.
+
+72
+00:04:45,020 --> 00:04:53,530
+So right here we have global set up exactly as defined in the geste documentation and the value for
+
+73
+00:04:53,530 --> 00:04:56,800
+global setup is going to be that forward slash.
+
+74
+00:04:56,890 --> 00:05:03,250
+We have to go into the tests folder then forward slash into the geste directory then forward slash the
+
+75
+00:05:03,250 --> 00:05:03,870
+file.
+
+76
+00:05:03,940 --> 00:05:05,010
+We called ours.
+
+77
+00:05:05,020 --> 00:05:11,230
+Global set up Dhananjay s a comma at the end of the line and will do the same thing again down below.
+
+78
+00:05:11,230 --> 00:05:12,660
+For global tear down.
+
+79
+00:05:12,730 --> 00:05:15,310
+So right here that's global.
+
+80
+00:05:15,310 --> 00:05:19,000
+Tear it down and the path will be the path to the teardown file.
+
+81
+00:05:19,090 --> 00:05:26,320
+So don't forward slash tests forward slash just forward slash global tear down dot J S.
+
+82
+00:05:26,320 --> 00:05:27,400
+Perfect.
+
+83
+00:05:27,400 --> 00:05:32,560
+Now that we have this in place the jest is actually going to try to use those files when the test suite
+
+84
+00:05:32,590 --> 00:05:39,250
+starts this one and when the test suite finishes this one all we have to do is add some code inside
+
+85
+00:05:39,250 --> 00:05:39,860
+of there.
+
+86
+00:05:39,880 --> 00:05:42,510
+The goal inside of here is to start up our server.
+
+87
+00:05:42,520 --> 00:05:47,800
+The problem though is that the server is currently not easy to import into this file and then start
+
+88
+00:05:47,800 --> 00:05:48,130
+up.
+
+89
+00:05:48,130 --> 00:05:53,630
+The problem is because the server is defined and started all in the same file in source.
+
+90
+00:05:53,640 --> 00:05:55,670
+That's index dot J ass.
+
+91
+00:05:55,690 --> 00:05:57,960
+So this file is doing quite a bit of work.
+
+92
+00:05:57,970 --> 00:06:01,860
+First up it is indeed defining the server and it's also starting it up.
+
+93
+00:06:01,900 --> 00:06:06,790
+Meaning that if I wanted to create a server somewhere else like for our test files I'd have to rewrite
+
+94
+00:06:06,790 --> 00:06:07,780
+all of this code.
+
+95
+00:06:07,780 --> 00:06:13,300
+Obviously that's not ideal what we're going to do is create a separate file in the source folder called
+
+96
+00:06:13,330 --> 00:06:14,180
+server.
+
+97
+00:06:14,230 --> 00:06:15,090
+Jay ass.
+
+98
+00:06:15,190 --> 00:06:21,400
+This is going to define the server and export it then we'll be able to import it and use the start method
+
+99
+00:06:21,580 --> 00:06:23,340
+anywhere where we want to start it up.
+
+100
+00:06:23,440 --> 00:06:28,920
+We'll do it once and index JS to make sure our app still works and we'll do it again in global setup
+
+101
+00:06:29,010 --> 00:06:30,180
+Dhananjay ass.
+
+102
+00:06:30,190 --> 00:06:34,780
+So let's start by grabbing some code and bringing it over to that other file.
+
+103
+00:06:34,780 --> 00:06:40,870
+In essence we're going to grab all of these imports right here as well as all of the setup code down
+
+104
+00:06:40,870 --> 00:06:41,520
+below.
+
+105
+00:06:41,620 --> 00:06:44,020
+So there are a few things that will stay behind.
+
+106
+00:06:44,020 --> 00:06:47,820
+I'm going to cut out all of this code and bring it over to server.
+
+107
+00:06:47,920 --> 00:06:48,810
+Jay ass.
+
+108
+00:06:48,880 --> 00:06:56,230
+So here we define our server and we also load in everything required for that to actually work down
+
+109
+00:06:56,230 --> 00:06:56,920
+below.
+
+110
+00:06:56,950 --> 00:07:01,560
+We can now go ahead and export it so I can use something like export right here.
+
+111
+00:07:01,570 --> 00:07:08,320
+I'll export server as the default export as an example and this file's done we can actually save it
+
+112
+00:07:08,350 --> 00:07:17,050
+and use it over an index dot J s we can now go ahead and import that in porting server from right here
+
+113
+00:07:17,110 --> 00:07:19,390
+not forward slash server.
+
+114
+00:07:19,390 --> 00:07:24,770
+So now our application not the test app but the regular app it's still going to work as expected.
+
+115
+00:07:24,790 --> 00:07:29,740
+The only thing we've done is we've refactored our code a little bit making it possible to start the
+
+116
+00:07:29,740 --> 00:07:32,500
+server up from our test suite now down below.
+
+117
+00:07:32,500 --> 00:07:39,300
+I'm going to shut down the parcel's script and close down all terminals I'll boot those back up again
+
+118
+00:07:39,300 --> 00:07:44,770
+and we're going to run the dev script just to make sure we haven't broken anything so seedy into graft.
+
+119
+00:07:44,780 --> 00:07:47,610
+Well hyphen Prisma and from there.
+
+120
+00:07:47,610 --> 00:07:53,820
+NPM Ronit death if that still works then we know our factor was indeed just every factor and we didn't
+
+121
+00:07:53,820 --> 00:07:55,260
+actually break anything.
+
+122
+00:07:55,380 --> 00:07:57,450
+Right here the server is up it's printing.
+
+123
+00:07:57,480 --> 00:07:59,250
+So we are good to go.
+
+124
+00:07:59,250 --> 00:08:01,960
+Now we can close down index dot J S.
+
+125
+00:08:02,070 --> 00:08:06,370
+We're going to inport the server over here and actually get it up and running.
+
+126
+00:08:06,380 --> 00:08:10,880
+Now it's important to note that these files a global set up and global tear down.
+
+127
+00:08:10,890 --> 00:08:15,070
+They are not processed through babbel like our test suites are.
+
+128
+00:08:15,090 --> 00:08:20,340
+I'm not sure exactly why they chose to go this way but that is the reality we live in which means that
+
+129
+00:08:20,370 --> 00:08:26,510
+in here we only have access to the standard node syntax for requiring an export.
+
+130
+00:08:26,760 --> 00:08:30,090
+Both of these files should export a single function.
+
+131
+00:08:30,180 --> 00:08:37,440
+So involve see that module datt exports equal to a function and both of the functions will be async
+
+132
+00:08:37,440 --> 00:08:38,240
+functions.
+
+133
+00:08:38,310 --> 00:08:41,590
+So right here I'll define an async function in global setup.
+
+134
+00:08:41,640 --> 00:08:47,720
+I can take the exact same one and bring it over to global tear down the code inside of these functions.
+
+135
+00:08:47,730 --> 00:08:53,440
+That's what's going to run when the setup starts and when the process is complete.
+
+136
+00:08:53,460 --> 00:08:57,770
+So how do we actually use our server file while there is a catch.
+
+137
+00:08:57,780 --> 00:09:04,920
+The problem is that we are loading in a file server dot J S which uses features that node typically
+
+138
+00:09:04,920 --> 00:09:08,950
+doesn't support because all of our code has been running through Babble's so far.
+
+139
+00:09:08,950 --> 00:09:14,280
+There's a small babbel tool that's going to make this really easy to work around down below we'll be
+
+140
+00:09:14,280 --> 00:09:21,330
+shutting down in the terminal and we'll be installing it and pm right here install the tool itself is
+
+141
+00:09:21,330 --> 00:09:26,820
+called Babel hyphen or register and we'll grab the latest version.
+
+142
+00:09:26,820 --> 00:09:30,180
+That is six point twenty six point zero.
+
+143
+00:09:30,180 --> 00:09:32,650
+Now once this is installed it will be able to use it.
+
+144
+00:09:32,670 --> 00:09:35,910
+All we're going to do is use require to load it in.
+
+145
+00:09:35,940 --> 00:09:42,150
+So we're going to use the standard node require function to load in babbel hyphen register on the next
+
+146
+00:09:42,150 --> 00:09:48,930
+line we can load in babbel poly fell with a second to require call at Babel forward slash Pylea Phil
+
+147
+00:09:49,080 --> 00:09:51,630
+forward slash no conflict.
+
+148
+00:09:51,630 --> 00:09:52,780
+Excellent.
+
+149
+00:09:52,860 --> 00:09:57,030
+Now that we have this loaded in we can focus on loading in the server.
+
+150
+00:09:57,030 --> 00:10:02,910
+Now once again because we load in babbel register we're actually going to be able to require this file
+
+151
+00:10:02,910 --> 00:10:04,800
+without running into any issues.
+
+152
+00:10:04,860 --> 00:10:12,480
+If we did not use babbel register it would not know what to do with syntax like inport which node currently
+
+153
+00:10:12,480 --> 00:10:13,920
+does not support.
+
+154
+00:10:13,920 --> 00:10:18,540
+So over here we are going to create a cost server.
+
+155
+00:10:18,810 --> 00:10:24,660
+We're going to get the value from what comes back from require we will be requiring that file.
+
+156
+00:10:24,660 --> 00:10:30,030
+So we have to go dot dot to get out of the geste folder though and slashdot took it out of that tests
+
+157
+00:10:30,090 --> 00:10:30,960
+directory.
+
+158
+00:10:31,110 --> 00:10:37,620
+Then from there it's a forward slash source forwards slash server and on there we are grabbing the default
+
+159
+00:10:37,680 --> 00:10:38,420
+property.
+
+160
+00:10:38,580 --> 00:10:42,050
+So we have to grab default due to a difference between the two.
+
+161
+00:10:42,060 --> 00:10:45,210
+Here we are using require and Moggi Wilcott exports.
+
+162
+00:10:45,240 --> 00:10:50,900
+Here we're using import export and this is a compatibility concern but only used default.
+
+163
+00:10:51,000 --> 00:10:54,970
+We're still going to be able to access the server like we need to.
+
+164
+00:10:55,200 --> 00:11:03,180
+Now down below we can go ahead and use a wait with server dot start exactly like we do in index dot
+
+165
+00:11:03,240 --> 00:11:09,480
+J s we can even pass in an options object and pick the port for our test server to run on.
+
+166
+00:11:09,630 --> 00:11:15,870
+I'm going to define port as 4000 which is the default but I'll just define it to be explicit about the
+
+167
+00:11:15,870 --> 00:11:21,600
+port we're using now with this in place we can actually get the server up and running when the test
+
+168
+00:11:21,600 --> 00:11:24,280
+suite starts before we actually run it though.
+
+169
+00:11:24,420 --> 00:11:28,920
+We also want to tear down the server over here when the test suite is done.
+
+170
+00:11:28,920 --> 00:11:31,880
+Now the question is how do we access what we need.
+
+171
+00:11:32,010 --> 00:11:36,580
+We need access to what comes back from this start method.
+
+172
+00:11:36,600 --> 00:11:43,590
+So right here as an example Konst instance equals what comes back on that variable.
+
+173
+00:11:43,770 --> 00:11:46,770
+So in this case instance there's a close method.
+
+174
+00:11:46,770 --> 00:11:47,960
+That's what we have to call.
+
+175
+00:11:47,970 --> 00:11:49,950
+But we have to call it in this file.
+
+176
+00:11:50,190 --> 00:11:59,740
+So to work around this all we're going to do is assign this value to right here global dot and we're
+
+177
+00:11:59,740 --> 00:12:03,500
+going to pick a name I'll use HTP server.
+
+178
+00:12:03,550 --> 00:12:08,670
+Now we're going to have access to global dot HTP server and our other file as well.
+
+179
+00:12:08,830 --> 00:12:18,160
+And over here inside of global terror down we can await global dot HTP server dot close perfect.
+
+180
+00:12:18,190 --> 00:12:24,580
+Now we have a system for starting up the server and tearing down the server allowing us to run our entire
+
+181
+00:12:24,580 --> 00:12:27,000
+test suite with a single command.
+
+182
+00:12:27,010 --> 00:12:32,680
+Now before we do over in package dot Jason we also need to update.
+
+183
+00:12:32,740 --> 00:12:39,490
+Test test right now is not loading in the test environment which we do want it to since we're loading
+
+184
+00:12:39,490 --> 00:12:44,010
+in things like the server which is kind of try to start things up and connect to Prisma.
+
+185
+00:12:44,170 --> 00:12:50,680
+All we have to do is load in the test EMV file similar to how we load in the dev ESV file up above.
+
+186
+00:12:50,680 --> 00:12:58,560
+So right here we will use EMV ACMD once again that forward slash config a forward slash right here.
+
+187
+00:12:58,570 --> 00:13:00,260
+Test dot envy.
+
+188
+00:13:00,670 --> 00:13:05,220
+And this is going to allow us to provide those environment variables to geste.
+
+189
+00:13:05,320 --> 00:13:08,140
+And now we are all ready to go.
+
+190
+00:13:08,380 --> 00:13:15,510
+If we go out and save package dot Jason down below we can run our test suite NPM run test.
+
+191
+00:13:15,550 --> 00:13:17,810
+This is going to start up the test suite.
+
+192
+00:13:17,830 --> 00:13:21,300
+It's going to run all of our test cases from a few videos ago.
+
+193
+00:13:21,430 --> 00:13:24,300
+And once again we should see that everything is indeed passing.
+
+194
+00:13:24,310 --> 00:13:27,040
+Right here we have five passing tests.
+
+195
+00:13:27,070 --> 00:13:30,490
+Now if we didn't have things set up correctly we might get an error.
+
+196
+00:13:30,520 --> 00:13:35,740
+For example let's go ahead and comment out this line that loads in Babel register.
+
+197
+00:13:35,740 --> 00:13:39,210
+Now if we just save the file sure things still appear to work.
+
+198
+00:13:39,220 --> 00:13:45,630
+But remember we have to shut down just and restart it for our configuration files to be reloaded.
+
+199
+00:13:45,820 --> 00:13:50,080
+So if I were to shut it down and restart it this time I would expect it to fail.
+
+200
+00:13:50,080 --> 00:13:51,040
+And it does.
+
+201
+00:13:51,080 --> 00:13:57,210
+Right here we have an unexpected token as referring to things in server Dom J.S. like this first import
+
+202
+00:13:57,220 --> 00:14:02,890
+statement which is not familiar with it doesn't know how to parse that when we use Babel register though
+
+203
+00:14:02,890 --> 00:14:05,270
+everything works as expected.
+
+204
+00:14:05,320 --> 00:14:10,690
+So I know this video was one of those watch me do something videos and you don't have to remember all
+
+205
+00:14:10,690 --> 00:14:11,300
+of this.
+
+206
+00:14:11,320 --> 00:14:15,380
+This is something that you're really only going to set up once or twice ever.
+
+207
+00:14:15,460 --> 00:14:20,830
+Typically as will create later you'll have some sort of boiler plate project that already has all of
+
+208
+00:14:20,840 --> 00:14:25,340
+this configured to the next time you're trying to build a graphical application.
+
+209
+00:14:25,390 --> 00:14:28,250
+You don't have to get into the guts and configure all of this.
+
+210
+00:14:28,260 --> 00:14:33,670
+Again that's where we're going to stop for this one are just test suite is indeed going to start up
+
+211
+00:14:33,670 --> 00:14:39,820
+our server and shut it down which means that we are ready to load in Apollo boost in our test files
+
+212
+00:14:40,000 --> 00:14:44,440
+and actually fire off some graphical operations from our test cases.
+
+213
+00:14:44,440 --> 00:14:49,020
+We're going to focus on doing just that in the next video so stay tuned and I'll see you then.
+

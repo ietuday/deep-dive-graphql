@@ -1,0 +1,28 @@
+1
+00:00:01,900 --> 00:00:06,340
+Welcome to Section 2 and this section we're really going to get started with the course.
+
+2
+00:00:06,400 --> 00:00:10,060
+We'll start off by exploring exactly what Grath well is.
+
+3
+00:00:10,060 --> 00:00:12,020
+For example what's a graph.
+
+4
+00:00:12,040 --> 00:00:17,850
+Then we'll dive into actually using graphs well inside of a J s application.
+
+5
+00:00:17,950 --> 00:00:23,690
+By the end you'll have a pretty good idea of what exactly graph you are does and how it does it.
+
+6
+00:00:23,710 --> 00:00:25,000
+I'm excited to get to it.
+
+7
+00:00:25,000 --> 00:00:28,240
+So let's go ahead and jump right in to the first video.
+

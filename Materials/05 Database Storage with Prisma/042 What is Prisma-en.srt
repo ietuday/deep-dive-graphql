@@ -1,0 +1,504 @@
+1
+00:00:00,240 --> 00:00:04,920
+In this video you're going to start to learn about Prisma Prisma is the tool that we'll be focusing
+
+2
+00:00:04,920 --> 00:00:08,370
+on in this section and in the next several sections.
+
+3
+00:00:08,370 --> 00:00:14,130
+We're going to be using Prisma to connect our back end no J as to the real database that we're going
+
+4
+00:00:14,130 --> 00:00:19,890
+to be using and Prisma works with a wide variety of databases which we'll talk about a bit later.
+
+5
+00:00:20,070 --> 00:00:26,340
+So the primary focus in this video is to figure out one what Prisma does and to where it fits into our
+
+6
+00:00:26,340 --> 00:00:28,200
+application architecture.
+
+7
+00:00:28,230 --> 00:00:33,450
+Once we have a general idea of what prison was good for we can actually move on to the next video and
+
+8
+00:00:33,450 --> 00:00:37,710
+start exploring how we can set it up in our projects to kick things off.
+
+9
+00:00:37,710 --> 00:00:41,530
+I actually want to go through the visualization we've already been through before.
+
+10
+00:00:41,530 --> 00:00:46,680
+It's one of the very first things we actually did in this class if you remember on the left hand side
+
+11
+00:00:46,680 --> 00:00:52,410
+we had our clients on the right hand side we had our server in the middle we started off with a rest
+
+12
+00:00:52,410 --> 00:00:53,970
+API connecting the two.
+
+13
+00:00:54,060 --> 00:00:57,420
+And later on we swapped that out for a graphical API.
+
+14
+00:00:57,600 --> 00:01:03,840
+We learned what graft stands for and we learned that it can work with any back end and any front end.
+
+15
+00:01:03,840 --> 00:01:09,090
+Now this is all indeed true I did not tell you any lies but I did leave out some of the truth.
+
+16
+00:01:09,090 --> 00:01:14,300
+There's a bit more complexity to what happens on the back end than meets the eye.
+
+17
+00:01:14,310 --> 00:01:19,530
+So what I want to do is go ahead and reduce the size of this visualization making room for one more
+
+18
+00:01:19,530 --> 00:01:20,980
+node over here.
+
+19
+00:01:21,060 --> 00:01:26,370
+In reality the server is just going to make up our back and programming language.
+
+20
+00:01:26,370 --> 00:01:29,490
+So for our purposes that is any language.
+
+21
+00:01:29,490 --> 00:01:35,500
+So once again it could be Python it could be java or in our case the server is written in node j.
+
+22
+00:01:35,500 --> 00:01:42,330
+S now as a separate node we have our database and once again this still can be any database we'd like
+
+23
+00:01:42,630 --> 00:01:46,240
+we could use my ask you well post gress or mango D-B.
+
+24
+00:01:46,410 --> 00:01:49,030
+Any database can get the job done.
+
+25
+00:01:49,110 --> 00:01:49,820
+The question.
+
+26
+00:01:49,860 --> 00:01:56,790
+And what I want to focus on in this video is how do we connect our back end node j s with the database
+
+27
+00:01:56,850 --> 00:01:57,900
+of choice.
+
+28
+00:01:57,900 --> 00:02:01,200
+We need a tool to actually facilitate that communication.
+
+29
+00:02:01,380 --> 00:02:06,930
+So when someone sends a mutation off to the server the server instead of modifying one of the arrays
+
+30
+00:02:06,930 --> 00:02:12,510
+like it currently does needs to actually write to the database when someone sends a query asking for
+
+31
+00:02:12,510 --> 00:02:18,570
+data the server needs to actually read from the database as opposed to just reading from one of our
+
+32
+00:02:18,570 --> 00:02:20,160
+static arrays.
+
+33
+00:02:20,430 --> 00:02:25,980
+So how exactly do we get that done will we have a few options one of them being Prisma the first option
+
+34
+00:02:25,980 --> 00:02:27,970
+we have is to use a native driver.
+
+35
+00:02:27,990 --> 00:02:30,160
+So all popular databases like my.
+
+36
+00:02:30,170 --> 00:02:34,400
+Q Well Mongo DB or post grass have native drivers for node.
+
+37
+00:02:34,420 --> 00:02:35,250
+J S.
+
+38
+00:02:35,340 --> 00:02:41,160
+These are essentially NPM libraries that make it really easy for us to connect our backend in node to
+
+39
+00:02:41,160 --> 00:02:42,720
+those databases.
+
+40
+00:02:42,720 --> 00:02:48,660
+Now native drivers are very bare bones implementations we can perform all of the queries necessary to
+
+41
+00:02:48,660 --> 00:02:55,590
+read and write data but we do not get any nice to have features we typically don't get things like migrations
+
+42
+00:02:55,620 --> 00:03:01,740
+data validation and we don't get a way to actually map our models setting up relationships between our
+
+43
+00:03:01,740 --> 00:03:02,370
+data.
+
+44
+00:03:02,520 --> 00:03:07,590
+So in the end of the day if we were to go with a native driver we would end up doing away more work
+
+45
+00:03:07,650 --> 00:03:09,630
+than is really necessary.
+
+46
+00:03:09,660 --> 00:03:16,080
+The next step up from the native driver is typically some sort of OUR am now O R M stands for object
+
+47
+00:03:16,080 --> 00:03:22,110
+relational mapping and a couple of examples of these would be sequel eyes or mongoose sequel eyes is
+
+48
+00:03:22,110 --> 00:03:29,250
+a great node j s o r n for connecting node to an s ul database like Manusky well or post gresse.
+
+49
+00:03:29,250 --> 00:03:30,600
+Mongoose is a great no.
+
+50
+00:03:30,620 --> 00:03:35,080
+J.S. Oh r.m for connecting No J.S. to Mongo D-B.
+
+51
+00:03:35,280 --> 00:03:42,120
+Now when we start to get into LRM territory we do start to get those nice to have features we can actually
+
+52
+00:03:42,120 --> 00:03:47,280
+model our data things like users and posts where a user has many posts.
+
+53
+00:03:47,340 --> 00:03:53,190
+We can set up validations saying that the password field needs to have at least 6 characters and we
+
+54
+00:03:53,190 --> 00:03:59,560
+can also migrate our data over time adding and removing fields as our data structures change.
+
+55
+00:03:59,640 --> 00:04:04,400
+All of these are possible with open arms and this is typically what we end up using.
+
+56
+00:04:04,440 --> 00:04:12,030
+If you've taken my node J.S. course we used the mongoose LRM in that class to connect node j s to a
+
+57
+00:04:12,090 --> 00:04:14,060
+mongo D-B back end.
+
+58
+00:04:14,130 --> 00:04:17,750
+Now the tool that we're going to be using Prisma is indeed an alarm.
+
+59
+00:04:17,760 --> 00:04:22,920
+So we still get all of those nice to have features we can model our data setting up things like users
+
+60
+00:04:22,920 --> 00:04:23,710
+in posts.
+
+61
+00:04:23,790 --> 00:04:29,190
+We can describe the relationships between our data we can set up migrations for the data we can perform
+
+62
+00:04:29,190 --> 00:04:30,150
+validation.
+
+63
+00:04:30,270 --> 00:04:33,520
+We can do anything one of those other forums can do.
+
+64
+00:04:33,570 --> 00:04:38,930
+But it comes with a ton of nice to have features that really make it a standout choice.
+
+65
+00:04:38,940 --> 00:04:42,960
+One of the great features of Prisma is that it is database agnostic.
+
+66
+00:04:42,960 --> 00:04:47,270
+So if you're using the sequel AIs library you have to use an s ul database.
+
+67
+00:04:47,340 --> 00:04:51,990
+If you're using the mongoose library you have to use the Mongo D-B database.
+
+68
+00:04:51,990 --> 00:04:56,910
+And if you decide you want to switch from Mongo DB to post postgresql you have to rewrite most of your
+
+69
+00:04:56,910 --> 00:04:59,660
+application since the two libraries are so different.
+
+70
+00:05:00,100 --> 00:05:02,010
+With Prisma we don't have to do that.
+
+71
+00:05:02,020 --> 00:05:04,960
+Prisma supports every major database out there.
+
+72
+00:05:04,960 --> 00:05:11,560
+It currently has support for my Eskil post grass and mango D-B and they're working on adding support
+
+73
+00:05:11,560 --> 00:05:14,840
+for others like elastics search and Casandra.
+
+74
+00:05:14,860 --> 00:05:21,190
+That means we can easily pick the database we want or switch between databases without needing to change
+
+75
+00:05:21,250 --> 00:05:22,220
+any code.
+
+76
+00:05:22,330 --> 00:05:24,120
+Well you have to change some code.
+
+77
+00:05:24,120 --> 00:05:29,830
+It's about six lines of these six lines we set up to connect to the particular database.
+
+78
+00:05:29,830 --> 00:05:37,330
+Now all of this works because Prisma wraps our database up and exposes it as a graphical API so it exposes
+
+79
+00:05:37,330 --> 00:05:44,290
+a graphical API that can be used to read and write from the actual database regardless of what database
+
+80
+00:05:44,290 --> 00:05:48,280
+we're using whether we're using Eskew L.A.'s UL or whatever.
+
+81
+00:05:48,280 --> 00:05:54,930
+Now that means our node J.S. back end can read and write from the database using you guessed it graph.
+
+82
+00:05:54,940 --> 00:06:00,780
+Q Well so Prisma sits right here between our back end and the database.
+
+83
+00:06:00,970 --> 00:06:05,540
+And you'll notice at this point any time we have communication between different layers it's graphed
+
+84
+00:06:05,650 --> 00:06:11,890
+Well if the client wants to communicate with no J.S. it's graphed well and if no J.S. wants to communicate
+
+85
+00:06:11,890 --> 00:06:14,560
+with the database it's graphical as well.
+
+86
+00:06:14,710 --> 00:06:18,700
+So if no genius wants to read data from the database it sends off a graph.
+
+87
+00:06:18,760 --> 00:06:25,540
+Well query if no genius wants to write data to our database it sends off a mutation and if no genius
+
+88
+00:06:25,540 --> 00:06:28,040
+wants to watch the database for changes.
+
+89
+00:06:28,060 --> 00:06:28,860
+You guessed it.
+
+90
+00:06:28,960 --> 00:06:34,720
+It sets up a subscription because we're using graphs well between the client and the server and between
+
+91
+00:06:34,720 --> 00:06:39,800
+the server and the database the server itself actually becomes a whole lot less important.
+
+92
+00:06:39,910 --> 00:06:42,930
+There's not as much to actually do there which is a good thing.
+
+93
+00:06:42,940 --> 00:06:47,180
+It allows us to reduce the amount of code and the complexity of that code.
+
+94
+00:06:47,230 --> 00:06:51,910
+It really just serves as a thin layer between the client and the database.
+
+95
+00:06:51,910 --> 00:06:57,490
+So it's almost like the client has direct access to the database though the server is still very important
+
+96
+00:06:57,700 --> 00:07:01,240
+for things like authentication and data authorization.
+
+97
+00:07:01,240 --> 00:07:03,900
+So we still want to make sure that someone can only read data.
+
+98
+00:07:03,910 --> 00:07:05,660
+They should actually be able to read.
+
+99
+00:07:05,830 --> 00:07:10,540
+And we want to make sure that someone can only write data they should be able to write after of course
+
+100
+00:07:10,540 --> 00:07:13,340
+that data has been sanitized and validated.
+
+101
+00:07:13,390 --> 00:07:16,280
+So it's not like Noad no longer serves a purpose.
+
+102
+00:07:16,360 --> 00:07:18,330
+It just serves less of a purpose.
+
+103
+00:07:18,370 --> 00:07:23,410
+It's more of a thin layer of communication between the client and the database.
+
+104
+00:07:23,410 --> 00:07:25,360
+So let's take a look at a real world example.
+
+105
+00:07:25,390 --> 00:07:30,220
+Imagine I had a client and I wanted to get all of the posts I would generate my operation and I'd send
+
+106
+00:07:30,220 --> 00:07:36,740
+it off to node What does No do node does not write a nother operation to send to the Prisma.
+
+107
+00:07:36,750 --> 00:07:38,240
+Graft UL API.
+
+108
+00:07:38,410 --> 00:07:43,930
+It just takes the same one and passes it through Prisma gets the data and the node passes that data
+
+109
+00:07:43,990 --> 00:07:45,180
+back to the client.
+
+110
+00:07:45,220 --> 00:07:47,770
+So node really does not do a whole lot.
+
+111
+00:07:47,830 --> 00:07:52,330
+Now if it came to a mutation I would first make sure that they were authenticated and that the data
+
+112
+00:07:52,330 --> 00:07:53,060
+was valid.
+
+113
+00:07:53,170 --> 00:07:58,290
+But then once again I'd still pass that operation from the client right off to Prisma to perform that
+
+114
+00:07:58,300 --> 00:07:58,780
+right.
+
+115
+00:07:58,900 --> 00:08:02,340
+And when the data came back I would just send it back through.
+
+116
+00:08:02,350 --> 00:08:04,600
+Now I don't expect your mind to be blown yet.
+
+117
+00:08:04,630 --> 00:08:09,310
+I'll be honest when I first heard about Prisma my mind was not blown.
+
+118
+00:08:09,310 --> 00:08:12,040
+I almost considered not using it in this class.
+
+119
+00:08:12,040 --> 00:08:18,040
+It wasn't until I actually got into the code and saw how Prisma worked and how it helped me reduce the
+
+120
+00:08:18,040 --> 00:08:21,410
+amount of code I had to manage that I got really excited.
+
+121
+00:08:21,610 --> 00:08:23,470
+So that's enough of this visualization.
+
+122
+00:08:23,470 --> 00:08:27,070
+We're going to continue on to the next video and start setting Prizm up.
+
+123
+00:08:27,070 --> 00:08:32,600
+If you learned nothing else in this video it should just be this Prisma is an alarm.
+
+124
+00:08:32,620 --> 00:08:38,650
+It works with all databases and it makes it really easy for us to expose access to the database to a
+
+125
+00:08:38,650 --> 00:08:41,680
+client and a secure and efficient way.
+
+126
+00:08:41,680 --> 00:08:43,750
+All right I'll see you next time.
+

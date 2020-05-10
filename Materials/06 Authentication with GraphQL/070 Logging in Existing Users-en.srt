@@ -1,0 +1,996 @@
+1
+00:00:00,240 --> 00:00:03,930
+In this video it's going to be up to you to create the loggin mutation.
+
+2
+00:00:03,940 --> 00:00:09,030
+We're going to go through a series of challenges where you're going to build up that mutation from scratch.
+
+3
+00:00:09,060 --> 00:00:14,460
+Now before we dive into any of those challenges I want to talk about one thing we need to learn about
+
+4
+00:00:14,460 --> 00:00:17,790
+before we can actually create the loggin mutation.
+
+5
+00:00:17,790 --> 00:00:22,860
+Now we know how to have a password and store that in the database but when someone logs in they're not
+
+6
+00:00:22,860 --> 00:00:27,150
+going to give us the hashed password when someone logs in they're going to give us their plain text
+
+7
+00:00:27,150 --> 00:00:27,970
+password.
+
+8
+00:00:28,050 --> 00:00:30,490
+They're going to give us their e-mail and their password.
+
+9
+00:00:30,630 --> 00:00:36,600
+We have to figure out how to compare that to the e-mail and hashed password in the database.
+
+10
+00:00:36,600 --> 00:00:41,460
+So let's knock that out first then we'll talk about the challenges right here to explore this.
+
+11
+00:00:41,490 --> 00:00:46,400
+I'm going to create a little dummy function an async aero function.
+
+12
+00:00:46,440 --> 00:00:48,090
+We're not going to set up any arguments.
+
+13
+00:00:48,090 --> 00:00:54,090
+I'm just going to call it giving us a little place to play around with this code and when we originally
+
+14
+00:00:54,330 --> 00:00:59,640
+call this mutation remember we're going to pass in the e-mail and the password so Konst e-mail equals
+
+15
+00:00:59,700 --> 00:01:06,870
+something like Andrew at example dot com and then Konst password is going to be the plain text password.
+
+16
+00:01:06,990 --> 00:01:12,360
+So if I signed up with read a one two three four or five when I log in I'm once again going to pass
+
+17
+00:01:12,360 --> 00:01:12,910
+in red.
+
+18
+00:01:12,930 --> 00:01:15,140
+One two three four five.
+
+19
+00:01:15,150 --> 00:01:21,660
+The problem though is that this value is nowhere in the database even for users where that was the password
+
+20
+00:01:21,660 --> 00:01:26,130
+used because we are storing the hashed password values.
+
+21
+00:01:26,130 --> 00:01:30,170
+So over in the database I actually have just hashed values.
+
+22
+00:01:30,180 --> 00:01:31,090
+I don't see red.
+
+23
+00:01:31,100 --> 00:01:37,010
+One two three four or five anywhere but actually both users were created with just that password.
+
+24
+00:01:37,170 --> 00:01:38,190
+So don't mess around with this.
+
+25
+00:01:38,190 --> 00:01:40,700
+Let's go ahead and grab this hash value.
+
+26
+00:01:40,800 --> 00:01:45,330
+Copy it to the clipboard and bring it over into the javascript file right here.
+
+27
+00:01:46,160 --> 00:01:53,830
+Konst hashed password is going to be a string and I'm going to paste the hashed contents in.
+
+28
+00:01:54,050 --> 00:01:55,100
+So what do we have.
+
+29
+00:01:55,100 --> 00:02:00,350
+We have the data that's going to come in with the log in request and we have the hashed password which
+
+30
+00:02:00,350 --> 00:02:02,960
+we're eventually going to get from the database.
+
+31
+00:02:02,960 --> 00:02:08,130
+So with the log in mutation we're going to fetch a user just by their email.
+
+32
+00:02:08,240 --> 00:02:13,310
+Once we get that user back we'll have access to the hashed password from the database and we'll be able
+
+33
+00:02:13,310 --> 00:02:15,190
+to compare that to.
+
+34
+00:02:15,230 --> 00:02:16,630
+Now how do we compare the two.
+
+35
+00:02:16,640 --> 00:02:21,070
+Well we use the crypt dot compare and this takes into arguments.
+
+36
+00:02:21,080 --> 00:02:27,980
+It takes in the plain text password and it takes in the hashed password and it is going to return a
+
+37
+00:02:27,980 --> 00:02:35,750
+promise that we can await the promise resolves to true if it is a match and false otherwise so Konst
+
+38
+00:02:35,840 --> 00:02:40,470
+is match equals whatever comes back from the compair promise.
+
+39
+00:02:40,490 --> 00:02:46,640
+Now we can actually go ahead and use console dialog to dump is match to the terminal.
+
+40
+00:02:46,670 --> 00:02:53,270
+Now in this case I would indeed expect a match since this hash is a fuelers password and the user was
+
+41
+00:02:53,270 --> 00:02:54,100
+created with red.
+
+42
+00:02:54,110 --> 00:02:55,440
+One two three four five.
+
+43
+00:02:55,760 --> 00:02:57,800
+If I save nutation J.
+
+44
+00:02:57,800 --> 00:03:00,230
+S. What do I get in the terminal I get.
+
+45
+00:03:00,260 --> 00:03:01,090
+True.
+
+46
+00:03:01,130 --> 00:03:04,020
+Now let's say I try to log in with invalid credentials.
+
+47
+00:03:04,020 --> 00:03:06,740
+So I'm going to change up that password from.
+
+48
+00:03:06,750 --> 00:03:12,710
+Read it with a lowercase are to read with an upper case are this time around the password should be
+
+49
+00:03:12,710 --> 00:03:13,310
+invalid.
+
+50
+00:03:13,310 --> 00:03:17,960
+And I would expect false to print and that is exactly what I end up getting.
+
+51
+00:03:17,960 --> 00:03:22,630
+So this is how we are going to end up comparing passwords were going to fetch the user by e-mail.
+
+52
+00:03:22,700 --> 00:03:28,190
+We'll get the hashed value from the database and we'll compare it with the plain text password using
+
+53
+00:03:28,430 --> 00:03:30,120
+our compair method.
+
+54
+00:03:30,260 --> 00:03:31,220
+Perfect.
+
+55
+00:03:31,220 --> 00:03:37,030
+Now it's important to note that once again this Beecroft algorithm is a one way hashing algorithm.
+
+56
+00:03:37,130 --> 00:03:42,910
+So we are not decrypting this getting the plain text version back and comparing this with RAD.
+
+57
+00:03:42,910 --> 00:03:44,440
+One two three four or five.
+
+58
+00:03:44,510 --> 00:03:49,130
+Instead we're actually hashing this and comparing the hashes.
+
+59
+00:03:49,130 --> 00:03:55,040
+There is no way to get the original plain text value back from our hash.
+
+60
+00:03:55,040 --> 00:04:01,870
+So now that we know how to compare passwords using the Compare method it is time to move on to our challenges.
+
+61
+00:04:01,970 --> 00:04:07,880
+And I'm saying challenges plural because in the end of the day the goal is to create this log in mutation.
+
+62
+00:04:08,030 --> 00:04:13,820
+But I'm going to break it up into three distinct steps so we can make sure we're all headed in the right
+
+63
+00:04:13,820 --> 00:04:14,610
+direction.
+
+64
+00:04:14,720 --> 00:04:17,890
+Let's go ahead and talk about the first challenge.
+
+65
+00:04:17,930 --> 00:04:23,240
+I'd like you to work through right here once again the big picture goal is to create the log in mutation
+
+66
+00:04:23,240 --> 00:04:28,900
+which we will do via three challenges and part one is to create the mutation structure itself.
+
+67
+00:04:29,150 --> 00:04:29,900
+So what are you going to do.
+
+68
+00:04:29,900 --> 00:04:33,470
+Well number one you will define the mutation in Scheme ideographs.
+
+69
+00:04:33,520 --> 00:04:36,400
+Well we have all of our other mutations defined over here.
+
+70
+00:04:36,420 --> 00:04:41,170
+We get a new one for logging in as well and you could call that something like loggin.
+
+71
+00:04:41,180 --> 00:04:47,570
+Next up this mutation should accept two arguments we need email and we need a password.
+
+72
+00:04:47,570 --> 00:04:52,730
+So in the end of the day in order to log someone in that is all we need we need their email and we need
+
+73
+00:04:52,730 --> 00:04:59,090
+their plain text password in terms of the response value it should be of the type or payload just like
+
+74
+00:04:59,090 --> 00:05:01,640
+we already have for create user.
+
+75
+00:05:01,640 --> 00:05:08,090
+So with the new logon nutation you can use the exact same or payload defined down below there's no need
+
+76
+00:05:08,120 --> 00:05:10,570
+to really define that.
+
+77
+00:05:10,580 --> 00:05:13,890
+Now once you have schema you UL all set up.
+
+78
+00:05:13,910 --> 00:05:21,170
+Step two is to define the mutation resolver in this file along with its four arguments.
+
+79
+00:05:21,170 --> 00:05:23,560
+So in the end of the day you're not going to have something complete.
+
+80
+00:05:23,570 --> 00:05:27,300
+You can actually test out Yoda's be part of the way there.
+
+81
+00:05:27,410 --> 00:05:32,630
+Take some time to knock this out and set up the basic structure for the mutation when you're done.
+
+82
+00:05:32,660 --> 00:05:34,970
+You can come back and click play
+
+83
+00:05:38,620 --> 00:05:39,540
+how that one go.
+
+84
+00:05:39,640 --> 00:05:41,010
+Let's go ahead and kick things off.
+
+85
+00:05:41,010 --> 00:05:46,460
+Over inside of schema graft well in here we want to set up a brand new mutation.
+
+86
+00:05:46,540 --> 00:05:48,490
+The order it comes in does not matter.
+
+87
+00:05:48,520 --> 00:05:53,620
+I'm going to put it right here after create user and we need those two arguments which we'll talk about
+
+88
+00:05:53,620 --> 00:05:54,470
+in a second.
+
+89
+00:05:54,520 --> 00:06:01,370
+And the response value is of the type off payload just like we already have for create user.
+
+90
+00:06:01,390 --> 00:06:06,430
+Now there are a couple of different ways you could structure the arguments maybe you created separate
+
+91
+00:06:06,490 --> 00:06:08,780
+email and password arguments.
+
+92
+00:06:08,830 --> 00:06:14,050
+Maybe you went ahead and created a single argument like data creating a new input where you have the
+
+93
+00:06:14,050 --> 00:06:15,270
+email and password.
+
+94
+00:06:15,310 --> 00:06:17,920
+Honestly either approach is fine.
+
+95
+00:06:17,920 --> 00:06:26,530
+I'm going to create a single argument data and have that be of the type log in user input as a non nullable
+
+96
+00:06:26,530 --> 00:06:27,130
+value.
+
+97
+00:06:27,130 --> 00:06:28,040
+Perfect.
+
+98
+00:06:28,060 --> 00:06:36,370
+Now down below we can actually define that so down here input log in user input that's going to have
+
+99
+00:06:36,400 --> 00:06:37,300
+two fields.
+
+100
+00:06:37,300 --> 00:06:42,390
+We're going to take in the email as a non nullable string and we're going to take in the password.
+
+101
+00:06:42,390 --> 00:06:44,670
+Also a non nullable string.
+
+102
+00:06:44,800 --> 00:06:45,820
+Excellent.
+
+103
+00:06:45,820 --> 00:06:49,680
+Now in the end of the day you could have used either approach to arguments or one.
+
+104
+00:06:49,690 --> 00:06:51,830
+Both are perfectly valid.
+
+105
+00:06:51,940 --> 00:06:54,780
+It's all a matter of personal preference and style.
+
+106
+00:06:54,910 --> 00:07:01,180
+Now that we have these schema graphed you all file all done we can move on to step two which is to define
+
+107
+00:07:01,180 --> 00:07:07,180
+our mutation resolver in this spiles so down below right below create user.
+
+108
+00:07:07,180 --> 00:07:13,240
+I'm going to create a new async method called log in which matches up with my mutation name.
+
+109
+00:07:13,240 --> 00:07:16,950
+We're going to set that up putting a comma at the end of the function.
+
+110
+00:07:17,050 --> 00:07:20,180
+And right here we're going to define all of those arguments we have parent.
+
+111
+00:07:20,200 --> 00:07:22,310
+We have args for the context.
+
+112
+00:07:22,330 --> 00:07:24,340
+I will deal structure Prisma.
+
+113
+00:07:24,340 --> 00:07:26,750
+And finally we have info.
+
+114
+00:07:26,800 --> 00:07:27,630
+Awesome.
+
+115
+00:07:28,000 --> 00:07:30,400
+Now that was it for part 1.
+
+116
+00:07:30,490 --> 00:07:33,170
+We have our basic structure in place.
+
+117
+00:07:33,220 --> 00:07:37,800
+Now let's go ahead and talk about what I would like you to do for part two.
+
+118
+00:07:37,810 --> 00:07:41,260
+Part 2 is all about verifying the email and password.
+
+119
+00:07:41,260 --> 00:07:47,530
+So step one you're going to query for the user by their email in your mutation resolver down below.
+
+120
+00:07:47,620 --> 00:07:53,120
+And we just need the scalar fields for the user which means you can leave off that second argument.
+
+121
+00:07:53,120 --> 00:07:57,700
+Now when you actually get the result back you want to see if you found a user if you did not find a
+
+122
+00:07:57,700 --> 00:08:03,280
+user then you're going to throw an error something generic like unable to authenticate or unable to
+
+123
+00:08:03,280 --> 00:08:04,560
+log in.
+
+124
+00:08:04,570 --> 00:08:10,600
+Now if you did find a user by that e-mail we only verified half of the stuff we need to verify we've
+
+125
+00:08:10,600 --> 00:08:12,400
+only verified the email.
+
+126
+00:08:12,400 --> 00:08:14,830
+We also need to verify the password.
+
+127
+00:08:15,040 --> 00:08:19,990
+So you're going to pull the hashed password out of the user you found from the database and you're going
+
+128
+00:08:19,990 --> 00:08:25,240
+to compare that password against the plain text password provided as the argument.
+
+129
+00:08:25,270 --> 00:08:30,070
+So you're going to use the compare method exactly like we did down below.
+
+130
+00:08:30,070 --> 00:08:33,880
+Now once again you end up seeing that the passwords do not match.
+
+131
+00:08:33,880 --> 00:08:38,940
+You want to throw an error saying something like unable to log in.
+
+132
+00:08:38,980 --> 00:08:41,140
+So take some time to knock that out.
+
+133
+00:08:41,250 --> 00:08:46,780
+All you're going to have to do is add a few statements as well as some if statements into the log in
+
+134
+00:08:46,990 --> 00:08:48,540
+method down below.
+
+135
+00:08:48,550 --> 00:08:49,510
+Pause the video.
+
+136
+00:08:49,510 --> 00:08:52,590
+Knock that out when you're done come back and click play
+
+137
+00:08:56,780 --> 00:09:00,360
+how that one go let's go ahead and kick things off down below.
+
+138
+00:09:00,400 --> 00:09:02,860
+We have our in method of right here.
+
+139
+00:09:03,010 --> 00:09:08,380
+And the first thing that we're going to end up doing is finding the user by their e-mail so I can create
+
+140
+00:09:08,380 --> 00:09:09,540
+a new constant.
+
+141
+00:09:09,940 --> 00:09:17,080
+I'll call this user and we are going to await one of our queries we have Prisma dot queery dot and we
+
+142
+00:09:17,080 --> 00:09:19,330
+are going to use the user query.
+
+143
+00:09:19,330 --> 00:09:25,000
+Now we know when we're searching for an individual user we can search by ID or email the two things
+
+144
+00:09:25,000 --> 00:09:26,440
+that make the user unique.
+
+145
+00:09:26,530 --> 00:09:32,800
+In this case we will be searching by the email which is one of the arguments right here where e-mail
+
+146
+00:09:33,100 --> 00:09:36,130
+equals args dot data dot email.
+
+147
+00:09:36,160 --> 00:09:37,110
+Perfect.
+
+148
+00:09:37,120 --> 00:09:39,380
+Now if there was no user we want to throw an error.
+
+149
+00:09:39,460 --> 00:09:47,920
+Let's go ahead and check if no user we will throw a new error and we can say something along the lines
+
+150
+00:09:47,920 --> 00:09:50,050
+of unable to log in.
+
+151
+00:09:50,080 --> 00:09:51,220
+Awesome.
+
+152
+00:09:51,220 --> 00:09:54,770
+The next thing for part two was to verify the password.
+
+153
+00:09:54,790 --> 00:10:00,250
+Now at this point we know we have a user sends this code obviously didn't run or we wouldn't get to
+
+154
+00:10:00,250 --> 00:10:06,990
+this point which means we have a user account password which is where the hashed password is stored.
+
+155
+00:10:07,150 --> 00:10:10,780
+But we're going to do is actually run a check using the crypt compare.
+
+156
+00:10:10,810 --> 00:10:16,250
+So Konst is match equals we are going to await a B crypt.
+
+157
+00:10:16,330 --> 00:10:24,160
+Compare we are going to pass in first the plain text password args dot data dot password.
+
+158
+00:10:24,160 --> 00:10:28,390
+Then the second is the hashed password user password.
+
+159
+00:10:28,420 --> 00:10:29,520
+Perfect.
+
+160
+00:10:29,530 --> 00:10:32,500
+Now if there was no match we want to throw an error.
+
+161
+00:10:32,500 --> 00:10:35,240
+So if there was no match
+
+162
+00:10:38,390 --> 00:10:43,420
+we are going to throw a new error and once again we will say something like.
+
+163
+00:10:43,430 --> 00:10:50,060
+Unable to log in when it comes to sending back errors about why authentication failed it's best to be
+
+164
+00:10:50,060 --> 00:10:51,780
+as generic as possible.
+
+165
+00:10:51,800 --> 00:10:57,290
+It's not a good idea to say something like authentication failed because the password you provided doesn't
+
+166
+00:10:57,290 --> 00:10:59,370
+match up with the email for that account.
+
+167
+00:10:59,450 --> 00:11:02,410
+It gives away more information than is really necessary.
+
+168
+00:11:02,510 --> 00:11:07,550
+And a hacker or a social engineer could use that to gain access so you're really just giving them more
+
+169
+00:11:07,550 --> 00:11:09,270
+contacts than they deserve.
+
+170
+00:11:09,290 --> 00:11:13,730
+In general I just stick with something generic like unable to lock it.
+
+171
+00:11:13,760 --> 00:11:14,660
+Now what are we going to do.
+
+172
+00:11:14,660 --> 00:11:17,350
+Well we are actually all done for part two.
+
+173
+00:11:17,360 --> 00:11:21,310
+We have verified the e-mail and we have verified the password.
+
+174
+00:11:21,440 --> 00:11:27,680
+So that brings us to part three but we're actually going to put all of this together and test our work
+
+175
+00:11:27,860 --> 00:11:29,390
+right here for part 3.
+
+176
+00:11:29,390 --> 00:11:33,830
+Your goal is to send back the correct information and then test your work.
+
+177
+00:11:33,980 --> 00:11:39,460
+So you want to send back an object that matches up with off payload much like we did for create user.
+
+178
+00:11:39,500 --> 00:11:43,930
+That means you need to provide a user field as well as a token field.
+
+179
+00:11:44,150 --> 00:11:49,960
+And when you create that token you want to make sure to use the same as secret we used with create user.
+
+180
+00:11:50,090 --> 00:11:55,680
+So the tokens created with create user and with log in should be using the exact same secret.
+
+181
+00:11:55,730 --> 00:12:00,410
+In this case this is a secret is what I used here and it's exactly what I'm going to use down below
+
+182
+00:12:00,440 --> 00:12:01,460
+as well.
+
+183
+00:12:01,460 --> 00:12:05,330
+So step 1 is really just setting up the correct return statement.
+
+184
+00:12:05,360 --> 00:12:05,930
+Step two.
+
+185
+00:12:05,930 --> 00:12:07,130
+Test your work.
+
+186
+00:12:07,220 --> 00:12:13,910
+You want to log in with an existing user and make sure you can create a selection set that grabs back
+
+187
+00:12:13,910 --> 00:12:20,000
+some user details as well as the authentication token if you can't remember the email and password for
+
+188
+00:12:20,000 --> 00:12:21,330
+any of your users.
+
+189
+00:12:21,350 --> 00:12:26,760
+You can go ahead and just delete the database or just create a new user and use that user when testing.
+
+190
+00:12:26,960 --> 00:12:27,470
+All right.
+
+191
+00:12:27,470 --> 00:12:29,410
+Take some time to knock this out.
+
+192
+00:12:29,450 --> 00:12:33,190
+Test your work when you're done come back and click play
+
+193
+00:12:37,370 --> 00:12:38,180
+How'd that go.
+
+194
+00:12:38,180 --> 00:12:40,690
+We're going to go ahead and start with step one.
+
+195
+00:12:40,820 --> 00:12:43,060
+We need to return the correct stuff.
+
+196
+00:12:43,070 --> 00:12:47,690
+So right here in our log in method I want to return an object.
+
+197
+00:12:47,690 --> 00:12:54,890
+This object needs to have both user and token so it matches up with our auth payload that we have set
+
+198
+00:12:54,890 --> 00:12:57,040
+up as the response value.
+
+199
+00:12:57,080 --> 00:12:59,690
+Now to get that done we are going to start with user first.
+
+200
+00:12:59,690 --> 00:13:00,810
+That one's easy.
+
+201
+00:13:00,820 --> 00:13:06,590
+The user property will get its value from the user variable up above and the second one is going to
+
+202
+00:13:06,590 --> 00:13:12,850
+be token where we're going to create a brand new authentication token JWT dot sign.
+
+203
+00:13:12,860 --> 00:13:16,160
+We have to provide user ID for this one.
+
+204
+00:13:16,160 --> 00:13:18,800
+We can get the value from user ID.
+
+205
+00:13:19,040 --> 00:13:21,560
+And we also have to use the exact same secret.
+
+206
+00:13:21,560 --> 00:13:24,750
+This is a secret.
+
+207
+00:13:24,860 --> 00:13:25,840
+Excellent.
+
+208
+00:13:26,060 --> 00:13:32,150
+Now that we have this in place we are done with step 1 and the last thing left to do is to test our
+
+209
+00:13:32,150 --> 00:13:35,150
+work and make sure it works as expected.
+
+210
+00:13:35,150 --> 00:13:41,480
+So let's go ahead and actually get that done by saving the file and moving over into local host 4000
+
+211
+00:13:41,720 --> 00:13:43,440
+engraft UL playground.
+
+212
+00:13:43,550 --> 00:13:45,920
+I'm going to try to log in as this user.
+
+213
+00:13:45,920 --> 00:13:53,050
+We have the email of Andrew at example dot com and we have the password of read 1 2 3 4 5.
+
+214
+00:13:53,120 --> 00:13:57,620
+I'm going to create a brand new town for this mutation.
+
+215
+00:13:57,630 --> 00:13:59,170
+It is indeed a mutation.
+
+216
+00:13:59,430 --> 00:14:02,190
+We named the mutation log in.
+
+217
+00:14:02,190 --> 00:14:04,230
+We are going to set up all the correct arguments.
+
+218
+00:14:04,230 --> 00:14:06,930
+First though let's go ahead and refresh the schema.
+
+219
+00:14:06,930 --> 00:14:11,060
+So it actually shows up over in the list we now see it which is great.
+
+220
+00:14:12,110 --> 00:14:14,030
+We can set up our arguments list.
+
+221
+00:14:14,030 --> 00:14:20,000
+We just have one data and on that we provide both the email and the password.
+
+222
+00:14:20,180 --> 00:14:21,830
+So we have e-mail.
+
+223
+00:14:21,980 --> 00:14:28,510
+We're going to have the value Andrew an example dot com and we're going to have the password which was
+
+224
+00:14:28,510 --> 00:14:32,110
+indeed the read one two three four five.
+
+225
+00:14:32,350 --> 00:14:38,070
+The last thing to do is provide our selections set ometer grab some information about that user.
+
+226
+00:14:38,110 --> 00:14:42,070
+I'll go ahead and grab the user's ID and the user's name.
+
+227
+00:14:42,190 --> 00:14:48,010
+And I'm also going to grab the auth token that was created after all that is the whole point of logging
+
+228
+00:14:48,010 --> 00:14:48,940
+in.
+
+229
+00:14:48,940 --> 00:14:53,050
+Now that we have our operations set up we can actually go ahead and fire this one off.
+
+230
+00:14:53,140 --> 00:14:54,100
+And what do we get.
+
+231
+00:14:54,130 --> 00:14:56,860
+We got a success operation back.
+
+232
+00:14:56,860 --> 00:14:58,270
+We have data log in.
+
+233
+00:14:58,360 --> 00:15:04,210
+We have the user field we requested and we have our brand new token all showing up.
+
+234
+00:15:04,240 --> 00:15:09,430
+Now if I were to change the e-mail let's try Andrew to add example dot com.
+
+235
+00:15:09,430 --> 00:15:12,550
+I would expect it to fail and it does indeed fail.
+
+236
+00:15:12,760 --> 00:15:18,640
+If I revert the e-mail back to the valid e-mail but messed the password up I would also expect things
+
+237
+00:15:18,640 --> 00:15:20,140
+to fail and right here.
+
+238
+00:15:20,170 --> 00:15:24,940
+It does indeed fail only when both the e-mail and the password align.
+
+239
+00:15:24,970 --> 00:15:29,340
+Do we actually get a valid authentication token being created.
+
+240
+00:15:29,560 --> 00:15:35,830
+So there we go we have our loggin mutation in place which means that we now have a consistent way to
+
+241
+00:15:35,830 --> 00:15:41,400
+generate authentication tokens when someone logs in or when someone initially creates their account.
+
+242
+00:15:41,410 --> 00:15:46,510
+But we're going to focus on in the next video is how to lock down some of our routes making sure that
+
+243
+00:15:46,510 --> 00:15:52,780
+you can only do things like create a post when you do indeed provide a valid auth token.
+
+244
+00:15:53,020 --> 00:15:57,000
+To wrap this video up let's go ahead and remove all of this stuff from up above.
+
+245
+00:15:57,040 --> 00:16:04,130
+I'm going to remove the dummy function and then above our imports I'm going to remove all of the comments
+
+246
+00:16:04,280 --> 00:16:05,690
+for those challenges.
+
+247
+00:16:05,690 --> 00:16:06,630
+And there we go.
+
+248
+00:16:06,650 --> 00:16:08,330
+That is it for this video.
+
+249
+00:16:08,390 --> 00:16:12,180
+Let's save the file and I will see you in the next one.
+

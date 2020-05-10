@@ -1,0 +1,924 @@
+1
+00:00:00,210 --> 00:00:06,570
+In this video you're going to start the process of putting no J.S. Right between our public users and
+
+2
+00:00:06,630 --> 00:00:09,510
+the private Prisma Graph API.
+
+3
+00:00:09,690 --> 00:00:15,900
+So we don't want users to be able to directly interact with the Prisma Graph API because then they could
+
+4
+00:00:15,900 --> 00:00:21,240
+read and write from the database doing whatever they want it could sabotage another user deleting all
+
+5
+00:00:21,240 --> 00:00:24,690
+of their posts for example instead we went no.
+
+6
+00:00:24,690 --> 00:00:26,380
+J.S. as the middleman.
+
+7
+00:00:26,520 --> 00:00:31,250
+This is going to allow us to set up things like authentication and data validation.
+
+8
+00:00:31,290 --> 00:00:34,260
+You'll really be able to customize this to fit your needs.
+
+9
+00:00:34,260 --> 00:00:39,420
+For example in the case of our blogging application there are certain things where it makes sense to
+
+10
+00:00:39,420 --> 00:00:44,640
+expose data even if someone's not authenticated like the published posts.
+
+11
+00:00:44,640 --> 00:00:46,890
+That's the whole point of visiting the blogging site.
+
+12
+00:00:46,890 --> 00:00:50,100
+After all you're trying to read those published posts.
+
+13
+00:00:50,200 --> 00:00:55,830
+And there's no reason to leave those restricted now other pieces of data very well should be restricted.
+
+14
+00:00:55,830 --> 00:01:02,250
+For example a user's draft posts should only be accessible by them which means we're going to have to
+
+15
+00:01:02,250 --> 00:01:05,790
+authenticate them to make sure that the actual owner.
+
+16
+00:01:05,790 --> 00:01:09,270
+Don't worry we'll get into all of that and more in this section.
+
+17
+00:01:09,270 --> 00:01:17,130
+For now though the goal is to put no Jay between the public users and the Prisma graphical API.
+
+18
+00:01:17,220 --> 00:01:19,960
+In this video let's go ahead and start with our queries.
+
+19
+00:01:19,980 --> 00:01:22,980
+So I'm going to open up the resolvers directory and crack open.
+
+20
+00:01:22,980 --> 00:01:24,330
+Queried Dhananjay.
+
+21
+00:01:24,610 --> 00:01:28,030
+And we're just going to work our way from top to bottom.
+
+22
+00:01:28,050 --> 00:01:29,480
+So let's start with the first one.
+
+23
+00:01:29,490 --> 00:01:32,080
+We have the users query right here.
+
+24
+00:01:32,100 --> 00:01:35,080
+Currently we are just reading a data from that array.
+
+25
+00:01:35,190 --> 00:01:40,010
+We have access to DB users right here and DB users down below.
+
+26
+00:01:40,110 --> 00:01:44,140
+This is reading from that static array defined in DB J S.
+
+27
+00:01:44,280 --> 00:01:49,620
+In the end of the day what we really want to do is use Prisma inside of this method.
+
+28
+00:01:49,620 --> 00:01:51,110
+We want to use Prisma.
+
+29
+00:01:51,240 --> 00:01:57,700
+Queery dot users to fetch the data from the database and that's what we're going to end up doing.
+
+30
+00:01:57,870 --> 00:02:03,330
+The next thing we have to do real quick before we make any changes to this file is to make a small change
+
+31
+00:02:03,330 --> 00:02:06,400
+to Prisma dot J ass down below.
+
+32
+00:02:06,420 --> 00:02:11,630
+We have all of these examples we created to explore how Prisma works in known G-S.
+
+33
+00:02:11,670 --> 00:02:16,560
+These are all great because it allowed us to explore all of these features and we will use what we've
+
+34
+00:02:16,560 --> 00:02:19,760
+learned we're just not going to use it in this file.
+
+35
+00:02:19,770 --> 00:02:25,160
+So for the moment what I'd like to do is just highlight everything in this file down below.
+
+36
+00:02:25,410 --> 00:02:28,540
+Comment that out and leave just these two things in place.
+
+37
+00:02:28,560 --> 00:02:34,110
+The one line where we import Prisma binding and the second line where we create a new instance using
+
+38
+00:02:34,110 --> 00:02:36,410
+the Prisma constructor function.
+
+39
+00:02:36,750 --> 00:02:40,040
+The only thing we're going to add to this file is an export.
+
+40
+00:02:40,140 --> 00:02:46,170
+We want other files to be able to access Prisma so we can use things like Prisma Dopp mutation Prisma
+
+41
+00:02:46,500 --> 00:02:51,690
+queery Prisma data exists and Prisma subscription export.
+
+42
+00:02:51,690 --> 00:02:57,420
+We are going to be exporting Prisma from up above the lower case version and I will export this as the
+
+43
+00:02:57,420 --> 00:02:58,850
+default export.
+
+44
+00:02:58,860 --> 00:02:59,840
+Excellent.
+
+45
+00:02:59,850 --> 00:03:01,910
+Now we can actually save this file.
+
+46
+00:03:01,910 --> 00:03:07,080
+And what we're going to do is set up Prisma to live on our application context.
+
+47
+00:03:07,080 --> 00:03:08,940
+So inside of index Dhananjay.
+
+48
+00:03:09,210 --> 00:03:11,980
+Just like we have D-B and pub sub.
+
+49
+00:03:12,070 --> 00:03:18,030
+We are going to add on Prisma So it's accessible for all of our resolver functions to do that.
+
+50
+00:03:18,150 --> 00:03:22,470
+All we have to do is one change this in port statement right here.
+
+51
+00:03:22,470 --> 00:03:28,020
+Previously we were importing this file without grabbing anything from it that made sure the file actually
+
+52
+00:03:28,020 --> 00:03:28,490
+ran.
+
+53
+00:03:28,500 --> 00:03:33,290
+So our little experiments down below ran when the start script executed.
+
+54
+00:03:33,330 --> 00:03:38,340
+But we're going to do though is go ahead and actually grab something from that file we're gonna grab
+
+55
+00:03:38,340 --> 00:03:43,240
+the default export we just set up Prisma from perfect.
+
+56
+00:03:43,380 --> 00:03:47,400
+Now that the inport statement is in place we're just going to add it on to the context.
+
+57
+00:03:47,400 --> 00:03:53,930
+So right here I will create a Prisma property getting its value from the variable with the same name.
+
+58
+00:03:53,940 --> 00:04:00,680
+So now we can say of index Dhananjay as we can close this file down and we can move into queery dot
+
+59
+00:04:00,750 --> 00:04:06,310
+J S and actually take advantage of Prisma which is now part of the application context.
+
+60
+00:04:06,420 --> 00:04:10,770
+So just like I could access D-B and pub sub if I needed to.
+
+61
+00:04:10,830 --> 00:04:19,280
+I can also write here Access Prisma giving me access to things we need like Prisma dot queery dot users.
+
+62
+00:04:19,380 --> 00:04:21,440
+Let's go ahead and start up our application.
+
+63
+00:04:21,480 --> 00:04:28,140
+So I am going to use C.D to switch into the graphed fuel Prisma project and once I'm inside of there
+
+64
+00:04:28,140 --> 00:04:33,680
+I will run NPM start to start up the application like we've done plenty of times before.
+
+65
+00:04:33,900 --> 00:04:38,320
+And then we can move over to the Grath QOL playground instance for our app.
+
+66
+00:04:38,320 --> 00:04:44,490
+So for me that is the very first tab localhost four thousand if I go ahead and give it a refresh we
+
+67
+00:04:44,490 --> 00:04:47,360
+can see all of our queries showing up here.
+
+68
+00:04:47,520 --> 00:04:51,920
+Now in this case we're working with that users query which is the very first tab.
+
+69
+00:04:52,080 --> 00:04:54,560
+And if actually fire it off what do we get back.
+
+70
+00:04:54,630 --> 00:04:57,490
+We get back all of that static data from the array.
+
+71
+00:04:57,660 --> 00:05:04,740
+So the goal is to actually change method to get the data back from the Prisma database instead let's
+
+72
+00:05:04,740 --> 00:05:09,930
+go ahead and kick that process off the first thing I'm going to do is actually comment out all of the
+
+73
+00:05:09,930 --> 00:05:12,510
+lines we have in that method so far.
+
+74
+00:05:12,510 --> 00:05:17,490
+The reason I'm leaving them in place is so we can remember what features we had set up to support for
+
+75
+00:05:17,490 --> 00:05:20,890
+example we do have support for that query argument.
+
+76
+00:05:20,950 --> 00:05:22,950
+We'll add support for that shortly.
+
+77
+00:05:22,950 --> 00:05:28,140
+For the moment though we're going to ignore it and just get a bare bones version in place which returns
+
+78
+00:05:28,230 --> 00:05:29,760
+all users.
+
+79
+00:05:29,820 --> 00:05:34,950
+If we want to fetch all of the users out of the database we'd better use Prisma queery and we are going
+
+80
+00:05:34,950 --> 00:05:40,110
+to use one of the queries that the Prisma graph Cual API provides in this case.
+
+81
+00:05:40,110 --> 00:05:45,390
+I'm going to be using the user's query which we've already explored before.
+
+82
+00:05:45,480 --> 00:05:47,920
+Now we are going to call it with those two arguments.
+
+83
+00:05:48,000 --> 00:05:53,480
+The first argument contains are operation arguments if any we can provide null for the moment will add
+
+84
+00:05:53,490 --> 00:05:55,510
+support for query a bit later.
+
+85
+00:05:55,710 --> 00:05:58,440
+And the second argument is our selection set.
+
+86
+00:05:58,590 --> 00:06:02,390
+So for each user what fields do we want to grab.
+
+87
+00:06:02,610 --> 00:06:09,270
+Now there are actually three distinct types of values we can provide for this second argument for the
+
+88
+00:06:09,270 --> 00:06:12,250
+second argument you can provide nothing at all.
+
+89
+00:06:12,480 --> 00:06:15,720
+You can provide a string which is what we've seen so far.
+
+90
+00:06:15,840 --> 00:06:18,510
+And you can also provide an object.
+
+91
+00:06:18,510 --> 00:06:24,150
+So before we go any further I want to talk about all three and why you would use one over another.
+
+92
+00:06:24,150 --> 00:06:27,650
+So first up we can actually provide nothing as that second argument.
+
+93
+00:06:27,660 --> 00:06:31,020
+I could just leave the second argument off altogether like this.
+
+94
+00:06:31,110 --> 00:06:34,790
+Or it could provide a falsie value like no or undefined.
+
+95
+00:06:34,950 --> 00:06:41,070
+In this case Prisma is going to fall back to a default and that default is going to grab all of these
+
+96
+00:06:41,070 --> 00:06:43,140
+scalar fields for the type.
+
+97
+00:06:43,140 --> 00:06:48,810
+So in this case we are fetching users which returns a user type which means that we will get all scalar
+
+98
+00:06:48,810 --> 00:06:50,340
+fields for the user.
+
+99
+00:06:50,370 --> 00:06:56,100
+If I open up Prisma and crack open that data model file we can see that means we would get back the
+
+100
+00:06:56,100 --> 00:06:59,130
+id the name and the email for every user.
+
+101
+00:06:59,130 --> 00:07:01,110
+These are our three scalar fields.
+
+102
+00:07:01,110 --> 00:07:04,740
+We would not get back anything about the posts or the comments.
+
+103
+00:07:04,740 --> 00:07:07,080
+Now in this case that is not what we want.
+
+104
+00:07:07,080 --> 00:07:12,600
+The problem with providing no second argument is that we can never ask for relational data.
+
+105
+00:07:12,600 --> 00:07:17,680
+So well a query like this might indeed work because we're only asking for scalar fields.
+
+106
+00:07:17,700 --> 00:07:22,100
+If I started to ask for something like posts it would not actually come back.
+
+107
+00:07:22,100 --> 00:07:27,450
+So we need to adjust what we're doing providing no argument is nice in some cases.
+
+108
+00:07:27,480 --> 00:07:29,800
+In this case it's not what we want.
+
+109
+00:07:29,850 --> 00:07:33,620
+Now next up we have the string and we've already explored the string in detail.
+
+110
+00:07:33,690 --> 00:07:35,730
+This is what we used over in prison.
+
+111
+00:07:35,760 --> 00:07:37,470
+J S for example.
+
+112
+00:07:37,470 --> 00:07:42,050
+When I called the Create post mutation I provide by selection set as a string.
+
+113
+00:07:42,210 --> 00:07:44,760
+I ask for some information about the author.
+
+114
+00:07:44,850 --> 00:07:49,760
+Then I ask for all of the author's posts getting some information about each of those.
+
+115
+00:07:49,770 --> 00:07:51,920
+Now this is something we can indeed do.
+
+116
+00:07:52,020 --> 00:07:58,260
+But the problem is that we have to explicitly as a string define what we need and we don't know what
+
+117
+00:07:58,260 --> 00:08:01,860
+we need because what we need is coming from the user.
+
+118
+00:08:01,860 --> 00:08:07,730
+In this case when I say user i could mean the client on the web or the client on I O S.
+
+119
+00:08:07,950 --> 00:08:10,900
+So we have this query coming from our client.
+
+120
+00:08:11,070 --> 00:08:12,600
+It's coming through node.
+
+121
+00:08:12,690 --> 00:08:15,150
+We don't want to type out a different query.
+
+122
+00:08:15,150 --> 00:08:17,300
+We actually want to use the same one.
+
+123
+00:08:17,430 --> 00:08:23,330
+So once again using a string can indeed be useful in this case though it is not what we want what we're
+
+124
+00:08:23,340 --> 00:08:25,800
+going to end up providing is an object.
+
+125
+00:08:25,800 --> 00:08:30,660
+No it's not an object we define it's actually an object that's created for us.
+
+126
+00:08:30,660 --> 00:08:36,470
+The object that we're going to be passing in as the second argument is the info object.
+
+127
+00:08:36,480 --> 00:08:40,620
+That's right here it's been here all along we just haven't used it so far.
+
+128
+00:08:40,620 --> 00:08:46,030
+So in the end of the day info contains all of the information about that original operation.
+
+129
+00:08:46,170 --> 00:08:50,550
+So this operation would exist somewhere like a web browser or an iOS app.
+
+130
+00:08:50,550 --> 00:08:54,410
+It will get sent off to the server and it's accessible via info.
+
+131
+00:08:54,570 --> 00:08:58,060
+But we're going to do is pass it through right to Prisma.
+
+132
+00:08:58,200 --> 00:09:01,400
+So Prisma can grab the same things that were requested.
+
+133
+00:09:01,470 --> 00:09:06,550
+If I asked for certain fields Prisma I would grab those fields if I asked for related data Prisma it
+
+134
+00:09:06,550 --> 00:09:08,740
+could grab that related data.
+
+135
+00:09:08,790 --> 00:09:14,190
+Now when the end of the day what this means is that what we're going to do is pass that info argument
+
+136
+00:09:14,280 --> 00:09:20,670
+right here as the second argument to our query method and this is something that we're going to do throughout
+
+137
+00:09:20,730 --> 00:09:26,670
+all of our resolvers while they're there for queries or mutations we want to replay the query provided
+
+138
+00:09:26,670 --> 00:09:32,670
+to node j as we don't want to explicitly type out something new using a string and we want to get more
+
+139
+00:09:32,670 --> 00:09:36,850
+than just the scalar values that providing nothing would give us.
+
+140
+00:09:36,900 --> 00:09:38,140
+Now in this case what do we have.
+
+141
+00:09:38,190 --> 00:09:42,420
+Well we have a promise and we need to do something with this promise.
+
+142
+00:09:42,450 --> 00:09:48,660
+Our resolver methods like users can actually take a promise as the return value.
+
+143
+00:09:48,780 --> 00:09:53,880
+It will wait for the promise to resolve and then it will send that data back which means that we can
+
+144
+00:09:53,880 --> 00:09:57,960
+just return exactly what we have right here and there we go.
+
+145
+00:09:57,960 --> 00:10:03,960
+That is all we have to do to get a bare bones version of this in place for the moment what I'm going
+
+146
+00:10:03,960 --> 00:10:09,250
+to do is head into one of our other files we're going to open up schema graphics.
+
+147
+00:10:09,310 --> 00:10:12,540
+Well and we're going to scroll up to the user.
+
+148
+00:10:12,690 --> 00:10:18,660
+The user currently supports age something we don't have in the Prisma API is going to go ahead and remove
+
+149
+00:10:18,660 --> 00:10:25,580
+that just leaving an ID name and email we can then go ahead and save schema dot graphics.
+
+150
+00:10:25,650 --> 00:10:31,200
+Well and we can also save query dot J as I'm going to save this file.
+
+151
+00:10:31,200 --> 00:10:36,140
+And now what we're going to do is run our query on localhost 4000.
+
+152
+00:10:36,150 --> 00:10:39,010
+So this query is going to get sent off to no.
+
+153
+00:10:39,020 --> 00:10:42,820
+Jay ass and the past return data from our static array.
+
+154
+00:10:42,870 --> 00:10:46,480
+This time around though we should be getting data from our database.
+
+155
+00:10:46,650 --> 00:10:49,900
+Now I am going to make a small adjustment if I refresh the schema.
+
+156
+00:10:49,920 --> 00:10:53,190
+You can see that age is no longer recognized and that's correct.
+
+157
+00:10:53,190 --> 00:10:55,260
+We just changed that file.
+
+158
+00:10:55,260 --> 00:10:57,180
+If I fire this off what do we get back.
+
+159
+00:10:57,180 --> 00:11:03,840
+Well after a few moments what we get back is all of the data that we saved in our postgresql database.
+
+160
+00:11:03,840 --> 00:11:11,730
+So now my putting no J.S. Right between our public API and Prisma we are able to fetch that data from
+
+161
+00:11:11,730 --> 00:11:12,550
+the database.
+
+162
+00:11:12,600 --> 00:11:18,000
+Currently yes there are no restrictions we're going to work on adding those in over time.
+
+163
+00:11:18,040 --> 00:11:22,920
+I for the moment we're not going to worry about adding support back in for that query argument.
+
+164
+00:11:22,920 --> 00:11:24,660
+We'll handle that very shortly.
+
+165
+00:11:24,690 --> 00:11:29,100
+What I'd like to do for now is move on to your challenge for this video where you're going to end up
+
+166
+00:11:29,100 --> 00:11:31,740
+doing is exactly what we just did for users.
+
+167
+00:11:31,740 --> 00:11:33,690
+But you're going to do it for posts.
+
+168
+00:11:33,690 --> 00:11:37,510
+So right here there are a few challenge comments to outline what I'd like you to do.
+
+169
+00:11:37,620 --> 00:11:43,800
+And once again the big picture goal is to modify the Post's query to return posts from the post gress
+
+170
+00:11:44,010 --> 00:11:45,130
+database.
+
+171
+00:11:45,150 --> 00:11:48,930
+So step 1 you're going to comment out all of that existing code down below.
+
+172
+00:11:48,930 --> 00:11:55,050
+Then inside of the Post's method right here you're going to use the correct Prisma method call.
+
+173
+00:11:55,050 --> 00:11:58,080
+Similar to what we did up here for users.
+
+174
+00:11:58,080 --> 00:12:03,810
+Once again you can ignore operation arguments for now and you're going to provide info as that second
+
+175
+00:12:03,810 --> 00:12:07,210
+argument passing through the original request.
+
+176
+00:12:07,230 --> 00:12:12,310
+Step three what you're going to do is go ahead and actually run the Post's query on the node.
+
+177
+00:12:12,340 --> 00:12:15,670
+J.S. graphed you Al API to verify a works.
+
+178
+00:12:15,690 --> 00:12:21,050
+So right here in localhost 4000 I would go over to the Post's tab and run that query.
+
+179
+00:12:21,060 --> 00:12:25,090
+Currently all of this data is coming from that array NDB data J as.
+
+180
+00:12:25,170 --> 00:12:30,280
+Once you're done the challenge though you should be seeing the posts in your post graphs database.
+
+181
+00:12:30,360 --> 00:12:36,720
+If you don't have any posts what you can do is just switch over to the playground tab for the actual
+
+182
+00:12:36,750 --> 00:12:38,030
+Prisma API.
+
+183
+00:12:38,070 --> 00:12:39,900
+You can add a couple of posts in.
+
+184
+00:12:39,990 --> 00:12:42,620
+Then you should be able to fetch them using the node.
+
+185
+00:12:42,630 --> 00:12:45,370
+J.S. graft UL API.
+
+186
+00:12:45,480 --> 00:12:48,070
+And once again just ask for scalar fields.
+
+187
+00:12:48,180 --> 00:12:51,170
+We'll talk about handling relational data shortly.
+
+188
+00:12:51,330 --> 00:12:56,660
+So take some time to knockdown out test your work when you're done come back and click play
+
+189
+00:13:00,790 --> 00:13:05,920
+that go let's go ahead and kick things off by commenting out all of the code down below.
+
+190
+00:13:05,940 --> 00:13:10,890
+We are going to add support for all of this stuff back in filtering by things like the title and the
+
+191
+00:13:10,890 --> 00:13:11,530
+body.
+
+192
+00:13:11,640 --> 00:13:16,380
+But for now we're going to ignore that and get back to the basics what we're going to do is use the
+
+193
+00:13:16,380 --> 00:13:20,240
+correct Prisma method to fetch all of the posts.
+
+194
+00:13:20,280 --> 00:13:21,760
+So we want to access Prisma.
+
+195
+00:13:21,780 --> 00:13:26,240
+We should probably grab it off of context and we want to perform a query.
+
+196
+00:13:26,280 --> 00:13:31,890
+So I'll be using Prisma and query the query that we're going to be using is the query that fetches all
+
+197
+00:13:31,890 --> 00:13:32,470
+posts.
+
+198
+00:13:32,490 --> 00:13:36,750
+That is the Post's query and we're going to provide the necessary arguments.
+
+199
+00:13:36,750 --> 00:13:42,030
+Once again I mentioned that you can ignore operation arguments for now so will provide null and for
+
+200
+00:13:42,030 --> 00:13:47,100
+the second argument we're not going to explicitly outline what we need because we don't know what we
+
+201
+00:13:47,100 --> 00:13:47,690
+need.
+
+202
+00:13:47,700 --> 00:13:53,880
+Clients are going to request different things from the API is all we're going to do is pass info through
+
+203
+00:13:54,120 --> 00:13:58,110
+giving Prisma exactly what it needs to fetch the data.
+
+204
+00:13:58,170 --> 00:14:02,070
+Now in the end of the day we do have to return something from the Post's method.
+
+205
+00:14:02,100 --> 00:14:09,150
+I'm going to return the promise that comes back from calling posts now that we have this in place we
+
+206
+00:14:09,150 --> 00:14:14,640
+can move on to step three which is to actually run the query and make sure we're getting the data back
+
+207
+00:14:14,640 --> 00:14:16,570
+from the postgresql database.
+
+208
+00:14:16,770 --> 00:14:23,820
+Since we're no longer using DBI either in the user's query or the Post's query I can remove that from
+
+209
+00:14:23,820 --> 00:14:31,650
+both arguments save the file and now we can rerun our posts query at local host 4000 right here.
+
+210
+00:14:31,650 --> 00:14:33,950
+I'm asking for all of those scalar fields.
+
+211
+00:14:33,960 --> 00:14:35,350
+No relational data.
+
+212
+00:14:35,460 --> 00:14:37,640
+If I go ahead and run it what do I get back.
+
+213
+00:14:37,650 --> 00:14:40,800
+I get back the one post I have in the database.
+
+214
+00:14:40,920 --> 00:14:43,890
+In this case it is an unpublished post with nobody.
+
+215
+00:14:43,980 --> 00:14:46,290
+And the title is Prisma post.
+
+216
+00:14:46,290 --> 00:14:47,000
+So there we go.
+
+217
+00:14:46,990 --> 00:14:53,340
+We've successfully started the process of putting no Jack ass right in between the public and our private
+
+218
+00:14:53,400 --> 00:14:55,550
+Prisma graph Cual API.
+
+219
+00:14:55,570 --> 00:14:59,770
+Now once again for the moment we aren't performing any restrictions what so ever.
+
+220
+00:14:59,880 --> 00:15:05,400
+So it's still like you have access to anything in the database for example right here I'm not authenticated
+
+221
+00:15:05,430 --> 00:15:10,030
+and I am getting an unpublished draft post later on that's something we won't allow.
+
+222
+00:15:10,050 --> 00:15:12,960
+But for now it's a great starting point.
+
+223
+00:15:12,960 --> 00:15:16,050
+Over here we can make a few small changes before we're done.
+
+224
+00:15:16,050 --> 00:15:21,920
+I'm going to remove the D-B argument from both of those queery method since it's no longer used up above.
+
+225
+00:15:22,050 --> 00:15:27,240
+I am going to delete the challenge comments and that's where we're going to stop for this one in the
+
+226
+00:15:27,240 --> 00:15:29,950
+next video we'll continue working on our queries.
+
+227
+00:15:30,060 --> 00:15:31,780
+We're actually going to set up all of those.
+
+228
+00:15:31,790 --> 00:15:38,370
+Operation arguments so for users will add support back in for a query and down below will do the same
+
+229
+00:15:38,370 --> 00:15:39,450
+thing for posts.
+
+230
+00:15:39,450 --> 00:15:40,520
+I'm excited to get to that.
+
+231
+00:15:40,620 --> 00:15:43,540
+So stay tuned and I'll see you in the next one.
+

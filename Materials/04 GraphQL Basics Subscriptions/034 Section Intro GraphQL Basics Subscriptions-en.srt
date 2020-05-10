@@ -1,0 +1,52 @@
+1
+00:00:02,000 --> 00:00:07,670
+Welcome to Section 4 and this section you're going to explore the subscription operation.
+
+2
+00:00:07,670 --> 00:00:14,300
+So with queries we can fetch data with mutations we can change data with subscriptions as the name suggests
+
+3
+00:00:14,570 --> 00:00:17,080
+we can subscribe to data changes.
+
+4
+00:00:17,210 --> 00:00:22,280
+So imagine I use a query to fetch something like a post I get the title and the body.
+
+5
+00:00:22,280 --> 00:00:28,430
+But if those values change I don't get those changed values I would have to manually send off another
+
+6
+00:00:28,430 --> 00:00:32,070
+query to get the new information with a subscription.
+
+7
+00:00:32,090 --> 00:00:38,630
+We can actually subscribe to data and get notified in real time when changes occur because subscriptions
+
+8
+00:00:38,660 --> 00:00:46,310
+use web sockets that allows for a bidirectional real time communication between the server and the client.
+
+9
+00:00:46,310 --> 00:00:51,410
+Now all of this is going to allow us to add real time features to our app so we could render comments
+
+10
+00:00:51,410 --> 00:00:53,070
+for a post as they come in.
+
+11
+00:00:53,150 --> 00:00:58,610
+We can show notifications if your favorite author publishes a new post or we could do anything else
+
+12
+00:00:58,610 --> 00:01:01,220
+that requires real time apps.
+
+13
+00:01:01,220 --> 00:01:06,100
+All right let's go ahead and jump right into the section and see how to use subscriptions.
+

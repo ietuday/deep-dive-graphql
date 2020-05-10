@@ -1,0 +1,68 @@
+1
+00:00:01,990 --> 00:00:08,260
+Welcome to section number 10 we spent this class creating our application from scratch.
+
+2
+00:00:08,260 --> 00:00:11,640
+We built it up over time integrating new tools along the way.
+
+3
+00:00:11,770 --> 00:00:13,900
+We started with graphical yoga.
+
+4
+00:00:13,930 --> 00:00:20,050
+Then we introduced tools like Prisma Heroku jast Apollo and more.
+
+5
+00:00:20,050 --> 00:00:24,060
+Now what if we're ready to start a second project what do we do.
+
+6
+00:00:24,070 --> 00:00:29,080
+Do we create an empty folder and configure all of these again and getting them to play nice together.
+
+7
+00:00:29,080 --> 00:00:30,760
+The answer is no we don't.
+
+8
+00:00:30,760 --> 00:00:31,920
+We already did that.
+
+9
+00:00:32,020 --> 00:00:36,290
+All of these tools are set up and configured in our blogging application.
+
+10
+00:00:36,340 --> 00:00:40,600
+But we're going to do in this section is create a boilerplate version of that.
+
+11
+00:00:40,630 --> 00:00:45,850
+So we're going to get all of the blogging specific stuff leaving you with a nice boilerplate project
+
+12
+00:00:45,850 --> 00:00:48,280
+you can use as a starting place in the future.
+
+13
+00:00:48,370 --> 00:00:52,270
+Then in the second video I'll show you how to actually use this.
+
+14
+00:00:52,300 --> 00:00:57,580
+So we'll go through the process of cloning the boiler plate and getting it set up in development test
+
+15
+00:00:57,670 --> 00:00:58,740
+and production.
+
+16
+00:00:58,900 --> 00:01:03,850
+I'm excited to get to this as it's going to give you a great way to get started with future projects.
+
+17
+00:01:03,850 --> 00:01:05,460
+Let's go ahead and jump right in.
+

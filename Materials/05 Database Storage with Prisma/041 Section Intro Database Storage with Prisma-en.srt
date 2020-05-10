@@ -1,0 +1,44 @@
+1
+00:00:02,440 --> 00:00:08,970
+Welcome to Section 5 and to the start of part two and part one we looked at the basics of graft.
+
+2
+00:00:09,020 --> 00:00:14,320
+Well all of the fundamentals you learned about things like this schema and our three operations the
+
+3
+00:00:14,320 --> 00:00:17,090
+query the mutation and the subscription.
+
+4
+00:00:17,200 --> 00:00:22,420
+In this part part two we're going to start to focus on all of the features you would expect in a real
+
+5
+00:00:22,420 --> 00:00:28,020
+application things like database storage authentication testing and deployment.
+
+6
+00:00:28,120 --> 00:00:34,450
+Now that's all part two in this section in particular we're going to focus on data storage using a very
+
+7
+00:00:34,450 --> 00:00:40,870
+exciting tool called Prisma Prisma is kind of like an alarm but it comes with a ton of great features
+
+8
+00:00:40,870 --> 00:00:45,860
+specific to graft well making it really easy to integrate into your application.
+
+9
+00:00:46,060 --> 00:00:50,860
+And the next video we're going to talk about exactly what Prisma is then we'll set it up throughout
+
+10
+00:00:50,860 --> 00:00:57,860
+the section getting our data stored in a database as opposed to accessing it from that D-B dot G-S file.
+
+11
+00:00:58,030 --> 00:01:00,260
+All right let's go ahead and jump right in.
+

@@ -1,0 +1,796 @@
+1
+00:00:00,230 --> 00:00:05,520
+In this video we're going to focus on what happens when we try to remove data from the Prisma database
+
+2
+00:00:05,520 --> 00:00:07,340
+using the graphical API.
+
+3
+00:00:07,350 --> 00:00:13,950
+And we're going to talk about how we can override that default behavior by making a few changes to data
+
+4
+00:00:13,950 --> 00:00:14,860
+model graph.
+
+5
+00:00:14,870 --> 00:00:20,250
+Q Well to kick off this discussion I want to start by actually trying to delete some data and we're
+
+6
+00:00:20,250 --> 00:00:26,280
+just going to make a few requests from graphical playground over here I'm going to create a brand new
+
+7
+00:00:26,280 --> 00:00:30,990
+tab and we're going to use one of our delete mutations to remove some data.
+
+8
+00:00:30,990 --> 00:00:35,310
+And for this example let's go ahead and try to remove a user.
+
+9
+00:00:35,310 --> 00:00:40,170
+Now in that previous tab right here I was fetching all of the comments and I was fetching the author
+
+10
+00:00:40,170 --> 00:00:41,600
+for all of those comments.
+
+11
+00:00:41,760 --> 00:00:45,130
+I have a single comment written by this author.
+
+12
+00:00:45,160 --> 00:00:47,670
+This is the user that I'm going to try to delete.
+
+13
+00:00:47,820 --> 00:00:53,640
+And I'd like you to also try to delete a user that does indeed have a comment.
+
+14
+00:00:53,640 --> 00:00:56,850
+Now let's go back over to that tab and set up the mutation.
+
+15
+00:00:57,090 --> 00:01:03,030
+So over in our schema documentation we can see that under mutations we do indeed have delete comment
+
+16
+00:01:03,240 --> 00:01:05,360
+delete user and delete posts.
+
+17
+00:01:05,460 --> 00:01:11,610
+We're going to be using the delete user mutation it takes in a single argument where and it gets the
+
+18
+00:01:11,610 --> 00:01:14,380
+user back that user that was removed.
+
+19
+00:01:14,400 --> 00:01:19,490
+Now the where argument allows us to target our user but anything that makes it unique.
+
+20
+00:01:19,490 --> 00:01:21,910
+What you remember is the ID or the e-mail.
+
+21
+00:01:21,930 --> 00:01:24,470
+In this case we're just going to use the ID.
+
+22
+00:01:24,510 --> 00:01:25,700
+So let's set this up.
+
+23
+00:01:25,710 --> 00:01:31,260
+It is indeed a mutation operation delete user passing in all of the arguments that it expects.
+
+24
+00:01:31,260 --> 00:01:36,720
+That's just one where it's an object and we pass in either the idea of the user We're trying to remove
+
+25
+00:01:36,870 --> 00:01:42,360
+or the email of the user We're trying to remove in this case I already have the ID copy to the clipboard
+
+26
+00:01:42,390 --> 00:01:44,790
+as I'm going to paste that in right here.
+
+27
+00:01:44,940 --> 00:01:50,820
+Now we have to provide our selection set to what fields do we want back about the user that got deleted.
+
+28
+00:01:50,940 --> 00:01:53,240
+I'm going to say that I'd like back the ID.
+
+29
+00:01:53,490 --> 00:02:00,000
+I'd also like back the name and the e-mail so all of these scalar fields are available if we fire off
+
+30
+00:02:00,000 --> 00:02:05,250
+this operation we are actually not going to get the result we might expect right here in the response.
+
+31
+00:02:05,250 --> 00:02:12,240
+We have two properties we have data and we have errors for data we have just delete user but the value
+
+32
+00:02:12,240 --> 00:02:13,210
+is actually null.
+
+33
+00:02:13,230 --> 00:02:15,950
+This is because no user was removed.
+
+34
+00:02:15,990 --> 00:02:21,280
+Now to figure out why no user was removed we can refer to the errors array down below.
+
+35
+00:02:21,510 --> 00:02:28,120
+There is just one object in the errors array and the actual error message on that object is the following.
+
+36
+00:02:28,200 --> 00:02:35,280
+The change you are trying to make would violate the required relation comment to user between comment.
+
+37
+00:02:35,310 --> 00:02:36,560
+End user.
+
+38
+00:02:36,630 --> 00:02:42,630
+Now it's referring to are two types the user type and the comment type that we've defined over in data
+
+39
+00:02:42,630 --> 00:02:43,770
+model graph.
+
+40
+00:02:43,860 --> 00:02:48,020
+Well when the user gets removed it actually makes the comment invalid.
+
+41
+00:02:48,030 --> 00:02:52,440
+So all of our comments have that author field which needs to link to a user.
+
+42
+00:02:52,470 --> 00:02:54,720
+We've made this type non nullable.
+
+43
+00:02:54,720 --> 00:02:58,420
+All comments have to have an associated user in the author field.
+
+44
+00:02:58,590 --> 00:03:01,820
+And if the user gets deleted then the comments become invalid.
+
+45
+00:03:01,830 --> 00:03:05,400
+That is why Prisma isn't letting us delete the user.
+
+46
+00:03:05,400 --> 00:03:08,480
+The good news though is that we can override this behavior.
+
+47
+00:03:08,520 --> 00:03:12,070
+We can set up some on delete behavior to solve this issue.
+
+48
+00:03:12,120 --> 00:03:18,380
+And if you remember it we ran into the same problem when we created our graphical API using just arrays
+
+49
+00:03:18,390 --> 00:03:21,270
+for storage when we deleted the user.
+
+50
+00:03:21,270 --> 00:03:26,190
+We also had to delete all of their posts and all of their comments were going to do the same thing here
+
+51
+00:03:26,190 --> 00:03:27,100
+with Prisma.
+
+52
+00:03:27,150 --> 00:03:31,760
+But the actual process of setting it up is going to be much much easier.
+
+53
+00:03:31,800 --> 00:03:36,750
+And now when we brought over all of our types to data model dot graphics Well we never reconfigured
+
+54
+00:03:36,750 --> 00:03:39,570
+the comments field on user and post.
+
+55
+00:03:39,570 --> 00:03:41,100
+Let's go ahead and add that real quick.
+
+56
+00:03:41,100 --> 00:03:44,940
+It hasn't mattered so far but it's going to be important in this video.
+
+57
+00:03:45,030 --> 00:03:51,110
+So comments on the user type is indeed a non-negligible array where all of the elements are of the type
+
+58
+00:03:51,120 --> 00:03:53,640
+comment and the same thing is true with a post.
+
+59
+00:03:53,640 --> 00:03:59,760
+So right here we are going to have our comments field with the exact same type as up above a non-null
+
+60
+00:03:59,760 --> 00:04:03,500
+label array and all of the array elements are of the type comment.
+
+61
+00:04:03,540 --> 00:04:04,440
+Excellent.
+
+62
+00:04:04,440 --> 00:04:09,660
+So now that we have our types correctly configured we can talk about how we can configure what happens
+
+63
+00:04:09,870 --> 00:04:12,220
+when a given record gets deleted.
+
+64
+00:04:12,390 --> 00:04:15,030
+And of Prisma gives us two options.
+
+65
+00:04:15,030 --> 00:04:19,030
+There is the default option and there is one additional option we can set up.
+
+66
+00:04:19,140 --> 00:04:21,440
+Let's go ahead and talk about both of those.
+
+67
+00:04:21,450 --> 00:04:26,900
+The first option we can use when deleting a record is known as set null.
+
+68
+00:04:26,910 --> 00:04:31,480
+This is the default option and we'll talk about exactly what that means in a second.
+
+69
+00:04:31,620 --> 00:04:36,200
+And the other option we have available to us is known as cascade.
+
+70
+00:04:36,210 --> 00:04:38,080
+We're going to be using this as well.
+
+71
+00:04:38,100 --> 00:04:42,310
+So sometimes we're going to rely on that default behavior using set no.
+
+72
+00:04:42,390 --> 00:04:49,070
+Other times we're going to override that default behavior and use the cascade option instead.
+
+73
+00:04:49,080 --> 00:04:54,250
+Now a sentinel and Cascade become relevant when we have types that link to other types.
+
+74
+00:04:54,330 --> 00:04:59,320
+So a user links to post via posts and to comment via comments.
+
+75
+00:04:59,460 --> 00:05:07,140
+Post links to user via author and comment via comments and finally comment links to user via author
+
+76
+00:05:07,290 --> 00:05:09,040
+and post via post.
+
+77
+00:05:09,180 --> 00:05:15,990
+So in all six of those situations we can customize what happens to the other records when a given record
+
+78
+00:05:15,990 --> 00:05:16,920
+gets removed.
+
+79
+00:05:16,950 --> 00:05:19,350
+So what happens when a user gets deleted.
+
+80
+00:05:19,350 --> 00:05:25,830
+Well right now for all of the posts for example we use the set all behavior which is default so it tries
+
+81
+00:05:25,830 --> 00:05:28,860
+to set the field on the post to null.
+
+82
+00:05:28,860 --> 00:05:31,010
+In this case the author field.
+
+83
+00:05:31,020 --> 00:05:32,470
+Now clearly this is not allowed.
+
+84
+00:05:32,490 --> 00:05:35,120
+We set this up as a non mailable type.
+
+85
+00:05:35,220 --> 00:05:39,340
+We need an author record and that's what's causing the error we're seeing.
+
+86
+00:05:39,420 --> 00:05:44,850
+We're trying to delete a user that has a comment but in the case of a comment as well.
+
+87
+00:05:44,850 --> 00:05:46,650
+This is also non nullable.
+
+88
+00:05:46,740 --> 00:05:52,560
+So the set null behavior is trying to keep the comment around setting this field to knowl that's not
+
+89
+00:05:52,560 --> 00:05:52,950
+allowed.
+
+90
+00:05:52,950 --> 00:05:58,050
+Based off of our definition of these types and this is where the error comes from.
+
+91
+00:05:58,050 --> 00:06:02,550
+Now in our case we determine that we don't want to keep posts around or comments around.
+
+92
+00:06:02,550 --> 00:06:06,290
+If the user itself has been removed we want to delete those records.
+
+93
+00:06:06,420 --> 00:06:10,220
+So set NULL is not what we're looking for in these cases.
+
+94
+00:06:10,230 --> 00:06:11,910
+We're looking for cascade.
+
+95
+00:06:11,910 --> 00:06:15,800
+So let's bring this back to our user type when we have a user deleted.
+
+96
+00:06:15,840 --> 00:06:19,980
+We could set up the Post's relationship to use cascade instead of set.
+
+97
+00:06:20,520 --> 00:06:26,130
+In that case it's actually going to delete all post records associated with that user and we could do
+
+98
+00:06:26,130 --> 00:06:28,290
+the exact same thing for comment.
+
+99
+00:06:28,320 --> 00:06:33,210
+So when a user gets removed we remove all of their posts and all of their comments.
+
+100
+00:06:33,300 --> 00:06:35,760
+You could even set that up for post as well.
+
+101
+00:06:35,760 --> 00:06:40,850
+When a post gets removed we can have all of the comments for that post get deleted.
+
+102
+00:06:41,160 --> 00:06:46,320
+So let's go ahead and see how we can actually configure this Prisma provides us with one more directive
+
+103
+00:06:46,320 --> 00:06:51,900
+we can use like unique allowing us to customize the relationships between our types.
+
+104
+00:06:51,900 --> 00:06:57,270
+The directive is called relation and we can use it on our field that end up linking to other types like
+
+105
+00:06:57,270 --> 00:07:00,340
+the posts field on user at relation.
+
+106
+00:07:00,420 --> 00:07:04,450
+We are going to set up our arguments list and we are going to provide it.
+
+107
+00:07:04,490 --> 00:07:07,120
+We're gonna set up a name which is going to be a string.
+
+108
+00:07:07,200 --> 00:07:12,260
+Will give this relation a name in just a second and the second one is on delete.
+
+109
+00:07:12,420 --> 00:07:17,430
+Right here we provide either set all which is the default behavior or cascade.
+
+110
+00:07:17,430 --> 00:07:22,200
+So when a user gets deleted what do we want to have happen to the users posts.
+
+111
+00:07:22,200 --> 00:07:26,860
+We want them to get deleted so we will be using the cascade option in all uppercase.
+
+112
+00:07:26,880 --> 00:07:27,800
+Excellent.
+
+113
+00:07:27,890 --> 00:07:33,210
+Now when it comes to picking a name we can go ahead and use something that describes this relationship.
+
+114
+00:07:33,210 --> 00:07:41,000
+I am going to use post to the user but in reality any single value would work something that's descriptive
+
+115
+00:07:41,040 --> 00:07:46,710
+is best though because this is going to end up getting used a bit later down below.
+
+116
+00:07:46,710 --> 00:07:48,860
+We want to do the same thing for our other fields.
+
+117
+00:07:48,870 --> 00:07:51,660
+So right here we have comments at relation.
+
+118
+00:07:51,660 --> 00:07:56,110
+We are going to set up our relationships we want name right here.
+
+119
+00:07:56,490 --> 00:07:57,960
+Well pick a name and a second we want.
+
+120
+00:07:57,960 --> 00:07:59,500
+On delete right here.
+
+121
+00:07:59,670 --> 00:08:03,570
+When a user gets deleted we want to cascade remove all of their comments.
+
+122
+00:08:03,570 --> 00:08:07,090
+So once again I will be using that cascade value.
+
+123
+00:08:07,270 --> 00:08:10,500
+Then we can set up the name value for this one.
+
+124
+00:08:10,500 --> 00:08:18,810
+I'm going to use comment to user perfect Dambulla we have our post type let's knock out our relationship
+
+125
+00:08:18,810 --> 00:08:19,680
+down there as well.
+
+126
+00:08:19,680 --> 00:08:23,040
+We have author and we have comments now for author.
+
+127
+00:08:23,040 --> 00:08:25,010
+We will use our relation once again.
+
+128
+00:08:25,320 --> 00:08:32,750
+We're going to set up those arguments we have name and we have on delete for undelete What do we want
+
+129
+00:08:32,750 --> 00:08:34,720
+to do when a post gets deleted.
+
+130
+00:08:34,730 --> 00:08:40,310
+I do not want to remove the author so I'm actually going to stick with the default behavior using Set
+
+131
+00:08:40,370 --> 00:08:41,490
+knowl.
+
+132
+00:08:41,570 --> 00:08:44,770
+Now we have to match up the name with the relationship.
+
+133
+00:08:44,780 --> 00:08:45,830
+On the other end.
+
+134
+00:08:45,890 --> 00:08:49,580
+So when we link a user to a post what do we use.
+
+135
+00:08:49,580 --> 00:08:51,670
+We used post to user.
+
+136
+00:08:51,740 --> 00:08:56,470
+So we want to do the same thing down here post to user.
+
+137
+00:08:56,480 --> 00:08:57,250
+Perfect.
+
+138
+00:08:57,260 --> 00:09:03,550
+Now that relationship is completed on both sides we can set up a relation for comments our relation.
+
+139
+00:09:03,740 --> 00:09:12,110
+Setting up our arguments list we pass in that name we can give this one a name like comment to a post
+
+140
+00:09:12,620 --> 00:09:13,560
+and for the on.
+
+141
+00:09:13,570 --> 00:09:18,310
+Delete value we can choose to use cascade.
+
+142
+00:09:18,470 --> 00:09:20,020
+So when a post gets deleted.
+
+143
+00:09:20,030 --> 00:09:25,910
+Yes I do want to delete all comments associated with that post from here.
+
+144
+00:09:25,910 --> 00:09:29,800
+Post is all done and we can move on to comment itself down below.
+
+145
+00:09:29,810 --> 00:09:33,860
+We have author so relation we have to provide both.
+
+146
+00:09:33,860 --> 00:09:36,110
+We're going to set up a name right here.
+
+147
+00:09:36,260 --> 00:09:39,490
+The name for this one already exists elsewhere.
+
+148
+00:09:39,500 --> 00:09:42,680
+We already have a relationship between a comment and a user.
+
+149
+00:09:42,680 --> 00:09:44,950
+We call that comment to user.
+
+150
+00:09:44,960 --> 00:09:47,780
+So I will use comment to user right here.
+
+151
+00:09:47,930 --> 00:09:53,500
+Then we can set up on delete when a comment gets deleted we don't want to touch the user itself.
+
+152
+00:09:53,510 --> 00:09:56,670
+So we will continue to use set Knol for that.
+
+153
+00:09:56,780 --> 00:09:59,940
+Down below we have just one more relation.
+
+154
+00:10:00,230 --> 00:10:07,520
+We are going to set up a name equal to the relationship we've already created comment to post then we
+
+155
+00:10:07,520 --> 00:10:14,880
+are going to set up on delete as well on delete for the situation will once again also be set.
+
+156
+00:10:14,960 --> 00:10:15,500
+No.
+
+157
+00:10:15,620 --> 00:10:16,490
+Perfect.
+
+158
+00:10:16,520 --> 00:10:21,020
+So we have six different usages of this at relation directive.
+
+159
+00:10:21,140 --> 00:10:23,840
+We have three different values for name.
+
+160
+00:10:23,870 --> 00:10:28,700
+We have post to user used here and down below we have comment to user used here.
+
+161
+00:10:28,700 --> 00:10:29,740
+And down below.
+
+162
+00:10:29,900 --> 00:10:33,620
+And we have a comment to post used here and down below.
+
+163
+00:10:33,800 --> 00:10:38,500
+We've also customize the on delete option for each setting everything up correctly.
+
+164
+00:10:38,510 --> 00:10:41,490
+Let's go ahead and actually remove the comment up above.
+
+165
+00:10:41,510 --> 00:10:46,400
+Save this file deploy the application and see how this affects the behavior.
+
+166
+00:10:46,400 --> 00:10:51,920
+First up I did notice I added a stray closing parentheses right here that was added by accident.
+
+167
+00:10:51,920 --> 00:10:53,940
+It has become part of our posts.
+
+168
+00:10:53,960 --> 00:11:00,050
+Feel the definition so we can remove that and save the file from here we're actually going to shut down
+
+169
+00:11:00,080 --> 00:11:07,700
+NPM start altogether and what we're going to do is CD into the Prisma directory so we can redeploy our
+
+170
+00:11:07,700 --> 00:11:08,660
+application.
+
+171
+00:11:08,900 --> 00:11:14,420
+I'm going to use clear to clear the terminal output and then have Prisma deploy to deploy our changes.
+
+172
+00:11:14,420 --> 00:11:21,350
+Now once the changes are deployed we should be able to run the exact same command over here but this
+
+173
+00:11:21,350 --> 00:11:26,420
+time instead of seeing an issue saying that we can't actually delete the user because the user has a
+
+174
+00:11:26,420 --> 00:11:28,900
+comment we should see a success.
+
+175
+00:11:28,940 --> 00:11:33,020
+The user should get deleted and their comment should get deleted as well.
+
+176
+00:11:33,020 --> 00:11:37,700
+If I actually go ahead and run this what happens exactly what I said happened happened.
+
+177
+00:11:37,700 --> 00:11:41,270
+We get our user back and the comment has been removed.
+
+178
+00:11:41,420 --> 00:11:48,290
+If that particular user had any posts associated with them those posts would have been removed as well.
+
+179
+00:11:48,290 --> 00:11:54,890
+And any comments on that post any of those posts that got deleted by other users would have been deleted
+
+180
+00:11:54,950 --> 00:11:55,720
+too.
+
+181
+00:11:55,760 --> 00:12:02,690
+So remember user has its posts and comments removed since we're removing posts all of the posts comments
+
+182
+00:12:02,870 --> 00:12:04,240
+are removed as well.
+
+183
+00:12:04,250 --> 00:12:09,760
+This is the same behavior we had before when we created our applications storing data in arrays.
+
+184
+00:12:09,770 --> 00:12:14,650
+The only difference is that previously we had to manually delete all of those things.
+
+185
+00:12:14,660 --> 00:12:16,710
+It was a real pain this time.
+
+186
+00:12:16,730 --> 00:12:22,680
+Prisma does all of that automatically by modifying six lines of code in our data model.
+
+187
+00:12:22,720 --> 00:12:24,560
+Damn graphical file.
+
+188
+00:12:24,620 --> 00:12:29,300
+No there is no challenge for you to use the admiration directive in this video.
+
+189
+00:12:29,300 --> 00:12:34,570
+It's kind of a tricky situation because we needed all six lines in order to get everything to work so
+
+190
+00:12:34,570 --> 00:12:37,550
+it was very much an all or nothing scenario.
+
+191
+00:12:37,550 --> 00:12:42,770
+In the next video though we're going to start a challenge to wrap up this section where you're going
+
+192
+00:12:42,770 --> 00:12:49,610
+to have to create a separate Prisma project with a different data model for a different type of application.
+
+193
+00:12:49,670 --> 00:12:54,890
+You have to set up all of the types for the application and you have to set up the relationship between
+
+194
+00:12:54,890 --> 00:12:55,970
+all of those types.
+
+195
+00:12:56,090 --> 00:12:58,680
+That's going to give you a lot of real world experience.
+
+196
+00:12:58,790 --> 00:13:02,720
+Setting up a data model file for all sorts of different data structures.
+
+197
+00:13:02,720 --> 00:13:05,080
+Not just a blogging application.
+
+198
+00:13:05,270 --> 00:13:07,350
+All right let's jump right into that.
+
+199
+00:13:07,370 --> 00:13:08,880
+It is coming up next.
+

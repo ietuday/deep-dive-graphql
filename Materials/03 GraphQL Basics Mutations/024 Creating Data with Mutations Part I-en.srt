@@ -1,0 +1,1076 @@
+1
+00:00:00,210 --> 00:00:05,240
+In the last section we spend all of our time looking at one of the three operations that graph you all
+
+2
+00:00:05,250 --> 00:00:05,990
+supports.
+
+3
+00:00:06,060 --> 00:00:11,280
+We were looking at the query operation as mentioned in this section we're going to be focusing on the
+
+4
+00:00:11,280 --> 00:00:16,500
+mutation operation which allows us to change data on the server so we can create data.
+
+5
+00:00:16,520 --> 00:00:19,650
+We could update data or we could delete data.
+
+6
+00:00:19,650 --> 00:00:24,870
+Now the end goal of all of this is to be able to perform mutations from our graph client and actually
+
+7
+00:00:24,870 --> 00:00:27,480
+perform operations like signing up a user.
+
+8
+00:00:27,660 --> 00:00:33,390
+So remember the graft you client could be a web app a mobile app or in this case just graphed Well playground
+
+9
+00:00:33,750 --> 00:00:38,880
+if it was a web or mobile app I'd be getting some data from a form like a sign up form and they would
+
+10
+00:00:38,880 --> 00:00:41,410
+need a way to actually pass that to the server.
+
+11
+00:00:41,580 --> 00:00:43,850
+Then the server needs to respond accordingly.
+
+12
+00:00:43,950 --> 00:00:49,020
+It's probably going to do a little bit of validation on that data for example making sure the email
+
+13
+00:00:49,020 --> 00:00:54,360
+is not already in use by another user and then it's going to respond accordingly either sending back
+
+14
+00:00:54,360 --> 00:01:00,060
+some success message or sending back an error message letting the client know that things didn't go
+
+15
+00:01:00,090 --> 00:01:01,060
+correctly.
+
+16
+00:01:01,080 --> 00:01:05,750
+So all of this is possible with mutations and we're going to start as I mentioned with that sign of
+
+17
+00:01:05,790 --> 00:01:06,720
+mutation.
+
+18
+00:01:06,720 --> 00:01:11,150
+Let's go ahead and kick things off by moving down to our type definitions.
+
+19
+00:01:11,160 --> 00:01:16,030
+This is where we're going to define all of the mutations we want to support just like we have defined
+
+20
+00:01:16,200 --> 00:01:18,510
+all of the queries we want to support.
+
+21
+00:01:18,750 --> 00:01:24,210
+So right here after queery though it could be before or at the very end we are going to set up a new
+
+22
+00:01:24,210 --> 00:01:30,600
+type definition for another built in type mutation then we're going to set up our curly braces and in
+
+23
+00:01:30,600 --> 00:01:35,970
+here we define all of the mutations we want our server to be able to perform.
+
+24
+00:01:36,050 --> 00:01:41,030
+What's nice about defining a mutation is that it's basically the exact same thing as defining a query.
+
+25
+00:01:41,040 --> 00:01:45,230
+So we're going to be able to reuse a lot of what we already covered in the last section.
+
+26
+00:01:45,270 --> 00:01:47,940
+The syntax here is going to look very familiar.
+
+27
+00:01:47,940 --> 00:01:50,680
+Let's go ahead and start by naming the operation.
+
+28
+00:01:50,760 --> 00:01:53,750
+So we're going to have a few mutations by the time we're done here.
+
+29
+00:01:53,820 --> 00:02:00,090
+I'm going to call this first one something like create user now create user is indeed going to require
+
+30
+00:02:00,090 --> 00:02:01,040
+some arguments.
+
+31
+00:02:01,110 --> 00:02:06,360
+If you are going to create a user the client is going to have to send some data across in this case
+
+32
+00:02:06,600 --> 00:02:09,540
+you have to send a name and an e-mail and.
+
+33
+00:02:09,570 --> 00:02:11,490
+You could also send an age.
+
+34
+00:02:11,490 --> 00:02:16,080
+So we have to set up some arguments exactly like we did for our queries right here.
+
+35
+00:02:16,320 --> 00:02:22,150
+I'm going to set up my arguments list the first one can be name which will be a required string.
+
+36
+00:02:22,210 --> 00:02:25,910
+The second one can be email which will also be a required string.
+
+37
+00:02:26,100 --> 00:02:31,410
+And lastly we're going to have age which will be an optional event so you'll notice that the actual
+
+38
+00:02:31,440 --> 00:02:36,110
+type definitions for all three match up with the type definitions down below.
+
+39
+00:02:36,210 --> 00:02:42,740
+For the user type now that we have our operation name and the set of arguments the operation supports
+
+40
+00:02:42,990 --> 00:02:46,230
+we have to provide the value that the operation returns.
+
+41
+00:02:46,230 --> 00:02:49,470
+So right here when you create a new user what are you going to get back.
+
+42
+00:02:49,470 --> 00:02:51,990
+You're going to get back the user that you created.
+
+43
+00:02:51,990 --> 00:02:57,130
+So right here we have a non nullable user as the resolved value.
+
+44
+00:02:57,150 --> 00:03:01,660
+Now this is the final mutation definition there's nothing left to do here.
+
+45
+00:03:01,680 --> 00:03:08,220
+The next step is to actually define a resolver for create user much like we defined resolver for every
+
+46
+00:03:08,220 --> 00:03:10,080
+single query we set up.
+
+47
+00:03:10,080 --> 00:03:15,390
+So once again we're going to move down below and create a brand new method down below what we're going
+
+48
+00:03:15,390 --> 00:03:20,550
+to end up doing is creating a new property on the resolvers object called mutation and adding a new
+
+49
+00:03:20,550 --> 00:03:23,580
+method into that object create user.
+
+50
+00:03:23,580 --> 00:03:28,020
+Now I understand that for the moment everything is in one file and this one file is starting to get
+
+51
+00:03:28,020 --> 00:03:28,840
+a bit long.
+
+52
+00:03:28,980 --> 00:03:33,240
+We are going to introduce a more real world directory structure very shortly.
+
+53
+00:03:33,240 --> 00:03:36,060
+For the moment though we're going to stick with our one file solution.
+
+54
+00:03:36,270 --> 00:03:42,570
+So down below a new root property right alongside of query and our other properties I'm going to add
+
+55
+00:03:42,570 --> 00:03:45,070
+this right after the query property.
+
+56
+00:03:45,120 --> 00:03:48,440
+So a new property called nutation with a capital M.
+
+57
+00:03:48,540 --> 00:03:53,640
+We're going to set that object up and toss a comma at the end and inside of here we need just that one
+
+58
+00:03:53,640 --> 00:03:55,740
+method for our one mutation.
+
+59
+00:03:55,830 --> 00:04:01,500
+I'm going to be calling this one create user now like with every other resolver function we've created
+
+60
+00:04:01,770 --> 00:04:07,770
+whether it's for a mutation or one of our custom object types we're going to get those same four arguments
+
+61
+00:04:07,970 --> 00:04:10,870
+we're going to get the parent We're going to get our args.
+
+62
+00:04:11,040 --> 00:04:15,650
+We're going to get the context and we're going to get the info and inside of here what do we do.
+
+63
+00:04:15,750 --> 00:04:21,500
+We do something similar to what we would do for a query with a query we are just concerned with fetching
+
+64
+00:04:21,520 --> 00:04:23,330
+data for a mutation.
+
+65
+00:04:23,430 --> 00:04:30,600
+We're concerned with actually creating updating or deleting some data and then responding accordingly.
+
+66
+00:04:30,600 --> 00:04:36,010
+So in this case we know we're going to get some values passed in via that args argument.
+
+67
+00:04:36,090 --> 00:04:41,460
+That's where we're going to have access to the e-mail and the name which are required and the age which
+
+68
+00:04:41,460 --> 00:04:43,870
+is completely optional to start.
+
+69
+00:04:43,890 --> 00:04:49,740
+All I want to do is use console dialog or to dump the args argument to the council and then going to
+
+70
+00:04:49,740 --> 00:04:53,660
+save this file expand the terminal so we can actually see the log.
+
+71
+00:04:53,670 --> 00:04:59,090
+And we're going to run our very first nutation operation from graft UL playground for the moment.
+
+72
+00:04:59,100 --> 00:05:04,220
+We're not actually creating a new user and we're not returning the data that create user expects to
+
+73
+00:05:04,220 --> 00:05:06,800
+get back a user object.
+
+74
+00:05:06,800 --> 00:05:07,640
+But that's OK.
+
+75
+00:05:07,700 --> 00:05:11,720
+This will still work for the most part over engraft UL playground.
+
+76
+00:05:11,720 --> 00:05:17,780
+We're going to create a brand new tab for our very first mutation and we start off with the mutation
+
+77
+00:05:17,810 --> 00:05:20,480
+keyword just like we do with queries.
+
+78
+00:05:20,480 --> 00:05:23,240
+So right here we define the mutation.
+
+79
+00:05:23,240 --> 00:05:28,730
+We set up our curly braces and in here we list out the mutation we want to run in this case we only
+
+80
+00:05:28,730 --> 00:05:31,880
+have one it's called create user.
+
+81
+00:05:31,910 --> 00:05:37,190
+Now the syntax for all of this is going to look so similar to the syntax we saw when we worked with
+
+82
+00:05:37,190 --> 00:05:38,880
+a query that took an argument.
+
+83
+00:05:38,990 --> 00:05:40,640
+I know we have one somewhere here.
+
+84
+00:05:40,640 --> 00:05:41,240
+Here we go.
+
+85
+00:05:41,420 --> 00:05:46,280
+So it's going to look very similar to what we have here where we pass those arguments in right after
+
+86
+00:05:46,280 --> 00:05:49,430
+we name the mutation operation we're trying to perform.
+
+87
+00:05:49,550 --> 00:05:54,980
+That means over and the create user tab we can set up our parentheses and we can provide all of the
+
+88
+00:05:54,980 --> 00:05:57,860
+arguments that create user expects.
+
+89
+00:05:57,860 --> 00:06:01,670
+Now we know it expects the name and the email and optional.
+
+90
+00:06:01,700 --> 00:06:03,600
+It could also get the age.
+
+91
+00:06:03,650 --> 00:06:10,930
+For now let's just provide a name in the email so name call and space equals I'll use my name Andrew.
+
+92
+00:06:11,060 --> 00:06:12,850
+Then I'll set up an email as well.
+
+93
+00:06:12,980 --> 00:06:15,810
+Email that value is also a string.
+
+94
+00:06:15,950 --> 00:06:20,380
+I'll use something like testing an example dot com.
+
+95
+00:06:20,420 --> 00:06:21,310
+Perfect.
+
+96
+00:06:21,320 --> 00:06:27,080
+So here we have our arguments list and the next thing we're going to do is provide our selections set
+
+97
+00:06:27,380 --> 00:06:29,280
+just like we did for a query.
+
+98
+00:06:29,300 --> 00:06:34,580
+So what comes back from create user will a user comes back and this is where we can get all of the data
+
+99
+00:06:34,640 --> 00:06:35,770
+for the new user.
+
+100
+00:06:35,780 --> 00:06:39,730
+So right here for the moment let's go ahead and grab its ID.
+
+101
+00:06:39,860 --> 00:06:43,070
+We're going to grab its name its e-mail.
+
+102
+00:06:43,100 --> 00:06:49,490
+And finally the age now this query is indeed going to fail it's going to fail because create user does
+
+103
+00:06:49,490 --> 00:06:51,450
+not respond with a user.
+
+104
+00:06:51,650 --> 00:06:55,450
+But we can still go ahead and run this to see our log print.
+
+105
+00:06:55,460 --> 00:07:01,130
+So over here in the terminal Yes we do have a very long error message but just above that we have our
+
+106
+00:07:01,130 --> 00:07:02,540
+console log.
+
+107
+00:07:02,570 --> 00:07:08,330
+It is indeed printing an object with the name and the e-mail that we're passed along with the mutation.
+
+108
+00:07:08,540 --> 00:07:09,250
+So there we go.
+
+109
+00:07:09,260 --> 00:07:12,800
+We have our very first mutation set up engraft UL playground.
+
+110
+00:07:12,950 --> 00:07:19,110
+What we want to continue to do is actually wire up the back and actually perform the correct tasks.
+
+111
+00:07:19,190 --> 00:07:22,770
+What we're going to do here is a couple of things we're going to see if the e-mails unique.
+
+112
+00:07:22,820 --> 00:07:27,530
+We're then going to create a new user object with a randomly generated ID.
+
+113
+00:07:27,650 --> 00:07:31,280
+We'll add it to the array and we'll return the new user.
+
+114
+00:07:31,280 --> 00:07:36,950
+Let's go ahead and take this all off by talking about the one NPM library we're going to need to install
+
+115
+00:07:37,070 --> 00:07:38,230
+to get this done.
+
+116
+00:07:38,240 --> 00:07:40,640
+That is the ideal library.
+
+117
+00:07:40,700 --> 00:07:44,330
+If you've taken any of my other courses you've probably used this before.
+
+118
+00:07:44,330 --> 00:07:47,420
+It's my favorite library for generating random ideas.
+
+119
+00:07:47,450 --> 00:07:50,300
+You can find it by googling NPM.
+
+120
+00:07:50,380 --> 00:07:55,040
+You you ID right here we can find the page for it.
+
+121
+00:07:55,040 --> 00:07:59,150
+You can find either the NPM package page or the hub repository.
+
+122
+00:07:59,150 --> 00:08:03,500
+I'm going to head over to the get hub repository and here you can learn all about how to use you you
+
+123
+00:08:03,500 --> 00:08:09,020
+I.D. to generate random IDs and the end of the day what it really gives you is just a function you can
+
+124
+00:08:09,020 --> 00:08:12,880
+call to generate a new random ID as a string.
+
+125
+00:08:12,950 --> 00:08:17,780
+We're going to go ahead and install this and then use it to actually generate the new ID for this new
+
+126
+00:08:17,780 --> 00:08:19,070
+user we're creating.
+
+127
+00:08:19,280 --> 00:08:25,940
+So down below in the terminal I am going to use Control C to shut down node man and then NPM install
+
+128
+00:08:27,100 --> 00:08:27,530
+right here.
+
+129
+00:08:27,550 --> 00:08:29,350
+We are going to provide the module name.
+
+130
+00:08:29,380 --> 00:08:31,310
+It is a you ID right here.
+
+131
+00:08:31,340 --> 00:08:35,470
+Will be using the latest version at three point three point two.
+
+132
+00:08:35,470 --> 00:08:41,230
+Now once this is installed we can just run NPM start again to restart our server then we'll actually
+
+133
+00:08:41,230 --> 00:08:44,140
+use this library to generate the random ID.
+
+134
+00:08:44,140 --> 00:08:47,230
+I'm going to use the up arrow key twice to cycle through to the command.
+
+135
+00:08:47,230 --> 00:08:53,410
+I ran two commands ago which was indeed and start we can run them I can collapse the terminal and we
+
+136
+00:08:53,410 --> 00:08:55,530
+can actually use this library.
+
+137
+00:08:55,600 --> 00:09:01,620
+Now the ID library comes with five different functions we can use to generate random IDs.
+
+138
+00:09:01,690 --> 00:09:03,610
+Excuse me it's actually just four.
+
+139
+00:09:03,790 --> 00:09:08,130
+There is a V-1 the three the four and V five.
+
+140
+00:09:08,170 --> 00:09:10,630
+Now the newest version isn't necessarily the best.
+
+141
+00:09:10,660 --> 00:09:12,550
+Each version just has a different way.
+
+142
+00:09:12,550 --> 00:09:14,230
+It generates randomness.
+
+143
+00:09:14,290 --> 00:09:21,210
+So in the case of the first one it's time stamp based version 3 is namespace based version 4 is random.
+
+144
+00:09:21,310 --> 00:09:24,610
+And version 5 is an alternative name specced version.
+
+145
+00:09:24,670 --> 00:09:27,640
+We're going to be using version for the completely random one.
+
+146
+00:09:27,700 --> 00:09:29,700
+So there are two steps to actually using this.
+
+147
+00:09:29,710 --> 00:09:35,800
+First we import it up above then we actually call the method we've imported so up at the very top of
+
+148
+00:09:35,800 --> 00:09:39,370
+the file let's just add our import statement right here.
+
+149
+00:09:39,370 --> 00:09:40,380
+We are importing.
+
+150
+00:09:40,720 --> 00:09:45,580
+And in the case of this library it is a default export we're trying to grab it so I'll name that right
+
+151
+00:09:45,580 --> 00:09:46,260
+here.
+
+152
+00:09:46,300 --> 00:09:54,000
+I'm going to call you you ID the for then we grab it from the following you you ID forward slash V for.
+
+153
+00:09:54,030 --> 00:10:00,160
+And now we can actually use this function down below to get a random ID back.
+
+154
+00:10:00,180 --> 00:10:06,240
+So let's go ahead and start the process of filling out the create user method to actually do something
+
+155
+00:10:06,480 --> 00:10:07,830
+meaningful to start.
+
+156
+00:10:07,830 --> 00:10:10,600
+What we're going to do is create a new constant.
+
+157
+00:10:10,620 --> 00:10:12,340
+A variable called email.
+
+158
+00:10:12,360 --> 00:10:17,580
+Take it email take and it's going to end up being true if the email this person is trying to register
+
+159
+00:10:17,580 --> 00:10:19,910
+with is already in use it will be false.
+
+160
+00:10:19,920 --> 00:10:25,950
+If the email is not already in use and to determine whether the e-mail is in use or not will be using
+
+161
+00:10:26,010 --> 00:10:32,840
+users dot some these some array method is great for exactly what we're trying to do.
+
+162
+00:10:33,030 --> 00:10:37,460
+It's going to return true if some of the users have that e-mail in return false.
+
+163
+00:10:37,470 --> 00:10:41,410
+If none of the users have that e-mail which is exactly what we want.
+
+164
+00:10:41,460 --> 00:10:44,880
+So like most of our array methods we provide a callback function.
+
+165
+00:10:44,880 --> 00:10:51,060
+This function gets called one time for every single array in the list that gets called with the individual
+
+166
+00:10:51,060 --> 00:10:52,090
+a right item.
+
+167
+00:10:52,110 --> 00:10:57,960
+We have an array of users so I'll call this one user and this is just one of the objects stored in that
+
+168
+00:10:57,960 --> 00:10:59,070
+user's array.
+
+169
+00:10:59,070 --> 00:11:04,420
+So one of the objects we have up above like this first one with these four properties.
+
+170
+00:11:04,500 --> 00:11:12,540
+So now down below it is the job of this callback function to return true if the email is indeed already
+
+171
+00:11:12,540 --> 00:11:13,210
+in use.
+
+172
+00:11:13,230 --> 00:11:21,410
+So if user dot email equals the email they're trying to register with which is our exact email.
+
+173
+00:11:21,560 --> 00:11:26,120
+So if they are equal this will be true and we return true if they're not equal.
+
+174
+00:11:26,120 --> 00:11:29,180
+This will be false and we return false.
+
+175
+00:11:29,180 --> 00:11:33,310
+So as long as one of these return true then some of them do.
+
+176
+00:11:33,320 --> 00:11:35,520
+An e-mail taken will be true.
+
+177
+00:11:35,580 --> 00:11:37,130
+Now as always we can simplify this.
+
+178
+00:11:37,130 --> 00:11:42,860
+We can use the shorthand for the arrow function right here I can remove the curly braces and just implicitly
+
+179
+00:11:42,860 --> 00:11:48,110
+return user dot e-mail equals args dot email.
+
+180
+00:11:48,110 --> 00:11:49,260
+Excellent.
+
+181
+00:11:49,310 --> 00:11:54,980
+So we have this first line in place and now what we can do is actually throw an error if the e-mail
+
+182
+00:11:54,980 --> 00:11:55,670
+is taken.
+
+183
+00:11:55,730 --> 00:12:02,030
+So right here if we're going to check if the e-mail taken variable is true.
+
+184
+00:12:03,280 --> 00:12:05,400
+If it is true what are we going to do.
+
+185
+00:12:05,410 --> 00:12:09,460
+I'm going to throw a new error throw new error.
+
+186
+00:12:09,490 --> 00:12:14,650
+So here we are just throwing a brand new javascript error and we can provide an error message which
+
+187
+00:12:14,650 --> 00:12:17,280
+will actually get sent back to the client.
+
+188
+00:12:17,440 --> 00:12:20,340
+So we need to be specific and actually say what happened.
+
+189
+00:12:20,410 --> 00:12:24,130
+I'm going to use e-mail taken as my message.
+
+190
+00:12:24,190 --> 00:12:25,080
+Perfect.
+
+191
+00:12:25,180 --> 00:12:30,130
+So now that we are checking if the e-mail is indeed registered or not and we're already handling that
+
+192
+00:12:30,520 --> 00:12:36,310
+all of the code down below is only going to run if the email is not taken and we can actually create
+
+193
+00:12:36,370 --> 00:12:37,840
+this brand new user.
+
+194
+00:12:37,860 --> 00:12:42,630
+So let's go ahead and start that process off by creating a new object called user.
+
+195
+00:12:42,760 --> 00:12:44,800
+And on here we are going to do a few things.
+
+196
+00:12:44,800 --> 00:12:50,290
+First up we are going to generate a new random ID then we're going to pull all of the arguments and
+
+197
+00:12:50,290 --> 00:12:51,870
+add those on as properties.
+
+198
+00:12:51,880 --> 00:12:59,170
+So right here ID equals we're going to call are you you ID the for function to generate a new string
+
+199
+00:12:59,170 --> 00:13:03,290
+ID then we're going to set up the other properties necessary.
+
+200
+00:13:03,310 --> 00:13:07,990
+So right here there are three other ones on args and we're just going to pass all of them through to
+
+201
+00:13:07,990 --> 00:13:09,130
+this object.
+
+202
+00:13:09,130 --> 00:13:12,800
+So we have name args dot name.
+
+203
+00:13:13,090 --> 00:13:16,010
+Then we have email args dot email.
+
+204
+00:13:16,150 --> 00:13:22,120
+And then finally we have name excuse me age args dot age.
+
+205
+00:13:22,120 --> 00:13:27,260
+From here we have our user object all set up and we have to do two more things.
+
+206
+00:13:27,280 --> 00:13:31,240
+First we're going to quote unquote save it by just adding it to that array.
+
+207
+00:13:31,390 --> 00:13:37,000
+So I will use users don't push it to add this new object onto the end.
+
+208
+00:13:37,000 --> 00:13:40,430
+And then finally we are going to return the user object.
+
+209
+00:13:40,570 --> 00:13:43,570
+So the client can actually get some values off of it.
+
+210
+00:13:43,570 --> 00:13:48,150
+Now in this case three of the values that come back are things that are actually sent to us.
+
+211
+00:13:48,250 --> 00:13:53,320
+But it would be nice to be able to get the ID of the user that was just created and by returning the
+
+212
+00:13:53,320 --> 00:13:56,510
+user we allow the client to be able to get that data.
+
+213
+00:13:56,650 --> 00:14:03,280
+Now that we have a valid create user method let's go ahead and actually run that query again over here.
+
+214
+00:14:03,490 --> 00:14:07,920
+I'm going to move to the graph Well playground and we're not going to change anything about the mutation
+
+215
+00:14:07,930 --> 00:14:09,450
+we already had set up.
+
+216
+00:14:09,460 --> 00:14:11,800
+All I'm going to do is fire this off again.
+
+217
+00:14:11,950 --> 00:14:17,230
+And what do I get back I get back data that matches up with my structure over here.
+
+218
+00:14:17,230 --> 00:14:21,190
+So on the data property we have a property for the nutation name.
+
+219
+00:14:21,190 --> 00:14:22,190
+Create user.
+
+220
+00:14:22,360 --> 00:14:26,260
+Then we have all of the data we chose to select from that user.
+
+221
+00:14:26,260 --> 00:14:31,990
+In this case we chose to select all four fields and we're getting all four back for ID we have our randomly
+
+222
+00:14:31,990 --> 00:14:34,110
+generated ID which is awesome.
+
+223
+00:14:34,270 --> 00:14:35,520
+Then we have h.
+
+224
+00:14:35,620 --> 00:14:41,350
+Excuse me name and for name we have the name we passed across for email we also have the value we passed
+
+225
+00:14:41,350 --> 00:14:42,110
+across.
+
+226
+00:14:42,190 --> 00:14:45,600
+We did not provide an age so no age was actually set up.
+
+227
+00:14:45,700 --> 00:14:46,680
+And what are we getting back.
+
+228
+00:14:46,690 --> 00:14:49,400
+We're getting back an age value of NULL.
+
+229
+00:14:49,450 --> 00:14:54,710
+Now if I were to rerun this operation once again this time around we do get the error.
+
+230
+00:14:54,730 --> 00:15:00,490
+So here the data property is empty and we have this new errors property which is an array of all of
+
+231
+00:15:00,490 --> 00:15:05,710
+the errors that occurred in this case we just have one and the message for that is the exact message
+
+232
+00:15:05,710 --> 00:15:08,480
+that we set up e-mail taken.
+
+233
+00:15:08,500 --> 00:15:14,020
+So we just registered with this e-mail a few moments ago when we reran the query we tried to register
+
+234
+00:15:14,020 --> 00:15:20,890
+with it again and that failed because the code in our function actually checks the user's array.
+
+235
+00:15:20,890 --> 00:15:25,990
+Now for the moment if I were to actually change something like I'm moving this period from the error
+
+236
+00:15:25,990 --> 00:15:30,940
+message and I were to save the file again all of the data gets reset.
+
+237
+00:15:30,940 --> 00:15:37,390
+So this user that we just created no longer exists because the server restarts and the users array contains
+
+238
+00:15:37,390 --> 00:15:39,530
+just the things hardcoded above.
+
+239
+00:15:39,730 --> 00:15:43,970
+So after saving the data I can indeed rerun this operation and it works.
+
+240
+00:15:44,080 --> 00:15:47,720
+But once again if I rerun it a second time it does indeed fail.
+
+241
+00:15:47,950 --> 00:15:52,570
+We'll fix all of that when we actually start saving the data to a real database.
+
+242
+00:15:52,570 --> 00:15:54,160
+That's why I like to start for this one.
+
+243
+00:15:54,160 --> 00:15:56,560
+Let's take a quick moment to recap what we learned.
+
+244
+00:15:56,710 --> 00:16:00,690
+We learned that like with a query there are two sides to any mutation.
+
+245
+00:16:00,760 --> 00:16:04,830
+There is the client operation and there is the server definition.
+
+246
+00:16:04,840 --> 00:16:09,970
+So if I want to support a mutation I have to actually define it on the server then it can be used from
+
+247
+00:16:10,000 --> 00:16:11,230
+the client.
+
+248
+00:16:11,230 --> 00:16:15,250
+Now for the definition of a mutation it was actually super similar to a query.
+
+249
+00:16:15,370 --> 00:16:19,760
+We define a new mutation type and we list out all of the mutations we want to support.
+
+250
+00:16:19,900 --> 00:16:21,140
+We give them a name.
+
+251
+00:16:21,220 --> 00:16:25,320
+We set up the arguments and we set up the return value down below.
+
+252
+00:16:25,420 --> 00:16:30,270
+We define a resolver method just like we did for any of our queries here.
+
+253
+00:16:30,370 --> 00:16:37,140
+We take in the input via the args argument and we return whatever data the mutation expects to return.
+
+254
+00:16:37,150 --> 00:16:41,630
+In this case we decided that a user was the appropriate return value.
+
+255
+00:16:41,800 --> 00:16:47,440
+Now from the client's perspective it actually also looks very similar to a query instead of query we
+
+256
+00:16:47,440 --> 00:16:51,280
+have nutation and instead of one of our queries we have one of our mutations.
+
+257
+00:16:51,280 --> 00:16:57,460
+So here we have the create user a mutation which takes in some arguments and then returns that user.
+
+258
+00:16:57,550 --> 00:16:59,490
+So we can provide the selection set.
+
+259
+00:16:59,530 --> 00:17:03,030
+We actually want know once again I don't have to grab everything.
+
+260
+00:17:03,100 --> 00:17:06,760
+Maybe I just want to grab the ID for the newly created user.
+
+261
+00:17:06,850 --> 00:17:08,650
+That would be fine as well.
+
+262
+00:17:08,650 --> 00:17:14,350
+I can also choose to grab something like the posts and send this particular user has no posts since
+
+263
+00:17:14,350 --> 00:17:15,280
+they just got created.
+
+264
+00:17:15,310 --> 00:17:17,150
+We'll get an empty array back.
+
+265
+00:17:17,380 --> 00:17:23,140
+So all of this is possible with mutations and in the next video we're going to continue to explore mutations
+
+266
+00:17:23,380 --> 00:17:25,290
+and also be a challenge.
+
+267
+00:17:25,300 --> 00:17:28,220
+You'll be required to create a mutation of your very own.
+
+268
+00:17:28,390 --> 00:17:30,720
+I'm excited to continue on with this section.
+
+269
+00:17:30,760 --> 00:17:33,660
+So let's go ahead and jump right in to the next video.
+

@@ -1,0 +1,652 @@
+1
+00:00:00,210 --> 00:00:03,680
+There are a few topics scattered throughout this section to start.
+
+2
+00:00:03,690 --> 00:00:06,230
+We're going to focus on implementing pagination.
+
+3
+00:00:06,330 --> 00:00:12,910
+Pagination is going to give clients the ability to fetch just a subset of the data in the database.
+
+4
+00:00:12,930 --> 00:00:19,800
+So imagine I have 450 posts in the database and a client comes along saying they want to render some
+
+5
+00:00:19,800 --> 00:00:20,900
+to the home page.
+
+6
+00:00:20,940 --> 00:00:25,260
+Does that client want to actually fetch and render 450 posts.
+
+7
+00:00:25,260 --> 00:00:26,990
+And the answer is No.
+
+8
+00:00:27,000 --> 00:00:34,020
+First off it would be expensive to fetch 450 posts and it would also be expensive to render them the
+
+9
+00:00:34,020 --> 00:00:40,350
+likelihood that someone who loads the page actually sees all 450 is slim to none.
+
+10
+00:00:40,350 --> 00:00:45,210
+So what we're going to do instead is allow clients to fetch just a subset of the data.
+
+11
+00:00:45,300 --> 00:00:52,080
+Maybe the first 100 or the first 10 then the user can make requests for more when they're ready.
+
+12
+00:00:52,170 --> 00:00:57,990
+So if you scroll down through all 10 posts the client could automatically fetch the next set of 10 or
+
+13
+00:00:57,990 --> 00:01:03,680
+it could do something like show a load more button which could be clicked to load the next ten.
+
+14
+00:01:03,690 --> 00:01:09,450
+So either way we need pagination in order to get this done it's a very important feature of any app
+
+15
+00:01:09,450 --> 00:01:16,250
+that's expected to scale before we actually crack open any files and make changes to our graphical project.
+
+16
+00:01:16,260 --> 00:01:22,290
+We're going to pull up the Prisma graph you playground instance and explore how Prisma gives us the
+
+17
+00:01:22,290 --> 00:01:24,550
+ability to paginate our data.
+
+18
+00:01:24,570 --> 00:01:30,210
+So to start what we're going to do is swap out the user's query for a post's query since we have more
+
+19
+00:01:30,210 --> 00:01:32,340
+posts than users are right here.
+
+20
+00:01:32,580 --> 00:01:37,200
+I am going to use the Post's query and for each post I'll grab the ID.
+
+21
+00:01:37,200 --> 00:01:41,730
+I'll grab the title and I'll also grab the published status.
+
+22
+00:01:41,760 --> 00:01:48,450
+Now if I fire that off I get back 11 different posts and if there was just 11 posts in the database
+
+23
+00:01:48,510 --> 00:01:54,210
+it would be fine to fetch and show all of them but we can't guarantee that there could be 600 in which
+
+24
+00:01:54,210 --> 00:01:58,320
+case it would take a lot of time to fetch that data and render it.
+
+25
+00:01:58,320 --> 00:01:59,700
+So what are we going to do instead.
+
+26
+00:01:59,700 --> 00:02:07,680
+Well if we crack open the schema we can view the options we have for our posts query right here.
+
+27
+00:02:07,680 --> 00:02:13,770
+There are a bunch of different arguments we can use and we've already explored where later in the section
+
+28
+00:02:13,800 --> 00:02:14,780
+we're going to explore.
+
+29
+00:02:14,790 --> 00:02:18,070
+ORDER BY which is going to allow us to sort data.
+
+30
+00:02:18,270 --> 00:02:21,350
+What I want to focus on for the moment are these five.
+
+31
+00:02:21,360 --> 00:02:22,810
+We have Skipp we have.
+
+32
+00:02:22,830 --> 00:02:30,810
+After we have before we have first and we have last to start let's just focus on first first takes in
+
+33
+00:02:30,810 --> 00:02:37,400
+an integer value and this allows us to get the first X where X is the integer you passed in.
+
+34
+00:02:37,590 --> 00:02:43,520
+So currently we are seeing all of the posts and by default Prisma limits you to a thousand.
+
+35
+00:02:43,530 --> 00:02:49,710
+We can go ahead and start to customize this by providing operation arguments so right here we are indeed
+
+36
+00:02:49,710 --> 00:02:51,060
+going to use first.
+
+37
+00:02:51,170 --> 00:02:53,610
+And I am going to type in first two.
+
+38
+00:02:53,790 --> 00:02:58,180
+So this is going to give us just the first two posts from the database.
+
+39
+00:02:58,320 --> 00:03:01,820
+So updated post by Andrew and post by gests 1.
+
+40
+00:03:01,880 --> 00:03:07,100
+I would expect all others to go away and if I fire it off that's exactly what happens.
+
+41
+00:03:07,110 --> 00:03:11,570
+So using First we can limit how many records where C..
+
+42
+00:03:11,580 --> 00:03:14,010
+Now this alone isn't particularly useful.
+
+43
+00:03:14,010 --> 00:03:18,150
+Let's say that I fetch the first two and then someone says they want to load more.
+
+44
+00:03:18,150 --> 00:03:20,220
+How do I fetch the next two.
+
+45
+00:03:20,430 --> 00:03:23,570
+Well to do that we're going to introduce a nother argument.
+
+46
+00:03:23,640 --> 00:03:30,510
+This one being Skip Skip is an integer that tells Prisma how many records to skip.
+
+47
+00:03:30,510 --> 00:03:36,000
+So in this case we can set Skipp equal to another INT and I am going to use 2 again.
+
+48
+00:03:36,210 --> 00:03:41,000
+So now we're going to skip to then we're going to grab the first two.
+
+49
+00:03:41,010 --> 00:03:45,030
+So currently I'm seeing the updated post and post by gests one.
+
+50
+00:03:45,090 --> 00:03:51,330
+If I fire off the operation with these arguments I'm seeing the next set of two post by just two and
+
+51
+00:03:51,330 --> 00:03:53,380
+post by just three.
+
+52
+00:03:53,400 --> 00:03:55,420
+I could then go to the next page.
+
+53
+00:03:55,440 --> 00:03:56,970
+I could skip four.
+
+54
+00:03:57,060 --> 00:04:01,610
+I would see post by just for and post by gests 5.
+
+55
+00:04:01,650 --> 00:04:08,570
+So using a combination of first and skip we can really hone in on exactly what data we want to access.
+
+56
+00:04:08,610 --> 00:04:11,090
+In this case we have pages of two.
+
+57
+00:04:11,130 --> 00:04:17,220
+We could have pages of any size for example let's say I want to get the first five records and I want
+
+58
+00:04:17,220 --> 00:04:18,520
+to skip 0.
+
+59
+00:04:18,540 --> 00:04:23,370
+So here I have a page size of 5 and I get the first 5 posts.
+
+60
+00:04:23,370 --> 00:04:27,780
+I could then skip 5 to get the second page of 5 posts.
+
+61
+00:04:27,900 --> 00:04:29,310
+And here we have that.
+
+62
+00:04:29,490 --> 00:04:35,970
+Then I could go ahead and skip 5 more for a total of 10 to get that third page of 5 posts and right
+
+63
+00:04:35,970 --> 00:04:40,440
+here you can see since we have 11 posts just one is showing up.
+
+64
+00:04:40,680 --> 00:04:42,940
+So there we go using first and skip.
+
+65
+00:04:42,990 --> 00:04:48,970
+We can set up basic pagination and that's where we're going to start over inside of Visual Studio code.
+
+66
+00:04:48,990 --> 00:04:54,420
+We are going to crack open a schema and graph QOL as well as queery dot J.
+
+67
+00:04:54,420 --> 00:04:55,100
+S.
+
+68
+00:04:55,170 --> 00:05:02,120
+Now we have a few different queries which should all support pagination are first for users posts my
+
+69
+00:05:02,120 --> 00:05:03,900
+posts and comments.
+
+70
+00:05:03,900 --> 00:05:06,300
+Anything that ends up sending back an array.
+
+71
+00:05:06,320 --> 00:05:11,860
+There's no need for pagination for me or post since you just get back a single record.
+
+72
+00:05:11,960 --> 00:05:17,110
+Now to start we are going to implement pagination together for the user's query.
+
+73
+00:05:17,120 --> 00:05:22,070
+Let's go ahead and kick things off by adding support for those two arguments.
+
+74
+00:05:22,070 --> 00:05:26,560
+So we want to be able to use both first and skip inside of here.
+
+75
+00:05:26,660 --> 00:05:29,440
+So we're going to accept both of them right here.
+
+76
+00:05:29,570 --> 00:05:36,770
+After query we're going to add on first that will indeed be an optional integer and we are also going
+
+77
+00:05:36,770 --> 00:05:38,400
+to add on Skip.
+
+78
+00:05:38,420 --> 00:05:39,940
+So right here Skip.
+
+79
+00:05:40,070 --> 00:05:46,310
+Also an optional integer and in the end of the day we're just going to pass both of these through to
+
+80
+00:05:46,310 --> 00:05:47,060
+Prisma.
+
+81
+00:05:47,060 --> 00:05:51,320
+So no J ass really isn't going to do anything meaningful with them at all.
+
+82
+00:05:51,350 --> 00:05:53,130
+We can now save schema.
+
+83
+00:05:53,550 --> 00:06:00,590
+Well we can head into queery dot J S And We can actually make use of our brand new arguments down below.
+
+84
+00:06:00,590 --> 00:06:05,410
+In the OP args objects we are going to set up both first and skip.
+
+85
+00:06:05,420 --> 00:06:11,780
+So first is going to get its value from args dot first and skip is going to get its value from args
+
+86
+00:06:11,840 --> 00:06:12,930
+dot skip.
+
+87
+00:06:13,070 --> 00:06:13,860
+Excellent.
+
+88
+00:06:14,030 --> 00:06:20,240
+Now we have pagination set up we can now use pagination with our users query and that's exactly what
+
+89
+00:06:20,240 --> 00:06:21,700
+we're going to end up doing.
+
+90
+00:06:21,710 --> 00:06:24,760
+So let's head over to local host of 4000.
+
+91
+00:06:24,800 --> 00:06:28,660
+Our API and fire off a user's query.
+
+92
+00:06:28,670 --> 00:06:30,950
+Now if we do so what are we going to get.
+
+93
+00:06:30,950 --> 00:06:32,660
+We're going to get back all records.
+
+94
+00:06:32,660 --> 00:06:39,230
+As expected we have Jess Andrew Jen and Sarah from here we're now going to make use of those arguments.
+
+95
+00:06:39,230 --> 00:06:42,610
+Let's start by providing just first.
+
+96
+00:06:42,620 --> 00:06:46,670
+So right here I'm going to get the first two users.
+
+97
+00:06:46,850 --> 00:06:49,100
+Now currently this is an invalid operation.
+
+98
+00:06:49,100 --> 00:06:54,560
+But if we refresh the schema we can see it's now valid and if I fire it off what do I get.
+
+99
+00:06:54,590 --> 00:06:57,070
+I get Jess and Andrew back.
+
+100
+00:06:57,110 --> 00:07:02,840
+I could also grab the first three for example and I would get Jeff's Andrew and Jen.
+
+101
+00:07:02,840 --> 00:07:05,120
+Now let's make use of Skipp as well.
+
+102
+00:07:05,120 --> 00:07:07,810
+So right here I am going to skip some records.
+
+103
+00:07:07,940 --> 00:07:12,320
+Let's go ahead and start by skipping zero records or grabbing the first page.
+
+104
+00:07:12,350 --> 00:07:16,400
+Then we could skip three records to grab the second set of three.
+
+105
+00:07:16,460 --> 00:07:18,120
+If I do this what do I get back.
+
+106
+00:07:18,140 --> 00:07:25,640
+I get back just Sarah because we only have four users total So that second page isn't exactly full.
+
+107
+00:07:25,640 --> 00:07:31,580
+Now if I were to skip on further down the line for example skipping to the third page I would get no
+
+108
+00:07:31,580 --> 00:07:33,440
+users which is expected.
+
+109
+00:07:33,500 --> 00:07:36,350
+There are not 9 users in the database.
+
+110
+00:07:36,500 --> 00:07:40,170
+So there we go we have basic pagination all set up.
+
+111
+00:07:40,190 --> 00:07:45,190
+Now it's Challenge time if you're going to add pagination for one of our other operations we're going
+
+112
+00:07:45,190 --> 00:07:48,530
+to go ahead and work on the Post's query next.
+
+113
+00:07:48,530 --> 00:07:52,860
+So right here I am going to paste in the comments describing what I'd like you to do.
+
+114
+00:07:52,970 --> 00:07:59,570
+The goal is to add pagination for that post query and you're going to do this by first adding the necessary
+
+115
+00:07:59,630 --> 00:08:03,160
+arguments to the post query over in schema graft.
+
+116
+00:08:03,230 --> 00:08:06,830
+Well just like we did for the users query.
+
+117
+00:08:06,860 --> 00:08:13,760
+From there you're going to pass those arguments through to Prisma in the posts resolver down below.
+
+118
+00:08:13,970 --> 00:08:16,980
+After you have that in place it's time to test your work.
+
+119
+00:08:17,030 --> 00:08:22,550
+So you're going to fire off that posts query from localhost 4000 and you're going to make sure you can
+
+120
+00:08:22,550 --> 00:08:26,290
+use the arguments to paginate through the data.
+
+121
+00:08:26,360 --> 00:08:28,040
+Take some time to knock that one out.
+
+122
+00:08:28,040 --> 00:08:32,480
+Don't forget to test your work and when you're done come back and click play.
+
+123
+00:08:35,850 --> 00:08:40,920
+How that go let's go ahead and kick things off by first updating schema graphs.
+
+124
+00:08:40,980 --> 00:08:45,580
+Well we're going to go ahead and add to the Post's query.
+
+125
+00:08:45,600 --> 00:08:52,110
+Two arguments first which will be an integer in we're going to add Skipp also an integer.
+
+126
+00:08:52,110 --> 00:08:57,120
+Now we can save this file and that actually wraps up step 1 step 2.
+
+127
+00:08:57,120 --> 00:08:59,940
+We have to pass those arguments through.
+
+128
+00:08:59,970 --> 00:09:04,030
+So down below we have the resolver for that Post's query.
+
+129
+00:09:04,080 --> 00:09:06,240
+We now have those two new arguments.
+
+130
+00:09:06,300 --> 00:09:09,120
+They both need to get added on to here.
+
+131
+00:09:09,180 --> 00:09:11,340
+So we're going to have first.
+
+132
+00:09:11,340 --> 00:09:16,650
+First we can have args dot first which is where that value will live.
+
+133
+00:09:16,680 --> 00:09:23,780
+Then we're going to have Skip and Skip will get its value from args dot skip and then we'll add a comma.
+
+134
+00:09:23,810 --> 00:09:29,360
+Making sure that we still set up where limiting this to just posts that are published.
+
+135
+00:09:29,390 --> 00:09:30,320
+Perfect.
+
+136
+00:09:30,320 --> 00:09:34,280
+Now that we have this in place we can move on to the final step.
+
+137
+00:09:34,280 --> 00:09:36,700
+Step three which is to test our work.
+
+138
+00:09:36,740 --> 00:09:39,160
+So I'm going to remove the challenge comments.
+
+139
+00:09:39,350 --> 00:09:45,900
+I'm going to save the file and we're going to head over to localhost 4000 and run our posts query now
+
+140
+00:09:45,920 --> 00:09:49,250
+by default I should still be getting a ton of records right here.
+
+141
+00:09:49,250 --> 00:09:51,560
+I have about 11 different posts.
+
+142
+00:09:51,560 --> 00:09:54,930
+Let's go ahead and use our arguments to paginate through them.
+
+143
+00:09:55,040 --> 00:09:57,170
+So I'm going to set up those arguments.
+
+144
+00:09:57,170 --> 00:09:58,960
+I'm going to configure first.
+
+145
+00:09:59,090 --> 00:10:02,350
+Let's grab the first five and I'll configure skip.
+
+146
+00:10:02,390 --> 00:10:04,130
+Let's go ahead and skip the 0.
+
+147
+00:10:04,140 --> 00:10:05,720
+So I want to see all of them.
+
+148
+00:10:05,840 --> 00:10:09,060
+Now if I refresh my schema those red lines will go away.
+
+149
+00:10:09,060 --> 00:10:14,690
+And then we can fire off our operation and hopefully we just see the first five posts.
+
+150
+00:10:14,690 --> 00:10:20,960
+And that is exactly what we're getting now from here we can go ahead and grab the second set of five
+
+151
+00:10:21,110 --> 00:10:23,290
+by skipping five posts.
+
+152
+00:10:23,330 --> 00:10:30,740
+If I fire that off I do indeed see the second set of five and I can also grab the third set of five
+
+153
+00:10:30,920 --> 00:10:34,040
+by setting skip to 10 if I fire this one off.
+
+154
+00:10:34,040 --> 00:10:34,640
+What do we get.
+
+155
+00:10:34,640 --> 00:10:39,380
+We get no posts showing up since we only have ten published posts.
+
+156
+00:10:39,410 --> 00:10:44,540
+The first page was populated and so was the second this third page though is empty.
+
+157
+00:10:44,630 --> 00:10:45,340
+Perfect.
+
+158
+00:10:45,440 --> 00:10:51,540
+So now that we have this in place we have basic pagination set up for the Post's query as well.
+
+159
+00:10:51,650 --> 00:10:56,450
+And that's where we're gonna stop for this one and the next video we're going to continue to talk about
+
+160
+00:10:56,450 --> 00:10:57,640
+pagination.
+
+161
+00:10:57,650 --> 00:11:01,550
+Though we're going to use a slightly different set of arguments to get there.
+
+162
+00:11:01,550 --> 00:11:02,710
+I'm excited to cover that.
+
+163
+00:11:02,750 --> 00:11:05,600
+So let's go ahead and jump right in to the next one.
+

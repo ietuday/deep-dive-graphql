@@ -1,0 +1,532 @@
+1
+00:00:00,260 --> 00:00:03,630
+In this video we're going to turn our attention towards relational data.
+
+2
+00:00:03,630 --> 00:00:07,850
+Once again we have our users query and our posts query working.
+
+3
+00:00:07,920 --> 00:00:11,900
+But it's only working if we're just selecting scalar fields.
+
+4
+00:00:11,910 --> 00:00:16,920
+If I were to select some relational data things would actually be breaking and that's because we've
+
+5
+00:00:17,010 --> 00:00:23,100
+overridden that behavior using files like comment Dhananjay as post.com J as end user Dot.
+
+6
+00:00:23,160 --> 00:00:24,140
+Yes.
+
+7
+00:00:24,180 --> 00:00:29,160
+So to illustrate the issue I'm talking about let's make a small change to the user's query in localhost
+
+8
+00:00:29,160 --> 00:00:30,030
+4000.
+
+9
+00:00:30,210 --> 00:00:35,970
+Right here I am going to remove the operation argument so I can fetch all users and if I actually fetch
+
+10
+00:00:35,970 --> 00:00:38,260
+all of them I can see I have three.
+
+11
+00:00:38,310 --> 00:00:43,020
+Let's go ahead and ask for not just scalar fields but another field as well.
+
+12
+00:00:43,020 --> 00:00:46,080
+I'm going to grab the posts for each user.
+
+13
+00:00:46,260 --> 00:00:52,010
+Now for each post I can grab the ID and I can grab the title and then we can fire this one up.
+
+14
+00:00:52,110 --> 00:00:54,160
+Now when I fire it off we don't get an error.
+
+15
+00:00:54,180 --> 00:00:58,680
+The program isn't crashing but we're also not getting the expected data.
+
+16
+00:00:58,680 --> 00:01:04,390
+I do indeed have a single post in the database but it's not showing up anywhere for all three users.
+
+17
+00:01:04,390 --> 00:01:07,720
+We have an empty array even though that's not really accurate.
+
+18
+00:01:07,920 --> 00:01:13,860
+The reason we're not getting the correct data is because of the contents of user data J S which we had
+
+19
+00:01:13,860 --> 00:01:15,250
+set up previously.
+
+20
+00:01:15,330 --> 00:01:20,880
+If you remember this is the file where we told graph Q L how to find the user's posts and how to find
+
+21
+00:01:20,880 --> 00:01:25,440
+the users comments and we did this by looking through our array data.
+
+22
+00:01:25,440 --> 00:01:30,500
+So I looked through DB posts up here and in DB comments down below.
+
+23
+00:01:30,660 --> 00:01:36,300
+So currently the reason we're not seeing any data is because we're not even looking in the real Prisma
+
+24
+00:01:36,330 --> 00:01:36,870
+database.
+
+25
+00:01:36,870 --> 00:01:41,720
+Instead we're just looking in those arrays and we're not finding matches which is to be expected.
+
+26
+00:01:41,940 --> 00:01:44,390
+So there are two ways we can approach solving this.
+
+27
+00:01:44,400 --> 00:01:51,090
+The first way and maybe the more obvious way is to actually load in Prisma right here and then use something
+
+28
+00:01:51,090 --> 00:01:54,570
+like Prisma doc queery dot posts to get all of their posts.
+
+29
+00:01:54,570 --> 00:01:56,360
+Now that would indeed work.
+
+30
+00:01:56,490 --> 00:02:01,890
+But the nice thing is that Prisma has support for relational data built right in.
+
+31
+00:02:01,890 --> 00:02:06,130
+Which means that both of these methods are actually completely unnecessary.
+
+32
+00:02:06,210 --> 00:02:12,030
+We can actually delete everything inside of the user object though leaving that object in place we can
+
+33
+00:02:12,030 --> 00:02:14,100
+save the file and we're done.
+
+34
+00:02:14,100 --> 00:02:19,090
+We can now rerun the exact same query we ran before though this time around.
+
+35
+00:02:19,110 --> 00:02:24,810
+As you can see we are indeed getting our one post showing up for that post's author.
+
+36
+00:02:24,840 --> 00:02:31,920
+All of this is working by default because we've chosen to pass that info argument in and remember info
+
+37
+00:02:32,070 --> 00:02:35,940
+contains all of the information about the fields requested.
+
+38
+00:02:35,940 --> 00:02:39,980
+This includes not just those scalar fields but also related ones.
+
+39
+00:02:40,080 --> 00:02:46,740
+So by passing info into Prisma query users we can get this behavior by default.
+
+40
+00:02:46,740 --> 00:02:53,520
+There's no need to add more code so this is a nother great reason to use Prisma because it works directly
+
+41
+00:02:53,520 --> 00:02:58,940
+with graft Well it makes it really easy to set up your node J.S. application.
+
+42
+00:02:58,950 --> 00:03:02,400
+Now we're going to do is the exact same thing for posts.
+
+43
+00:03:02,400 --> 00:03:09,150
+If I go over to the Post's query and I go ahead and fetch all posts by removing the query argument we
+
+44
+00:03:09,150 --> 00:03:10,680
+can see that it does indeed work.
+
+45
+00:03:10,680 --> 00:03:16,590
+We get our one post back but if I were to ask for something about that post's author Let's go ahead
+
+46
+00:03:16,590 --> 00:03:19,320
+and grab the authors ID and the author's name.
+
+47
+00:03:19,320 --> 00:03:21,340
+Things are going to fail if I wrote it.
+
+48
+00:03:21,420 --> 00:03:22,830
+You can see we're getting an error.
+
+49
+00:03:22,830 --> 00:03:29,490
+It's trying to find the author for a post and it knows that author is a non nullable fields so it should
+
+50
+00:03:29,490 --> 00:03:36,630
+indeed exist when it doesn't find a author it throws an error saying that it cannot find the required
+
+51
+00:03:36,760 --> 00:03:37,170
+field.
+
+52
+00:03:37,170 --> 00:03:44,450
+So once again all of this is happening because of what's inside of post.com J ass right inside of here.
+
+53
+00:03:44,580 --> 00:03:47,550
+We are overriding what happens when we look for an author.
+
+54
+00:03:47,550 --> 00:03:53,130
+So we're actually making prisoners job harder by removing both of these and saving the file.
+
+55
+00:03:53,160 --> 00:03:57,620
+We will once again be able to perform that operation without any errors.
+
+56
+00:03:57,630 --> 00:04:00,100
+If I rerun it what do we get.
+
+57
+00:04:00,100 --> 00:04:02,250
+We get the information expected right here.
+
+58
+00:04:02,260 --> 00:04:08,410
+I can see that this post from the Prisma database was indeed written by this user who also exists in
+
+59
+00:04:08,410 --> 00:04:09,720
+that database.
+
+60
+00:04:09,940 --> 00:04:15,040
+So in the end of the day by wiping those two objects we are allowing Prisma to do the heavy lifting
+
+61
+00:04:15,070 --> 00:04:16,120
+for us.
+
+62
+00:04:16,120 --> 00:04:21,430
+Now for the moment I want to keep these files and these objects in place even though they're currently
+
+63
+00:04:21,490 --> 00:04:26,890
+empty as we started to work on features like authentication and authorization they're going to become
+
+64
+00:04:26,890 --> 00:04:31,630
+a little more important as they're going to allow us to lock down a behavior so instead of deleting
+
+65
+00:04:31,630 --> 00:04:37,090
+them now and adding them back and five or six videos I'd rather just keep them around for now.
+
+66
+00:04:37,090 --> 00:04:40,750
+Currently they're not changing the application behavior at all.
+
+67
+00:04:40,790 --> 00:04:46,630
+Now it's Challenge time what you're going to do is follow the same process for the comments query which
+
+68
+00:04:46,630 --> 00:04:52,570
+we actually haven't touched so far what I'm going to do is close down both the user Dhananjay as and
+
+69
+00:04:52,750 --> 00:04:57,340
+Dot js files and I'm in a place those challenge comments right here.
+
+70
+00:04:57,520 --> 00:05:01,540
+So the big picture goal is to convert the comments query over to Prisma.
+
+71
+00:05:01,540 --> 00:05:03,280
+There are three steps for getting that done.
+
+72
+00:05:03,280 --> 00:05:09,280
+Number one you have to modify the comments query to fetch that data out of Prisma instead of fetching
+
+73
+00:05:09,280 --> 00:05:10,630
+it from our arrays.
+
+74
+00:05:10,810 --> 00:05:16,810
+Then you want to modify the code to allow for relational requests when using the comments query.
+
+75
+00:05:16,930 --> 00:05:20,830
+This is similar to what we just did for both users and posts.
+
+76
+00:05:20,920 --> 00:05:27,190
+And finally step 3 you want to test your work and make sure that it's actually working inside of graft
+
+77
+00:05:27,280 --> 00:05:31,120
+Well playgrounds over here on local host 4000.
+
+78
+00:05:31,210 --> 00:05:36,320
+I should be able to fetch comments and grab related data like the author's name.
+
+79
+00:05:36,320 --> 00:05:39,880
+Let's also grab their ID and that should actually work.
+
+80
+00:05:39,880 --> 00:05:44,830
+Now currently it's getting all the data correctly from the arrays by the end of the challenge you should
+
+81
+00:05:44,830 --> 00:05:47,520
+be seeing all of the data from the database.
+
+82
+00:05:47,560 --> 00:05:53,620
+Now if your setup is anything like mine you probably don't have any comments inside of your actual database.
+
+83
+00:05:53,620 --> 00:05:59,710
+We can fix this by just adding some directly using the Prisma graphical API playground.
+
+84
+00:05:59,770 --> 00:06:02,070
+Right here I have one of the queries from before.
+
+85
+00:06:02,080 --> 00:06:06,320
+It's nice because it shows the ID for all users posts and comments.
+
+86
+00:06:06,340 --> 00:06:11,920
+I am going to add a new comment onto my one and only post and I'm going to make an error the person
+
+87
+00:06:11,920 --> 00:06:17,790
+who's leaving that comment so I'll grab his ID right here and bring that over to my Create comment nutation
+
+88
+00:06:17,800 --> 00:06:18,520
+tab.
+
+89
+00:06:18,760 --> 00:06:23,830
+Swapping it out with the old ID the old value for author connect ID and then I'm going to make sure
+
+90
+00:06:23,830 --> 00:06:26,310
+the post ID is correct as well.
+
+91
+00:06:26,370 --> 00:06:31,630
+Smackover in this tab I am going to grab the ID for the one post I actually have.
+
+92
+00:06:31,640 --> 00:06:37,040
+I'm going to bring that over here and I will leave a comment by replacing the ID out.
+
+93
+00:06:37,180 --> 00:06:41,110
+So if I actually run this it should indeed leave a new comment and there we go.
+
+94
+00:06:41,110 --> 00:06:45,470
+Now we actually have a comment that we can test when working with our query.
+
+95
+00:06:45,700 --> 00:06:50,720
+Now that we have some data in place it's your job to make sure that this query actually works.
+
+96
+00:06:50,770 --> 00:06:54,750
+So knock out all three steps making sure to test your work along the way.
+
+97
+00:06:54,790 --> 00:06:57,630
+When you're done come back and click play
+
+98
+00:07:01,390 --> 00:07:04,570
+How'd that go let's go ahead and kick things off with step one.
+
+99
+00:07:04,570 --> 00:07:10,320
+We're going to modify the comments queries to fetch data from Prisma that happens down below.
+
+100
+00:07:10,330 --> 00:07:16,300
+All right here we have our function currently it's just returning all of the comments from the array.
+
+101
+00:07:16,300 --> 00:07:17,340
+We're going to swap that out.
+
+102
+00:07:17,350 --> 00:07:23,530
+So we're going to swap out D-B for Prisma and then down below instead of returning D-B Dom comments.
+
+103
+00:07:23,530 --> 00:07:29,740
+We're going to return what comes back from calling Prisma dot queried dot comments and then we are going
+
+104
+00:07:29,740 --> 00:07:32,370
+to call it with the correct arguments.
+
+105
+00:07:32,450 --> 00:07:34,330
+The first argument is going to be.
+
+106
+00:07:34,360 --> 00:07:34,830
+No.
+
+107
+00:07:34,840 --> 00:07:38,010
+There are no operation arguments necessary for this one.
+
+108
+00:07:38,050 --> 00:07:43,840
+And the second argument is going to be info perfect now that we have this in place we should be able
+
+109
+00:07:43,840 --> 00:07:46,390
+to at least fetch those scalar fields.
+
+110
+00:07:46,450 --> 00:07:49,550
+And that brings us to step two step two.
+
+111
+00:07:49,570 --> 00:07:55,090
+We want to make sure that we can actually fetch relational data which means that we need to remove the
+
+112
+00:07:55,090 --> 00:08:01,720
+customer resolvers set up in comment Dhananjay as here we are overriding how a comments author and a
+
+113
+00:08:01,720 --> 00:08:04,660
+comments post fields are populated.
+
+114
+00:08:04,660 --> 00:08:09,080
+If we actually remove these We'll let Prisma do the heavy lifting for us.
+
+115
+00:08:09,100 --> 00:08:12,550
+I can say of comment and Jay as I can save queery.
+
+116
+00:08:12,660 --> 00:08:13,430
+J s.
+
+117
+00:08:13,510 --> 00:08:17,500
+And that brings us to step three actually testing our work.
+
+118
+00:08:17,500 --> 00:08:22,990
+Over here I am going to run the query as it currently stands sends we're asking for some scalar values
+
+119
+00:08:23,230 --> 00:08:25,370
+as well as some related fields.
+
+120
+00:08:25,480 --> 00:08:27,300
+If I fire this off what do we get.
+
+121
+00:08:27,310 --> 00:08:30,820
+We get data from the post gresse database right here.
+
+122
+00:08:30,820 --> 00:08:37,570
+I have my one comment showing up the comment we just created and I also have correctly the author information
+
+123
+00:08:37,750 --> 00:08:40,140
+for the person who created that comment here.
+
+124
+00:08:40,160 --> 00:08:44,120
+That was indeed created by Andrew excellent So there we go.
+
+125
+00:08:44,230 --> 00:08:49,660
+We now have our three main queries all working they're working with Prisma and they're working when
+
+126
+00:08:49,660 --> 00:08:53,590
+we ask for related fields as well and that's where I'd like to start.
+
+127
+00:08:53,590 --> 00:08:58,510
+For this one with our queries out of the way in the next video we're going to turn our attention towards
+
+128
+00:08:58,510 --> 00:08:59,420
+our mutations.
+
+129
+00:08:59,440 --> 00:09:02,030
+We'll be following a lot of the same steps though.
+
+130
+00:09:02,050 --> 00:09:07,120
+Obviously things will be slightly different since we're working with mutations and not queries but in
+
+131
+00:09:07,120 --> 00:09:10,630
+general we're going to be able to reuse what we've learned so far.
+
+132
+00:09:10,630 --> 00:09:11,650
+I'm excited to get to that.
+
+133
+00:09:11,680 --> 00:09:13,800
+So let's go ahead and jump right in.
+

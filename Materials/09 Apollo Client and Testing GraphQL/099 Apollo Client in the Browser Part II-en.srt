@@ -1,0 +1,948 @@
+1
+00:00:00,150 --> 00:00:04,650
+It now that we have our little bare bones web applications set up it's time to figure out how we can
+
+2
+00:00:04,650 --> 00:00:10,290
+actually communicate with our graphical application from the browser and we're going to have to answer
+
+3
+00:00:10,290 --> 00:00:12,740
+three questions to get that done one.
+
+4
+00:00:12,870 --> 00:00:16,420
+How do we define an operation in javascript to.
+
+5
+00:00:16,500 --> 00:00:19,890
+How do we send that off to the server to fetch a response.
+
+6
+00:00:19,950 --> 00:00:24,510
+And 3 How do we actually get that response and do something meaningful with it.
+
+7
+00:00:24,510 --> 00:00:30,120
+For example if I fetch all of the published posts in the browser I probably want to render them to the
+
+8
+00:00:30,120 --> 00:00:32,310
+screen so the user can actually see them.
+
+9
+00:00:32,400 --> 00:00:37,020
+As mentioned before we can use Appollo clients to get all of this done and that's exactly what we're
+
+10
+00:00:37,020 --> 00:00:37,850
+going to do.
+
+11
+00:00:37,860 --> 00:00:42,070
+We can learn more by heading over to Appollo graph Cuil dot com.
+
+12
+00:00:42,210 --> 00:00:45,650
+There are two sides to the Apollo ecosystem there is the server.
+
+13
+00:00:45,750 --> 00:00:52,230
+We already have a server in place and ours graphed Well yoga actually uses the Apollo server behind
+
+14
+00:00:52,230 --> 00:00:53,280
+the scenes.
+
+15
+00:00:53,280 --> 00:00:56,880
+On the other side we have the client and that's what we're interested in.
+
+16
+00:00:56,880 --> 00:01:00,320
+Now there are libraries for things like native iOS and Android.
+
+17
+00:01:00,420 --> 00:01:06,180
+And we also have all of the web frameworks you would expect we'll be using one of the many Apollo libraries
+
+18
+00:01:06,180 --> 00:01:11,060
+called Apollo boost to actually fire off requests from javascript code.
+
+19
+00:01:11,220 --> 00:01:16,290
+And if you were to click over to one of these guides you would see that Apollo boost is used there as
+
+20
+00:01:16,290 --> 00:01:17,130
+well.
+
+21
+00:01:17,130 --> 00:01:22,320
+We can find this library by googling Apollo boost.
+
+22
+00:01:22,540 --> 00:01:26,890
+And once we find it we're looking for this page Apollo boost migration.
+
+23
+00:01:26,890 --> 00:01:31,780
+Now it's not particularly important to this page isn't showing up in these search results any more but
+
+24
+00:01:31,780 --> 00:01:35,650
+if I scroll down we can see the basics of getting started with it.
+
+25
+00:01:35,650 --> 00:01:38,440
+In essence we install a library.
+
+26
+00:01:38,440 --> 00:01:40,370
+We then import the library.
+
+27
+00:01:40,420 --> 00:01:44,690
+We then create a new client providing the u r l for our graph.
+
+28
+00:01:44,690 --> 00:01:51,580
+Q Well back end and from there we can use methods on client client Dom query and client data mutate
+
+29
+00:01:51,760 --> 00:01:54,720
+to actually fire off things like queries and mutations.
+
+30
+00:01:54,880 --> 00:01:58,350
+So let's go ahead and knock all of this out from our application.
+
+31
+00:01:58,570 --> 00:02:04,540
+The first thing we're going to do is shut down the server and install what's necessary to use Appollo
+
+32
+00:02:04,540 --> 00:02:05,240
+boost.
+
+33
+00:02:05,350 --> 00:02:07,450
+And there are actually two things we need.
+
+34
+00:02:07,450 --> 00:02:12,040
+We need the Apollo Boost library and we also need the graphical library.
+
+35
+00:02:12,040 --> 00:02:22,250
+So right here NPM install First up Apollo high and a boost at the latest version zero point one point
+
+36
+00:02:22,310 --> 00:02:23,190
+fourteen.
+
+37
+00:02:23,480 --> 00:02:30,660
+And we're also going to install graphic QOL at the latest version fourteen point zero point to Apollo.
+
+38
+00:02:30,680 --> 00:02:36,260
+Boost is going to allow us to fire off those operations and graph you and just makes it possible for
+
+39
+00:02:36,260 --> 00:02:40,240
+us to define graph QOL operations in Javascript.
+
+40
+00:02:40,430 --> 00:02:45,740
+So I'm going to go ahead and run the installer installing both of those libraries and up above at the
+
+41
+00:02:45,740 --> 00:02:51,800
+top of index data J S We are going to import a couple of things from Appollo boost.
+
+42
+00:02:51,800 --> 00:02:54,050
+There are actually two things we're going to grab.
+
+43
+00:02:54,160 --> 00:03:01,280
+We are going to grab the Apollo boost constructor function which we can use to initialize a client and
+
+44
+00:03:01,280 --> 00:03:06,610
+we're also going to grab a little utility that makes it easy to define our operations in Javascript.
+
+45
+00:03:06,620 --> 00:03:11,220
+So right here let's set that up we are going to import those two things.
+
+46
+00:03:11,230 --> 00:03:15,440
+First up the default export Appollo boost.
+
+47
+00:03:15,580 --> 00:03:23,760
+Then a comma and in curly braces will be grabbing one unnamed export GQ out then from the library.
+
+48
+00:03:23,770 --> 00:03:26,760
+We just installed Appollo boost.
+
+49
+00:03:26,770 --> 00:03:27,530
+Perfect.
+
+50
+00:03:27,760 --> 00:03:33,640
+So now we have everything imported that we need to actually perform these three steps to define an operation
+
+51
+00:03:33,640 --> 00:03:36,790
+to send it off and to get the response back.
+
+52
+00:03:36,790 --> 00:03:40,110
+First up we have to initialize an instance of Appollo boost.
+
+53
+00:03:40,120 --> 00:03:46,570
+So right here I'm going to create a constant called client and we are going to get its value by using
+
+54
+00:03:46,570 --> 00:03:51,220
+the new operator with the Apollo boost constructor function.
+
+55
+00:03:51,220 --> 00:03:56,740
+Now this takes in a single option's object and on here we're going to define a single option.
+
+56
+00:03:56,740 --> 00:04:02,620
+It's you are I this is going to provide the path to our graph Q L back end.
+
+57
+00:04:02,800 --> 00:04:05,380
+Now for me that's localhost four thousand.
+
+58
+00:04:05,380 --> 00:04:15,820
+So right here HTP colon forward slash forward slash local host port four thousand and now down below.
+
+59
+00:04:15,880 --> 00:04:22,610
+We can actually use client dot query and client dot mutate to perform operations on the backend.
+
+60
+00:04:22,690 --> 00:04:27,600
+Now if we're going to perform a query which we're going to we would use client dot query.
+
+61
+00:04:27,640 --> 00:04:34,710
+This is a method and it takes a single options object on here we have to define one property query.
+
+62
+00:04:34,780 --> 00:04:38,290
+And this is where we list out what type of query we're trying to perform.
+
+63
+00:04:38,290 --> 00:04:43,150
+This is going to end up looking very similar to what we have over in the left hand side of.
+
+64
+00:04:43,370 --> 00:04:44,300
+Playground.
+
+65
+00:04:44,350 --> 00:04:47,910
+So it's a query we're fetching users and we want these fields.
+
+66
+00:04:48,010 --> 00:04:52,420
+We have to do the same thing when we're making our request from javascript code.
+
+67
+00:04:52,420 --> 00:04:58,540
+Now the catch is that the query property doesn't accept a string value it actually expects what's known
+
+68
+00:04:58,540 --> 00:05:00,940
+as an abstract syntax tree.
+
+69
+00:05:00,940 --> 00:05:07,190
+This is a very complex javascript object which represents a given graph QOL operation.
+
+70
+00:05:07,330 --> 00:05:10,720
+They're not designed to be created by humans in code.
+
+71
+00:05:10,720 --> 00:05:13,840
+Instead we get them generated by using utilities.
+
+72
+00:05:13,840 --> 00:05:16,020
+In this case we'll be using GQ well.
+
+73
+00:05:16,180 --> 00:05:21,130
+So the long and short of it is that we're going to end up writing strings those strings will get parsed
+
+74
+00:05:21,160 --> 00:05:25,500
+and we'll past that parsed string down to Appollo boost.
+
+75
+00:05:25,510 --> 00:05:26,040
+So right here.
+
+76
+00:05:26,050 --> 00:05:29,730
+Let's go ahead and define the operation we're trying to perform.
+
+77
+00:05:29,770 --> 00:05:34,630
+I'm going to create a constant I'll call it something like get the users to write.
+
+78
+00:05:34,630 --> 00:05:38,040
+Here we are going to define a template strain.
+
+79
+00:05:38,230 --> 00:05:43,960
+Now we're also going to use the tagging feature of template sharings and GQ owl is actually designed
+
+80
+00:05:43,960 --> 00:05:44,490
+for that.
+
+81
+00:05:44,620 --> 00:05:49,780
+So by adding this up front it's going to be able to parse our string and right here between those two
+
+82
+00:05:49,780 --> 00:05:50,700
+back ticks.
+
+83
+00:05:50,740 --> 00:05:56,230
+I'm going to add a new line and we're going to start defining our operation and it's going to look very
+
+84
+00:05:56,230 --> 00:05:58,380
+similar to what we have over here.
+
+85
+00:05:58,390 --> 00:06:00,550
+I'm going to start off with the type.
+
+86
+00:06:00,610 --> 00:06:06,060
+In this case a query I'm going to say that I want to fetch users so I'll define that.
+
+87
+00:06:06,250 --> 00:06:10,820
+And then for each user Let's say I wanted their ID and their name.
+
+88
+00:06:10,930 --> 00:06:14,950
+So we have our operation performed and it is indeed getting parsed.
+
+89
+00:06:14,980 --> 00:06:21,160
+The next thing to do is to pass it down to client dot query and that's what we're going to do right
+
+90
+00:06:21,190 --> 00:06:22,360
+here.
+
+91
+00:06:22,360 --> 00:06:27,250
+I'm going to set the query property equal to get users perfect.
+
+92
+00:06:27,250 --> 00:06:32,170
+So at this point we would actually be firing off the operation we defined up above.
+
+93
+00:06:32,260 --> 00:06:38,200
+We just haven't done anything to get the data back to actually do something with the users that get
+
+94
+00:06:38,200 --> 00:06:38,810
+returned.
+
+95
+00:06:38,890 --> 00:06:44,260
+As you might have expected the query method returns a promise and that promise resolves when our data
+
+96
+00:06:44,260 --> 00:06:45,690
+is available right here.
+
+97
+00:06:45,790 --> 00:06:49,250
+Let's go ahead and toss on a then method call to this promise.
+
+98
+00:06:49,300 --> 00:06:53,080
+If I was in an async function I could use a wait instead.
+
+99
+00:06:53,080 --> 00:06:57,940
+Right here we are going to set up the function to run when the promise resolves and we're going to get
+
+100
+00:06:57,940 --> 00:07:00,640
+access to the response from the server.
+
+101
+00:07:00,640 --> 00:07:03,910
+Now there are plenty of properties on response that we don't care about.
+
+102
+00:07:03,910 --> 00:07:05,880
+There is one though that's very important.
+
+103
+00:07:05,890 --> 00:07:08,710
+It is response dot data right here.
+
+104
+00:07:08,800 --> 00:07:10,530
+I'm just going to dump it to the console.
+
+105
+00:07:10,600 --> 00:07:13,760
+So console dot log response dot data.
+
+106
+00:07:13,960 --> 00:07:17,700
+This contains the actual data we requested back.
+
+107
+00:07:17,830 --> 00:07:21,200
+I'm going to save index dot J S and down below in the terminal.
+
+108
+00:07:21,250 --> 00:07:27,890
+We're going to start up our server once again by running NPM run start from the Apollo client directory.
+
+109
+00:07:28,000 --> 00:07:33,340
+Once it's up and running I will Allt click that you R-AL to actually pull it up in the browser.
+
+110
+00:07:33,340 --> 00:07:38,950
+And once again I'm going to crack open the developer tools so we can view the console output right here
+
+111
+00:07:38,980 --> 00:07:39,700
+what do we have.
+
+112
+00:07:39,700 --> 00:07:41,410
+We have an object.
+
+113
+00:07:41,410 --> 00:07:49,060
+And if I crack that open we have our users property the one queery we performed on users we have an
+
+114
+00:07:49,060 --> 00:07:55,360
+array of objects so we have 6 different objects each with an ID and name property.
+
+115
+00:07:55,390 --> 00:07:58,120
+Exactly what we've fetched over here.
+
+116
+00:07:58,120 --> 00:08:00,800
+So the first user for example is this object right.
+
+117
+00:08:00,820 --> 00:08:07,630
+Here we have the ID which we asked for the name which we asked for and also this underscore underscore
+
+118
+00:08:07,660 --> 00:08:10,430
+type name property this does shows us the type.
+
+119
+00:08:10,430 --> 00:08:15,710
+In this case it is indeed a user and down below we have our other five users as well.
+
+120
+00:08:15,710 --> 00:08:20,590
+Now at this point we have the data in the browser and we could go ahead and do anything with it.
+
+121
+00:08:20,600 --> 00:08:24,230
+We could render it to the user we could save it in local storage.
+
+122
+00:08:24,230 --> 00:08:27,470
+We could do whatever it is we need to do for the moment.
+
+123
+00:08:27,470 --> 00:08:31,570
+Let's go ahead and actually render a list of all users to the screen.
+
+124
+00:08:31,880 --> 00:08:38,870
+Now over in indexical HTL I created a little place to do this a div with the idea of posts and actually
+
+125
+00:08:38,870 --> 00:08:42,230
+going to switch that over to an idea of users.
+
+126
+00:08:42,230 --> 00:08:47,540
+Now that we have this in place we're going to target this with javascript and we're going to render
+
+127
+00:08:47,540 --> 00:08:49,470
+all of the users inside of it.
+
+128
+00:08:49,640 --> 00:08:55,060
+So let's go ahead and actually get that done by making a few changes to our callback down below.
+
+129
+00:08:55,130 --> 00:09:00,590
+Right here I'll get started by creating a new constant a concert called TNL and I'll start that off
+
+130
+00:09:00,590 --> 00:09:03,560
+as an empty string and we'll add to it over time.
+
+131
+00:09:03,560 --> 00:09:09,260
+Now the last thing we're going to do inside of this function is actually use H DML to render something
+
+132
+00:09:09,260 --> 00:09:11,080
+to the screen right here.
+
+133
+00:09:11,090 --> 00:09:18,660
+We'll be using Document dot get element by ID to fetch our element.
+
+134
+00:09:18,700 --> 00:09:25,300
+I have the ID of users we just changed that over in the index dot age DML file and from here we'll be
+
+135
+00:09:25,300 --> 00:09:31,870
+setting the inner HVM male property providing our string h DML.
+
+136
+00:09:31,900 --> 00:09:36,040
+Now at this point nothing's actually going to render because we have an empty string.
+
+137
+00:09:36,040 --> 00:09:42,850
+The goal right here is to iterate over each user and add something to the DML string so it can actually
+
+138
+00:09:42,850 --> 00:09:45,410
+get rendered to the screen right here.
+
+139
+00:09:45,640 --> 00:09:53,440
+I'm going to look at response that data then we're going to look at that user's property and from there
+
+140
+00:09:53,440 --> 00:09:59,050
+on that array we'll be using the for each method to do something for each user.
+
+141
+00:09:59,050 --> 00:10:02,340
+I'm going to pass in that callback.
+
+142
+00:10:02,480 --> 00:10:06,880
+We're going to have access to the individual user so I'll call the argument user.
+
+143
+00:10:06,980 --> 00:10:13,040
+And the only thing we're going to do inside of here is set DML equal to itself and concatenate something
+
+144
+00:10:13,040 --> 00:10:14,300
+new on to the end.
+
+145
+00:10:14,420 --> 00:10:19,990
+I'm going to use the plus equals shorthand for that and provide a little template string right here.
+
+146
+00:10:20,210 --> 00:10:24,600
+Now we can set up the markup that should render for each individual user.
+
+147
+00:10:24,620 --> 00:10:28,340
+I'm just going to dump something like their name to the screen right here.
+
+148
+00:10:28,340 --> 00:10:33,320
+I'll be creating a root did and we can put all other elements inside of there and for now we'll just
+
+149
+00:10:33,320 --> 00:10:34,540
+have one other element.
+
+150
+00:10:34,550 --> 00:10:37,400
+I'll use something like an H-3 Hatter tag.
+
+151
+00:10:37,400 --> 00:10:41,530
+I open and close that element and we'll use interpellation the dollar sign.
+
+152
+00:10:41,540 --> 00:10:47,300
+Curly brace syntax in the template string to inject a value and the value is user dot name.
+
+153
+00:10:47,300 --> 00:10:52,310
+Now I just noticed that I created this variable as a constant but if I am going to be reassigning its
+
+154
+00:10:52,310 --> 00:10:55,160
+value I want to switch that over to let instead.
+
+155
+00:10:55,250 --> 00:10:56,160
+Perfect.
+
+156
+00:10:56,270 --> 00:11:00,890
+Now that we have this in place we can go ahead and save index dot J ass.
+
+157
+00:11:00,890 --> 00:11:05,030
+This is going to fetch that data and render it to the screen and what do we see.
+
+158
+00:11:05,030 --> 00:11:09,340
+I see a list of all of the users from our graph Cuil database.
+
+159
+00:11:09,350 --> 00:11:10,340
+So there we go.
+
+160
+00:11:10,340 --> 00:11:13,650
+We've successfully made our request to our Grath.
+
+161
+00:11:13,650 --> 00:11:18,020
+Q Well back end FIRMAT browser based script.
+
+162
+00:11:18,080 --> 00:11:23,380
+Now that we've done this once you're going to go ahead and do it again as your challenge for this video.
+
+163
+00:11:23,450 --> 00:11:30,190
+You're going to end up using the Post's query to fetch all published posts and render them to the screen.
+
+164
+00:11:30,290 --> 00:11:35,900
+Before we dive into the challenge comments let's give you a place to actually render the posts list
+
+165
+00:11:36,110 --> 00:11:38,030
+over here under users.
+
+166
+00:11:38,030 --> 00:11:40,550
+I'll make another div with an ID.
+
+167
+00:11:40,550 --> 00:11:42,310
+Let's use something like posts.
+
+168
+00:11:42,410 --> 00:11:45,200
+This is where you're going to end up rendering that data.
+
+169
+00:11:45,200 --> 00:11:48,180
+Now we can save this file and an index Dhananjay.
+
+170
+00:11:48,320 --> 00:11:52,060
+I'm going to paste in the challenge comments and talk about what I'd like you to do.
+
+171
+00:11:52,160 --> 00:11:58,970
+The big picture goal is to render all published posts to the browsers you're going to be using our posts
+
+172
+00:11:59,030 --> 00:12:06,110
+queery right here Step one you have to define this operation using Jeep's UL like we did above for the
+
+173
+00:12:06,110 --> 00:12:12,230
+users query then you're going to send this off using client and you're going to wait for the response
+
+174
+00:12:12,230 --> 00:12:12,880
+data.
+
+175
+00:12:13,100 --> 00:12:19,610
+When you get the data back you are going to render the list of post titles along with author names so
+
+176
+00:12:19,610 --> 00:12:24,830
+those are the two fields you have to make sure to get the post title and the name of the person who
+
+177
+00:12:24,830 --> 00:12:26,030
+wrote the post.
+
+178
+00:12:26,030 --> 00:12:31,100
+Now once you have Step Three done you can save the file and test your work over here.
+
+179
+00:12:31,100 --> 00:12:36,130
+You should see a rendered list of post titles with author names.
+
+180
+00:12:36,200 --> 00:12:41,460
+Now when it comes to the actual h DML structure it's not particularly important what you do.
+
+181
+00:12:41,480 --> 00:12:47,300
+You can just stick with a div with a H-3 inside of there and you can include the post title first and
+
+182
+00:12:47,300 --> 00:12:50,230
+the author named second or something along those lines.
+
+183
+00:12:50,240 --> 00:12:55,640
+You can choose to render it however you want the big picture goal is to actually get that data and render
+
+184
+00:12:55,640 --> 00:12:56,870
+it in some way.
+
+185
+00:12:57,040 --> 00:12:59,870
+All right take as much time as you need to knock this out.
+
+186
+00:12:59,870 --> 00:13:06,240
+As always feel free to use what we just did above as a guide to how to get this done.
+
+187
+00:13:06,260 --> 00:13:08,510
+Then come back and click play
+
+188
+00:13:11,570 --> 00:13:12,240
+how that go.
+
+189
+00:13:12,260 --> 00:13:14,930
+Let's go ahead and kick things off with Step number one.
+
+190
+00:13:14,930 --> 00:13:17,880
+We have to define the operation we're trying to perform.
+
+191
+00:13:18,020 --> 00:13:24,290
+I'm going to create a concert along the lines of get posts right here we will be using GTK UL along
+
+192
+00:13:24,290 --> 00:13:27,140
+with a template string to define the operation.
+
+193
+00:13:27,260 --> 00:13:29,220
+And in here we'll start with queries.
+
+194
+00:13:29,230 --> 00:13:34,970
+Since we're performing a query next up we are going to list the specific query we're trying to use.
+
+195
+00:13:34,970 --> 00:13:41,120
+This is going to be the Post's query to fetch published posts and then we have to define our selection
+
+196
+00:13:41,120 --> 00:13:47,930
+set for each post I want it's title and I also want the author name so Author.
+
+197
+00:13:47,930 --> 00:13:52,520
+We provide that selection set for author grabbing the name perfect.
+
+198
+00:13:52,730 --> 00:13:58,100
+Now that we have the operation defined we can move on to step two which is to actually send it off.
+
+199
+00:13:58,100 --> 00:14:06,030
+And for this you needed to use client dot query passing in the Options object setting up the query property.
+
+200
+00:14:06,080 --> 00:14:12,790
+In this case the value is going to be get posts where previously we had used get users.
+
+201
+00:14:13,070 --> 00:14:19,820
+Now that we've fired this off we can toss on a then method call with our callback function to do something
+
+202
+00:14:19,940 --> 00:14:21,810
+when we actually get that data back.
+
+203
+00:14:21,830 --> 00:14:28,250
+Right here we're going to have access to the response and what we want to do is generate an H DML string
+
+204
+00:14:28,460 --> 00:14:30,660
+and render it to the browser.
+
+205
+00:14:30,740 --> 00:14:36,890
+So I'm going to start once again with a variable let h TNL equal an empty string then from there we
+
+206
+00:14:36,890 --> 00:14:41,990
+can go ahead and actually use the selector like we did here to render things even though it's currently
+
+207
+00:14:41,990 --> 00:14:47,810
+an empty string document doesn't get element by ID.
+
+208
+00:14:47,810 --> 00:14:53,430
+The ID that we set up over here was posts so that's it I'm going to use inside of the string.
+
+209
+00:14:53,840 --> 00:15:00,900
+Then we'll be setting up the inner h DML property the value coming from our l variable.
+
+210
+00:15:00,920 --> 00:15:06,380
+Now all we have to do is actually iterate over all of the posts adding some stuff onto this string each
+
+211
+00:15:06,380 --> 00:15:06,960
+time.
+
+212
+00:15:07,070 --> 00:15:13,660
+So once again response dot data dot right here posts.
+
+213
+00:15:13,680 --> 00:15:18,330
+This is an array and on that array will be using the for each method.
+
+214
+00:15:18,330 --> 00:15:24,870
+Once again will set up that callback function will have access to the individual post object and we're
+
+215
+00:15:24,870 --> 00:15:30,500
+going to do is add on to TNL to h TNL plus equals a new string.
+
+216
+00:15:30,690 --> 00:15:35,610
+And right here we can define the markup we want to render for each individual post.
+
+217
+00:15:35,610 --> 00:15:36,480
+I'm going to use a div
+
+218
+00:15:39,760 --> 00:15:46,970
+inside that div I'll use another H-3 and inside of the H-3 we're going to include the title so right
+
+219
+00:15:46,970 --> 00:15:54,570
+here I will interpret the title I'm going to use post dot title which is where that data lives.
+
+220
+00:15:54,620 --> 00:15:59,790
+Now we could have included the author name alongside or maybe you added something else down below.
+
+221
+00:15:59,870 --> 00:16:02,800
+I could add as an example an H for element.
+
+222
+00:16:04,610 --> 00:16:12,050
+Putting the author name inside of there that's available on Post dot author dot name.
+
+223
+00:16:12,180 --> 00:16:13,200
+Excellent.
+
+224
+00:16:13,200 --> 00:16:19,020
+Now that we have this in place we are all done steps 1 2 and 3 and we can move on to actually testing
+
+225
+00:16:19,020 --> 00:16:19,740
+our work.
+
+226
+00:16:19,740 --> 00:16:23,220
+So right here I'm going to save index Dhananjay as in the browser.
+
+227
+00:16:23,220 --> 00:16:24,150
+What do we have.
+
+228
+00:16:24,150 --> 00:16:25,710
+We have our list of authors.
+
+229
+00:16:25,710 --> 00:16:31,500
+Then we have our list of posts starting with updated post by Andrew with his name down below.
+
+230
+00:16:31,530 --> 00:16:36,570
+Then we have a few posts by Jess with her name down the list all the way to the bottom.
+
+231
+00:16:36,570 --> 00:16:40,140
+Post by Andrew 5 written by Andrew.
+
+232
+00:16:40,200 --> 00:16:44,680
+So now we have figured out how to query data from javascript code.
+
+233
+00:16:44,700 --> 00:16:50,040
+And this is good because we need to be able to do this if we're going to write test cases that actually
+
+234
+00:16:50,040 --> 00:16:51,700
+interact with the API.
+
+235
+00:16:51,840 --> 00:16:56,820
+And we're going to need to be able to do this if we're ever going to build out a client for our application
+
+236
+00:16:57,030 --> 00:16:59,090
+and that's now something you know how to do.
+
+237
+00:16:59,310 --> 00:17:03,450
+All right let's go ahead and continue on with this section in the next video.
+

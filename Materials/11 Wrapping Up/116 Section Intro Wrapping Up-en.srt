@@ -1,0 +1,48 @@
+1
+00:00:01,620 --> 00:00:07,530
+Our time together is unfortunately coming to a close but we still have this one last section and there
+
+2
+00:00:07,530 --> 00:00:10,920
+are two important things I want to cover in the next video.
+
+3
+00:00:11,010 --> 00:00:15,780
+I'm going to give you some suggestions for what you can now build with what you've learned in the class.
+
+4
+00:00:15,780 --> 00:00:20,070
+So we're going to talk about some new features you could add to the blogging app and we'll also talk
+
+5
+00:00:20,070 --> 00:00:21,200
+about a brand new app.
+
+6
+00:00:21,220 --> 00:00:26,250
+You can build from the ground up and that would be a great way to get more practice and really solidify
+
+7
+00:00:26,250 --> 00:00:30,180
+what you learned in the class in the second video in this section.
+
+8
+00:00:30,180 --> 00:00:32,550
+I'm going to talk about where to go from here.
+
+9
+00:00:32,550 --> 00:00:33,450
+The class is over.
+
+10
+00:00:33,450 --> 00:00:38,130
+You've learned a graphic Well where should you go next on your learning journey.
+
+11
+00:00:38,130 --> 00:00:39,780
+I'm excited to get to both of these.
+
+12
+00:00:39,780 --> 00:00:42,290
+So let's go ahead and jump right in.
+

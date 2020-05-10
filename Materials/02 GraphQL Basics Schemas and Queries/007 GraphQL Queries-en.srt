@@ -1,0 +1,876 @@
+1
+00:00:00,240 --> 00:00:05,670
+You've learned that graft well is fast and flexible because it's the client that sends a query to the
+
+2
+00:00:05,670 --> 00:00:09,410
+server asking for the exact data it needs.
+
+3
+00:00:09,450 --> 00:00:16,570
+In this video you're going to see that in action by creating and running your very first graphical query.
+
+4
+00:00:16,590 --> 00:00:21,400
+So we're going to be making requests to a real world graphical API.
+
+5
+00:00:21,540 --> 00:00:27,420
+Now as with a rest API we're going to have a client and a server in the case of this course the client
+
+6
+00:00:27,420 --> 00:00:30,950
+is going to be a web app and the server is going to be a node.
+
+7
+00:00:31,060 --> 00:00:32,980
+J.S. l server.
+
+8
+00:00:33,030 --> 00:00:35,530
+We're not going to worry about either of those just yet.
+
+9
+00:00:35,550 --> 00:00:38,690
+That would be getting a little bit ahead of ourselves in this video.
+
+10
+00:00:38,730 --> 00:00:40,560
+We're going to focus on making a graph.
+
+11
+00:00:40,560 --> 00:00:46,560
+Q Well request to a server I've put together for us allowing us to explore this syntax without needing
+
+12
+00:00:46,560 --> 00:00:52,140
+to write a ton of code though don't worry we will start setting up our very own graph to API in just
+
+13
+00:00:52,140 --> 00:00:55,870
+a couple of videos for the moment though let's go ahead and mess around with graphs.
+
+14
+00:00:55,880 --> 00:00:59,940
+Q Well queries by heading over to a u r l.
+
+15
+00:00:59,940 --> 00:01:05,930
+This is graph Cuil hyphen demo dot Meade dot I O.
+
+16
+00:01:06,030 --> 00:01:09,720
+And when you head over there you should see exactly what I have here.
+
+17
+00:01:09,750 --> 00:01:15,030
+The tool you're seeing here is called graph Q Well playground and it's a little request response tool
+
+18
+00:01:15,030 --> 00:01:22,200
+for graph UL so we can see what would happen if we submitted a specific query to a specific graph API.
+
+19
+00:01:22,230 --> 00:01:27,240
+It's a tool we can actually install as a standalone program on our machines and we will be doing that
+
+20
+00:01:27,240 --> 00:01:28,220
+a little bit later.
+
+21
+00:01:28,320 --> 00:01:32,850
+By the end of the course you're going to be very familiar with how this tool works.
+
+22
+00:01:32,850 --> 00:01:38,010
+If you've ever worked with a rest API you've probably used some sort of HTP gooey in the past.
+
+23
+00:01:38,010 --> 00:01:40,800
+Maybe something like post man or insomnia.
+
+24
+00:01:40,920 --> 00:01:46,820
+In the end of the day the graft playground tool is the exact same thing on the left hand side.
+
+25
+00:01:46,830 --> 00:01:52,710
+We're going to type out our queries specifying the data the client wants to request we click the play
+
+26
+00:01:52,710 --> 00:01:53,170
+button.
+
+27
+00:01:53,220 --> 00:01:58,170
+It's going to go off and actually make a request to the API to put together and on the right hand side
+
+28
+00:01:58,200 --> 00:02:00,470
+we're going to get a response.
+
+29
+00:02:00,480 --> 00:02:03,910
+Now remember with Graph Q Well we just have a single end point.
+
+30
+00:02:03,930 --> 00:02:06,700
+So there's no need to make any changes to the U r l.
+
+31
+00:02:06,750 --> 00:02:11,510
+You should already have exactly what I have here and we're not going to make any changes to that.
+
+32
+00:02:11,520 --> 00:02:16,520
+The only thing we're going to have to change is the code that goes in this box on the left hand side.
+
+33
+00:02:16,530 --> 00:02:19,920
+This is where we type out the graft UL operations.
+
+34
+00:02:19,920 --> 00:02:22,480
+We want to perform on our server.
+
+35
+00:02:22,530 --> 00:02:27,390
+Let's go ahead and start by removing everything inside of here which is just this single comment on
+
+36
+00:02:27,390 --> 00:02:31,820
+line 1 and it will be perfectly fine to leave that comment in place.
+
+37
+00:02:31,870 --> 00:02:34,620
+I'm just removing it for simplicity's sake.
+
+38
+00:02:34,650 --> 00:02:40,450
+Now we're going to go ahead and specify our very first graft Cuil operation.
+
+39
+00:02:40,500 --> 00:02:44,740
+There are three major operations we can perform on any graph API.
+
+40
+00:02:44,880 --> 00:02:46,650
+One of them is the query.
+
+41
+00:02:46,800 --> 00:02:50,860
+And that's what we'll be starting with the query allows us to fetch data.
+
+42
+00:02:51,030 --> 00:02:56,820
+So right here we start off with our operation type for a query it is query in all lowercase.
+
+43
+00:02:56,970 --> 00:02:58,950
+Then we're going to type a space.
+
+44
+00:02:58,950 --> 00:03:03,200
+We're going to open and close a set of curly braces and hit enter inside.
+
+45
+00:03:03,420 --> 00:03:08,850
+Later in the course we'll be learning all about the other two types of operations we can perform one
+
+46
+00:03:08,950 --> 00:03:12,450
+being the mutation which allows us to change data.
+
+47
+00:03:12,450 --> 00:03:18,240
+The other being the subscription which allows us to watch data for changes which is great for real time
+
+48
+00:03:18,240 --> 00:03:19,830
+applications.
+
+49
+00:03:19,860 --> 00:03:24,450
+Now we can see we're getting a little error with this query and that's because technically we have an
+
+50
+00:03:24,510 --> 00:03:26,000
+invalid query.
+
+51
+00:03:26,010 --> 00:03:31,290
+It's not asking for any data which means that it shouldn't even be sent off since no data is going to
+
+52
+00:03:31,290 --> 00:03:32,240
+come back.
+
+53
+00:03:32,370 --> 00:03:39,900
+What we have to do right here inside of these curly braces is specify what fields we want from the graphical
+
+54
+00:03:40,110 --> 00:03:40,940
+API.
+
+55
+00:03:41,070 --> 00:03:47,180
+Then we'll have a valid graft you will query that actually fetches some data on this Demel graft UL
+
+56
+00:03:47,220 --> 00:03:47,810
+API.
+
+57
+00:03:47,820 --> 00:03:49,730
+I've set up a few different fields.
+
+58
+00:03:49,740 --> 00:03:51,930
+We can actually query from the server.
+
+59
+00:03:51,930 --> 00:03:58,760
+One of them is called Hello and to query that field all we do is type the field name right here.
+
+60
+00:03:58,830 --> 00:04:03,120
+Now what we have here on the left hand side is a completely valid query.
+
+61
+00:04:03,140 --> 00:04:07,800
+It might look a little bit like Jason or some sort of weird javascript object but it's not it's the
+
+62
+00:04:07,800 --> 00:04:09,450
+graphical language.
+
+63
+00:04:09,510 --> 00:04:14,370
+And we'll be exploring it in more detail and looking at all of the awesome stuff it has to offer as
+
+64
+00:04:14,370 --> 00:04:16,110
+we progress through the course.
+
+65
+00:04:16,110 --> 00:04:19,140
+For now though we have a perfectly valid operation.
+
+66
+00:04:19,230 --> 00:04:21,530
+We're performing a query on our server.
+
+67
+00:04:21,660 --> 00:04:23,820
+We're requesting a single field.
+
+68
+00:04:23,880 --> 00:04:28,920
+Hello let's go ahead and run our very first GRATHWOHL query by hitting that play button.
+
+69
+00:04:28,920 --> 00:04:30,900
+And what do we get on the right hand side.
+
+70
+00:04:30,960 --> 00:04:38,160
+We get back some Jasen data we get back an object with a single property data and on there we have all
+
+71
+00:04:38,160 --> 00:04:40,050
+of the data we requested.
+
+72
+00:04:40,140 --> 00:04:45,930
+In this case we requested a single field hello which shows up right here and then we have the actual
+
+73
+00:04:45,930 --> 00:04:47,990
+data that came back from the server.
+
+74
+00:04:48,030 --> 00:04:50,730
+In this case it was the string Hello world.
+
+75
+00:04:50,730 --> 00:04:52,050
+So this is fantastic.
+
+76
+00:04:52,050 --> 00:04:56,580
+Our very first graph you will query with just three lines of code.
+
+77
+00:04:56,580 --> 00:05:01,850
+Now let's make this a bit more interesting by requesting more just a single field from the server.
+
+78
+00:05:01,850 --> 00:05:07,460
+Remember we can request as much or as little data as we need with a graphical query but typically it'll
+
+79
+00:05:07,460 --> 00:05:09,600
+be more than just one field.
+
+80
+00:05:09,620 --> 00:05:10,400
+So how do we do that.
+
+81
+00:05:10,400 --> 00:05:16,430
+Well right here we're just going to add a new line inside of the curly braces for our query operation
+
+82
+00:05:16,640 --> 00:05:19,600
+and we're going to specify the field we want access to.
+
+83
+00:05:19,760 --> 00:05:21,360
+I have set up a Netherfield.
+
+84
+00:05:21,380 --> 00:05:27,760
+For us it is called Course instructor of course instructor is going to return a string.
+
+85
+00:05:27,770 --> 00:05:29,130
+Much like hello.
+
+86
+00:05:29,210 --> 00:05:31,330
+And in this case it is going to contain my name.
+
+87
+00:05:31,340 --> 00:05:33,130
+The Course instructor.
+
+88
+00:05:33,170 --> 00:05:37,230
+Now you'll notice there is no extra punctuation inside of the curly braces.
+
+89
+00:05:37,250 --> 00:05:42,740
+We just have the field names on separate lines so I'm not doing anything like adding a comma right ear
+
+90
+00:05:42,800 --> 00:05:45,770
+like you would see with Jason or a javascript object.
+
+91
+00:05:45,770 --> 00:05:49,240
+It is just field one a new line field too.
+
+92
+00:05:49,460 --> 00:05:52,940
+Let's go ahead and actually run this query by clicking that play button.
+
+93
+00:05:53,030 --> 00:05:54,140
+And what do we get back.
+
+94
+00:05:54,260 --> 00:05:58,790
+We get back our data object this time with the two properties we've requested.
+
+95
+00:05:58,940 --> 00:06:00,360
+We have our field hello.
+
+96
+00:06:00,440 --> 00:06:04,640
+With the string value hello world and we have the field course instructor.
+
+97
+00:06:04,640 --> 00:06:06,850
+The new one with the string value.
+
+98
+00:06:06,860 --> 00:06:08,250
+Andrew Mead.
+
+99
+00:06:08,360 --> 00:06:12,950
+Now so far both of the requests we've made this one and the last one have worked.
+
+100
+00:06:12,950 --> 00:06:17,900
+We've gotten a valid data response and that's because both of the fields we have requested are real
+
+101
+00:06:17,910 --> 00:06:20,720
+fields that the server was set up to know about.
+
+102
+00:06:20,840 --> 00:06:25,510
+What happens though if we type in some random field name that the server does not understand.
+
+103
+00:06:25,550 --> 00:06:27,280
+For example course price.
+
+104
+00:06:27,410 --> 00:06:30,180
+Something I have not set up for this API.
+
+105
+00:06:30,470 --> 00:06:35,270
+We can see that right away we're actually getting an error and if we hover over that we get the following
+
+106
+00:06:35,270 --> 00:06:39,550
+message cannot query field course price on type query.
+
+107
+00:06:39,560 --> 00:06:42,440
+Did you mean Course or course instructor.
+
+108
+00:06:42,440 --> 00:06:44,480
+So we're getting some very useful feedback.
+
+109
+00:06:44,570 --> 00:06:49,610
+It's saying that the field we're trying to access doesn't exist and it's suggesting some other fields
+
+110
+00:06:49,610 --> 00:06:51,220
+that actually do exist.
+
+111
+00:06:51,380 --> 00:06:56,750
+We'll talk about exactly what the type queery with an upper case Q means a bit later when we actually
+
+112
+00:06:56,750 --> 00:06:57,810
+set things up.
+
+113
+00:06:58,010 --> 00:07:03,770
+For now the important thing to note is that we're getting very useful feedback on our fields before
+
+114
+00:07:03,860 --> 00:07:07,160
+we actually ever send the request off.
+
+115
+00:07:07,160 --> 00:07:08,600
+How's all of this possible.
+
+116
+00:07:08,600 --> 00:07:14,050
+How for example am I able to type in H and have it know that there is a helo field.
+
+117
+00:07:14,060 --> 00:07:22,730
+I can actually request that is because by nature all graph QOL API eyes are self documenting it is not
+
+118
+00:07:22,730 --> 00:07:26,180
+a feature we get with the rest API eyes with the rest API.
+
+119
+00:07:26,180 --> 00:07:31,910
+Someone needs to manually write and update documentation and in my own personal experience working at
+
+120
+00:07:31,910 --> 00:07:38,120
+companies the documentation either one that doesn't exist or two is severely outdated and basically
+
+121
+00:07:38,120 --> 00:07:38,950
+useless.
+
+122
+00:07:38,960 --> 00:07:40,280
+So what do you end up doing.
+
+123
+00:07:40,280 --> 00:07:45,170
+You end up just making a dummy request to the end point dumping all of the data out of the console just
+
+124
+00:07:45,170 --> 00:07:50,450
+to figure out exactly where the data you need lives what fields contain the data I need it to render
+
+125
+00:07:50,480 --> 00:07:52,630
+this page with graphs you.
+
+126
+00:07:52,640 --> 00:07:59,450
+We do not run into the same problem because your request dictates your response where specifying the
+
+127
+00:07:59,450 --> 00:08:01,580
+exact things we want access to.
+
+128
+00:08:01,700 --> 00:08:04,320
+So we know what the response is going to look like.
+
+129
+00:08:04,340 --> 00:08:07,340
+We don't have to play that guessing game any more.
+
+130
+00:08:07,340 --> 00:08:14,150
+All of this is possible because your Grath UL API exposes an application schema which describes all
+
+131
+00:08:14,150 --> 00:08:18,550
+of the operations that could be performed in the case of the query operation.
+
+132
+00:08:18,590 --> 00:08:21,700
+It describes all of the fields you're allowed to select.
+
+133
+00:08:21,710 --> 00:08:27,020
+That's why we're able to see that a field like test is invalid before we ever even send the request
+
+134
+00:08:27,080 --> 00:08:27,950
+off.
+
+135
+00:08:27,950 --> 00:08:32,910
+Now using this tool graphed you l playground we can view the schema via this schema.
+
+136
+00:08:32,910 --> 00:08:35,200
+Tab on the right hand side.
+
+137
+00:08:35,210 --> 00:08:38,180
+Now there are a few things in here we're not going to talk about just yet.
+
+138
+00:08:38,180 --> 00:08:39,500
+But let's go ahead and crack it open.
+
+139
+00:08:39,500 --> 00:08:41,780
+I don't want to leave it as a mystery.
+
+140
+00:08:41,840 --> 00:08:43,760
+The first four fields are fields.
+
+141
+00:08:43,760 --> 00:08:47,670
+We're going to ignore there a bit more complex and we'll talk about them in the next video.
+
+142
+00:08:47,690 --> 00:08:51,060
+That's users posts post and me.
+
+143
+00:08:51,260 --> 00:08:53,390
+But I want to focus on the last three.
+
+144
+00:08:53,470 --> 00:08:56,870
+Hello course and course instructor.
+
+145
+00:08:56,870 --> 00:09:01,630
+Now we can see that for Hello we have the field we can request and we also have the type that we're
+
+146
+00:09:01,640 --> 00:09:03,700
+going to end up getting back in this case.
+
+147
+00:09:03,710 --> 00:09:05,260
+It's a string which we saw.
+
+148
+00:09:05,360 --> 00:09:07,180
+It's also true for Course instructor.
+
+149
+00:09:07,190 --> 00:09:12,930
+We got a string back and the exclamation mark afterwards just means we're always going to get that back
+
+150
+00:09:13,100 --> 00:09:18,530
+as opposed to being able to get null back so we're always going to get a string response which is what
+
+151
+00:09:18,530 --> 00:09:20,420
+we've seen so far.
+
+152
+00:09:20,420 --> 00:09:24,930
+Now we've already requested hello and course instructor in C in those values.
+
+153
+00:09:25,040 --> 00:09:31,670
+What I want you to do as your challenge for this video is to change the query to also make a request
+
+154
+00:09:31,700 --> 00:09:33,220
+for course.
+
+155
+00:09:33,230 --> 00:09:36,090
+Now this alone might seem like a pretty easy thing to do.
+
+156
+00:09:36,170 --> 00:09:42,020
+And that's because I want to take this moment to introduce the challenge format like with all of my
+
+157
+00:09:42,020 --> 00:09:42,560
+courses.
+
+158
+00:09:42,560 --> 00:09:47,010
+The goal in this course is to get you writing code and solving problems on your own.
+
+159
+00:09:47,030 --> 00:09:50,910
+That's the only way to actually learn how to use a tool in the real world.
+
+160
+00:09:50,930 --> 00:09:54,880
+So sure it is important that you follow along with the code I write in the video.
+
+161
+00:09:54,920 --> 00:09:56,910
+You should have this written out already.
+
+162
+00:09:57,110 --> 00:10:01,810
+But it's also important that you get a chance to solve problems on your own and that's where the challenges
+
+163
+00:10:01,810 --> 00:10:04,810
+come in with a challenge I set up a problem.
+
+164
+00:10:04,810 --> 00:10:09,760
+I want you to solve using what you just learned and then give you a moment to pause the video and you
+
+165
+00:10:09,760 --> 00:10:11,800
+go off and try to solve that problem.
+
+166
+00:10:11,980 --> 00:10:16,990
+Then you could play come back and we work through the solution together with these challenges.
+
+167
+00:10:16,990 --> 00:10:21,820
+I never ask you to do something that you don't already know how to do based off of what was covered
+
+168
+00:10:21,820 --> 00:10:22,840
+in the course.
+
+169
+00:10:22,840 --> 00:10:24,860
+I'm also not asking for perfection.
+
+170
+00:10:24,880 --> 00:10:29,240
+There are challenges you just won't be able to solve the first time around and that's OK.
+
+171
+00:10:29,260 --> 00:10:34,690
+It's all about improving your problem solving skills and taking your understanding to the next level.
+
+172
+00:10:34,690 --> 00:10:40,090
+It's important that you follow along with the code in the videos and actually take the challenges seriously.
+
+173
+00:10:40,090 --> 00:10:45,040
+This is where you're going to build up that pattern recognition muscle memory problem solving skills
+
+174
+00:10:45,070 --> 00:10:50,710
+and debugging ability all of which are critical if you want to actually use graft well after you're
+
+175
+00:10:50,710 --> 00:10:56,320
+done the course if you don't follow along with the code in the lessons and you skip the challenges you
+
+176
+00:10:56,320 --> 00:11:00,820
+might as well just close down you to me right now because you're missing out on most of what this course
+
+177
+00:11:01,060 --> 00:11:02,370
+has to offer.
+
+178
+00:11:02,370 --> 00:11:02,800
+All right.
+
+179
+00:11:02,800 --> 00:11:06,170
+With all of that said let's go ahead and move on to our first challenge.
+
+180
+00:11:06,190 --> 00:11:10,750
+As I mentioned this one is going to be very simple because it's all about understanding the challenge
+
+181
+00:11:10,840 --> 00:11:14,650
+format as we move through the course and actually learn more about graft.
+
+182
+00:11:14,700 --> 00:11:19,830
+Well I'll be asking you to do more write more code and solve more complex problems.
+
+183
+00:11:19,840 --> 00:11:26,440
+For now your only goal is to change that query to also ask for the course then go ahead and run it and
+
+184
+00:11:26,440 --> 00:11:29,630
+actually view the response on the right hand side.
+
+185
+00:11:29,680 --> 00:11:31,540
+Take a moment to pause the video.
+
+186
+00:11:31,540 --> 00:11:32,450
+Knock that out.
+
+187
+00:11:32,470 --> 00:11:35,420
+Test your work and when you're done click play
+
+188
+00:11:39,260 --> 00:11:40,480
+all right not too bad.
+
+189
+00:11:40,580 --> 00:11:46,000
+So hopefully you took a moment to pause the video and actually add at the course field onto the query.
+
+190
+00:11:46,010 --> 00:11:47,700
+Let's go ahead and do just that.
+
+191
+00:11:47,810 --> 00:11:51,580
+I could add it at the end I could add it in the middle I could add it wherever I want.
+
+192
+00:11:51,620 --> 00:11:53,370
+I'm going to go ahead and toss it in the middle though.
+
+193
+00:11:53,390 --> 00:11:54,870
+Anywhere would have worked.
+
+194
+00:11:55,100 --> 00:11:56,870
+So right here we have hello.
+
+195
+00:11:57,140 --> 00:12:01,060
+We of course and we of course instructor I'm requesting three fields.
+
+196
+00:12:01,070 --> 00:12:03,470
+I would expect to get 3 fields back.
+
+197
+00:12:03,470 --> 00:12:05,170
+All being strings.
+
+198
+00:12:05,390 --> 00:12:07,240
+I'm going to go ahead and click that play button.
+
+199
+00:12:07,240 --> 00:12:08,230
+And what do I get.
+
+200
+00:12:08,270 --> 00:12:13,430
+I get graphed well sitting right here which is fantastic if you're also seeing graph.
+
+201
+00:12:13,520 --> 00:12:18,380
+Well as the value for course then you are all done this challenge and we are all done.
+
+202
+00:12:18,410 --> 00:12:21,230
+This video we learned quite a bit in this one.
+
+203
+00:12:21,230 --> 00:12:23,870
+So let's take a quick moment to recap.
+
+204
+00:12:23,870 --> 00:12:29,470
+The first thing we learned is that there are three main operations we can perform on a graphical API.
+
+205
+00:12:29,570 --> 00:12:36,140
+One of them being the query the query is how we ask for data and in this case we are specifying our
+
+206
+00:12:36,140 --> 00:12:38,970
+query asking for three fields.
+
+207
+00:12:39,020 --> 00:12:46,430
+Hello Of course and course instructor we saw that the request structure dictates the response we asked
+
+208
+00:12:46,430 --> 00:12:48,330
+for three fields with these names.
+
+209
+00:12:48,350 --> 00:12:51,040
+We got back three fields with these names.
+
+210
+00:12:51,230 --> 00:12:57,740
+All of this is possible because graphed QOL exposes the schema allowing you to see exactly what data
+
+211
+00:12:57,890 --> 00:13:01,070
+you have access to when making queries to an API.
+
+212
+00:13:01,220 --> 00:13:03,230
+This is a very useful feature.
+
+213
+00:13:03,260 --> 00:13:09,250
+Making graphics Well self-documenting making it a whole lot easier to actually use this tool.
+
+214
+00:13:09,260 --> 00:13:09,750
+All right.
+
+215
+00:13:09,770 --> 00:13:15,200
+In this video we saw some basic queries just requesting a couple of fields here and there in the next
+
+216
+00:13:15,200 --> 00:13:20,570
+video we're going to dive deeper into some more real world queries and actually explore those other
+
+217
+00:13:20,570 --> 00:13:23,780
+four things that we saw over inside of the schema.
+
+218
+00:13:23,780 --> 00:13:26,680
+I'm really excited to get to that and continue on with the course.
+
+219
+00:13:26,690 --> 00:13:29,320
+So let's go ahead and jump right in to the next one.
+

@@ -1,0 +1,1072 @@
+1
+00:00:00,210 --> 00:00:05,550
+In this video we're going to continue to extract sensitive information out of our codebase and inject
+
+2
+00:00:05,550 --> 00:00:09,210
+those values via environment variables instead.
+
+3
+00:00:09,210 --> 00:00:14,310
+Now that's not to say this is a bullet proof method but our code base is going to get passed around
+
+4
+00:00:14,310 --> 00:00:14,880
+quite a bit.
+
+5
+00:00:14,880 --> 00:00:17,360
+We send it off to Heroku we send it to get hub.
+
+6
+00:00:17,370 --> 00:00:20,910
+Maybe we share it with others to collaborate on the project.
+
+7
+00:00:20,910 --> 00:00:26,790
+And it's just a best practice to keep sensitive information like secrets out of your codebase and use
+
+8
+00:00:26,790 --> 00:00:28,970
+environment variables instead.
+
+9
+00:00:29,010 --> 00:00:34,410
+It also makes it much easier to change those values because you can just change the config instead of
+
+10
+00:00:34,410 --> 00:00:38,210
+having to dig through your code and find all the places it's used.
+
+11
+00:00:38,430 --> 00:00:42,830
+So right here we have the secret and we have the actual string written out.
+
+12
+00:00:42,840 --> 00:00:46,980
+We're going to go ahead and start by pulling the secret out of our code base.
+
+13
+00:00:46,980 --> 00:00:52,820
+So I'm going to delete the string and we're going to end up referencing an environment variable instead.
+
+14
+00:00:52,830 --> 00:00:53,940
+So that's process.
+
+15
+00:00:53,970 --> 00:00:58,110
+Ian V dot and here we can pick a name since it's not set up yet.
+
+16
+00:00:58,290 --> 00:01:05,130
+I'm going to use something like Prisma in uppercase which is merely a convention then underscore then
+
+17
+00:01:05,130 --> 00:01:05,880
+secret.
+
+18
+00:01:05,880 --> 00:01:10,280
+So following the same pattern from Prisma and point perfect.
+
+19
+00:01:10,320 --> 00:01:16,190
+Now it's important to remember that this was not the only place we used the secret in our code base.
+
+20
+00:01:16,200 --> 00:01:20,300
+We also used it in the Prisma y AML configuration file.
+
+21
+00:01:20,310 --> 00:01:23,130
+Here we have the secret listed out as well.
+
+22
+00:01:23,130 --> 00:01:25,350
+We have the full text instead.
+
+23
+00:01:25,440 --> 00:01:30,360
+We want to reference an environment variable just like we did for the End Point up above.
+
+24
+00:01:30,360 --> 00:01:36,140
+So right here dollar sign curly braces NVI colon followed by the name.
+
+25
+00:01:36,150 --> 00:01:40,630
+In this case we just picked Prisma underscore secret.
+
+26
+00:01:40,770 --> 00:01:41,850
+Excellent.
+
+27
+00:01:41,880 --> 00:01:47,330
+So now the secret is no longer in the code base but to make sure our project still works.
+
+28
+00:01:47,370 --> 00:01:55,200
+We have to inject that value for both development and production to get that done over in dev Dom envy.
+
+29
+00:01:55,200 --> 00:01:59,330
+I'm going to set up the environment variable for the development environment.
+
+30
+00:01:59,370 --> 00:02:05,970
+All we have to do is add a second line to the file setting the name to Prisma underscores secret and
+
+31
+00:02:05,970 --> 00:02:09,780
+setting the value equal to whatever secret value we want to use.
+
+32
+00:02:09,780 --> 00:02:15,660
+I'm just going to use a series of characters and numbers you can come up with something completely random
+
+33
+00:02:15,660 --> 00:02:19,640
+on your own or you could use some sort of secure password generator.
+
+34
+00:02:19,650 --> 00:02:20,730
+Perfect.
+
+35
+00:02:20,730 --> 00:02:27,570
+Now we're going to end up doing the exact same thing for Prod. envy because remember this file is used
+
+36
+00:02:27,660 --> 00:02:33,110
+when we deploy our Prisma application so we need to make sure the variable is in here as well.
+
+37
+00:02:33,180 --> 00:02:40,000
+Otherwise no secret is going to get set when this file has the variables injected so over and prod NV
+
+38
+00:02:40,080 --> 00:02:42,620
+We're also going to add a second line.
+
+39
+00:02:42,630 --> 00:02:45,500
+Setting up Prisma underscore secret.
+
+40
+00:02:45,600 --> 00:02:48,150
+Giving a value equal to whatever we want.
+
+41
+00:02:48,150 --> 00:02:52,530
+Once again I'm just going to come up with a completely different random set of characters.
+
+42
+00:02:52,650 --> 00:02:53,870
+Perfect.
+
+43
+00:02:53,880 --> 00:03:00,420
+Now this is not the only place we have to set the prod environment variable because remember this file
+
+44
+00:03:00,600 --> 00:03:03,710
+on our machine is going to help us with this.
+
+45
+00:03:03,810 --> 00:03:11,160
+But this file is not getting sent to Heroku So we also want to configure Prisma secret on Heroku with
+
+46
+00:03:11,160 --> 00:03:12,230
+the same value.
+
+47
+00:03:12,420 --> 00:03:15,270
+So down below we can go ahead and get that done.
+
+48
+00:03:15,300 --> 00:03:21,810
+If you remember from the last video that is Heroku space config Colon's set followed by that key value
+
+49
+00:03:21,810 --> 00:03:22,520
+pair.
+
+50
+00:03:22,530 --> 00:03:27,450
+I can just copy the one we have above taking this second line for the production file.
+
+51
+00:03:27,630 --> 00:03:28,900
+Pasting it down below.
+
+52
+00:03:28,980 --> 00:03:32,210
+And if I hit enter that environment variable will get set.
+
+53
+00:03:32,310 --> 00:03:37,860
+We can always confirm that it is indeed set correctly by using Heroku config to pull out all of our
+
+54
+00:03:37,860 --> 00:03:39,170
+environment variables.
+
+55
+00:03:39,180 --> 00:03:40,980
+And here are the two listed.
+
+56
+00:03:40,980 --> 00:03:45,200
+Match up with the two we have in this file which is exactly what we want.
+
+57
+00:03:45,210 --> 00:03:47,130
+Now we can actually test our work.
+
+58
+00:03:47,130 --> 00:03:52,670
+I'm going to start by testing things out locally then we'll worry about testing things in production.
+
+59
+00:03:52,770 --> 00:03:58,620
+So in the terminal I can clear my output and I am going to CD into the Prisma directory and from there
+
+60
+00:03:58,680 --> 00:04:00,590
+we're going to deploy it to development.
+
+61
+00:04:00,690 --> 00:04:09,170
+That would be Prisma deploy with the E flag then we provide the path to that file from the Prisma folder.
+
+62
+00:04:09,270 --> 00:04:14,570
+That's dot dot forward slash config forward slash dev dot NV.
+
+63
+00:04:14,760 --> 00:04:19,050
+And if I fire that off it should go through the deployment process.
+
+64
+00:04:19,050 --> 00:04:24,930
+Now it's not going to update any of our fields since we don't have any fields changing but it is still
+
+65
+00:04:24,930 --> 00:04:28,570
+going to deploy because the secret did indeed change.
+
+66
+00:04:28,800 --> 00:04:33,660
+Now that it's deployed in development let's go ahead and run our application and make sure the connection
+
+67
+00:04:33,690 --> 00:04:34,640
+still works.
+
+68
+00:04:34,710 --> 00:04:40,670
+To do that I am going to CD out of the Prisma folder and use the script we created earlier.
+
+69
+00:04:40,680 --> 00:04:42,040
+Our dev script.
+
+70
+00:04:42,060 --> 00:04:50,190
+So right here that would be NPM a run Dev that is going to start up our server on localhost 4000 and
+
+71
+00:04:50,190 --> 00:04:55,830
+as long as we're able to pull some data out of the database we know the secret is indeed working for
+
+72
+00:04:55,830 --> 00:04:58,910
+both Prisma and for our node app.
+
+73
+00:04:58,980 --> 00:05:04,720
+So I'm going to go ahead and move over to graph Q L playground at localhost 4000 and I'm just going
+
+74
+00:05:04,720 --> 00:05:06,400
+to fire off a query.
+
+75
+00:05:06,400 --> 00:05:08,790
+Any request works right here.
+
+76
+00:05:08,800 --> 00:05:13,070
+This query for users would work just fine and then do indeed come back.
+
+77
+00:05:13,090 --> 00:05:18,360
+I can always change the data we select just to confirm we are actually seeing changes.
+
+78
+00:05:18,430 --> 00:05:19,340
+Perfect.
+
+79
+00:05:19,390 --> 00:05:25,410
+So now things are working locally in development and the secret has been extracted from the code base.
+
+80
+00:05:25,450 --> 00:05:30,610
+So let's go ahead and push things up to Heroku and confirm it works there as well.
+
+81
+00:05:30,610 --> 00:05:35,560
+Before we do you'll notice we have a new warning down below related to Babel Polly.
+
+82
+00:05:35,620 --> 00:05:40,680
+It's telling us that we've loaded babbel poly fell more than once in development and that's true.
+
+83
+00:05:40,690 --> 00:05:43,500
+Remember babbel node includes Babel.
+
+84
+00:05:43,510 --> 00:05:47,920
+Polly Phil and we've also included it in index Dhananjay s.
+
+85
+00:05:47,950 --> 00:05:51,370
+Then there's a very easy solution to remove this warning.
+
+86
+00:05:51,370 --> 00:05:54,490
+It's a warning not an error but we can still address it.
+
+87
+00:05:54,520 --> 00:05:56,630
+All we do is change our imports statement.
+
+88
+00:05:56,640 --> 00:06:01,180
+That's at Babel forward slash Pylea Phil put forward slash.
+
+89
+00:06:01,210 --> 00:06:03,190
+No conflict.
+
+90
+00:06:03,190 --> 00:06:05,250
+This is going to avoid conflicts.
+
+91
+00:06:05,260 --> 00:06:09,560
+Just loading the original version and not trying to load the library again.
+
+92
+00:06:09,820 --> 00:06:14,710
+Now if we actually save index dot J as the app restarts and the warning is gone.
+
+93
+00:06:14,770 --> 00:06:18,880
+Perfect This is still going to load in production though so don't worry about that.
+
+94
+00:06:18,910 --> 00:06:22,280
+We're still going to have what we need when we deploy to Heroku.
+
+95
+00:06:22,480 --> 00:06:23,890
+Let's go ahead and do just that.
+
+96
+00:06:23,890 --> 00:06:26,470
+I'm going to shut down our server.
+
+97
+00:06:26,470 --> 00:06:31,070
+Clear the output and run and get status so we can see the changes we've made.
+
+98
+00:06:31,090 --> 00:06:34,430
+We changed these three files and that is indeed correct.
+
+99
+00:06:34,450 --> 00:06:36,460
+Let's go ahead and commit them.
+
+100
+00:06:36,460 --> 00:06:47,700
+Get commit with the AM flag and we're gonna pick a message for this extract Prisma secret to environment
+
+101
+00:06:47,940 --> 00:06:48,670
+variable.
+
+102
+00:06:48,690 --> 00:06:49,510
+Perfect.
+
+103
+00:06:49,560 --> 00:06:50,960
+I'm going to make that commit.
+
+104
+00:06:51,030 --> 00:06:52,320
+Then we're going to deploy.
+
+105
+00:06:52,320 --> 00:07:00,690
+By pushing that up to her Roku so get push Heroku master the same command we ran in the last video.
+
+106
+00:07:00,700 --> 00:07:05,250
+Now once again when we push this up Heroku is going to take the new code.
+
+107
+00:07:05,290 --> 00:07:08,150
+It is going to install any new dependencies.
+
+108
+00:07:08,200 --> 00:07:13,700
+It is then going to go through the process of running our code through babbel and starting up the application.
+
+109
+00:07:13,750 --> 00:07:19,180
+And you'll notice that typically the second deployment goes a little quicker than the first deployment.
+
+110
+00:07:19,210 --> 00:07:24,520
+And right here it looks like we are past the Babble's stage and it is now starting up our application
+
+111
+00:07:24,720 --> 00:07:27,880
+all we're going to do once it's up is make sure that it's still working.
+
+112
+00:07:27,880 --> 00:07:34,900
+I want to make sure that I can still communicate between my production node app and my production Prisma
+
+113
+00:07:35,140 --> 00:07:39,750
+instance down below I can see that the application has indeed been launched.
+
+114
+00:07:39,760 --> 00:07:42,250
+We're now ready to test things out.
+
+115
+00:07:42,400 --> 00:07:43,420
+So what am I going to do.
+
+116
+00:07:43,420 --> 00:07:47,760
+Well I also have to deploy my Prisma project to production.
+
+117
+00:07:47,770 --> 00:07:52,740
+So right here all we have to do is use Prisma deploy from the Prisma directory.
+
+118
+00:07:52,900 --> 00:08:03,560
+So that would be CD Prisma then we run Prisma deploy with the E flag dot dot forward slash config forward
+
+119
+00:08:03,560 --> 00:08:06,300
+slash Prod. dot e and B.
+
+120
+00:08:06,410 --> 00:08:12,320
+Once that's done which it should just take a few seconds to do we'll be ready to actually test things
+
+121
+00:08:12,470 --> 00:08:12,990
+out.
+
+122
+00:08:12,990 --> 00:08:13,470
+All right.
+
+123
+00:08:13,480 --> 00:08:18,620
+Right here I can see that the production deployment has completed we're getting essentially the same
+
+124
+00:08:18,680 --> 00:08:24,140
+output from when we deployed to development a couple of minutes ago and now over in the browser.
+
+125
+00:08:24,140 --> 00:08:30,350
+I'm going to pull up my production instance of the node app so that's the Heroku app you are out right
+
+126
+00:08:30,350 --> 00:08:31,100
+here.
+
+127
+00:08:31,100 --> 00:08:34,730
+I'm going to give things a refresh and we should still see our instance.
+
+128
+00:08:34,780 --> 00:08:37,600
+And as long as I can communicate with the server.
+
+129
+00:08:37,700 --> 00:08:40,610
+I know that the secret is still configured correctly.
+
+130
+00:08:40,760 --> 00:08:44,750
+So all I'm going to do is update my queries so he can see the changing data.
+
+131
+00:08:44,750 --> 00:08:48,350
+I'm going to fire it off and we're going to see what we get back right here.
+
+132
+00:08:48,440 --> 00:08:50,160
+We have our data showing up.
+
+133
+00:08:50,180 --> 00:08:51,080
+So there we go.
+
+134
+00:08:51,080 --> 00:08:57,970
+We've successfully extracted that secret out of our code base using environment variables instead.
+
+135
+00:08:57,980 --> 00:09:03,650
+Now it's your turn to do something similar as your challenge for this video is I'm going to start by
+
+136
+00:09:03,650 --> 00:09:10,640
+closing down all open files and collapsing all expanded directories and we're going to focus on a different
+
+137
+00:09:10,670 --> 00:09:15,850
+area of our project where we currently have some sensitive information right in the code base.
+
+138
+00:09:15,890 --> 00:09:21,550
+If I go into the source resolvers directory excuse me the source you tills directory.
+
+139
+00:09:21,710 --> 00:09:29,070
+We have some code that is currently using JWT daat sign and the secret is right in line.
+
+140
+00:09:29,120 --> 00:09:35,340
+So this is a another example of a value that we want to pull out into an environment variable instead.
+
+141
+00:09:35,450 --> 00:09:39,890
+And we also use that over and get user ID to verify the J.
+
+142
+00:09:39,900 --> 00:09:42,700
+W.T. that gets sent from the client.
+
+143
+00:09:42,740 --> 00:09:45,480
+So here we create it here we verify it.
+
+144
+00:09:45,560 --> 00:09:51,590
+In both cases we want to use an environment variable down below and some very high level comments to
+
+145
+00:09:51,590 --> 00:10:00,060
+guide you in the right direction goal pole JWT secret out of code and into ENVI VAR for Dev and production.
+
+146
+00:10:00,080 --> 00:10:04,850
+You're going to reference those variables in the node application where ever we currently have the secret
+
+147
+00:10:04,880 --> 00:10:05,900
+in line.
+
+148
+00:10:05,900 --> 00:10:12,680
+You're then going to add the environment variables into our config files and on the Heroku application
+
+149
+00:10:12,680 --> 00:10:13,700
+for production.
+
+150
+00:10:13,760 --> 00:10:17,770
+And finally you're going to deploy and test so to test your work.
+
+151
+00:10:17,780 --> 00:10:25,160
+All you need to do is log in or sign up and make a secure request if you can do that that we know our
+
+152
+00:10:25,180 --> 00:10:30,840
+J.W. are still working and you're going to test things in development and in production.
+
+153
+00:10:30,890 --> 00:10:33,650
+So take as much time as you need to knock that one out.
+
+154
+00:10:33,650 --> 00:10:37,030
+Don't forget to test your work then come back and click play
+
+155
+00:10:40,660 --> 00:10:45,900
+how that go let's go ahead and kick things off by first pulling those strings out of our code.
+
+156
+00:10:46,000 --> 00:10:47,720
+So I'm going to remove the string.
+
+157
+00:10:47,720 --> 00:10:50,780
+This is a secret and replace it with process.
+
+158
+00:10:50,790 --> 00:10:52,930
+Dot Ian V dot something.
+
+159
+00:10:53,000 --> 00:10:56,820
+I'm going to use JWT secret for this.
+
+160
+00:10:56,840 --> 00:11:03,290
+Now we can do the exact same thing in generate token where that same string was also used instead of
+
+161
+00:11:03,290 --> 00:11:03,860
+the string.
+
+162
+00:11:03,860 --> 00:11:07,030
+We're just going to reference the same environment variable process.
+
+163
+00:11:07,070 --> 00:11:11,090
+Ian V dot JWT secret.
+
+164
+00:11:11,090 --> 00:11:11,990
+Perfect.
+
+165
+00:11:12,020 --> 00:11:14,460
+So that takes care of step 1.
+
+166
+00:11:14,480 --> 00:11:16,500
+We have our secret in both places.
+
+167
+00:11:16,610 --> 00:11:21,940
+Now we need to actually add an environment variable called JWT secret.
+
+168
+00:11:21,950 --> 00:11:24,790
+So the code still works in the config directory.
+
+169
+00:11:24,800 --> 00:11:30,250
+We're going to set that up in our ENVI files right here for dev dot envy.
+
+170
+00:11:30,260 --> 00:11:37,370
+We're going to add a third line and JWT secret equals and we can pick once again any sort of random
+
+171
+00:11:37,430 --> 00:11:38,990
+value we like.
+
+172
+00:11:38,990 --> 00:11:43,210
+And inside of product EMV We're also going to add J.
+
+173
+00:11:43,220 --> 00:11:48,990
+W.T. secret sending an equal to some sort of random series of characters.
+
+174
+00:11:49,010 --> 00:11:54,480
+Perfect last up we also have to set the production value on Heroku.
+
+175
+00:11:54,560 --> 00:12:01,460
+So I'm going to take this and use the Heroku config set command from the terminal I am going to clear
+
+176
+00:12:01,460 --> 00:12:08,840
+the output and use C.D dot dot to go back to the root project and from here that will be Heroku config
+
+177
+00:12:08,870 --> 00:12:09,940
+Colon's set.
+
+178
+00:12:10,130 --> 00:12:12,730
+Pasting in the line I just copied.
+
+179
+00:12:12,830 --> 00:12:18,360
+I can fire that off and now we have the environment variable set everywhere.
+
+180
+00:12:18,380 --> 00:12:23,400
+This brings us to step three which is actually to deploy and test our work.
+
+181
+00:12:23,420 --> 00:12:28,550
+I'm going to go ahead and remove the challenge comments at this point since we are going to end up committing
+
+182
+00:12:28,580 --> 00:12:35,160
+our changes before we bother to commit though let's test things out locally by running our application
+
+183
+00:12:35,220 --> 00:12:36,490
+in development.
+
+184
+00:12:36,500 --> 00:12:43,130
+Now for this particular environment variable it's actually not necessary to redeploy Prisma because
+
+185
+00:12:43,190 --> 00:12:44,580
+Prisma doesn't use it.
+
+186
+00:12:44,580 --> 00:12:46,510
+It's only our node J.S. app.
+
+187
+00:12:46,520 --> 00:12:48,690
+So we only have to deploy our node.
+
+188
+00:12:48,700 --> 00:12:50,950
+JS app with Prisma secret.
+
+189
+00:12:50,990 --> 00:12:54,090
+It was used in our Noad app and in our Prisma project.
+
+190
+00:12:54,110 --> 00:12:55,380
+That's not the case here.
+
+191
+00:12:55,640 --> 00:12:59,550
+So all I'm going to do is run the app in development from the terminal.
+
+192
+00:12:59,630 --> 00:13:02,570
+That would be NPM run dev.
+
+193
+00:13:02,720 --> 00:13:08,830
+And we're going to make sure that I can still log in and then make a secure request if I can.
+
+194
+00:13:08,850 --> 00:13:09,870
+We're good to go.
+
+195
+00:13:10,100 --> 00:13:11,670
+So the server is up and running.
+
+196
+00:13:11,780 --> 00:13:17,380
+I'm going to switch over to a local host 4000 and I'll go over to my log in request.
+
+197
+00:13:17,390 --> 00:13:19,980
+Let's go ahead and log in as Sarah.
+
+198
+00:13:20,120 --> 00:13:26,450
+I get a token I'm going to copy that and then we'll use this token to get her profile so right here
+
+199
+00:13:26,480 --> 00:13:30,610
+I can just use the query which requires authentication.
+
+200
+00:13:30,750 --> 00:13:35,350
+Down below I'm going to swap out the old barer token with the new one.
+
+201
+00:13:35,720 --> 00:13:37,360
+I'm going to fire off the request.
+
+202
+00:13:37,460 --> 00:13:38,230
+And what do I get.
+
+203
+00:13:38,240 --> 00:13:40,820
+I get the data back which is fantastic.
+
+204
+00:13:40,970 --> 00:13:49,370
+So by doing those two things we've confirmed that the J W T secret is indeed being injected correctly.
+
+205
+00:13:49,370 --> 00:13:52,250
+Now we're ready to commit and deploy to production.
+
+206
+00:13:52,250 --> 00:13:57,740
+So down below I am going to shut down the local development server and I'll just run get status to make
+
+207
+00:13:57,740 --> 00:14:02,140
+sure everything looks semi-normal and it does we just have changes to the two files.
+
+208
+00:14:02,180 --> 00:14:08,990
+We actually changed so we can go ahead and use get commit with the M flag to provide our message right
+
+209
+00:14:08,990 --> 00:14:15,040
+here something along the lines of pull JWT secret out of code.
+
+210
+00:14:15,170 --> 00:14:16,190
+Perfect.
+
+211
+00:14:16,190 --> 00:14:23,060
+Now we can use it get push Heroku master to deploy our application and once the app is deployed over
+
+212
+00:14:23,060 --> 00:14:25,030
+going to do is test it once again.
+
+213
+00:14:25,040 --> 00:14:31,400
+So from the production node app I'm just going to log in then I'll go ahead and try to make a secure
+
+214
+00:14:31,400 --> 00:14:32,340
+request.
+
+215
+00:14:32,360 --> 00:14:35,330
+Right here we can see the process should be done in just a moment.
+
+216
+00:14:35,360 --> 00:14:38,240
+I'm going to cut the video to when deployment is complete.
+
+217
+00:14:38,240 --> 00:14:38,780
+All right.
+
+218
+00:14:38,780 --> 00:14:39,880
+The app is deployed.
+
+219
+00:14:39,880 --> 00:14:41,170
+Let's test things out.
+
+220
+00:14:41,180 --> 00:14:46,130
+I'm going to move over to the graphic and playground instance for the production node app and I'm going
+
+221
+00:14:46,130 --> 00:14:47,830
+to create a new user.
+
+222
+00:14:47,840 --> 00:14:53,090
+We do have that one user in the production database but remember we created them without hashing the
+
+223
+00:14:53,090 --> 00:14:57,650
+password since we bypassed node just to make sure that Prisma was working.
+
+224
+00:14:57,710 --> 00:15:01,880
+So we're going to create a new one right here and nutation.
+
+225
+00:15:02,010 --> 00:15:06,390
+I'm going to use create user and we're going to provide the necessary arguments.
+
+226
+00:15:06,390 --> 00:15:11,550
+We just need to provide data with the name email and password for here.
+
+227
+00:15:11,610 --> 00:15:13,590
+Let's set up all three name.
+
+228
+00:15:13,710 --> 00:15:23,610
+I will use less USERRA for this then the email I'll stick with Sarah at example dot com followed finally
+
+229
+00:15:23,610 --> 00:15:28,890
+by the password and I'll just use read one two three four five once again.
+
+230
+00:15:29,100 --> 00:15:30,030
+Perfect.
+
+231
+00:15:30,030 --> 00:15:35,340
+Now we also have to provide our selections set and in this case I'm just going to grab the token that
+
+232
+00:15:35,340 --> 00:15:40,980
+comes back I could grab some information about the user too but that's not necessary for our purposes.
+
+233
+00:15:41,040 --> 00:15:42,090
+So I fire that off.
+
+234
+00:15:42,090 --> 00:15:44,850
+Sarah gets created and I get her off token.
+
+235
+00:15:44,850 --> 00:15:47,060
+All we have to do is make sure it works.
+
+236
+00:15:47,220 --> 00:15:52,190
+So for my other tab I'm going to use the query query me.
+
+237
+00:15:52,490 --> 00:15:59,310
+I'll just grab the id the name and the email of whoever were authenticated as and down below I am going
+
+238
+00:15:59,310 --> 00:16:02,300
+to set up the headers to actually be authenticated.
+
+239
+00:16:02,310 --> 00:16:09,960
+So I set up my Jason object I am going to provide just a single key value pair the header name is authorization
+
+240
+00:16:10,930 --> 00:16:16,870
+and the value is barer space followed by the token that was generated.
+
+241
+00:16:16,870 --> 00:16:22,960
+Now if I fire this off we should be able to see Serra's details and that is exactly what we end up getting
+
+242
+00:16:22,960 --> 00:16:24,450
+back which is great.
+
+243
+00:16:24,490 --> 00:16:31,420
+We've now proven that our change works both locally and in production and we are all done extracting
+
+244
+00:16:31,450 --> 00:16:31,650
+that.
+
+245
+00:16:31,660 --> 00:16:37,750
+Jason Webb tokin throughout the process of pulling values out into environment variables We've also
+
+246
+00:16:37,750 --> 00:16:44,890
+broken the script in packaged Jason get schema this looks in the Prisma ADOT why a file to figure out
+
+247
+00:16:44,890 --> 00:16:46,830
+exactly what it's supposed to do.
+
+248
+00:16:46,960 --> 00:16:52,690
+But that file doesn't really contain hardcoded values anymore more it contains environment variable
+
+249
+00:16:52,690 --> 00:16:57,070
+references and those environment variables currently aren't getting loaded in.
+
+250
+00:16:57,070 --> 00:17:04,480
+Which means that this script is going to fail down below if I run it using NPM run then you get hyphen
+
+251
+00:17:04,570 --> 00:17:05,390
+schema.
+
+252
+00:17:05,500 --> 00:17:08,070
+We can see that it is indeed going to crash.
+
+253
+00:17:08,080 --> 00:17:11,740
+Right now it's trying to communicate and it does indeed fail.
+
+254
+00:17:11,740 --> 00:17:20,610
+All we have to do to fix that is add a dot envy argument on and provide a path to our dev configuration.
+
+255
+00:17:20,620 --> 00:17:25,000
+So right here that would be config forward slash dev dot NV.
+
+256
+00:17:25,120 --> 00:17:30,300
+Just providing a path to this file that's going to actually inject those environment variables.
+
+257
+00:17:30,400 --> 00:17:33,340
+And if we save package Jason things should be working.
+
+258
+00:17:33,370 --> 00:17:39,070
+Once again I'll rerun the exact same script from down below using the up arrow key.
+
+259
+00:17:39,070 --> 00:17:41,830
+And this time we can see that it did indeed work.
+
+260
+00:17:41,890 --> 00:17:44,830
+No changes were recorded but that was expected.
+
+261
+00:17:44,830 --> 00:17:48,490
+The goal was to just make sure it could communicate successfully.
+
+262
+00:17:48,500 --> 00:17:52,920
+That's where we're going to stop for this video and that's where we're going to stop for this section.
+
+263
+00:17:52,930 --> 00:17:55,890
+We have our production database up and running.
+
+264
+00:17:55,930 --> 00:18:02,440
+We have the production version of our Prisma project and we have the production version of our node
+
+265
+00:18:02,530 --> 00:18:09,430
+J.S. app so that handles everything we need to get our apps securely deployed in the next section we're
+
+266
+00:18:09,430 --> 00:18:10,450
+going to cover testing.
+
+267
+00:18:10,480 --> 00:18:12,220
+I'm super excited to get to that.
+
+268
+00:18:12,220 --> 00:18:14,360
+So let's go ahead and jump right in.
+

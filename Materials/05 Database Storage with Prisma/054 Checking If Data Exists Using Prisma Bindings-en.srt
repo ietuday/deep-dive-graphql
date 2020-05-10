@@ -1,0 +1,952 @@
+1
+00:00:00,190 --> 00:00:03,450
+In this video as promised you're going to learn all about Prisma.
+
+2
+00:00:03,570 --> 00:00:09,180
+Exists this comes with some handy utility functions that make it really easy for us to determine if
+
+3
+00:00:09,180 --> 00:00:11,070
+there is a record of a given type.
+
+4
+00:00:11,070 --> 00:00:17,450
+For example we can check if a given user exists or a given post exists or a given comment exists.
+
+5
+00:00:17,550 --> 00:00:21,160
+And this has real world practical uses in create post for user.
+
+6
+00:00:21,180 --> 00:00:27,480
+For example we create a post for this user with this ID without ever checking that the user is actually
+
+7
+00:00:27,480 --> 00:00:28,670
+in the database.
+
+8
+00:00:28,680 --> 00:00:32,370
+We do the same thing down below in update posts for user.
+
+9
+00:00:32,370 --> 00:00:38,310
+We take this post ID in and we blindly try to update the post without ever verifying that there actually
+
+10
+00:00:38,310 --> 00:00:45,420
+is a post with that I.D. It being able to use exists to verify data exists is very useful.
+
+11
+00:00:45,420 --> 00:00:47,780
+So let's go ahead and actually see how this works.
+
+12
+00:00:47,790 --> 00:00:53,030
+Right here we're going to mess around with it then we'll integrate it into the two functions down below.
+
+13
+00:00:53,100 --> 00:00:59,060
+Let's use Prisma and Dot exists and we're going to start by checking if a given comment exists now.
+
+14
+00:00:59,090 --> 00:01:06,020
+Just like Prisma dot query and Prisma dot mutation we have a dynamic set of methods available to us.
+
+15
+00:01:06,030 --> 00:01:11,360
+We have one method for every single type and the method name is the type name.
+
+16
+00:01:11,370 --> 00:01:17,130
+So if I want to check that a user exists I used upper case user if I want to check that a post exists
+
+17
+00:01:17,180 --> 00:01:21,160
+upper case P post if I want to check that a comment exists.
+
+18
+00:01:21,180 --> 00:01:24,840
+You guessed it uppercase C comment.
+
+19
+00:01:24,850 --> 00:01:26,310
+Now what we can pass to this.
+
+20
+00:01:26,310 --> 00:01:32,250
+Everything that exists expects and the arguments for this are a bit different than the query and mutation
+
+21
+00:01:32,250 --> 00:01:33,300
+method arguments.
+
+22
+00:01:33,330 --> 00:01:35,450
+And now all of these exists methods.
+
+23
+00:01:35,460 --> 00:01:36,970
+They take a single argument.
+
+24
+00:01:36,990 --> 00:01:38,320
+The value is an object.
+
+25
+00:01:38,340 --> 00:01:43,270
+And here we provide all of the properties that we want to verify about the comment we're looking for.
+
+26
+00:01:43,440 --> 00:01:47,380
+So if I want to verify that a comment exists with a given ID.
+
+27
+00:01:47,460 --> 00:01:49,440
+All I do is provide ID.
+
+28
+00:01:49,560 --> 00:01:52,820
+And I said it's value equal to the value I'm searching for.
+
+29
+00:01:52,830 --> 00:01:59,640
+So if I type in ABC 1 2 3 I'm in effect trying to determine whether or not a comment exists that has
+
+30
+00:01:59,640 --> 00:02:02,850
+the ID value of ABC 1 2 3.
+
+31
+00:02:02,880 --> 00:02:04,460
+Clearly the answer is no.
+
+32
+00:02:04,680 --> 00:02:10,320
+Now in the end of the day all of these exists methods return a promise and that promise resolves to
+
+33
+00:02:10,320 --> 00:02:13,350
+the boolean value true or false.
+
+34
+00:02:13,350 --> 00:02:16,350
+The thing you're looking for either exists or it doesn't.
+
+35
+00:02:16,560 --> 00:02:19,940
+So let's go ahead and use the event method on our promise.
+
+36
+00:02:20,010 --> 00:02:22,460
+We're going to get the resolved value.
+
+37
+00:02:22,560 --> 00:02:24,710
+I'll call that something like exists.
+
+38
+00:02:24,720 --> 00:02:26,830
+It's going to be either true or false.
+
+39
+00:02:26,970 --> 00:02:29,220
+And for the moment we will just print it to the con..
+
+40
+00:02:29,220 --> 00:02:33,370
+So down below cancel dot log dumping exists to the terminal.
+
+41
+00:02:33,450 --> 00:02:34,200
+Excellent.
+
+42
+00:02:34,200 --> 00:02:37,280
+If I save the file we should see our bullion value printing.
+
+43
+00:02:37,290 --> 00:02:41,490
+And for this data I would expect it to be false and that is exactly what we end up getting.
+
+44
+00:02:41,490 --> 00:02:43,800
+We have the boolean false printing.
+
+45
+00:02:43,800 --> 00:02:47,280
+Now let's grab the ID for a that that actually exists.
+
+46
+00:02:47,340 --> 00:02:53,100
+If I head over to graph you our playground I can use the comments queery for example and if I fire that
+
+47
+00:02:53,110 --> 00:02:56,810
+off I can see we just have a single comment across all of our posts.
+
+48
+00:02:56,820 --> 00:02:58,620
+All I need is this ID.
+
+49
+00:02:58,650 --> 00:03:04,500
+I'm going to grab it copy it to the clipboard bring it over to Visual Studio code and add that as the
+
+50
+00:03:04,510 --> 00:03:06,270
+ID we're looking for.
+
+51
+00:03:06,270 --> 00:03:10,890
+Now if I save a Prisma J.S. Once again I would expect to see the boolean true.
+
+52
+00:03:11,010 --> 00:03:14,250
+And that is exactly what we end up getting as well.
+
+53
+00:03:14,250 --> 00:03:20,940
+Now we can perform more complex assertions I code for example verify something about the comment text
+
+54
+00:03:20,970 --> 00:03:21,800
+as well.
+
+55
+00:03:21,930 --> 00:03:27,500
+I could check if the comment text equals For example my first name it doesn't.
+
+56
+00:03:27,500 --> 00:03:29,200
+So I would expect to see false.
+
+57
+00:03:29,280 --> 00:03:34,860
+It's really up to you to add as much criteria as you actually need though commonly you just provide
+
+58
+00:03:34,860 --> 00:03:37,740
+the ID for the record you're looking for.
+
+59
+00:03:37,740 --> 00:03:40,450
+You can even provide associated assertions.
+
+60
+00:03:40,470 --> 00:03:47,650
+So for example I can grab the author ID and I can use that over and exists as well right here.
+
+61
+00:03:47,700 --> 00:03:53,370
+I can verify that there is a comment with this ID and that it was created by the following author.
+
+62
+00:03:53,370 --> 00:03:58,070
+So author setting that up as an object and outing the id property on.
+
+63
+00:03:58,170 --> 00:04:04,900
+Now we should see true because there is indeed a comment with this ID that has an author with that ID.
+
+64
+00:04:05,040 --> 00:04:08,890
+So he can get as complex or as simple as we happen to need.
+
+65
+00:04:08,940 --> 00:04:14,430
+Now that we've seen this in action let's go ahead and integrate it into create post for user down below
+
+66
+00:04:14,700 --> 00:04:15,480
+down here.
+
+67
+00:04:15,480 --> 00:04:22,300
+We are going to verify that that user actually exists before we tried to add a post for that user.
+
+68
+00:04:22,300 --> 00:04:22,620
+All right.
+
+69
+00:04:22,620 --> 00:04:29,680
+Here I am going to create a concept called user exists and then I'm going to set it equal to.
+
+70
+00:04:29,690 --> 00:04:35,540
+And we are going to await the promise that comes back from Prisma and exists dot.
+
+71
+00:04:35,660 --> 00:04:37,840
+And in this case we're searching for a user.
+
+72
+00:04:37,850 --> 00:04:40,800
+So we use UPPER CASE YOU user.
+
+73
+00:04:40,970 --> 00:04:47,360
+Now from here we provide the object argument and we determine what criteria we want to use to search.
+
+74
+00:04:47,360 --> 00:04:50,480
+In this case we just care about the idea of the user.
+
+75
+00:04:50,570 --> 00:04:57,080
+We want to make sure the ID equals the value passed in as author ID if we did find a user.
+
+76
+00:04:57,080 --> 00:04:59,530
+This will be true if we didn't find a user.
+
+77
+00:04:59,530 --> 00:05:02,600
+This is going to end up being false down below.
+
+78
+00:05:02,600 --> 00:05:03,850
+We can now use that.
+
+79
+00:05:03,850 --> 00:05:10,910
+So if there is no user I can do something like throw an error immediately stopping the execution of
+
+80
+00:05:10,910 --> 00:05:12,290
+this function right here.
+
+81
+00:05:12,290 --> 00:05:18,840
+If I'm going to flip that boolean using the logical NOT operator.
+
+82
+00:05:18,940 --> 00:05:25,350
+So now this condition is going to be true if there is no user and it'll be false if there is a user.
+
+83
+00:05:25,360 --> 00:05:31,540
+So right here we know that this code is only going to run if no user was found and we can throw a new
+
+84
+00:05:31,540 --> 00:05:32,340
+error.
+
+85
+00:05:32,380 --> 00:05:39,160
+We can pass to the error constructor function whatever message we'd like to use something like user
+
+86
+00:05:39,580 --> 00:05:42,030
+and not found it would get the job done.
+
+87
+00:05:42,100 --> 00:05:42,900
+Perfect.
+
+88
+00:05:42,970 --> 00:05:49,630
+Now that we have this in place we can go ahead and make a small modification to how we call create post
+
+89
+00:05:49,690 --> 00:05:57,880
+for user down below down here we can uncomment our call and we can go ahead and add on a catch method
+
+90
+00:05:57,940 --> 00:05:59,160
+to the end of our chain.
+
+91
+00:05:59,260 --> 00:06:01,800
+This is going to fire if we get any errors.
+
+92
+00:06:01,960 --> 00:06:06,630
+We are going to get the error as the first and only argument and then we're just going to dump it to
+
+93
+00:06:06,640 --> 00:06:08,430
+the councils are right here.
+
+94
+00:06:08,510 --> 00:06:12,410
+Dot Lague printing the error object to the screen.
+
+95
+00:06:12,430 --> 00:06:13,240
+Excellent.
+
+96
+00:06:13,420 --> 00:06:18,050
+So now that we have this in place let's go ahead and actually test out its functionality.
+
+97
+00:06:18,250 --> 00:06:25,100
+The first thing I'm going to do is remove my call up above where I check if a comment exists then I'm
+
+98
+00:06:25,120 --> 00:06:30,790
+going to leave the Create post for user arguments exactly as they were.
+
+99
+00:06:30,820 --> 00:06:32,470
+This user still exists.
+
+100
+00:06:32,470 --> 00:06:37,300
+So this code should work and then the end of the day I should get the user information printing this
+
+101
+00:06:37,300 --> 00:06:38,660
+callback is going to run.
+
+102
+00:06:38,680 --> 00:06:40,210
+This one is not.
+
+103
+00:06:40,360 --> 00:06:43,090
+Let's go ahead and prove that by saving Prisma.
+
+104
+00:06:43,150 --> 00:06:43,970
+Jay x.
+
+105
+00:06:44,050 --> 00:06:46,750
+This is going to execute our file and what do we get.
+
+106
+00:06:46,780 --> 00:06:50,020
+We get the user information with our new post added.
+
+107
+00:06:50,020 --> 00:06:56,500
+Now if we were to mess up this ID changing it to something like 0 9 8 for example there is not going
+
+108
+00:06:56,500 --> 00:07:03,430
+to be a user associated with that ID and our code is going to throw an error resulting in this function
+
+109
+00:07:03,550 --> 00:07:04,110
+running.
+
+110
+00:07:04,210 --> 00:07:08,890
+And right here you can see we've printed our error to the console using console dialog and we have our
+
+111
+00:07:08,890 --> 00:07:14,080
+message user not found if we want to limit this to just the message.
+
+112
+00:07:14,080 --> 00:07:18,750
+We can always use error message accessing the message property.
+
+113
+00:07:18,790 --> 00:07:21,630
+That is where the string error message exists.
+
+114
+00:07:21,700 --> 00:07:24,460
+And this time around we get that simplified output.
+
+115
+00:07:24,670 --> 00:07:25,560
+So there we go.
+
+116
+00:07:25,630 --> 00:07:32,080
+We've made a change to our create post for user function making it a little more robust we're actually
+
+117
+00:07:32,080 --> 00:07:38,710
+checking the data that gets passed in before just blindly passing it along assuming the user exists.
+
+118
+00:07:38,720 --> 00:07:44,680
+Now if you've been paying close attention so far you might have realized that this query is actually
+
+119
+00:07:44,680 --> 00:07:47,680
+completely redundant and not required.
+
+120
+00:07:47,710 --> 00:07:54,370
+If I wanted information about the user associated with that post I could actually add that in to the
+
+121
+00:07:54,370 --> 00:07:56,450
+selection set right here.
+
+122
+00:07:56,450 --> 00:08:01,870
+There's nothing stopping me from grabbing fields about the author and then also grabbing their posts
+
+123
+00:08:01,900 --> 00:08:06,460
+getting the exact same data but without having to perform another operation.
+
+124
+00:08:06,460 --> 00:08:07,090
+And you're right.
+
+125
+00:08:07,180 --> 00:08:08,860
+We can indeed do that.
+
+126
+00:08:08,860 --> 00:08:13,180
+The reason I originally didn't do that is because I wanted to have two asynchronous things that we could
+
+127
+00:08:13,180 --> 00:08:14,330
+use with a wait.
+
+128
+00:08:14,530 --> 00:08:19,060
+But now that we have exists in place we can go ahead and simplify our code.
+
+129
+00:08:19,240 --> 00:08:20,880
+So right here what am I going to do.
+
+130
+00:08:20,980 --> 00:08:25,370
+I'm just going to change the selection set for our create post nutation.
+
+131
+00:08:25,510 --> 00:08:30,490
+Yes we're gonna grab the ID of that post though it's actually not required so we could even leave that
+
+132
+00:08:30,490 --> 00:08:31,200
+up.
+
+133
+00:08:31,450 --> 00:08:35,100
+We're going to grab some information about the author for the author.
+
+134
+00:08:35,100 --> 00:08:36,040
+What am I gonna grab.
+
+135
+00:08:36,040 --> 00:08:38,330
+Well I'm going to grab everything we have below.
+
+136
+00:08:38,440 --> 00:08:45,580
+I'm going to grab the id the name and the email and I'm going to grab the author's posts on the posts.
+
+137
+00:08:45,640 --> 00:08:48,270
+I want to grab a few fields as well.
+
+138
+00:08:48,310 --> 00:08:49,940
+I'll grab ID.
+
+139
+00:08:49,960 --> 00:08:52,440
+Title and published.
+
+140
+00:08:52,440 --> 00:08:53,080
+Awesome.
+
+141
+00:08:53,380 --> 00:08:55,960
+So now we're getting the exact same data back.
+
+142
+00:08:56,020 --> 00:08:59,800
+But we can actually delete this altogether from here.
+
+143
+00:08:59,800 --> 00:09:03,290
+All we have to do is make a small change to the return value.
+
+144
+00:09:03,400 --> 00:09:08,710
+Since user no longer exists the user data actually needs to come from Post.
+
+145
+00:09:08,710 --> 00:09:11,260
+We now have Post dot author.
+
+146
+00:09:11,260 --> 00:09:14,890
+That is where all of those user fields can be found.
+
+147
+00:09:14,890 --> 00:09:20,200
+Now let's go ahead and actually get this to work once again we're going to verify our work by first
+
+148
+00:09:20,200 --> 00:09:23,830
+reverting back to the correct ID over here.
+
+149
+00:09:23,830 --> 00:09:26,350
+I can go ahead and grab that ID.
+
+150
+00:09:26,410 --> 00:09:29,200
+I have an author ID right here for example.
+
+151
+00:09:29,200 --> 00:09:33,460
+Any author ID will work doesn't have to be the same one we had before.
+
+152
+00:09:33,730 --> 00:09:40,390
+And if I go ahead and paste that in and save the file I should see not my error but my success message
+
+153
+00:09:40,420 --> 00:09:42,730
+and that is exactly what I end up getting.
+
+154
+00:09:42,730 --> 00:09:44,620
+And I still get all of the same data.
+
+155
+00:09:44,710 --> 00:09:51,490
+I have everything about the user including all of its posts including the brand new post that was just
+
+156
+00:09:51,520 --> 00:09:53,690
+added sitting right here.
+
+157
+00:09:53,770 --> 00:09:58,150
+So now that we've improved in simplified create post for user.
+
+158
+00:09:58,150 --> 00:10:02,030
+It's going to be your job to do the exact same thing down below.
+
+159
+00:10:02,200 --> 00:10:06,280
+So down here let's go ahead and talk about what I'd like you to do for the challenge.
+
+160
+00:10:06,280 --> 00:10:12,370
+First up I am going to comment out our call to create post for user so that doesn't run when you're
+
+161
+00:10:12,370 --> 00:10:15,200
+actually working through your challenge solution.
+
+162
+00:10:15,210 --> 00:10:20,330
+Right here the big picture goal is to improve update post for user down below.
+
+163
+00:10:20,350 --> 00:10:24,730
+Just like we improved the Create post for user function up above.
+
+164
+00:10:24,730 --> 00:10:25,840
+So what does that entail.
+
+165
+00:10:25,840 --> 00:10:32,530
+First up you are going to use Prisma and exists to verify that the post you're trying to update actually
+
+166
+00:10:32,530 --> 00:10:33,410
+exists.
+
+167
+00:10:33,460 --> 00:10:37,790
+If there is no post with that ID I'd like you to do is just throw an error.
+
+168
+00:10:38,020 --> 00:10:46,080
+Step 2 you're going to remove the unnecessary user query by updating the selection set for update post.
+
+169
+00:10:46,270 --> 00:10:51,880
+So everything we're getting right here can actually be received by making a few modifications to the
+
+170
+00:10:51,880 --> 00:10:54,540
+selection set for our first operation.
+
+171
+00:10:54,630 --> 00:10:57,370
+Right here making this one completely useless.
+
+172
+00:10:57,390 --> 00:11:01,110
+It can actually be removed completely and that's what I'd like you to do.
+
+173
+00:11:01,110 --> 00:11:05,870
+Step 3 Add a catch method call to actually catch and print those errors.
+
+174
+00:11:05,880 --> 00:11:09,590
+You're going to do that down below in the usage and step 4.
+
+175
+00:11:09,600 --> 00:11:13,400
+Test your work tried to update a post that does exist.
+
+176
+00:11:13,410 --> 00:11:14,990
+Make sure that still works.
+
+177
+00:11:15,060 --> 00:11:21,610
+Then try to update a post that does not exist and make sure you get the correct error message printing.
+
+178
+00:11:21,770 --> 00:11:22,270
+All right.
+
+179
+00:11:22,290 --> 00:11:24,990
+Take as much time as you need to knock that one out.
+
+180
+00:11:24,990 --> 00:11:27,140
+Don't forget to actually test your work.
+
+181
+00:11:27,210 --> 00:11:29,330
+Come back when you're done and click play
+
+182
+00:11:33,510 --> 00:11:38,510
+how that go on and kick things off by adding my exists method call right here.
+
+183
+00:11:38,520 --> 00:11:41,290
+So I'm going to check if the post exists.
+
+184
+00:11:41,370 --> 00:11:47,490
+I can create a concert called post exists for that I'm going to set it equal to and we're going to await
+
+185
+00:11:47,580 --> 00:11:52,470
+the promise that comes back from Prisma data exists.
+
+186
+00:11:52,630 --> 00:12:00,330
+And right here it is the model name so uppercase you user excuse me upper case P post since we're verifying
+
+187
+00:12:00,540 --> 00:12:02,910
+that a given post exists.
+
+188
+00:12:02,940 --> 00:12:04,720
+Now we passed to this an object.
+
+189
+00:12:04,860 --> 00:12:08,250
+And the only thing we're trying to actually filter by is the ID.
+
+190
+00:12:08,280 --> 00:12:12,780
+So I set up that Id property making sure it equals post ID.
+
+191
+00:12:12,780 --> 00:12:14,240
+The argument passed in.
+
+192
+00:12:14,430 --> 00:12:18,940
+So this will be true if there is a post with this ID that will be false otherwise.
+
+193
+00:12:19,050 --> 00:12:21,480
+That brings us to the second part of step 1.
+
+194
+00:12:21,480 --> 00:12:28,790
+Throw an error if there is no post right here if we're going to set up our IF statement if there is
+
+195
+00:12:28,820 --> 00:12:29,810
+no post.
+
+196
+00:12:29,810 --> 00:12:39,900
+So if post exists when fliped is indeed true we want to throw an error right here throw new error printing
+
+197
+00:12:39,900 --> 00:12:47,430
+a message like post not found excellent from here we know that everything that runs down below is only
+
+198
+00:12:47,430 --> 00:12:50,640
+going to run if there actually was a post which is great.
+
+199
+00:12:50,790 --> 00:12:53,190
+And this brings us to step two.
+
+200
+00:12:53,310 --> 00:12:59,310
+We want to remove the unnecessary user query by updating the selection set for update post.
+
+201
+00:12:59,310 --> 00:13:04,500
+So we want to be able to get rid of this entirely and we're going to do that by asking for more fields.
+
+202
+00:13:04,500 --> 00:13:06,640
+We don't just want the author ID.
+
+203
+00:13:06,780 --> 00:13:12,240
+I also want their name I want their email and I want the posts for each post.
+
+204
+00:13:12,240 --> 00:13:13,170
+But what I like.
+
+205
+00:13:13,170 --> 00:13:17,210
+I would like the ID and the title and the published values.
+
+206
+00:13:17,220 --> 00:13:24,750
+Now down below we can remove that extra query and instead of returning user we will return post dot
+
+207
+00:13:24,810 --> 00:13:31,820
+author which contains in the end of the day the exact same information that brings us to step 3.
+
+208
+00:13:31,840 --> 00:13:34,480
+Add a catch call to print those errors.
+
+209
+00:13:34,500 --> 00:13:38,290
+So down below I'm going to uncomment our usage.
+
+210
+00:13:38,430 --> 00:13:41,450
+I'm going to add on a catch call right here.
+
+211
+00:13:41,580 --> 00:13:44,060
+We are going to pass in the callback function.
+
+212
+00:13:44,060 --> 00:13:47,370
+This is only going to get called if the promises reject.
+
+213
+00:13:47,460 --> 00:13:49,330
+And right here what are we going to do.
+
+214
+00:13:49,440 --> 00:13:53,290
+I am going to grab the error and print it so cancel dot log.
+
+215
+00:13:55,350 --> 00:13:56,660
+And I'll just print the message.
+
+216
+00:13:56,670 --> 00:13:59,110
+So error datt message.
+
+217
+00:13:59,190 --> 00:14:00,360
+Excellent.
+
+218
+00:14:00,360 --> 00:14:02,660
+From here we move on to Step 4.
+
+219
+00:14:02,670 --> 00:14:09,210
+I want to verify this function by providing both a valid and invalid post ID.
+
+220
+00:14:09,210 --> 00:14:12,590
+Now we can go ahead and do that by saving the file in its current state.
+
+221
+00:14:12,600 --> 00:14:18,130
+I already have an ID sitting right there and I can see it is indeed a valid one down below.
+
+222
+00:14:18,240 --> 00:14:20,480
+I have that post unpublished.
+
+223
+00:14:20,520 --> 00:14:25,230
+I can go ahead and switch it over to true to make sure it actually changes.
+
+224
+00:14:25,230 --> 00:14:29,230
+Right here we should see the same post what they published value of true.
+
+225
+00:14:29,340 --> 00:14:32,040
+So everything seems to be working really well so far.
+
+226
+00:14:32,280 --> 00:14:37,050
+I'm then going to change this ID to the ID that does not exist for a post.
+
+227
+00:14:37,140 --> 00:14:38,630
+I'll use a power.
+
+228
+00:14:38,640 --> 00:14:41,230
+There is no post with an ID of power.
+
+229
+00:14:41,370 --> 00:14:47,190
+And if I go ahead and save the file and rerun things I can get the post not found error.
+
+230
+00:14:47,190 --> 00:14:48,020
+So there we go.
+
+231
+00:14:48,090 --> 00:14:54,510
+We now know how to use Prisma dot exists to search our data for various records.
+
+232
+00:14:54,510 --> 00:14:56,490
+That's where we're going to stop for this one.
+
+233
+00:14:56,490 --> 00:15:01,280
+Down below I am going to comment out our call to update post for user.
+
+234
+00:15:01,410 --> 00:15:05,670
+Then up above I am going to go ahead and remove those challenge comments.
+
+235
+00:15:05,670 --> 00:15:11,220
+I'm excited to continue talking about Prisma in the next video we're going to focus on customizing our
+
+236
+00:15:11,220 --> 00:15:12,440
+relationships.
+
+237
+00:15:12,510 --> 00:15:17,660
+So we're going to learn how we can customize exactly how the relationships between our types function.
+
+238
+00:15:17,850 --> 00:15:19,330
+Let's jump right in to that.
+

@@ -1,0 +1,1164 @@
+1
+00:00:00,240 --> 00:00:04,170
+In this video you're going to turn your attention towards working with subscriptions.
+
+2
+00:00:04,170 --> 00:00:09,660
+Now the good news here is that Prisma has built in support for subscriptions and the set up process
+
+3
+00:00:09,720 --> 00:00:15,870
+is way easier than what we had before where we had a bunch of pub sub dot publish calls throughout our
+
+4
+00:00:15,870 --> 00:00:17,210
+code with Prisma.
+
+5
+00:00:17,280 --> 00:00:19,550
+All of that happens behind the scenes.
+
+6
+00:00:19,770 --> 00:00:25,200
+So out of all of the files in the resolvers directory the only one we haven't touched in this section
+
+7
+00:00:25,410 --> 00:00:31,290
+is subscription dot J S and this is where we're going to be making our changes for this video before
+
+8
+00:00:31,290 --> 00:00:33,120
+we make any changes to this file.
+
+9
+00:00:33,120 --> 00:00:39,090
+I do want to head over to localhost 4 4 6 6 and mess around with what Prisma actually gives us.
+
+10
+00:00:39,090 --> 00:00:43,230
+So over here we have our schema and if we scroll down to the bottom what do we get.
+
+11
+00:00:43,230 --> 00:00:44,730
+We get three subscriptions.
+
+12
+00:00:44,730 --> 00:00:51,990
+We have one for each type defined over inside of Prisma forward slash data model digraphs ul.
+
+13
+00:00:52,050 --> 00:00:58,900
+So once again this file is what is auto generating the entire API including our three subscriptions.
+
+14
+00:00:58,920 --> 00:01:03,690
+Now we're going to start by making some changes to the comment subscription and we'll focus on post
+
+15
+00:01:03,750 --> 00:01:07,180
+afterwards if I want to subscribe to comments.
+
+16
+00:01:07,190 --> 00:01:11,460
+I am going to use the comment subscription that Prisma gives us.
+
+17
+00:01:11,460 --> 00:01:17,970
+So once again no genius is just serving as the middleman between the clients whether they're browsers
+
+18
+00:01:17,970 --> 00:01:21,100
+or iPhone apps and the database.
+
+19
+00:01:21,120 --> 00:01:23,110
+So in this case what are we going to do.
+
+20
+00:01:23,220 --> 00:01:25,870
+We're going to use that for a property on Prisma.
+
+21
+00:01:25,890 --> 00:01:27,920
+We have not used yet.
+
+22
+00:01:28,170 --> 00:01:34,530
+Now if I actually click the comment subscription we can see that we can indeed pass in a ware argument
+
+23
+00:01:34,830 --> 00:01:42,000
+that would allow us to for example subscribe to comments by a particular author or comments on a particular
+
+24
+00:01:42,150 --> 00:01:43,040
+post.
+
+25
+00:01:43,050 --> 00:01:44,400
+We also get some data back.
+
+26
+00:01:44,400 --> 00:01:46,370
+We get quite a few fields back.
+
+27
+00:01:46,410 --> 00:01:51,600
+Notably we get the nutation type is something being created updated or deleted.
+
+28
+00:01:51,660 --> 00:01:54,660
+And we also get the new data via the node field.
+
+29
+00:01:54,690 --> 00:02:00,780
+In this case we are getting the comment data back Dambulla we have updated fields so we can see what
+
+30
+00:02:00,780 --> 00:02:01,940
+exactly changed.
+
+31
+00:02:02,040 --> 00:02:04,680
+And we have previous values.
+
+32
+00:02:04,770 --> 00:02:09,320
+So lets go ahead and actually mess around with this by making some changes to subscription dot.
+
+33
+00:02:09,330 --> 00:02:15,630
+J.S. Right here what I'm going to do as you might have expected I'm going to comment out everything
+
+34
+00:02:15,630 --> 00:02:21,010
+we have so far I'm going to remove D-B and pub sub.
+
+35
+00:02:21,120 --> 00:02:23,130
+All we need is Prisma.
+
+36
+00:02:23,340 --> 00:02:29,580
+Right here we are then going to return something we are going to return what comes back from calling
+
+37
+00:02:29,640 --> 00:02:32,370
+Prisma data subscription.
+
+38
+00:02:32,370 --> 00:02:35,200
+The fourth property we haven't used yet Don.
+
+39
+00:02:35,250 --> 00:02:40,930
+And then right here we list out which one we want we can list out either user post or comment.
+
+40
+00:02:41,010 --> 00:02:43,440
+In this case datt comment.
+
+41
+00:02:43,530 --> 00:02:44,670
+Excellent.
+
+42
+00:02:44,700 --> 00:02:50,490
+Now like all of our query methods and all of our mutation methods we pass in those two arguments I can
+
+43
+00:02:50,490 --> 00:02:56,850
+choose to pass in nothing for my operation arguments since we can clearly see from the schema that where
+
+44
+00:02:56,850 --> 00:03:02,940
+is totally optional and I am going to pass in info as the second argument something we are always going
+
+45
+00:03:02,940 --> 00:03:03,500
+to do.
+
+46
+00:03:03,690 --> 00:03:04,610
+And there we go.
+
+47
+00:03:04,620 --> 00:03:07,590
+We now have a comment based subscription.
+
+48
+00:03:07,590 --> 00:03:14,460
+All set up at no point in our code do we need to use anything like pub subduct publish Prisma already
+
+49
+00:03:14,460 --> 00:03:19,160
+knows when the database is changing because its code is in charge of changing it.
+
+50
+00:03:19,290 --> 00:03:25,410
+So it's very easy for Prisma to actually manage this subscription allowing us to reduce the complexity
+
+51
+00:03:25,410 --> 00:03:30,690
+of our code which as you might have noticed is a theme for this section.
+
+52
+00:03:30,690 --> 00:03:36,000
+Now obviously Prisma comes with its own complexity it's something we have to learn and integrate but
+
+53
+00:03:36,000 --> 00:03:38,230
+it is well worth the cost.
+
+54
+00:03:38,310 --> 00:03:44,130
+Especially in the long term as our apps get more complex now it's not time to run our subscription just
+
+55
+00:03:44,130 --> 00:03:44,390
+yet.
+
+56
+00:03:44,400 --> 00:03:48,540
+Currently it's actually pretty useless and to talk about why it's useless.
+
+57
+00:03:48,540 --> 00:03:52,860
+I just want to write a quick comment and you can actually just sit back and watch this part.
+
+58
+00:03:52,860 --> 00:03:55,110
+There is no need to write this comment out.
+
+59
+00:03:55,170 --> 00:03:56,750
+I'll be deleting it shortly.
+
+60
+00:03:57,000 --> 00:04:03,170
+So when data flows in our application it flows from Prisma to node then from node to the client.
+
+61
+00:04:03,180 --> 00:04:09,090
+And we've seen this work really well with our queries and our mutations Serat here the data starts at
+
+62
+00:04:09,090 --> 00:04:15,600
+Prisma will use an arrow to represent the fact that it gets sent to node then node sends it off to the
+
+63
+00:04:15,600 --> 00:04:20,240
+client which is currently just an instance of graft UL playground.
+
+64
+00:04:20,250 --> 00:04:22,650
+So this is something we've already seen so far.
+
+65
+00:04:22,650 --> 00:04:26,190
+Now the same process is going to happen with our subscriptions.
+
+66
+00:04:26,190 --> 00:04:33,300
+The problem though is that the data that Prisma is sending node currently does not align with the data
+
+67
+00:04:33,450 --> 00:04:35,570
+that node is sending the client.
+
+68
+00:04:35,570 --> 00:04:39,990
+And that means we're actually going to lose data as data flows through the application.
+
+69
+00:04:39,990 --> 00:04:45,600
+Let's illustrate this by looking at our application schemas over in the browser we have localhost 4
+
+70
+00:04:45,600 --> 00:04:49,230
+4 6 6 and we have our comment subscription definition.
+
+71
+00:04:49,230 --> 00:04:51,090
+There are four fields that come back.
+
+72
+00:04:51,090 --> 00:04:57,030
+We get mutation we get node we get updated fields and we get previous values.
+
+73
+00:04:57,150 --> 00:05:02,920
+If we go over to localhost 4000 we see what the node API actually sends the client.
+
+74
+00:05:03,030 --> 00:05:08,780
+If I crack this one open going down to the comments subscription we can see there's only two fields
+
+75
+00:05:08,790 --> 00:05:11,060
+we have nutation and data.
+
+76
+00:05:11,130 --> 00:05:18,210
+So if Prisma sends all of these fields to node but node only sends these fields to the client then all
+
+77
+00:05:18,210 --> 00:05:20,270
+of the data is getting to the client.
+
+78
+00:05:20,280 --> 00:05:25,260
+First off there actually is no data field even coming back from Prisma.
+
+79
+00:05:25,290 --> 00:05:26,740
+So things would fail.
+
+80
+00:05:26,760 --> 00:05:28,830
+We're saying that data is required.
+
+81
+00:05:28,830 --> 00:05:30,530
+We've made that non-global.
+
+82
+00:05:30,570 --> 00:05:33,630
+But Prisma actually doesn't send back a data field.
+
+83
+00:05:33,630 --> 00:05:37,160
+So currently no J.S. really can't serve as the middleman.
+
+84
+00:05:37,170 --> 00:05:38,780
+It's actually not a good middleman.
+
+85
+00:05:38,790 --> 00:05:45,810
+What we need to do is align the type definition here a bit closer with the type definition over here.
+
+86
+00:05:45,810 --> 00:05:51,690
+Currently the only data that would successfully make it all the way to the client is the mutation field
+
+87
+00:05:51,960 --> 00:05:57,590
+because it is sent between node and the client and it is sent between Prisma and node.
+
+88
+00:05:57,810 --> 00:06:03,840
+So to fix this all we're going to do is make a single one line change in schema graft Well all the way
+
+89
+00:06:03,840 --> 00:06:08,720
+at the bottom of our file we have our comment subscription payload type.
+
+90
+00:06:08,820 --> 00:06:12,710
+Here we have the mutation field and we have the data field.
+
+91
+00:06:12,870 --> 00:06:18,830
+All we're going to do is change the name of data to align it with what Prisma is already sending node
+
+92
+00:06:18,900 --> 00:06:20,690
+and it's calling it node.
+
+93
+00:06:20,850 --> 00:06:22,400
+Now I know that's a bit confusing.
+
+94
+00:06:22,500 --> 00:06:24,860
+Prisma is sending the data to node j.
+
+95
+00:06:24,870 --> 00:06:30,300
+S. the field it's sending is called node and this is what represents the data.
+
+96
+00:06:30,300 --> 00:06:35,700
+So in the case of a comment subscription This is where we would get the comment that was created or
+
+97
+00:06:35,700 --> 00:06:39,230
+the comment that was updated or the comment that was deleted.
+
+98
+00:06:39,510 --> 00:06:45,450
+Now you'll notice that with the Prisma definition we have node as a nullable type comment.
+
+99
+00:06:45,450 --> 00:06:49,000
+We're going to do the same thing over here to align those up correctly.
+
+100
+00:06:49,080 --> 00:06:49,960
+And there we go.
+
+101
+00:06:50,070 --> 00:06:52,990
+Now our subscription is actually going to be useful.
+
+102
+00:06:53,010 --> 00:06:57,770
+We're not going to be able to get a hold of updated fields or previous values but that's okay.
+
+103
+00:06:57,810 --> 00:07:00,600
+We are going to be able to access what we need to access.
+
+104
+00:07:00,600 --> 00:07:02,870
+Mutation and node.
+
+105
+00:07:03,060 --> 00:07:05,300
+Let's go ahead and actually test things out.
+
+106
+00:07:05,460 --> 00:07:07,330
+I'm going to save schema dot graph.
+
+107
+00:07:07,440 --> 00:07:09,740
+Well over in subscription.
+
+108
+00:07:09,820 --> 00:07:15,110
+Jay ass I'm going to remove the comments that I used to illustrate why we had to make that change.
+
+109
+00:07:15,210 --> 00:07:17,390
+And I'm going to save this file as well.
+
+110
+00:07:17,400 --> 00:07:22,440
+Let's go ahead and test things out for this one I am going to be interacting with our public facing
+
+111
+00:07:22,440 --> 00:07:29,990
+no JSA API that is local host 4000 and we have our subscriptions all the way over on the right.
+
+112
+00:07:30,120 --> 00:07:34,440
+We're going to do is subscribe to comment the one we've actually configured.
+
+113
+00:07:34,440 --> 00:07:36,800
+Now yes comment does take a post ID.
+
+114
+00:07:36,810 --> 00:07:39,030
+And currently we're doing nothing with that.
+
+115
+00:07:39,090 --> 00:07:41,710
+We'll adjust that in just a few seconds.
+
+116
+00:07:41,730 --> 00:07:45,300
+For now though all we have to do is update the operation down below.
+
+117
+00:07:45,300 --> 00:07:49,100
+There is no longer a data field that is now called node.
+
+118
+00:07:49,170 --> 00:07:50,280
+There we go.
+
+119
+00:07:50,370 --> 00:07:56,040
+We can actually start the process of listening and we should get notified when data either gets created
+
+120
+00:07:56,070 --> 00:07:57,870
+updated or deleted.
+
+121
+00:07:57,870 --> 00:08:00,300
+So let's go ahead and actually interact with some data.
+
+122
+00:08:00,430 --> 00:08:04,020
+We are going to start by creating a new comment.
+
+123
+00:08:04,020 --> 00:08:10,290
+So we have create comment over here and I already have a valid author ID and a valid post ID from the
+
+124
+00:08:10,290 --> 00:08:11,200
+last video.
+
+125
+00:08:11,340 --> 00:08:13,860
+I got these from my user's query.
+
+126
+00:08:13,920 --> 00:08:15,870
+So there's no need to add them in again.
+
+127
+00:08:16,050 --> 00:08:19,410
+I'm going to change the text to make things unique.
+
+128
+00:08:19,410 --> 00:08:24,050
+This is a Prisma based subscription.
+
+129
+00:08:24,060 --> 00:08:24,830
+Perfect.
+
+130
+00:08:24,840 --> 00:08:26,520
+Now we go ahead and fire this off.
+
+131
+00:08:26,520 --> 00:08:32,760
+We can see the comment was created and if I go all the way back over to that subscription tab I can
+
+132
+00:08:32,760 --> 00:08:35,370
+indeed see my comment right here.
+
+133
+00:08:35,400 --> 00:08:41,670
+We have our mutation value of created and we have all of the data that we asked for about the newly
+
+134
+00:08:41,670 --> 00:08:43,010
+created comment.
+
+135
+00:08:43,050 --> 00:08:46,920
+We would also see an event fire if we were to update or delete a comment.
+
+136
+00:08:46,920 --> 00:08:48,980
+So I am going to do just that.
+
+137
+00:08:49,020 --> 00:08:54,240
+I'm going to head back over to create comment to get the ID for the comment that we just created and
+
+138
+00:08:54,240 --> 00:08:55,560
+I'm going to update it.
+
+139
+00:08:55,710 --> 00:08:57,880
+So I'll head over to update comment.
+
+140
+00:08:57,900 --> 00:09:05,620
+I'll put the idea in there and I will change the text to updated sub comment.
+
+141
+00:09:05,640 --> 00:09:09,480
+Now if I go ahead and actually run this I can see that things have changed.
+
+142
+00:09:09,570 --> 00:09:15,860
+And if I go back over to the subscription tag I can see that we have an updated status report.
+
+143
+00:09:15,900 --> 00:09:18,620
+So the comment was created then it was updated.
+
+144
+00:09:18,630 --> 00:09:21,920
+Finally we can also track when a comment is deleted.
+
+145
+00:09:21,990 --> 00:09:27,250
+I'm going to delete a comment I already have the ID in the clipboard so I'll just paste it right in.
+
+146
+00:09:27,330 --> 00:09:33,690
+I fire that operation off head back over to the subscription tab and right here we can see information
+
+147
+00:09:33,780 --> 00:09:36,180
+about the deleted comment.
+
+148
+00:09:36,180 --> 00:09:41,880
+Now you can see that we are getting null for node and this is why it was important that node was non
+
+149
+00:09:41,940 --> 00:09:44,220
+nullable when you are deleting a comment.
+
+150
+00:09:44,220 --> 00:09:49,220
+There's nothing to return so null is what ends up getting sent back.
+
+151
+00:09:49,230 --> 00:09:53,310
+Now all of this was possible without us adding any code to our mutations.
+
+152
+00:09:53,310 --> 00:09:57,930
+All we did was we added this one line right here to wire things up.
+
+153
+00:09:57,930 --> 00:10:03,730
+Now I want to take the post I'd be into account making sure that we can subscribe to just comments for
+
+154
+00:10:03,730 --> 00:10:05,600
+a particular post before we do.
+
+155
+00:10:05,770 --> 00:10:12,970
+Let's go ahead and remove all of the commented out code we have so far and we are going to provide operation
+
+156
+00:10:13,030 --> 00:10:13,720
+arguments.
+
+157
+00:10:13,720 --> 00:10:18,140
+So we're going to pass some operation arguments to Prisma right here.
+
+158
+00:10:18,280 --> 00:10:23,710
+But set that object up and as we explored in the beginning of the video there is only a single argument
+
+159
+00:10:23,740 --> 00:10:24,810
+we can provide.
+
+160
+00:10:24,820 --> 00:10:27,460
+It is where it's an object.
+
+161
+00:10:27,460 --> 00:10:33,760
+On here we determine what criteria we want to use to determine what comments we want to subscribe to.
+
+162
+00:10:33,760 --> 00:10:40,010
+As always we can refer to the schema tab at localhost 4 4 6 6 to see what our options are.
+
+163
+00:10:40,010 --> 00:10:44,150
+Right here we have the where argument and there are quite a few options.
+
+164
+00:10:44,380 --> 00:10:49,080
+Now a lot of these aren't related to anything specific about the comment itself.
+
+165
+00:10:49,080 --> 00:10:56,080
+For example mutation in allows us to subscribe to just created mutations or just delete it so we can
+
+166
+00:10:56,080 --> 00:10:57,140
+be specific.
+
+167
+00:10:57,340 --> 00:11:01,680
+We can also subscribe to changes where a certain field changed.
+
+168
+00:11:01,900 --> 00:11:04,180
+Now in our case we want to use node.
+
+169
+00:11:04,330 --> 00:11:09,820
+I want to subscribe to comments where we specify something about that comment.
+
+170
+00:11:09,820 --> 00:11:13,930
+Now right here we have all of these standard items I could use something like.
+
+171
+00:11:13,930 --> 00:11:15,210
+Id contains.
+
+172
+00:11:15,210 --> 00:11:16,400
+I could use text.
+
+173
+00:11:16,420 --> 00:11:21,040
+I could use text contains things we've seen plenty of times before.
+
+174
+00:11:21,310 --> 00:11:25,040
+We actually don't care about what the comment data is at all.
+
+175
+00:11:25,120 --> 00:11:28,380
+What we care about is the post for the comment.
+
+176
+00:11:28,540 --> 00:11:33,670
+Does that post ID align with the ID that got passed in.
+
+177
+00:11:33,970 --> 00:11:36,310
+So down below we actually have a field for that.
+
+178
+00:11:36,370 --> 00:11:41,940
+We can do something with the Post sitting right here and then we have all of the same fields over again.
+
+179
+00:11:42,040 --> 00:11:46,880
+So in this case we're going to use post ID to look at that posts ID.
+
+180
+00:11:47,020 --> 00:11:55,000
+So right here in this object we are looking at the node on the node we want to look at the post and
+
+181
+00:11:55,000 --> 00:12:01,530
+for the post I want to make sure the ID is equal to the post ID value that got passed in.
+
+182
+00:12:01,750 --> 00:12:07,930
+So in the end of the day this is the exact object that is going to allow us to subscribe to comments
+
+183
+00:12:07,930 --> 00:12:10,360
+for a specific post.
+
+184
+00:12:10,360 --> 00:12:12,070
+Let's go ahead and test things out.
+
+185
+00:12:12,070 --> 00:12:16,750
+I'm going to take us back over to localhost 4000 and we're gonna run the same subscription.
+
+186
+00:12:16,870 --> 00:12:20,310
+We're trying to subscribe to comments for a post where you post.
+
+187
+00:12:20,310 --> 00:12:27,520
+ID is 10 that no longer exists in our application since we're using real random generated IDs so I would
+
+188
+00:12:27,520 --> 00:12:29,780
+expect to never ever see an event.
+
+189
+00:12:29,830 --> 00:12:31,160
+Right here we are listening.
+
+190
+00:12:31,330 --> 00:12:36,850
+I'm going to create a comment much like I did before this time around though I shouldn't see any event
+
+191
+00:12:36,880 --> 00:12:38,170
+actually occur.
+
+192
+00:12:38,170 --> 00:12:43,780
+I'm going to create a comment I'm going to go back over to that subscription tab and right here we have
+
+193
+00:12:43,780 --> 00:12:45,530
+nothing which is great.
+
+194
+00:12:45,550 --> 00:12:50,540
+Now let's go ahead and run the subscription again but use a valid post ID.
+
+195
+00:12:50,590 --> 00:12:53,450
+So over in the create comment tab.
+
+196
+00:12:53,590 --> 00:12:55,670
+I have the post ID.
+
+197
+00:12:55,900 --> 00:12:57,610
+I'm going to copy that to the clipboard.
+
+198
+00:12:57,640 --> 00:13:01,750
+Bring that over to the subscription tab and test things out.
+
+199
+00:13:01,750 --> 00:13:03,330
+I'm going to paste it in.
+
+200
+00:13:03,460 --> 00:13:08,790
+I'm going to start up that subscription now once again we're just going to create a comment some and
+
+201
+00:13:08,820 --> 00:13:11,540
+go back over to the Create comment tab.
+
+202
+00:13:11,890 --> 00:13:15,090
+I'm going to click down play button and hopefully this time around.
+
+203
+00:13:15,100 --> 00:13:20,710
+We do get a notification right here in the comments tab that is exactly what we have.
+
+204
+00:13:20,890 --> 00:13:24,970
+So we didn't get notified about comments for other posts.
+
+205
+00:13:24,970 --> 00:13:31,060
+We did get notified about comments for the post where subscribing to and this is fantastic.
+
+206
+00:13:31,060 --> 00:13:36,760
+Now that we have this in place for the comment subscription it is your job to do the exact same thing
+
+207
+00:13:36,760 --> 00:13:38,740
+for the post subscription.
+
+208
+00:13:38,740 --> 00:13:43,260
+There are a few steps for getting this done so let's go ahead and talk about exactly what I'd like you
+
+209
+00:13:43,270 --> 00:13:43,800
+to do.
+
+210
+00:13:43,930 --> 00:13:48,880
+Right here the big picture goal is to set up the post subscription to work with Prisma.
+
+211
+00:13:48,880 --> 00:13:52,130
+So step 1 we have to update schema graphics.
+
+212
+00:13:52,160 --> 00:13:58,390
+Well we want to make sure to use knode as a nullable field instead of data for posts.
+
+213
+00:13:58,390 --> 00:14:03,430
+So we're going to make the same change to the post subscription payload that we ended up making to the
+
+214
+00:14:03,430 --> 00:14:07,400
+comment subscription payload to make sure they align.
+
+215
+00:14:07,420 --> 00:14:12,820
+Now that brings us to step 2 you're actually going to update the subscribe method down below to use
+
+216
+00:14:12,820 --> 00:14:14,720
+the correct Prisma method.
+
+217
+00:14:14,890 --> 00:14:18,190
+And when you're doing that you're also going to use the where arguments.
+
+218
+00:14:18,190 --> 00:14:23,880
+I want you to limit the subscription to just posts that are actually published.
+
+219
+00:14:24,100 --> 00:14:30,550
+So here are limiting the comments to comments where the Post has a particular ID down below.
+
+220
+00:14:30,550 --> 00:14:37,600
+You want to limit the posts to posts that have a specific value for that published field and once again
+
+221
+00:14:37,870 --> 00:14:41,040
+you need to go over to localhost for 4 6 6.
+
+222
+00:14:41,050 --> 00:14:47,410
+Dig into that schema tab and figure out what you need to actually set up to get that done.
+
+223
+00:14:47,590 --> 00:14:48,820
+That brings you to step 3.
+
+224
+00:14:48,820 --> 00:14:49,750
+Test your work.
+
+225
+00:14:49,780 --> 00:14:51,080
+Start that subscription.
+
+226
+00:14:51,220 --> 00:14:54,690
+Create one post that's published you should see a notification.
+
+227
+00:14:54,760 --> 00:14:58,620
+Create a nother post that's unpublished and you shouldn't be notified.
+
+228
+00:14:58,800 --> 00:15:01,760
+All right take as much time as you need to knock that one out.
+
+229
+00:15:01,760 --> 00:15:09,530
+Don't forget to test your work when you're done come back and click play.
+
+230
+00:15:09,540 --> 00:15:10,100
+Now you do.
+
+231
+00:15:10,110 --> 00:15:13,280
+That was a tricky one but let's go ahead and work through it together.
+
+232
+00:15:13,290 --> 00:15:16,240
+First up step one over in schema graphic.
+
+233
+00:15:16,320 --> 00:15:21,750
+Well we want to align what node sounds the client with what Prisma sends node.
+
+234
+00:15:21,750 --> 00:15:27,690
+I'm going to swap out the data field for node and I am going to make this nullable by removing that
+
+235
+00:15:27,690 --> 00:15:30,660
+exclamation mark we can save the file and there we go.
+
+236
+00:15:30,660 --> 00:15:38,430
+Step one done step to update the subscribe method down below to use the correct Prisma method that is
+
+237
+00:15:38,430 --> 00:15:43,190
+going to be us returning Prisma which currently is not in scope.
+
+238
+00:15:43,190 --> 00:15:46,320
+I have to grab that in on Prisma.
+
+239
+00:15:46,330 --> 00:15:49,300
+We're going to be using dot subscription like we did above.
+
+240
+00:15:50,580 --> 00:15:58,280
+Dot right here post passing in an options object so we do want to pass in those arguments.
+
+241
+00:15:58,410 --> 00:16:03,750
+Now down below before we worry about setting up the where argument I will just pass info in as that
+
+242
+00:16:03,750 --> 00:16:05,010
+second argument.
+
+243
+00:16:05,010 --> 00:16:08,270
+Now it's going to be our job to set up where correctly.
+
+244
+00:16:08,580 --> 00:16:15,210
+The goal is to limit us to just subscribing to posts that are indeed published so we can always dig
+
+245
+00:16:15,210 --> 00:16:20,990
+into the documentation to figure out how to get that done over in local host for 4 6 6.
+
+246
+00:16:21,000 --> 00:16:24,410
+We have our subscription to posts.
+
+247
+00:16:24,480 --> 00:16:28,100
+We have our where argument and what we want is Noad.
+
+248
+00:16:28,230 --> 00:16:35,370
+So with Noad we can assert things about the post itself related to the ID related to the title the body
+
+249
+00:16:35,430 --> 00:16:41,620
+or in our case related to published so we can check if it is or is not a specific value.
+
+250
+00:16:41,730 --> 00:16:44,430
+In this case we're going to make sure it is true.
+
+251
+00:16:44,700 --> 00:16:53,260
+So right here I will be setting up node then I'll be setting up published setting that equal to true.
+
+252
+00:16:53,420 --> 00:16:54,210
+Perfect.
+
+253
+00:16:54,350 --> 00:16:59,700
+Now that we have this in place that's it for step 2 let's remove those comments up above.
+
+254
+00:17:01,020 --> 00:17:07,380
+Save the file and actually test our work so I'm going to bring things over to local host 4000 and make
+
+255
+00:17:07,380 --> 00:17:13,450
+sure the subscription works as expected over here I am going to start up the post subscription.
+
+256
+00:17:13,530 --> 00:17:15,870
+Over here we do have to make that one change.
+
+257
+00:17:15,960 --> 00:17:19,450
+We have to swap out data for node.
+
+258
+00:17:19,560 --> 00:17:20,730
+It is going to be invalid.
+
+259
+00:17:20,730 --> 00:17:24,590
+But once we refresh the schema it will become valid once again.
+
+260
+00:17:24,750 --> 00:17:29,000
+Now we can start this process and it is going to listen for changes.
+
+261
+00:17:29,130 --> 00:17:34,720
+All we have to do now is actually interact with posts in some way to make sure things work as expected.
+
+262
+00:17:34,770 --> 00:17:40,450
+I'm going to be creating a post one that's published one that's unpublished.
+
+263
+00:17:40,590 --> 00:17:42,890
+I'll create the post for that first user.
+
+264
+00:17:42,900 --> 00:17:44,100
+This is Andrew.
+
+265
+00:17:44,160 --> 00:17:50,010
+I'm going to grab his ID and I'm going to go over to the Create post mutation right here I'll swap out
+
+266
+00:17:50,010 --> 00:17:51,100
+the IDs.
+
+267
+00:17:51,210 --> 00:17:53,820
+And in this case we have stories by Jess.
+
+268
+00:17:53,910 --> 00:17:56,640
+I'm going to change that to stories by Andrew.
+
+269
+00:17:56,820 --> 00:18:02,040
+I can leave body as Dot dot dot and for this one I will have this be the published post.
+
+270
+00:18:02,040 --> 00:18:06,840
+So this is the one I would expected to get notified about if I go ahead and fire this off.
+
+271
+00:18:06,840 --> 00:18:08,690
+We can see the post was created.
+
+272
+00:18:08,790 --> 00:18:14,850
+And if I go all the way back over to that subscription tag I do indeed have a notification stories by
+
+273
+00:18:14,850 --> 00:18:18,060
+Andrew is showing up which is great.
+
+274
+00:18:18,060 --> 00:18:21,410
+Next up we're going to create another post.
+
+275
+00:18:21,600 --> 00:18:23,420
+I'm going to go ahead and call this one.
+
+276
+00:18:23,470 --> 00:18:25,860
+Secret stories by Andrew.
+
+277
+00:18:25,890 --> 00:18:31,980
+And I'm going to leave the published value as false if I fire this off that should indeed be creating
+
+278
+00:18:31,980 --> 00:18:32,750
+the data.
+
+279
+00:18:32,850 --> 00:18:35,600
+But any subscriber shouldn't have been notified.
+
+280
+00:18:35,670 --> 00:18:41,640
+If I go back over here you can see there is nothing related to secret stories by Andrew.
+
+281
+00:18:41,760 --> 00:18:46,010
+The last notification we have is for that first post were created.
+
+282
+00:18:46,020 --> 00:18:46,950
+So there we go.
+
+283
+00:18:47,010 --> 00:18:47,600
+Challenge.
+
+284
+00:18:47,610 --> 00:18:48,570
+All done.
+
+285
+00:18:48,600 --> 00:18:55,170
+We now have our two subscriptions set up and in both cases we are able to customize exactly what data
+
+286
+00:18:55,200 --> 00:18:56,850
+comes back up above.
+
+287
+00:18:56,850 --> 00:19:01,860
+We are returning just comments from a particular post and down below.
+
+288
+00:19:01,920 --> 00:19:05,920
+We are returning just posts that are published.
+
+289
+00:19:06,090 --> 00:19:07,860
+That's where we're going to start for this one.
+
+290
+00:19:07,860 --> 00:19:09,990
+I'm excited to continue on with this section.
+
+291
+00:19:09,990 --> 00:19:12,640
+So stay tuned and I'll see you in the next one.
+

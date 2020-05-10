@@ -1,0 +1,988 @@
+1
+00:00:00,240 --> 00:00:03,810
+In this video we're going to continue what we started in the last one.
+
+2
+00:00:03,810 --> 00:00:09,810
+The goal is to create a test case that can test a operation that requires authentication.
+
+3
+00:00:09,840 --> 00:00:12,480
+And here's how we're going to do it in this file.
+
+4
+00:00:12,510 --> 00:00:19,860
+We're going to create a JWT for our test user and export it in this file or any test suite that needs
+
+5
+00:00:19,860 --> 00:00:20,950
+authentication.
+
+6
+00:00:21,090 --> 00:00:23,340
+We're going to import that JWT.
+
+7
+00:00:23,490 --> 00:00:29,100
+And in the individual test case we'll pass it to get client getting a fresh client.
+
+8
+00:00:29,100 --> 00:00:34,690
+That means get client is going to need it to accept a token and we'll get to that as well.
+
+9
+00:00:34,830 --> 00:00:38,030
+Let's go ahead and start though in ceed database dot J.
+
+10
+00:00:38,020 --> 00:00:44,260
+S. We want to create an authentication token and get it exported out of this file.
+
+11
+00:00:44,310 --> 00:00:48,060
+Now to do that the first thing I'm going to do is define a variable.
+
+12
+00:00:48,060 --> 00:00:54,360
+Up above Konst user 1 this is going to be an object and on there we're going to put all of the stuff
+
+13
+00:00:54,360 --> 00:00:56,300
+associated with the User 1.
+
+14
+00:00:56,430 --> 00:01:04,230
+So we're going to put the input what we passed to Prisma the output what Prisma gives us and the JWT
+
+15
+00:01:04,320 --> 00:01:06,350
+which will generate in just a moment.
+
+16
+00:01:06,360 --> 00:01:10,330
+Let's go ahead and start with the input right here on user one.
+
+17
+00:01:10,440 --> 00:01:17,120
+I'm going to be setting up an input property I'm going to set that up as an object and it's going to
+
+18
+00:01:17,120 --> 00:01:19,090
+have name email and password.
+
+19
+00:01:19,100 --> 00:01:23,990
+So down below I'm going to grab these three values I'm going to take them.
+
+20
+00:01:24,980 --> 00:01:28,370
+Paste them up above inside of the input object.
+
+21
+00:01:28,370 --> 00:01:33,720
+Then down here data can get its value from user 1 input.
+
+22
+00:01:33,740 --> 00:01:34,460
+Perfect.
+
+23
+00:01:34,460 --> 00:01:40,790
+Now we're also going to have a property on user 1 that stores the data that Prisma gives us back.
+
+24
+00:01:40,790 --> 00:01:47,160
+So right here I could call that something like output or I could call it user or data.
+
+25
+00:01:47,240 --> 00:01:49,690
+I'm going to go ahead and stick with user.
+
+26
+00:01:50,030 --> 00:01:52,570
+And this is going to get its value later on.
+
+27
+00:01:52,580 --> 00:01:55,030
+So for the moment I can leave it as undefined.
+
+28
+00:01:55,160 --> 00:02:00,820
+It's not necessary to set this property up with an undefined value but it is a bit more explicit.
+
+29
+00:02:00,830 --> 00:02:05,040
+So someone who's scanning this code can see that there are these two properties.
+
+30
+00:02:05,150 --> 00:02:06,770
+Well one is undefined.
+
+31
+00:02:06,770 --> 00:02:11,560
+That must suggest that it's likely going to get a value later which is true down below.
+
+32
+00:02:11,630 --> 00:02:19,520
+Instead of creating a user variable we're going to get the value for user 1 dot user from whatever comes
+
+33
+00:02:19,520 --> 00:02:20,450
+back here.
+
+34
+00:02:20,480 --> 00:02:26,570
+So I'm going to remove Konst end user and I will just add a user one dot user.
+
+35
+00:02:26,630 --> 00:02:32,200
+So here we are setting user 1 dot user to the data that Prisma gives us back.
+
+36
+00:02:32,270 --> 00:02:39,170
+Now we were using that user variable we removed down below the user ID was used in both locations.
+
+37
+00:02:39,290 --> 00:02:42,940
+So I'm going to have to refactor it to reference this property instead.
+
+38
+00:02:43,250 --> 00:02:47,050
+So right here user 1 dot user dot ID.
+
+39
+00:02:47,090 --> 00:02:51,750
+And the same thing down below user 1 user ID.
+
+40
+00:02:51,890 --> 00:02:52,730
+Excellent.
+
+41
+00:02:52,910 --> 00:02:56,570
+So now we have a lot of good stuff stored on user 1.
+
+42
+00:02:56,660 --> 00:02:59,560
+And the last thing we're going to do is store a J.
+
+43
+00:02:59,570 --> 00:03:01,960
+W.T. property for the moment.
+
+44
+00:03:01,970 --> 00:03:03,700
+I'll leave this as undefined.
+
+45
+00:03:03,710 --> 00:03:07,350
+We can't create it yet because we don't know the user's ID.
+
+46
+00:03:07,370 --> 00:03:10,640
+We don't have that till this code finishes executing.
+
+47
+00:03:10,640 --> 00:03:18,650
+Right here though we do indeed have everything we need to create a Jason web token for our seed database
+
+48
+00:03:18,710 --> 00:03:19,360
+user.
+
+49
+00:03:19,430 --> 00:03:21,680
+And that's exactly what we're going to end up doing.
+
+50
+00:03:21,680 --> 00:03:29,450
+Step one is the inport so up above we can go ahead and import JWT from the library we've been using
+
+51
+00:03:29,450 --> 00:03:30,440
+for that sort of thing.
+
+52
+00:03:30,440 --> 00:03:36,380
+Jason a web tokin which is already installed and down below we can now take advantage of it like we've
+
+53
+00:03:36,380 --> 00:03:37,860
+done before.
+
+54
+00:03:37,880 --> 00:03:42,290
+I'm going to go ahead and break things up a little bit and I'll even leave some comments to keep things
+
+55
+00:03:42,320 --> 00:03:43,040
+organized.
+
+56
+00:03:43,040 --> 00:03:48,520
+So right here delete test data then right here.
+
+57
+00:03:49,780 --> 00:03:55,560
+Create user one and just blow the creation will set up that tokens are right here.
+
+58
+00:03:55,570 --> 00:04:01,540
+User one dot JWT is going to get a value and that value is going to come from calling.
+
+59
+00:04:01,570 --> 00:04:07,860
+JWT dot sign which is what we've used to sign tokens in the past right here.
+
+60
+00:04:07,960 --> 00:04:13,220
+We have to provide those two arguments if you remember the first is our object payload.
+
+61
+00:04:13,240 --> 00:04:15,150
+And the second is the secret.
+
+62
+00:04:15,250 --> 00:04:20,220
+Now for the payload we were setting user id equal to the user's ID.
+
+63
+00:04:20,260 --> 00:04:28,870
+So in this case user 1 adult user data ID and for the JWT secret we'll continue to use the environment
+
+64
+00:04:28,900 --> 00:04:29,620
+variable.
+
+65
+00:04:29,620 --> 00:04:39,460
+So that's process then dot then EMV and the name of the variable is JWT underscore secret.
+
+66
+00:04:39,460 --> 00:04:40,460
+Perfect.
+
+67
+00:04:40,480 --> 00:04:41,350
+So now we have that.
+
+68
+00:04:41,380 --> 00:04:48,490
+Jason Webb token created we can export user one from this file and take advantage of it including the
+
+69
+00:04:48,490 --> 00:04:52,420
+JWT in our individual test suites.
+
+70
+00:04:52,420 --> 00:04:55,520
+So let's go ahead and knock that out down below.
+
+71
+00:04:55,570 --> 00:04:57,210
+I'm going to add a nother export.
+
+72
+00:04:57,220 --> 00:05:04,930
+We already have seed database will be exporting user 1 and we're not going to export this as the default
+
+73
+00:05:04,990 --> 00:05:07,000
+since we already have a default.
+
+74
+00:05:07,030 --> 00:05:13,060
+So we'll just leave this as a generic named export now that it is indeed exported though we are all
+
+75
+00:05:13,060 --> 00:05:14,890
+done with this file.
+
+76
+00:05:14,890 --> 00:05:19,220
+We can save it and move into one of our test case files.
+
+77
+00:05:19,360 --> 00:05:24,320
+Let's go ahead and start with a test in user dot test dot J S.
+
+78
+00:05:24,400 --> 00:05:32,230
+I'm going to ensure that I can successfully fetch my user profile if and only if I'm logged in first
+
+79
+00:05:32,230 --> 00:05:38,800
+up I'm going to grab user one off of the C database file so right here user 1 then down below we can
+
+80
+00:05:38,800 --> 00:05:43,350
+use user 1 dot JWT to get that Jason Webb token.
+
+81
+00:05:43,660 --> 00:05:47,030
+I'm going to create a brand new test suite right here.
+
+82
+00:05:47,140 --> 00:05:50,100
+We'll call test like we've done plenty of times before.
+
+83
+00:05:50,150 --> 00:05:51,500
+Whoops I said test suite.
+
+84
+00:05:51,500 --> 00:05:57,850
+We are indeed just creating a test case and for this one we can call it something like should fetch
+
+85
+00:05:57,910 --> 00:05:59,680
+user profile.
+
+86
+00:05:59,680 --> 00:06:04,300
+So in this case we are going to have an authenticated client and we're going to make sure that when
+
+87
+00:06:04,300 --> 00:06:10,630
+we're authenticated we can indeed get our user profile back I'll be passing in the async function.
+
+88
+00:06:10,630 --> 00:06:15,190
+And then here we're going to do what we've done plenty of times before we'll be setting up our operation
+
+89
+00:06:15,220 --> 00:06:18,850
+and firing it off making assertions about the result.
+
+90
+00:06:18,850 --> 00:06:25,930
+But the first thing we actually have to do is generate a new client so Konst client equals we're going
+
+91
+00:06:25,930 --> 00:06:29,620
+to call get client and we're going to pass to it.
+
+92
+00:06:29,650 --> 00:06:35,620
+Our Jason Webb tokin now currently get client is it going to do anything with that argument and that's
+
+93
+00:06:35,620 --> 00:06:36,240
+OK.
+
+94
+00:06:36,370 --> 00:06:37,750
+We'll fix that in a moment.
+
+95
+00:06:37,750 --> 00:06:41,450
+For now though user 1 dot JWT.
+
+96
+00:06:41,710 --> 00:06:47,800
+So in some instances we're going to call get client with a Jason Webb tokin in that case we want a client
+
+97
+00:06:47,800 --> 00:06:50,520
+that's authenticated as a particular user.
+
+98
+00:06:50,530 --> 00:06:55,240
+In other cases like what we have above we're not going to pass in a JWT.
+
+99
+00:06:55,330 --> 00:07:00,220
+And in this case we want a client that's not authenticated as a particular user.
+
+100
+00:07:00,220 --> 00:07:06,270
+So the only thing we have to do to actually get this code to work is to add support for that optional
+
+101
+00:07:06,430 --> 00:07:10,970
+J W.T. argument over in the Get client function.
+
+102
+00:07:11,140 --> 00:07:16,150
+Now that the argument is set up we also have to use it and we're going to use it by setting up a new
+
+103
+00:07:16,150 --> 00:07:19,270
+property up on our options object.
+
+104
+00:07:19,330 --> 00:07:20,730
+Here's what that's going to look like.
+
+105
+00:07:20,740 --> 00:07:26,810
+There is a request property that we can set on this option's object and it's actually a function.
+
+106
+00:07:26,860 --> 00:07:31,620
+I'm just going to use the ESX method definition and to define a request.
+
+107
+00:07:31,690 --> 00:07:37,420
+Now this function gets called for every single outgoing request and it gets called with the operation
+
+108
+00:07:37,450 --> 00:07:38,400
+itself.
+
+109
+00:07:38,650 --> 00:07:42,580
+Now we can use the operation argument to manipulate the operation.
+
+110
+00:07:42,610 --> 00:07:48,970
+And in this case we're going to manipulate it and add on a single authorization header.
+
+111
+00:07:48,970 --> 00:07:53,100
+Now we only want to add on the head or if a token was actually provided.
+
+112
+00:07:53,170 --> 00:08:00,280
+If we're in the case of the call up above like this one we don't want to do anything if no authentication
+
+113
+00:08:00,280 --> 00:08:06,310
+token was provided down here when we do provide a token though we want to run some special code.
+
+114
+00:08:06,500 --> 00:08:14,470
+So inside of our request method we are going to set up a condition if there is a JWT then and only then
+
+115
+00:08:14,530 --> 00:08:16,600
+are we actually going to do anything.
+
+116
+00:08:16,750 --> 00:08:17,790
+What are we going to do.
+
+117
+00:08:17,890 --> 00:08:23,530
+Well there is a set context method on operation and that's how we set headers.
+
+118
+00:08:23,530 --> 00:08:33,140
+So right here operation dot set context this gets called with a single argument an object that contains
+
+119
+00:08:33,140 --> 00:08:35,830
+the pieces of context you're trying to set.
+
+120
+00:08:35,870 --> 00:08:42,620
+And there is a header's property we can configure an on this object we can define the headers we want
+
+121
+00:08:42,620 --> 00:08:46,250
+to set up now in our case we just need 1 authorization
+
+122
+00:08:48,940 --> 00:08:52,320
+any value for authorization is going to be a string.
+
+123
+00:08:52,330 --> 00:08:54,150
+I'll use a template string.
+
+124
+00:08:54,160 --> 00:09:01,850
+We start off with barer space then the tokens are right here I get inter-relate the JWT variable.
+
+125
+00:09:01,870 --> 00:09:03,100
+So what are we really doing.
+
+126
+00:09:03,200 --> 00:09:07,230
+If a token was provided we generate a new instance of Appollo boost.
+
+127
+00:09:07,240 --> 00:09:12,420
+And for every single request if there is a token we set up the authorization Hetter.
+
+128
+00:09:12,430 --> 00:09:13,860
+It's as simple as that.
+
+129
+00:09:13,870 --> 00:09:21,460
+Now we can actually use this code in our test suites to write test cases that use authentication.
+
+130
+00:09:21,460 --> 00:09:28,360
+Now this code is set up and in user dot test dot J S we're already using it by passing in an authentication
+
+131
+00:09:28,360 --> 00:09:34,840
+token down below what we're going to do is go ahead and actually fire off an operation.
+
+132
+00:09:34,900 --> 00:09:41,140
+We are going to fire off a query which typically requires authentication so we're only going to see
+
+133
+00:09:41,140 --> 00:09:44,600
+it work if things were actually set up correctly.
+
+134
+00:09:44,600 --> 00:09:44,900
+All right.
+
+135
+00:09:44,900 --> 00:09:50,490
+Here let's go ahead and create a new constant for a get profile operation.
+
+136
+00:09:50,650 --> 00:09:56,010
+We'll be using GQ well along with a template string and right inside of here what are we going to do.
+
+137
+00:09:56,050 --> 00:09:58,010
+We are going to define the query.
+
+138
+00:09:58,000 --> 00:09:59,470
+It is indeed a query.
+
+139
+00:09:59,620 --> 00:10:03,340
+We'll be using the query we set up earlier in the class.
+
+140
+00:10:03,460 --> 00:10:08,010
+And let's just grab their ID their name and their e-mail.
+
+141
+00:10:08,140 --> 00:10:12,610
+And down below we're going to go ahead and fire that officer right here.
+
+142
+00:10:12,610 --> 00:10:19,570
+I'm going to use a wait with the client doc query passing in our options object and setting up that
+
+143
+00:10:19,570 --> 00:10:24,920
+query property which is going to get its value from get profile above.
+
+144
+00:10:25,110 --> 00:10:25,880
+Excellent.
+
+145
+00:10:26,040 --> 00:10:30,700
+So at this point we are creating a new client that is indeed using authentication.
+
+146
+00:10:30,780 --> 00:10:34,810
+We're setting up the operation we're trying to perform and we're firing it off.
+
+147
+00:10:34,890 --> 00:10:41,460
+Now if things are actually set up correctly if the token is getting used I would expect this test case
+
+148
+00:10:41,520 --> 00:10:42,160
+to pass.
+
+149
+00:10:42,180 --> 00:10:46,380
+No error should get thrown out if things are set up incorrectly.
+
+150
+00:10:46,380 --> 00:10:52,280
+This should be throwing an error as you cannot access a user's profile without being authenticated.
+
+151
+00:10:52,290 --> 00:10:55,320
+I'm going to save the user test suite and down below.
+
+152
+00:10:55,320 --> 00:10:57,110
+We're going to see what happens.
+
+153
+00:10:57,120 --> 00:10:59,850
+Right now it's rerunning both of those test suites.
+
+154
+00:10:59,850 --> 00:11:01,050
+And what do we have.
+
+155
+00:11:01,050 --> 00:11:03,120
+We have six passing tests.
+
+156
+00:11:03,150 --> 00:11:06,090
+So we have our brand new tests showing up.
+
+157
+00:11:06,090 --> 00:11:09,030
+It is indeed working as expected.
+
+158
+00:11:09,030 --> 00:11:14,230
+Now we can just comment out this one line to see the test case fail in this case.
+
+159
+00:11:14,250 --> 00:11:18,910
+It's going to use the other client the global client variable defined up above.
+
+160
+00:11:18,930 --> 00:11:21,170
+This one does not use authentication.
+
+161
+00:11:21,270 --> 00:11:26,750
+So when I try to fetch the profile I would indeed expect a failure with this line commented out.
+
+162
+00:11:26,760 --> 00:11:28,860
+I'll save the test suite once again.
+
+163
+00:11:29,010 --> 00:11:32,180
+And now we should have one failing test case.
+
+164
+00:11:32,190 --> 00:11:35,270
+If we do we know everything is working as expected.
+
+165
+00:11:35,280 --> 00:11:36,110
+And there we go.
+
+166
+00:11:36,120 --> 00:11:37,840
+That is exactly what we're getting.
+
+167
+00:11:38,070 --> 00:11:44,010
+If we scroll up the error is going to say you error authentication required.
+
+168
+00:11:44,250 --> 00:11:49,810
+So now we have a system for actually firing off operations that require authentication.
+
+169
+00:11:50,040 --> 00:11:51,710
+I'm going to uncomment this line.
+
+170
+00:11:51,840 --> 00:11:58,110
+And we are indeed once again authenticated as our test database user.
+
+171
+00:11:58,110 --> 00:12:03,870
+Now from here we can test all of the other operations that require authentication and we can even add
+
+172
+00:12:03,870 --> 00:12:10,200
+some assertions to this particular test case actually looking at the profile object that came back.
+
+173
+00:12:10,290 --> 00:12:12,060
+Let's go ahead and start there.
+
+174
+00:12:12,060 --> 00:12:14,990
+So what I'm going to do is create a constant.
+
+175
+00:12:15,270 --> 00:12:21,060
+I'm going to get its value by destructuring data right off of response if I'm going to use data from
+
+176
+00:12:21,060 --> 00:12:21,660
+response.
+
+177
+00:12:21,660 --> 00:12:26,430
+I could just break it out into its own variable and then what we're going to do is add an assertion
+
+178
+00:12:26,430 --> 00:12:28,320
+about what's on and data.
+
+179
+00:12:28,320 --> 00:12:37,700
+So for example I could expect that data dot me dot ID equals using and to be the user 1 ID.
+
+180
+00:12:37,740 --> 00:12:41,380
+So that's user 1 dot user dot ID.
+
+181
+00:12:41,610 --> 00:12:48,300
+So if I'm authenticated as this user the profile I get back should indeed contain my ID as opposed to
+
+182
+00:12:48,300 --> 00:12:51,000
+containing the ID of another user.
+
+183
+00:12:51,000 --> 00:12:53,410
+I can do the same thing for other properties as well.
+
+184
+00:12:53,430 --> 00:13:02,340
+So I could expect that data Daten me dot Neme equals using to be user one dot user dot name.
+
+185
+00:13:02,370 --> 00:13:06,290
+And finally we'll add an expect call for email data.
+
+186
+00:13:06,420 --> 00:13:09,370
+Email should equal right here.
+
+187
+00:13:09,400 --> 00:13:11,650
+User 1 dot user dot.
+
+188
+00:13:11,670 --> 00:13:12,330
+Email.
+
+189
+00:13:12,420 --> 00:13:13,260
+Perfect.
+
+190
+00:13:13,470 --> 00:13:17,280
+Let's go ahead and actually save the file and see what happens.
+
+191
+00:13:17,280 --> 00:13:20,820
+Now we already know that the operation is going to at least succeed.
+
+192
+00:13:20,940 --> 00:13:26,210
+So the new part we're testing is whether or not our assertions work as expected if they do.
+
+193
+00:13:26,250 --> 00:13:30,610
+We're going to move on to the challenge for this video and they are indeed working.
+
+194
+00:13:30,690 --> 00:13:35,950
+Let's talk about the challenge by heading over to the post test file down below.
+
+195
+00:13:35,970 --> 00:13:37,980
+I have a set of challenge comments.
+
+196
+00:13:37,980 --> 00:13:43,020
+The big picture goal is to write a test case for the my posts query.
+
+197
+00:13:43,200 --> 00:13:45,150
+I want to try to fetch my posts.
+
+198
+00:13:45,180 --> 00:13:49,430
+Me being the test database user and I should get both back.
+
+199
+00:13:49,440 --> 00:13:54,070
+The published one as well as the draft post since I'm authenticated.
+
+200
+00:13:54,270 --> 00:14:00,840
+So Step 1 create the new test case and set up a client that has authentication then you're going to
+
+201
+00:14:00,840 --> 00:14:06,490
+fire off the my posts queery getting all of the scalar fields for each post.
+
+202
+00:14:06,540 --> 00:14:10,260
+Then you're going to assert that two posts were fetched.
+
+203
+00:14:10,320 --> 00:14:14,180
+So the length of the array you get back should indeed be two.
+
+204
+00:14:14,190 --> 00:14:20,760
+And finally you're going to test your work by saving the file and letting your new test case run.
+
+205
+00:14:20,760 --> 00:14:25,550
+Take some time to knock that out and test your work and when you're done come back and click play
+
+206
+00:14:29,260 --> 00:14:29,970
+how that go.
+
+207
+00:14:30,010 --> 00:14:35,530
+I'm going to kick things off by creating a brand new test function we're going to call it.
+
+208
+00:14:35,530 --> 00:14:37,320
+We are going to pass in a name.
+
+209
+00:14:37,330 --> 00:14:44,680
+I'll say something like should fetch users posts then we'll set up our async function and we can focus
+
+210
+00:14:44,710 --> 00:14:47,200
+on the test case code itself.
+
+211
+00:14:47,200 --> 00:14:52,930
+Now the first thing we're going to end up doing is creating a new client that does indeed use authentication.
+
+212
+00:14:53,050 --> 00:14:59,320
+So I'm going to end up calling get client a second time passing in a user one's JWT.
+
+213
+00:14:59,320 --> 00:15:02,520
+Now I don't have that in Portage So we have to start there.
+
+214
+00:15:02,530 --> 00:15:06,840
+I'm going to grab user one the named export down below.
+
+215
+00:15:06,910 --> 00:15:11,890
+I'm going to generate that new client Konst client equals right here.
+
+216
+00:15:11,920 --> 00:15:17,510
+I'll be calling get client passing in user 1 dot JWT.
+
+217
+00:15:17,530 --> 00:15:22,860
+Now we can move on to Step 2 which is to actually set up that operation and fire it off.
+
+218
+00:15:22,870 --> 00:15:30,370
+So right here Konst my posts seems like an appropriate enough name we'll be using GQ well with our template
+
+219
+00:15:30,430 --> 00:15:31,930
+string.
+
+220
+00:15:31,960 --> 00:15:39,190
+This is indeed a query operation and the query itself is called My posts and for each post I'll just
+
+221
+00:15:39,190 --> 00:15:45,030
+grab the id the title of the body.
+
+222
+00:15:45,240 --> 00:15:47,580
+And finally the published value.
+
+223
+00:15:47,580 --> 00:15:48,830
+Perfect.
+
+224
+00:15:48,840 --> 00:15:51,260
+Next up we have to fire that operation off.
+
+225
+00:15:51,270 --> 00:15:56,510
+So down below what I'm going to do is get their response destructuring data.
+
+226
+00:15:56,670 --> 00:16:01,780
+So Konst data gets its value from a weight.
+
+227
+00:16:02,000 --> 00:16:07,390
+We are going to await client dot query passing in our operations object.
+
+228
+00:16:07,400 --> 00:16:11,090
+The query gets its value from my posts above.
+
+229
+00:16:11,090 --> 00:16:15,590
+So instead of getting the response I'm just destructuring data type of response since it's the only
+
+230
+00:16:15,590 --> 00:16:18,950
+property we're ever going to use from response.
+
+231
+00:16:18,950 --> 00:16:25,260
+Now that we have this in place we're done step 2 and we can assert that we got two posts back.
+
+232
+00:16:25,550 --> 00:16:28,470
+This user has two posts I want to get them both.
+
+233
+00:16:28,550 --> 00:16:30,090
+Let's make sure that happens.
+
+234
+00:16:30,290 --> 00:16:40,840
+I'm going to expect that data dot my posts which is an array that length equals using need to be functionality.
+
+235
+00:16:40,850 --> 00:16:42,170
+The number 2.
+
+236
+00:16:42,320 --> 00:16:47,840
+If it's greater than 2 or less than 2 then obviously things aren't working as expected and that's a
+
+237
+00:16:47,840 --> 00:16:48,690
+problem.
+
+238
+00:16:49,010 --> 00:16:52,320
+So now that we have the assertion in place we can test our work.
+
+239
+00:16:52,520 --> 00:16:55,350
+I'm going to go ahead and remove those test comments.
+
+240
+00:16:55,520 --> 00:17:00,000
+I will be saving the test suite allowing things to rerun down below.
+
+241
+00:17:00,110 --> 00:17:06,590
+And we should have I believe at this point 7 passing test cases and right here we do two passing test
+
+242
+00:17:06,590 --> 00:17:09,760
+suites with seven test cases across both of them.
+
+243
+00:17:09,920 --> 00:17:16,040
+Everything is working as expected and we were able to get all of this done in just 6 seconds.
+
+244
+00:17:16,040 --> 00:17:22,130
+Now that we have this in place we know how to write test cases that fire off operations that require
+
+245
+00:17:22,130 --> 00:17:23,350
+authentication.
+
+246
+00:17:23,540 --> 00:17:28,950
+We're going to continue on in the next video reading a few more test cases using this strategy.
+
+247
+00:17:29,030 --> 00:17:31,640
+So stay tuned and I'll see you then.
+

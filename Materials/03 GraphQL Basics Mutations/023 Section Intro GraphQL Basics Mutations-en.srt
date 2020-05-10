@@ -1,0 +1,20 @@
+1
+00:00:02,510 --> 00:00:08,210
+Welcome to Section 3 and this section you're going to learn about the graphic Well mutation.
+
+2
+00:00:08,240 --> 00:00:14,650
+It's another graphical operation and this one allows us to create update and delete data.
+
+3
+00:00:14,840 --> 00:00:21,230
+So as we saw in the last section the queries job is to fetch data the mutations job is to manipulate
+
+4
+00:00:21,230 --> 00:00:26,660
+data so we can add users we can update posts or we could delete a comment.
+
+5
+00:00:26,660 --> 00:00:32,050
+All right let's go ahead and jump right into the section and take a look at how we can use mutations.
+

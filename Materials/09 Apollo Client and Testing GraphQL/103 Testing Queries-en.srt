@@ -1,0 +1,520 @@
+1
+00:00:00,240 --> 00:00:06,900
+In this video we're going to start and finish two new test cases now that we have our Geske configuration
+
+2
+00:00:06,900 --> 00:00:12,720
+set up adding individual test cases really isn't going to be that bad for the moment.
+
+3
+00:00:12,750 --> 00:00:18,060
+We're going to continue to ignore authentication so we're going to test a couple of our queries that
+
+4
+00:00:18,060 --> 00:00:20,700
+don't require authentication together.
+
+5
+00:00:20,850 --> 00:00:26,450
+We'll be testing our users query making sure it exposes the public off their profiles.
+
+6
+00:00:26,520 --> 00:00:29,950
+And as your challenge you'll be testing the posts.
+
+7
+00:00:29,970 --> 00:00:34,370
+Queery making sure you only get published posts back.
+
+8
+00:00:34,380 --> 00:00:36,750
+So let's go ahead and knock this out down below.
+
+9
+00:00:36,870 --> 00:00:40,890
+For the moment we're going to keep everything in a single file though don't worry.
+
+10
+00:00:40,890 --> 00:00:45,190
+As we add more test cases we will create multiple test suites.
+
+11
+00:00:45,210 --> 00:00:48,710
+For now though let's go ahead and add the second test case.
+
+12
+00:00:48,840 --> 00:00:56,060
+I'm going to call this one should expose public author profiles.
+
+13
+00:00:56,090 --> 00:01:01,280
+This is going to test that we do indeed get those public author profiles back including things like
+
+14
+00:01:01,280 --> 00:01:05,690
+their name but excluding things like their email right here.
+
+15
+00:01:05,840 --> 00:01:11,420
+I will use an async function and we're going to use an async function for pretty much every single test
+
+16
+00:01:11,420 --> 00:01:14,770
+case as we'll always be doing something asynchronous.
+
+17
+00:01:14,780 --> 00:01:17,590
+The first thing I'm going to do is set up the operation.
+
+18
+00:01:17,600 --> 00:01:23,910
+I'll call this constant something like get users or get user profile or get authors.
+
+19
+00:01:23,990 --> 00:01:30,320
+Then we'll set it equal to here we'll use GTK UL with a template string to provide our operation.
+
+20
+00:01:30,320 --> 00:01:35,000
+It is indeed a query we will be using the user's query.
+
+21
+00:01:35,090 --> 00:01:41,150
+That's going to give us an array back and for each user We're going to grab their ID will grab their
+
+22
+00:01:41,150 --> 00:01:43,710
+name and we'll grab their email.
+
+23
+00:01:43,730 --> 00:01:44,780
+Perfect.
+
+24
+00:01:44,780 --> 00:01:49,130
+Now down below we can actually send that operation off and get the response.
+
+25
+00:01:49,130 --> 00:01:55,180
+Storing that in a response variable right here Konst response equals.
+
+26
+00:01:55,480 --> 00:01:58,390
+I am going to await the following client.
+
+27
+00:01:58,420 --> 00:01:59,680
+Dat query.
+
+28
+00:01:59,770 --> 00:02:05,770
+I'm going to call that as a function passing in the one property we have to define for the query method
+
+29
+00:02:05,950 --> 00:02:07,520
+which is query and right.
+
+30
+00:02:07,520 --> 00:02:12,180
+Here we have get users which defines that operation perfect.
+
+31
+00:02:12,220 --> 00:02:15,880
+So at this point we've created the operation and we've sent it off.
+
+32
+00:02:15,910 --> 00:02:19,010
+Now we're going to make two assertions about what comes back.
+
+33
+00:02:19,030 --> 00:02:23,680
+One I'm going to assert that that array users has just a single item.
+
+34
+00:02:23,680 --> 00:02:29,500
+So we're gonna make sure its length is one and the other assertion is going to be that the individual
+
+35
+00:02:29,500 --> 00:02:35,880
+user object has an e-mail property equal to null that e-mail should not be exposed.
+
+36
+00:02:36,010 --> 00:02:38,470
+We could even assert that the name is exposed.
+
+37
+00:02:38,470 --> 00:02:41,690
+That would work perfectly fine too down below.
+
+38
+00:02:41,710 --> 00:02:43,310
+Let's go ahead and play around with these.
+
+39
+00:02:43,330 --> 00:02:46,660
+Expect First up will look at the length of the array.
+
+40
+00:02:46,690 --> 00:02:48,870
+So that's response data.
+
+41
+00:02:49,030 --> 00:02:56,250
+There we have the users array with the length property on all the arrays will be using to be to confirm
+
+42
+00:02:56,260 --> 00:02:58,260
+that's the number one.
+
+43
+00:02:58,300 --> 00:03:02,710
+Next up we can expect something about that individual user right here.
+
+44
+00:03:03,220 --> 00:03:05,030
+Response date data.
+
+45
+00:03:05,140 --> 00:03:11,080
+Users grabbing the first one using bracket notation and we're going to assert some things about its
+
+46
+00:03:11,080 --> 00:03:12,440
+properties right here.
+
+47
+00:03:12,550 --> 00:03:14,070
+Let's start with email.
+
+48
+00:03:14,080 --> 00:03:17,540
+I am going to expect that to be null.
+
+49
+00:03:17,560 --> 00:03:18,950
+It should indeed be null.
+
+50
+00:03:19,030 --> 00:03:23,710
+I'm not logged in so I should not be able to access author emails.
+
+51
+00:03:23,710 --> 00:03:26,890
+Next up we should see the name showing up.
+
+52
+00:03:26,890 --> 00:03:29,930
+Now this is where testing it's a bit subjective.
+
+53
+00:03:30,010 --> 00:03:33,610
+There is no right or wrong way to test some code.
+
+54
+00:03:33,700 --> 00:03:36,310
+Some person might say this test case is fine.
+
+55
+00:03:36,310 --> 00:03:38,320
+You've done a good job you're done.
+
+56
+00:03:38,320 --> 00:03:42,730
+Others might say whoa you have to test way more looking at individual fields.
+
+57
+00:03:42,730 --> 00:03:49,280
+Once again it's really up to us to strike a bounce and test the things that are important to test.
+
+58
+00:03:49,330 --> 00:03:54,220
+In this case we could indeed add an assertion checking that the name matches up though it's definitely
+
+59
+00:03:54,220 --> 00:03:55,440
+not necessary.
+
+60
+00:03:55,480 --> 00:03:58,900
+But as we are experimenting Let's go ahead and knock it out.
+
+61
+00:03:58,900 --> 00:04:00,100
+Expect response.
+
+62
+00:04:00,100 --> 00:04:01,540
+Dot dot dot dot.
+
+63
+00:04:01,540 --> 00:04:05,680
+Users will look at that first user checking the name property.
+
+64
+00:04:05,770 --> 00:04:12,010
+Now in this case I would expect that to be using need to be method whenever we originally created it
+
+65
+00:04:12,010 --> 00:04:13,000
+with an up above.
+
+66
+00:04:13,000 --> 00:04:16,240
+If you remember the user's name was Jan.
+
+67
+00:04:16,270 --> 00:04:21,340
+So down below right here I would expect that name to be Jeon as well.
+
+68
+00:04:21,340 --> 00:04:26,490
+Now that we have this in place we can save our user test file down below.
+
+69
+00:04:26,590 --> 00:04:30,820
+I would expect to have to passing test cases instead of just one.
+
+70
+00:04:30,970 --> 00:04:33,960
+And that is exactly what we end up getting right here.
+
+71
+00:04:33,970 --> 00:04:41,410
+We can see we were able to create a new user and I was able to fetch the public author profiles.
+
+72
+00:04:41,500 --> 00:04:46,870
+Now that we have our one test in place for a query you're going to be adding a second one down below
+
+73
+00:04:46,930 --> 00:04:52,330
+for the Post's query confirming that you're just getting published posts back.
+
+74
+00:04:52,330 --> 00:04:58,020
+The process here is going to be very similar to what you did just now with the test case above.
+
+75
+00:04:58,090 --> 00:04:59,170
+Big picture goal.
+
+76
+00:04:59,170 --> 00:05:01,810
+Write a test for the Post's query.
+
+77
+00:05:01,900 --> 00:05:03,590
+You're going to create the test case.
+
+78
+00:05:03,700 --> 00:05:09,410
+You're going to fire off a post's query getting all of those scalar fields for each post.
+
+79
+00:05:09,490 --> 00:05:14,920
+Then you're going to assert that you've got a single post back and you're going to assert that that
+
+80
+00:05:14,950 --> 00:05:21,520
+individual post has a published value of true which you should be getting since the Post's query should
+
+81
+00:05:21,520 --> 00:05:25,570
+only be exposing published posts if you get two back.
+
+82
+00:05:25,570 --> 00:05:30,420
+That means the draft post is being exposed as well and that's obviously a problem.
+
+83
+00:05:30,520 --> 00:05:32,790
+So we want to make sure we just get one.
+
+84
+00:05:32,920 --> 00:05:38,140
+Then once you have that in place once you've fired off the operation and added your assertions you can
+
+85
+00:05:38,140 --> 00:05:43,790
+save the file to run your test suite and you should see a third passing test case.
+
+86
+00:05:43,960 --> 00:05:45,870
+So take some time to knock that out.
+
+87
+00:05:45,880 --> 00:05:50,430
+Using the techniques covered up above then come back and click play
+
+88
+00:05:54,500 --> 00:05:55,300
+how that go.
+
+89
+00:05:55,310 --> 00:06:01,310
+Let's go ahead and kick things off by defining our test function excuse me by calling the test function
+
+90
+00:06:01,310 --> 00:06:02,820
+that's already defined.
+
+91
+00:06:02,960 --> 00:06:05,610
+Right here we are going to pass in a name.
+
+92
+00:06:05,660 --> 00:06:11,810
+I'll call this something like should expose published posts.
+
+93
+00:06:11,840 --> 00:06:14,540
+We will set up our async function.
+
+94
+00:06:14,540 --> 00:06:21,760
+This is the actual test case that's going to run perfect and now we can define our operation.
+
+95
+00:06:21,760 --> 00:06:27,830
+So Konst get posts I am going to use Giac UL with a template string.
+
+96
+00:06:29,400 --> 00:06:33,580
+This is indeed a query and we are indeed using the Post's query.
+
+97
+00:06:33,600 --> 00:06:35,400
+I'm going to grab ID.
+
+98
+00:06:35,880 --> 00:06:41,250
+Title body and I'll also grab published.
+
+99
+00:06:41,250 --> 00:06:42,330
+Excellent.
+
+100
+00:06:42,360 --> 00:06:47,490
+So now we have our operation defined and we can go ahead and fire that operation off.
+
+101
+00:06:47,490 --> 00:06:53,040
+So right here I'm going to get the response back storing that in a response variable like we've done
+
+102
+00:06:53,190 --> 00:06:55,290
+in all of our test cases before.
+
+103
+00:06:55,440 --> 00:07:01,170
+We will await the promise that comes back from client Dom query passing in the only property on the
+
+104
+00:07:01,170 --> 00:07:04,290
+options object we need the query property.
+
+105
+00:07:04,410 --> 00:07:08,140
+Here we are going to use get posts defined above.
+
+106
+00:07:08,160 --> 00:07:11,640
+Now we can make some assertions about the response we got back.
+
+107
+00:07:11,640 --> 00:07:15,140
+First up we're going to assert that we got back just a single post.
+
+108
+00:07:15,150 --> 00:07:21,390
+So I'll be using expect and we are going to expect something about response dot right here.
+
+109
+00:07:21,390 --> 00:07:25,280
+Data dot posts dot length.
+
+110
+00:07:25,290 --> 00:07:27,810
+So remember posts is going to be an array.
+
+111
+00:07:27,840 --> 00:07:31,590
+We've got an array back right here inside of graft UL playground.
+
+112
+00:07:31,590 --> 00:07:33,600
+The same thing is true in our code.
+
+113
+00:07:33,600 --> 00:07:39,410
+We're using the length property and will expect that to be the number one next step.
+
+114
+00:07:39,420 --> 00:07:42,870
+We're going to look at that individual post and make sure it's published.
+
+115
+00:07:42,870 --> 00:07:50,060
+So I'm going to expect that response dot data dot posts right here.
+
+116
+00:07:50,080 --> 00:07:56,410
+We will grab the first item from the array by index using bracket notation and now look at it's published
+
+117
+00:07:56,590 --> 00:07:58,110
+property right here.
+
+118
+00:07:58,240 --> 00:08:00,840
+I'm expecting that to be true.
+
+119
+00:08:00,910 --> 00:08:03,820
+It should indeed be a published post.
+
+120
+00:08:03,820 --> 00:08:09,040
+Now that we have this in place we're all done as you can see we were able to knock out these test cases
+
+121
+00:08:09,040 --> 00:08:14,770
+pretty quickly once we had the basic infrastructure and know how in place I'm going to save the test
+
+122
+00:08:14,770 --> 00:08:18,340
+file and we should see a third passing test down below.
+
+123
+00:08:18,340 --> 00:08:21,240
+If we do we're all done with this video down here.
+
+124
+00:08:21,250 --> 00:08:22,140
+What do we got.
+
+125
+00:08:22,150 --> 00:08:29,500
+We've got three passing tests now at this point there is still plenty more to learn how to do for example
+
+126
+00:08:29,710 --> 00:08:33,160
+how do we expect that a given operation fails.
+
+127
+00:08:33,190 --> 00:08:39,270
+If I log in with bad credentials I want it to fail if I sign up with the password that's too short.
+
+128
+00:08:39,310 --> 00:08:41,250
+I want that to fail as well.
+
+129
+00:08:41,260 --> 00:08:44,330
+We're going to cover all of this and more in the very next video.
+
+130
+00:08:44,350 --> 00:08:46,540
+So let's go ahead and jump right in.
+

@@ -1,0 +1,924 @@
+1
+00:00:00,180 --> 00:00:05,310
+In this video you're going to be setting up and executing your very first subscription allowing the
+
+2
+00:00:05,310 --> 00:00:09,030
+client to subscribe to data changes on the server.
+
+3
+00:00:09,030 --> 00:00:15,000
+In essence the subscription operation is similar to the queery operation because its main concern is
+
+4
+00:00:15,000 --> 00:00:20,910
+allowing your client whether it's graft you a playground or a web application to fetch the data that
+
+5
+00:00:20,910 --> 00:00:21,680
+it needs.
+
+6
+00:00:21,780 --> 00:00:26,630
+So with queries we can get data we need with subscriptions we can also get data we need.
+
+7
+00:00:26,640 --> 00:00:29,190
+The difference is in how the data is fetched.
+
+8
+00:00:29,220 --> 00:00:34,160
+So when we perform a query like this one we send it off to the server and the server responds.
+
+9
+00:00:34,170 --> 00:00:36,030
+A single time with all of the data.
+
+10
+00:00:36,030 --> 00:00:41,880
+At that point in time if one of these comments got deleted or edited or an additional comment was made
+
+11
+00:00:42,120 --> 00:00:44,050
+the client would not be notified.
+
+12
+00:00:44,190 --> 00:00:49,970
+It would be up to the client to make the same request later to check for changes in the data.
+
+13
+00:00:49,980 --> 00:00:55,980
+This ends up leading to server polling where we run this operation from our client every minute in an
+
+14
+00:00:55,980 --> 00:01:02,200
+attempt to keep our client up to date in an attempt to show real time data to the user.
+
+15
+00:01:02,220 --> 00:01:07,470
+This is not ideal though because it's expensive and it requires us to perform operations every minute
+
+16
+00:01:07,470 --> 00:01:13,270
+or so in which case a lot of times the data hasn't changed and it's just wasting resources with the
+
+17
+00:01:13,260 --> 00:01:18,750
+subscription we actually use web sockets to keep an open connection between the client and the server
+
+18
+00:01:19,050 --> 00:01:23,700
+that allows the server to transmit data directly to the client.
+
+19
+00:01:23,700 --> 00:01:29,460
+That means that if someone does add a new comment to one of the posts the server can add that comment
+
+20
+00:01:29,580 --> 00:01:35,700
+then it can push that comment in real time down to all of the subscribed clients so they can get the
+
+21
+00:01:35,700 --> 00:01:40,420
+new comment data and they can render it to the UI keeping their application up to date.
+
+22
+00:01:40,440 --> 00:01:46,520
+In effect creating a real time application where you're seeing the latest data as it changes.
+
+23
+00:01:46,520 --> 00:01:52,340
+Now the process for setting up a subscription is a bit more complex than setting up a query or a mutation.
+
+24
+00:01:52,500 --> 00:01:57,000
+So in this video we're not going to worry about creating a subscription that actually makes sense in
+
+25
+00:01:57,000 --> 00:01:59,240
+the context of our blogging application.
+
+26
+00:01:59,370 --> 00:02:03,380
+We're just going to create a little dummys subscription that will eventually delete.
+
+27
+00:02:03,390 --> 00:02:06,550
+The goal is to explore how we can set all of this up.
+
+28
+00:02:06,570 --> 00:02:12,090
+Then in the next video we'll see how we can start to configure our application to use subscriptions.
+
+29
+00:02:12,090 --> 00:02:17,850
+For example allowing someone to actually subscribe to comments and get notified whenever a comment gets
+
+30
+00:02:17,850 --> 00:02:23,490
+created updated or deleted but now that we're going to work on creating that dummy subscription.
+
+31
+00:02:23,490 --> 00:02:29,980
+So let's head over to our schema file just like we define all of our queries and all of our mutations.
+
+32
+00:02:30,000 --> 00:02:35,580
+We also have to define all of our subscriptions in our type definition for this little dummy example.
+
+33
+00:02:35,580 --> 00:02:39,750
+We're going to create a subscription that just counts up from zero something super simple.
+
+34
+00:02:39,840 --> 00:02:44,280
+So you start off by getting zero Back then every second you get back the next number one to three and
+
+35
+00:02:44,280 --> 00:02:45,180
+so on.
+
+36
+00:02:45,180 --> 00:02:49,770
+So in the end of the day we're going to perform one operation to subscribe a single time.
+
+37
+00:02:49,890 --> 00:02:53,100
+And over here we're going to end up getting a stream of data back.
+
+38
+00:02:53,190 --> 00:02:55,950
+We'll be getting back a new number every second.
+
+39
+00:02:56,130 --> 00:03:00,090
+Now for the moment we'll be getting back a new number every second later on though we'll be getting
+
+40
+00:03:00,090 --> 00:03:04,090
+back new comments as they're created a more real world use case.
+
+41
+00:03:04,110 --> 00:03:08,530
+Let's go ahead and kick things off though by defining the type right here.
+
+42
+00:03:08,550 --> 00:03:10,380
+We're going to define the subscription type.
+
+43
+00:03:10,380 --> 00:03:18,030
+So that's type subscription and what goes inside of year are the various subscriptions we want to support.
+
+44
+00:03:18,170 --> 00:03:22,500
+So I might have one subscription allowing someone to subscribe to comment changes.
+
+45
+00:03:22,630 --> 00:03:28,340
+I might have they another one allowing someone to subscribe to changes in posts for our purposes what
+
+46
+00:03:28,340 --> 00:03:32,530
+we're going to do is set up a single subscription called count.
+
+47
+00:03:32,540 --> 00:03:35,430
+Now the actual syntax for doing this is going to look pretty similar.
+
+48
+00:03:35,450 --> 00:03:40,250
+We give it a name just like we named our mutations and our queries and we can also choose to set up
+
+49
+00:03:40,280 --> 00:03:41,030
+arguments.
+
+50
+00:03:41,030 --> 00:03:43,610
+But for this dummy one we're not going to have any arguments.
+
+51
+00:03:43,610 --> 00:03:45,190
+We'll explore that in a little bit.
+
+52
+00:03:45,500 --> 00:03:48,030
+And we're going to move right on to what comes back.
+
+53
+00:03:48,050 --> 00:03:52,850
+So when you subscribe to count what data do you get back in for this one we're going to say that you
+
+54
+00:03:52,850 --> 00:03:58,610
+get back an integer so you're going to get back 0 first then you'll get back 1 2 and 3 what you get
+
+55
+00:03:58,610 --> 00:04:00,780
+back is always going to be an int.
+
+56
+00:04:00,800 --> 00:04:06,230
+Now just like with queries and mutations we have to set up a new route property on our resolver.
+
+57
+00:04:06,230 --> 00:04:11,460
+So if you remember from our refactoring the resolver now gets set up over here an index dot J s.
+
+58
+00:04:11,600 --> 00:04:17,320
+But the actual methods live in separate files will be creating a new file for all of our subscriptions.
+
+59
+00:04:17,330 --> 00:04:20,150
+So I'm going to add one new file into resolvers.
+
+60
+00:04:20,360 --> 00:04:25,080
+I'm going to call this subscription dot J.
+
+61
+00:04:25,080 --> 00:04:28,630
+S and in here we're going to create a subscription object.
+
+62
+00:04:28,640 --> 00:04:36,220
+So Konst subscription equals an object will be defining just a single thing online or in a moment.
+
+63
+00:04:36,220 --> 00:04:38,730
+For now though let's go ahead and actually export that.
+
+64
+00:04:38,780 --> 00:04:46,340
+I am going to export subscription as the default export and from here what we need to do is set that
+
+65
+00:04:46,390 --> 00:04:47,340
+up an index.
+
+66
+00:04:47,370 --> 00:04:47,640
+J.
+
+67
+00:04:47,650 --> 00:04:48,120
+S..
+
+68
+00:04:48,190 --> 00:04:50,080
+So we actually want to go ahead and inport it.
+
+69
+00:04:50,080 --> 00:04:52,350
+Then add it on to resolvers down below.
+
+70
+00:04:52,510 --> 00:04:56,490
+First up let's inport it right below where I inport query nutation.
+
+71
+00:04:56,530 --> 00:05:01,490
+I'm going to inport subscription from any file that we just created.
+
+72
+00:05:01,490 --> 00:05:07,700
+So Dot forward slash it lives in the resolvers directory and in there it was uppercase s subscription.
+
+73
+00:05:07,800 --> 00:05:10,160
+Once again we can leave off that file extension.
+
+74
+00:05:10,230 --> 00:05:12,010
+So it would be fine to add it on.
+
+75
+00:05:12,120 --> 00:05:16,270
+The last thing we have to do is set that up to actually be on the revolver's object.
+
+76
+00:05:16,270 --> 00:05:22,410
+So right here I'm going to set the subscription property equal to the subscription variable using the
+
+77
+00:05:22,470 --> 00:05:24,970
+object property shorthand syntax.
+
+78
+00:05:24,970 --> 00:05:29,730
+Now before we go ahead and add anything into the subscription object there's one more thing we have
+
+79
+00:05:29,730 --> 00:05:33,420
+to configure with our graphical server to talk about this.
+
+80
+00:05:33,420 --> 00:05:36,610
+I actually want to pull up the documentation for graphical yoga.
+
+81
+00:05:36,720 --> 00:05:42,840
+So we're going to pull up the get hub repository page graft Well hyphen yoga if you Google and it should
+
+82
+00:05:42,840 --> 00:05:44,970
+bring you over to the right location.
+
+83
+00:05:45,150 --> 00:05:51,240
+And what I'm interested in talking about here is not actually graphical yoga itself but one of the libraries
+
+84
+00:05:51,420 --> 00:05:53,390
+that this library uses.
+
+85
+00:05:53,580 --> 00:05:58,590
+So if you remember from much much earlier in the class I mentioned that GRATHWOHL Yoga is great because
+
+86
+00:05:58,590 --> 00:06:04,070
+it comes preconfigured with everything you need to get started writing graph Cuil code down below.
+
+87
+00:06:04,200 --> 00:06:09,150
+We can see a lot of the libraries that are used behind the scenes and we're going to have to use one
+
+88
+00:06:09,300 --> 00:06:10,160
+called graph.
+
+89
+00:06:10,200 --> 00:06:13,660
+Well subscriptions to get things to work in this video.
+
+90
+00:06:13,890 --> 00:06:20,160
+Now in the end of the day what graph queue or subscriptions provides us is a simple pub sub utility
+
+91
+00:06:20,400 --> 00:06:28,260
+so we can use the pub publish and sub subscribe features to allow us to communicate around our application.
+
+92
+00:06:28,260 --> 00:06:32,310
+So if we scroll down a little bit there is a little information on exactly how all of this works.
+
+93
+00:06:32,430 --> 00:06:37,860
+In the end of the day what we're going to do is inport something we're going to create a new pub sub
+
+94
+00:06:37,980 --> 00:06:42,300
+instance then we're going to use just two methods on that to wire everything up.
+
+95
+00:06:42,300 --> 00:06:44,900
+Now it's not necessary to understand what's going on here.
+
+96
+00:06:44,910 --> 00:06:46,540
+That's the whole purpose of this video.
+
+97
+00:06:46,620 --> 00:06:51,000
+But what I do want to do is dive in to actually configuring that to do this.
+
+98
+00:06:51,000 --> 00:06:56,570
+We're going to move over to index dot J S and we're going to be grabbing something new off of graph
+
+99
+00:06:56,570 --> 00:07:00,600
+Cuil yoga like graphs you all server it is a named export.
+
+100
+00:07:00,630 --> 00:07:05,340
+This one is called pub sub that is uppercase P and uppercase s.
+
+101
+00:07:05,370 --> 00:07:11,080
+And this is the constructor function allowing us to create a new pub sub utility.
+
+102
+00:07:11,300 --> 00:07:12,720
+So down below what are we going to do.
+
+103
+00:07:12,720 --> 00:07:14,250
+We're going to create one right here.
+
+104
+00:07:14,250 --> 00:07:20,250
+Konst pub sub in lower case equals a new instance of pub sub.
+
+105
+00:07:20,250 --> 00:07:24,260
+We're calling it like so with the new keyword to create a new instance.
+
+106
+00:07:24,260 --> 00:07:29,340
+And now this is something that we want to pass to all of our resolvers we need to be able to use this
+
+107
+00:07:29,430 --> 00:07:34,920
+directly from our subscription methods which means that we need to add it on to the context to make
+
+108
+00:07:34,920 --> 00:07:39,350
+it something that's easy to share across all of our resolver methods Sudan below.
+
+109
+00:07:39,450 --> 00:07:47,700
+All we're going to do is add pub sub onto the context object alongside of our D-B property.
+
+110
+00:07:47,730 --> 00:07:48,980
+So what have we done so far.
+
+111
+00:07:49,110 --> 00:07:52,220
+We've set up a brand new file to contain our subscriptions.
+
+112
+00:07:52,320 --> 00:07:56,820
+We've created a new instance of something called pub sub but we have no idea what it does or how it
+
+113
+00:07:56,820 --> 00:07:57,200
+works.
+
+114
+00:07:57,210 --> 00:07:58,190
+That's OK.
+
+115
+00:07:58,440 --> 00:08:04,360
+And we've set up pub sub to live on our context so it's accessible from all of our resolver methods.
+
+116
+00:08:04,560 --> 00:08:09,750
+Now we're actually done with index dot J S and we're going to head over to that subscription file and
+
+117
+00:08:09,750 --> 00:08:15,600
+figure out how pub sub actually helps us create these real time subscriptions.
+
+118
+00:08:15,600 --> 00:08:17,660
+So let's talk about what goes inside of here.
+
+119
+00:08:17,700 --> 00:08:22,620
+For every subscription we have to set up a new property the property name needs to match up with the
+
+120
+00:08:22,620 --> 00:08:23,670
+subscription name.
+
+121
+00:08:23,700 --> 00:08:26,960
+In this case we have just one and we chose to call it count.
+
+122
+00:08:27,000 --> 00:08:30,970
+That means over here we just set up one property called count.
+
+123
+00:08:31,010 --> 00:08:37,100
+Now unlike queries and mutations the value for count is actually not a method it needs to be an object.
+
+124
+00:08:37,170 --> 00:08:40,720
+And on this object we set up a single method.
+
+125
+00:08:40,780 --> 00:08:48,740
+Subscribe right here subscribe and subscribe is what runs every time someone tries to subscribe to count
+
+126
+00:08:48,950 --> 00:08:52,460
+later on they'll be subscribing to things like comments or posts.
+
+127
+00:08:52,460 --> 00:08:55,240
+For the moment though this is exactly what we want now.
+
+128
+00:08:55,250 --> 00:09:00,700
+This is indeed a regular old resolver method and it gets called with all of those same arguments.
+
+129
+00:09:00,770 --> 00:09:03,160
+So unsubscribe we get access to parent.
+
+130
+00:09:03,170 --> 00:09:08,750
+We get access to args to context and to info and we can use all of them inside of here.
+
+131
+00:09:08,750 --> 00:09:10,980
+For the moment we're actually only going to be using one.
+
+132
+00:09:11,060 --> 00:09:12,500
+We're going to be using context.
+
+133
+00:09:12,560 --> 00:09:17,330
+And the only thing we're going to be using off of context is the little pub sub utility that we just
+
+134
+00:09:17,330 --> 00:09:18,120
+set up.
+
+135
+00:09:18,240 --> 00:09:21,770
+So right here instead of accessing context dot pub sub.
+
+136
+00:09:21,770 --> 00:09:24,650
+Every time I want to use it I'm just going to deep structure it.
+
+137
+00:09:24,660 --> 00:09:30,350
+So right here I will destructuring pub sub breaking it out into its very own standalone variable.
+
+138
+00:09:30,350 --> 00:09:35,450
+Now down below we're going to go through the two necessary steps to set the subscription up.
+
+139
+00:09:35,450 --> 00:09:40,230
+One we are going to set up these subscription and two we're going to publish data to it.
+
+140
+00:09:40,250 --> 00:09:41,800
+So let's start by creating our count.
+
+141
+00:09:41,810 --> 00:09:43,460
+Let count equal zero.
+
+142
+00:09:43,460 --> 00:09:44,540
+We're going to start at zero.
+
+143
+00:09:44,550 --> 00:09:50,500
+We're going to increment by one every second sending the new count back to all of the subscribers.
+
+144
+00:09:50,600 --> 00:09:56,470
+Now when it comes to the return value things are a bit different than with queries or with mutations.
+
+145
+00:09:56,480 --> 00:10:01,730
+So with a mutation the return value just matches up with whatever's defined over in the schema for create
+
+146
+00:10:01,730 --> 00:10:09,080
+user return a user and the same is true with queries for our posts query return an array of posts with
+
+147
+00:10:09,080 --> 00:10:09,830
+subscriptions.
+
+148
+00:10:09,830 --> 00:10:12,100
+We do not return an integer.
+
+149
+00:10:12,110 --> 00:10:16,530
+Instead we return something that comes from our little pub sub utility.
+
+150
+00:10:16,620 --> 00:10:22,440
+So right here we return pub at sub dot and we call a method on it.
+
+151
+00:10:22,480 --> 00:10:30,760
+It's called async iterator async iterator is a function so we're going to call it as such and it takes
+
+152
+00:10:30,760 --> 00:10:32,580
+a single argument.
+
+153
+00:10:32,590 --> 00:10:33,880
+This is a string.
+
+154
+00:10:34,030 --> 00:10:37,400
+And the value here is what's called a channel name.
+
+155
+00:10:37,540 --> 00:10:41,950
+So we're going to have channel names for all sorts of things and you can think of a channel name kind
+
+156
+00:10:41,950 --> 00:10:46,170
+of like a chat room name and something like these slack a chat application.
+
+157
+00:10:46,270 --> 00:10:50,620
+I might have one called General another called a random and one called off topic.
+
+158
+00:10:50,650 --> 00:10:54,030
+For example we're going to pick a name that fits our purposes.
+
+159
+00:10:54,160 --> 00:10:57,750
+I'm just going to call this something simple like count.
+
+160
+00:10:57,940 --> 00:11:03,610
+Now from here we actually have a valid subscription it's just not going to publish any changes.
+
+161
+00:11:03,610 --> 00:11:07,160
+Let's go ahead and test things out as they currently stand though.
+
+162
+00:11:07,210 --> 00:11:08,110
+So what are we going to do.
+
+163
+00:11:08,110 --> 00:11:09,770
+We're going to save subscription.
+
+164
+00:11:09,820 --> 00:11:10,090
+J.
+
+165
+00:11:10,110 --> 00:11:15,220
+S. And we're going to head over to graft Google playground over on the right hand side.
+
+166
+00:11:15,220 --> 00:11:17,620
+Let's go ahead and add a single new tab.
+
+167
+00:11:17,770 --> 00:11:22,060
+And we're going to subscribe to count so right here what do we do.
+
+168
+00:11:22,060 --> 00:11:29,490
+We start off with the operation name subscription then we go ahead and pick what we're trying to subscribe
+
+169
+00:11:29,550 --> 00:11:30,080
+to.
+
+170
+00:11:30,180 --> 00:11:33,430
+We have just one option over here we just have count.
+
+171
+00:11:33,450 --> 00:11:35,460
+So we're going to name that out.
+
+172
+00:11:35,640 --> 00:11:40,590
+Now if Count took arguments we would provide them but it doesn't and if count returns something like
+
+173
+00:11:40,590 --> 00:11:45,110
+an object it would provide a selection set but count returns an integer.
+
+174
+00:11:45,120 --> 00:11:47,100
+So this is actually all we need.
+
+175
+00:11:47,100 --> 00:11:49,760
+If we go ahead and run this what's going to happen.
+
+176
+00:11:49,770 --> 00:11:54,550
+Well you can see that graph Q playground isn't getting any data back it's not resolving.
+
+177
+00:11:54,690 --> 00:11:55,680
+It's still pending.
+
+178
+00:11:55,680 --> 00:12:02,790
+It's actually listening for changes so it's waiting for the server to push data down to the client and
+
+179
+00:12:02,790 --> 00:12:08,460
+when it does that new data will show up here whether it's new posts new comments or in this case just
+
+180
+00:12:08,490 --> 00:12:10,290
+a new number.
+
+181
+00:12:10,510 --> 00:12:15,720
+That means we're not quite done with the code from our subscription file right here but we're going
+
+182
+00:12:15,720 --> 00:12:23,750
+to do is use set interval so set interval is going to allow us to run some code after X milliseconds.
+
+183
+00:12:23,760 --> 00:12:28,150
+In this case we're just going to wait a thousand milliseconds which equals to 1 second.
+
+184
+00:12:28,320 --> 00:12:29,510
+It takes those two arguments.
+
+185
+00:12:29,500 --> 00:12:31,520
+The first is the code to run.
+
+186
+00:12:31,560 --> 00:12:34,830
+The second is the time you want to wait in milliseconds.
+
+187
+00:12:34,830 --> 00:12:37,040
+As I just mentioned we'll be using 1000.
+
+188
+00:12:37,110 --> 00:12:42,360
+And inside of here we need to do two things we need to 1 increase that count so count plus plus gets
+
+189
+00:12:42,360 --> 00:12:43,080
+that done.
+
+190
+00:12:43,290 --> 00:12:49,680
+And the second thing we have to do is publish our data by calling pub sub dot publish.
+
+191
+00:12:49,680 --> 00:12:55,830
+So async iterator is what sets up our channel and publish is what allows us to publish new data to all
+
+192
+00:12:55,830 --> 00:12:56,870
+of the subscribers.
+
+193
+00:12:56,880 --> 00:13:00,000
+So right here we pass into arguments to publish.
+
+194
+00:13:00,000 --> 00:13:04,860
+The first is that channel name we have to match it up exactly with the only channel we currently support
+
+195
+00:13:05,040 --> 00:13:09,290
+count then we pass in an object as the second argument.
+
+196
+00:13:09,290 --> 00:13:13,440
+And this is where we specify that data that should get sent to the client.
+
+197
+00:13:13,640 --> 00:13:17,420
+Now this is where things need to start matching up with our subscription type.
+
+198
+00:13:17,450 --> 00:13:19,690
+So right here we have an integer what are we going to do.
+
+199
+00:13:19,810 --> 00:13:25,520
+We are going to set up a count property that matches up with the subscription name and we're going to
+
+200
+00:13:25,520 --> 00:13:28,010
+give it a value that is an integer in this case.
+
+201
+00:13:28,010 --> 00:13:31,120
+We have that value stored on the count variable.
+
+202
+00:13:31,130 --> 00:13:35,600
+Now obviously here since we have a property name whose value is coming from a variable with the same
+
+203
+00:13:35,600 --> 00:13:39,520
+name we can use the object property shorthand and there we go.
+
+204
+00:13:39,530 --> 00:13:40,910
+We are now all done.
+
+205
+00:13:40,910 --> 00:13:44,720
+We can save a subscription database and test this out.
+
+206
+00:13:44,720 --> 00:13:48,430
+Now we had over to graph Q UL playground you are going to notice we have an error.
+
+207
+00:13:48,650 --> 00:13:54,310
+That is because we saved our file and restarted the server and we temporarily lost our connection.
+
+208
+00:13:54,320 --> 00:13:59,900
+This is OK and totally expected but we're going to do is start the subscription up again and you'll
+
+209
+00:13:59,900 --> 00:14:03,550
+notice that after one second what happens data starts flowing in.
+
+210
+00:14:03,680 --> 00:14:07,120
+And here we can see that every second comes with new data.
+
+211
+00:14:07,220 --> 00:14:09,530
+So we're already up to a count of nine.
+
+212
+00:14:09,590 --> 00:14:12,410
+Each time the data comes from the server what do we get.
+
+213
+00:14:12,410 --> 00:14:18,470
+We get an object with the data property on there we have our count property and the value of that is
+
+214
+00:14:18,470 --> 00:14:21,250
+the latest count stored as an integer.
+
+215
+00:14:21,260 --> 00:14:26,590
+So we went from 1 to 23 and this would continue on for as long as we let it.
+
+216
+00:14:26,600 --> 00:14:31,790
+Now at this point we have indeed set up a subscription but it's not doing anything meaningful in terms
+
+217
+00:14:31,790 --> 00:14:33,420
+of our blogging application.
+
+218
+00:14:33,590 --> 00:14:38,320
+So I don't expect it to be 100 percent clear how all of this actually works.
+
+219
+00:14:38,360 --> 00:14:43,490
+Later on for example we're not going to be publishing from inside of the resolver method where we set
+
+220
+00:14:43,490 --> 00:14:44,570
+up the subscription.
+
+221
+00:14:44,720 --> 00:14:48,130
+I would be publishing from something like one of our mutations.
+
+222
+00:14:48,260 --> 00:14:54,900
+So if I was listening for new users I would be publishing some data right here after a new user is added.
+
+223
+00:14:55,070 --> 00:14:59,720
+So don't worry too much if you're not quite clear on how the subscription works or how this is going
+
+224
+00:14:59,720 --> 00:15:01,680
+to be useful for our purposes.
+
+225
+00:15:01,850 --> 00:15:07,520
+This was just a little introductory example allowing us to get comfortable with the syntax throughout
+
+226
+00:15:07,520 --> 00:15:08,450
+this section.
+
+227
+00:15:08,470 --> 00:15:13,850
+We are going to start integrating subscriptions into our application in a meaningful way that actually
+
+228
+00:15:13,850 --> 00:15:15,400
+serves a purpose.
+
+229
+00:15:15,440 --> 00:15:18,300
+We'll be starting that process in the very next video.
+
+230
+00:15:18,300 --> 00:15:19,880
+So let's go ahead and jump right in.
+
+231
+00:15:19,880 --> 00:15:24,280
+I'm super excited to figure out how we can subscribe to comments and posts.
+

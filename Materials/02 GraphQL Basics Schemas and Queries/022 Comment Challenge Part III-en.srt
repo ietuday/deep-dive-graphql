@@ -1,0 +1,768 @@
+1
+00:00:00,300 --> 00:00:05,580
+In this video we're going to wrap up this section and we're going to wrap up our little series of challenges
+
+2
+00:00:05,580 --> 00:00:09,570
+by setting up a relationship between the post and the comet.
+
+3
+00:00:09,600 --> 00:00:16,020
+So every comment was commented on his specific post and all posts have a collection of comments associated
+
+4
+00:00:16,020 --> 00:00:16,710
+with them.
+
+5
+00:00:16,890 --> 00:00:21,780
+So we need to be able to define in this relationship so we can do useful things like that all of the
+
+6
+00:00:21,780 --> 00:00:24,920
+comments for a given post when making queries with Graf.
+
+7
+00:00:24,920 --> 00:00:26,990
+Q Well so to kick things off.
+
+8
+00:00:27,000 --> 00:00:27,720
+What are we going to do.
+
+9
+00:00:27,720 --> 00:00:31,110
+Well I'm going to show you exactly what steps you need to take to knock this out.
+
+10
+00:00:31,200 --> 00:00:36,930
+And as you'll see the steps necessary are almost identical to the steps you went through in the last
+
+11
+00:00:36,930 --> 00:00:37,570
+video.
+
+12
+00:00:37,680 --> 00:00:42,120
+We're just working with a different set of types and a different set of field names.
+
+13
+00:00:42,120 --> 00:00:44,660
+Everything else is pretty much identical.
+
+14
+00:00:44,670 --> 00:00:50,790
+So once again the big picture goal here is to set up a relationship between the comment and the post
+
+15
+00:00:50,850 --> 00:00:59,040
+in both directions and we're going to start by setting up a post field on the comment type so down below
+
+16
+00:00:59,070 --> 00:01:05,310
+much like we have an author field on comment we need a post field uncomment whose value is of the post
+
+17
+00:01:05,370 --> 00:01:11,550
+type that brings us to step two which is to add the last piece of data for our arrays that's necessary
+
+18
+00:01:11,550 --> 00:01:19,380
+to get all of this stuff set up each comment needs to store the ID of the post its associated with to
+
+19
+00:01:19,410 --> 00:01:24,910
+update all comments in the array to have a new post field and just use one of the post IDs.
+
+20
+00:01:24,990 --> 00:01:30,780
+So down below for this first comment I could add on a new post property and give it the ID of 11 if
+
+21
+00:01:30,780 --> 00:01:34,020
+I wanted to associate it with this post.
+
+22
+00:01:34,020 --> 00:01:38,100
+Step 3 you're going to critter resolver for the new field you set up.
+
+23
+00:01:38,100 --> 00:01:45,270
+So we need to create a resolver for the post field on the comments type that returns the post for a
+
+24
+00:01:45,270 --> 00:01:46,500
+given comment.
+
+25
+00:01:46,530 --> 00:01:51,240
+So down below we have our comments object right here.
+
+26
+00:01:51,240 --> 00:01:57,750
+You need to add to the post method on there and set that up to return the given post when the comment
+
+27
+00:01:57,750 --> 00:02:01,660
+is passed and remember the comment is passed in as the parent argument.
+
+28
+00:02:01,830 --> 00:02:06,210
+And that brings us to step four which is to test out this association.
+
+29
+00:02:06,240 --> 00:02:10,830
+So you're going to make a sample query that gets all of the comments and then get a piece of information
+
+30
+00:02:10,830 --> 00:02:12,200
+about the post as well.
+
+31
+00:02:12,330 --> 00:02:18,630
+So right here we get the author for all posts what you could do is get the post title for all comments.
+
+32
+00:02:18,630 --> 00:02:19,250
+Excuse me.
+
+33
+00:02:19,350 --> 00:02:20,960
+I said author for all posts.
+
+34
+00:02:21,090 --> 00:02:23,950
+We get the author name for all comments.
+
+35
+00:02:24,030 --> 00:02:30,110
+What you're going to do to test things out is to Additionally ask for something like the host title.
+
+36
+00:02:30,290 --> 00:02:35,910
+All right so that is Steps 1 through 4 which is to get that association working in one direction steps
+
+37
+00:02:35,910 --> 00:02:41,510
+5 through 7 is to get it working in the other direction you're going to set up a comments field on it.
+
+38
+00:02:41,520 --> 00:02:48,120
+Post so down below on the post type we need a comments field basically identical to the one we have
+
+39
+00:02:48,120 --> 00:02:52,380
+on the user type and once you have that field in place what are you going to do.
+
+40
+00:02:52,500 --> 00:02:55,200
+You're going to set up a resolver function for it.
+
+41
+00:02:55,320 --> 00:03:00,340
+So we have to set up a resolver function for comments on our post object.
+
+42
+00:03:00,360 --> 00:03:05,130
+This is going to return all of the comments that are associated with a given post.
+
+43
+00:03:05,130 --> 00:03:07,160
+So once again way down below.
+
+44
+00:03:08,570 --> 00:03:10,400
+We have our posts object.
+
+45
+00:03:10,400 --> 00:03:15,500
+You're going to be adding comments on here and actually getting just the comments from the comments
+
+46
+00:03:15,510 --> 00:03:18,120
+Auray associated with the given post.
+
+47
+00:03:18,140 --> 00:03:24,590
+And remember the post will be present via the parent argument that brings you to the final step which
+
+48
+00:03:24,590 --> 00:03:26,930
+is to test out this association.
+
+49
+00:03:26,930 --> 00:03:32,450
+So you want to run a sample query that gets all of the posts and then also gets all of their comments.
+
+50
+00:03:32,480 --> 00:03:34,820
+So we have a query like that right here.
+
+51
+00:03:34,820 --> 00:03:38,740
+Currently we get all of the posts and we get the author name for each post.
+
+52
+00:03:38,750 --> 00:03:42,060
+You're also going to get the comments for each post.
+
+53
+00:03:42,080 --> 00:03:45,640
+You can just get something like the comments Text property.
+
+54
+00:03:45,650 --> 00:03:49,980
+All right so that is it for this challenge another one of these Association challenges.
+
+55
+00:03:50,060 --> 00:03:52,040
+Take some time to knock this out.
+
+56
+00:03:52,040 --> 00:03:57,980
+Feel free to refer to the code we wrote in any videos so far and take as much time as you need.
+
+57
+00:03:57,980 --> 00:03:59,330
+None of this is a race.
+
+58
+00:03:59,330 --> 00:04:04,430
+These challenges are designed to be as real world as possible so when you're done the class you can
+
+59
+00:04:04,430 --> 00:04:07,230
+actually use graphs well in a meaningful way.
+
+60
+00:04:07,280 --> 00:04:10,170
+Don't short change yourself with them if you get stuck.
+
+61
+00:04:10,220 --> 00:04:14,900
+Try to work through your issues and use the real tools that developers use to solve problems.
+
+62
+00:04:14,900 --> 00:04:16,070
+Use tools like Google.
+
+63
+00:04:16,070 --> 00:04:17,120
+Ask a friend.
+
+64
+00:04:17,120 --> 00:04:18,400
+You stack overflow.
+
+65
+00:04:18,440 --> 00:04:23,740
+Use whatever you need including the videos and the Q&amp;A to figure out how to get this done.
+
+66
+00:04:23,790 --> 00:04:25,170
+All right take some time.
+
+67
+00:04:25,190 --> 00:04:31,460
+Pause the video when you're done come back and click play.
+
+68
+00:04:31,650 --> 00:04:34,620
+All right let's go ahead and kick things off with step one.
+
+69
+00:04:34,620 --> 00:04:38,790
+We're going to set up a post field on comment so down below.
+
+70
+00:04:38,910 --> 00:04:41,730
+We're going to move to our comment type definition.
+
+71
+00:04:41,730 --> 00:04:47,490
+We're going to be setting up a new post field whose type is going to be of the post custom type and
+
+72
+00:04:47,490 --> 00:04:51,810
+we're going to set this up to be non-ID nullable which we've done for pretty much everything so far
+
+73
+00:04:52,020 --> 00:04:54,290
+except for the user's age.
+
+74
+00:04:54,420 --> 00:05:00,390
+And that brings us to step two which is to update the comments array and add a post field for each so
+
+75
+00:05:00,390 --> 00:05:03,600
+we can actually associate a comment with a given post.
+
+76
+00:05:03,650 --> 00:05:04,510
+So down below.
+
+77
+00:05:04,620 --> 00:05:06,040
+How are we going to get that done.
+
+78
+00:05:06,040 --> 00:05:09,630
+Well I'm just going to add post right after author for each.
+
+79
+00:05:09,630 --> 00:05:14,150
+I'll say that this first post is the one up above.
+
+80
+00:05:14,250 --> 00:05:18,350
+This guy right here the first post in the array the comment right here.
+
+81
+00:05:18,360 --> 00:05:22,010
+This second comment I will associate with that first post as well.
+
+82
+00:05:22,170 --> 00:05:24,830
+So right here the post ID of ten.
+
+83
+00:05:25,080 --> 00:05:26,700
+Then we have our third comment.
+
+84
+00:05:26,730 --> 00:05:32,130
+I'm going to associate this with the second post that is the ID of 11 and I'll use the same post for
+
+85
+00:05:32,130 --> 00:05:32,990
+the last comment.
+
+86
+00:05:32,990 --> 00:05:37,980
+So right here I'm going to use the post ID of 11 as well.
+
+87
+00:05:37,980 --> 00:05:38,910
+Perfect.
+
+88
+00:05:38,940 --> 00:05:44,580
+So now we have all of the data necessary to actually make the association between posts and comments.
+
+89
+00:05:44,580 --> 00:05:49,790
+Since each comment has the posts Id right inside this brings us to step 3.
+
+90
+00:05:49,890 --> 00:05:55,610
+Create a resolver for comments post and actually return the correct post.
+
+91
+00:05:55,640 --> 00:05:59,070
+So down below we have our comments object.
+
+92
+00:05:59,220 --> 00:06:01,180
+We have to add posts inside of here.
+
+93
+00:06:01,200 --> 00:06:02,840
+I'm going to add it right after author.
+
+94
+00:06:02,840 --> 00:06:05,030
+Though it could be before either way works.
+
+95
+00:06:05,100 --> 00:06:07,750
+We're going to set up all of the arguments we can get.
+
+96
+00:06:07,770 --> 00:06:11,570
+We have parent args context and info.
+
+97
+00:06:11,700 --> 00:06:16,200
+No we need to do is return the post given the comment.
+
+98
+00:06:16,200 --> 00:06:23,280
+So right here I will use posts that find I'm going to have my callback function which gets called one
+
+99
+00:06:23,280 --> 00:06:25,040
+time for each item in the array.
+
+100
+00:06:25,230 --> 00:06:27,410
+And what am I going to do with the post.
+
+101
+00:06:27,510 --> 00:06:34,280
+I'm just going to check if the posts ID matches up with the value for the comment post field.
+
+102
+00:06:34,280 --> 00:06:43,910
+So right here return does the post ID equal parent dot post so parent up post is the field value just
+
+103
+00:06:43,990 --> 00:06:48,320
+set up for each comment and we're looking to see if it matches up with the posts ID.
+
+104
+00:06:48,390 --> 00:06:52,180
+If it does this one is considered the match and it will be used.
+
+105
+00:06:52,260 --> 00:06:59,250
+And that's actually it for Step 3 which brings us to step 4 Step 4 is to test that this query this association
+
+106
+00:06:59,250 --> 00:07:01,430
+and at least one direction works.
+
+107
+00:07:01,650 --> 00:07:07,050
+So I'm going to run a sample query that gets all of the comments and also get some info about the post
+
+108
+00:07:07,050 --> 00:07:07,920
+for each.
+
+109
+00:07:07,980 --> 00:07:12,380
+Right here I have the Post's query I'm going to go over to the comments query.
+
+110
+00:07:12,480 --> 00:07:16,130
+I already ask for the ID and the text as well as the author's name.
+
+111
+00:07:16,140 --> 00:07:19,460
+I'm just going to ask Additionally for the post's title.
+
+112
+00:07:19,470 --> 00:07:22,230
+So post then right here title.
+
+113
+00:07:22,230 --> 00:07:25,440
+If I refresh the schema this query should be valid which it is.
+
+114
+00:07:25,440 --> 00:07:28,140
+And now we can go ahead and actually fire this off.
+
+115
+00:07:28,140 --> 00:07:29,990
+I fired off and what do I get back.
+
+116
+00:07:30,090 --> 00:07:36,390
+I get back a comments array with all four items inside of it and I have the additional post property
+
+117
+00:07:36,390 --> 00:07:38,940
+for each comment with the field title.
+
+118
+00:07:38,940 --> 00:07:42,420
+So the title for this first comment correctly graph 101.
+
+119
+00:07:42,420 --> 00:07:44,430
+Same thing for the second comment.
+
+120
+00:07:44,430 --> 00:07:48,270
+The third comment is for graph 201 and so is the last.
+
+121
+00:07:48,270 --> 00:07:55,230
+So now we actually have that association where given a comment I can get the post for it in the last
+
+122
+00:07:55,230 --> 00:07:58,810
+three steps to get that relationship working in the opposite direction.
+
+123
+00:07:59,010 --> 00:08:04,350
+So we want to make sure that when we have access to a post we can get all comments for that post which
+
+124
+00:08:04,350 --> 00:08:09,210
+is going to be important if I'm trying to render something like The Post page where someone can actually
+
+125
+00:08:09,210 --> 00:08:14,910
+read the post as well as read all of the comments will be starting by setting up the comments field
+
+126
+00:08:14,910 --> 00:08:22,180
+on our posts tight sit down below we have our posts type what we need is a comments field.
+
+127
+00:08:22,240 --> 00:08:25,240
+This is going to look similar to the comments field for a user.
+
+128
+00:08:25,240 --> 00:08:29,770
+It is an array of individual comments using the comment type.
+
+129
+00:08:29,770 --> 00:08:33,070
+Excellent and now we can move on to the next step.
+
+130
+00:08:33,070 --> 00:08:39,370
+Step 6 which is to set up a resolver that teaches graphic well how to get the correct value for that
+
+131
+00:08:39,370 --> 00:08:41,160
+new comments field.
+
+132
+00:08:41,270 --> 00:08:46,660
+So down below we have our post object on resolvers inside of here.
+
+133
+00:08:46,660 --> 00:08:51,670
+We're going to set up a new method comments and this is going to be responsible for actually getting
+
+134
+00:08:51,700 --> 00:08:52,740
+the comments back.
+
+135
+00:08:52,870 --> 00:08:58,810
+So we get our parent we get our args we get the context and the info and we are going to end up returning
+
+136
+00:08:58,900 --> 00:09:02,530
+whatever comes back from calling comments dot filter.
+
+137
+00:09:02,530 --> 00:09:06,550
+We want to find all of the comments that actually match up with this post.
+
+138
+00:09:06,550 --> 00:09:11,560
+We have an array of comments so we can call the individual item a comment and once again we are going
+
+139
+00:09:11,560 --> 00:09:16,360
+to return and right here we're going to set up our equality test.
+
+140
+00:09:16,390 --> 00:09:17,550
+So what do we want to check.
+
+141
+00:09:17,560 --> 00:09:26,600
+We want to check if the comment post value equals ID apparent ID.
+
+142
+00:09:26,830 --> 00:09:33,610
+So the comment post value is obviously the post ID and the parent in this case is a post right here
+
+143
+00:09:33,820 --> 00:09:39,970
+post so we're checking its ID and if these two are indeed a match then we know that this comment is
+
+144
+00:09:39,970 --> 00:09:46,210
+associated with this post and we're going to keep it in the IRA by returning true from the filter callback.
+
+145
+00:09:46,210 --> 00:09:48,420
+If it's not a match will return false sense.
+
+146
+00:09:48,460 --> 00:09:52,210
+That comment isn't associated with that particular post.
+
+147
+00:09:52,210 --> 00:09:56,800
+Now that we have this in place we can actually move on to the final step for this challenge we're going
+
+148
+00:09:56,800 --> 00:10:01,720
+to run a sample query we need to get all of the posts and then also get their comments.
+
+149
+00:10:01,720 --> 00:10:03,320
+I have that right here.
+
+150
+00:10:03,370 --> 00:10:07,520
+I have a query that gets all of the posts I'm going to refresh the schema.
+
+151
+00:10:07,630 --> 00:10:14,180
+And we're also going to ask for the comments to simplify the output of just going to remove author.
+
+152
+00:10:14,290 --> 00:10:16,980
+And I'm also going to remove published and body.
+
+153
+00:10:17,080 --> 00:10:22,150
+So here we're just asking for all of the posts getting their ID and title and then I'm also going to
+
+154
+00:10:22,150 --> 00:10:27,910
+ask for comments and in this case I'm going to grab the ID and the text though you could have grabbed
+
+155
+00:10:27,940 --> 00:10:32,290
+any combination of the two that would have been perfectly fine for the challenge as well.
+
+156
+00:10:32,350 --> 00:10:34,080
+Right here I am going to fire this off.
+
+157
+00:10:34,080 --> 00:10:34,930
+And what do we get.
+
+158
+00:10:35,050 --> 00:10:38,040
+We still get our three posts objects.
+
+159
+00:10:38,080 --> 00:10:39,790
+We have one right here.
+
+160
+00:10:39,940 --> 00:10:41,920
+Then down below we have our second one.
+
+161
+00:10:42,340 --> 00:10:47,530
+And below that we have our third the first two posts have two comments associated with them.
+
+162
+00:10:47,680 --> 00:10:48,930
+I have this worked well for me.
+
+163
+00:10:48,940 --> 00:10:50,630
+Thanks and glad you enjoyed it.
+
+164
+00:10:50,650 --> 00:10:55,460
+And then for the second post I have this did not work and then nevermind I got it to work.
+
+165
+00:10:55,480 --> 00:10:59,200
+So right here we can see the comments for each post in the third post.
+
+166
+00:10:59,200 --> 00:11:01,240
+Happens to have no comments.
+
+167
+00:11:01,240 --> 00:11:05,950
+Now that we have all of these relationships set up we can get all the information necessary.
+
+168
+00:11:05,980 --> 00:11:08,790
+Maybe I also want to get the post's author.
+
+169
+00:11:08,880 --> 00:11:14,170
+So right here I get the author and I get their name so I can display that on the page where I read the
+
+170
+00:11:14,170 --> 00:11:19,490
+post and maybe I also decide I want to display the name of the person who wrote the comment.
+
+171
+00:11:19,510 --> 00:11:24,210
+So on the individual comment I ask for the author name there as well.
+
+172
+00:11:24,220 --> 00:11:29,470
+Now we have a more complex but very real world query that's going to give me everything I need so I
+
+173
+00:11:29,470 --> 00:11:31,860
+can display some information about the post.
+
+174
+00:11:31,870 --> 00:11:36,900
+I can also display the comments with extra information like who actually wrote it.
+
+175
+00:11:36,910 --> 00:11:37,940
+So once again graft.
+
+176
+00:11:38,020 --> 00:11:42,160
+Well the client is who dictates what data comes back.
+
+177
+00:11:42,160 --> 00:11:45,070
+And as we can see this is actually very useful.
+
+178
+00:11:45,130 --> 00:11:51,400
+If I was on a desktop application I might run a query like this if I was on mobile I might leave comments
+
+179
+00:11:51,460 --> 00:11:56,960
+off and just fetch some barebones data then maybe later on I'd actually fetch the comments.
+
+180
+00:11:57,070 --> 00:12:01,910
+If the user determined they wanted to see them by clicking something like a comments button.
+
+181
+00:12:02,020 --> 00:12:05,760
+Now at this point we've learned a whole bunch about how to query data.
+
+182
+00:12:05,770 --> 00:12:11,610
+Currently we are reading a set of static data out of arrays we're not even reading it out of a database.
+
+183
+00:12:11,800 --> 00:12:17,290
+In the next section we're going to learn about the mutation operator which is going to allow us to perform
+
+184
+00:12:17,290 --> 00:12:19,330
+the other crud operations.
+
+185
+00:12:19,390 --> 00:12:22,150
+So crud create read update delete.
+
+186
+00:12:22,210 --> 00:12:24,470
+We have the R for Read down.
+
+187
+00:12:24,490 --> 00:12:26,010
+We don't know how to create data.
+
+188
+00:12:26,050 --> 00:12:30,790
+We don't know how to update data and we don't know how to delete data out all of that is coming up in
+
+189
+00:12:30,790 --> 00:12:34,080
+the next section which is covering mutations.
+
+190
+00:12:34,080 --> 00:12:37,950
+I am super excited to get to that and continue on learning all about graphics.
+
+191
+00:12:37,990 --> 00:12:42,070
+Well let's go ahead and jump right in to the next section.
+
+192
+00:12:42,070 --> 00:12:42,850
+I'll see you then.
+

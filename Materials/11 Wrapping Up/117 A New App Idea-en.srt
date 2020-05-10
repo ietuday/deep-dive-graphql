@@ -1,0 +1,292 @@
+1
+00:00:00,420 --> 00:00:06,060
+In this video as promised I'm going to go over a few ideas of features you could add to the blogging
+
+2
+00:00:06,060 --> 00:00:09,080
+application as well as another app you can build.
+
+3
+00:00:09,090 --> 00:00:17,640
+You can find all of this over at Lincs dot Meade dot I O forward slash graph Q Well ideas that's going
+
+4
+00:00:17,640 --> 00:00:20,080
+to redirect you over to a text document.
+
+5
+00:00:20,190 --> 00:00:24,450
+And here I have everything we're going to talk about in this video to start.
+
+6
+00:00:24,450 --> 00:00:28,070
+Let's talk about new features you can add to the blogging application.
+
+7
+00:00:28,090 --> 00:00:32,550
+This would be a great first step to take now that the class is over.
+
+8
+00:00:32,550 --> 00:00:36,660
+It's going to require you to use everything you've learned in the course and there are three feature
+
+9
+00:00:36,660 --> 00:00:38,210
+ideas I had in mind.
+
+10
+00:00:38,250 --> 00:00:44,700
+First up I should be able to delete other users comments if the comment is on my post.
+
+11
+00:00:44,820 --> 00:00:50,790
+So if I write a post about a fun hike I just went on and someone else comes in and starts to call people
+
+12
+00:00:50,790 --> 00:00:56,850
+names or says something offensive I should be able to delete that comment from my post.
+
+13
+00:00:56,850 --> 00:00:59,250
+Currently that's not possible.
+
+14
+00:00:59,250 --> 00:01:01,630
+The goal of the feature is to support that.
+
+15
+00:01:01,680 --> 00:01:06,030
+So in the end of the day you could delete your own comment on any post out there.
+
+16
+00:01:06,030 --> 00:01:12,140
+Or you could delete someone else's comment assuming it's on a post you've created so idea too.
+
+17
+00:01:12,240 --> 00:01:15,330
+I should be able to disable comments on my post.
+
+18
+00:01:15,330 --> 00:01:20,590
+Maybe you're writing a post and you don't want to deal with the outside world that you do want to publish.
+
+19
+00:01:20,700 --> 00:01:26,710
+Being able to disable comments would be a great step for that you could add something like comments
+
+20
+00:01:26,730 --> 00:01:31,740
+and enabled as a boolean field on the individual post.
+
+21
+00:01:31,770 --> 00:01:36,840
+That's something that someone could then configure when they create or update the post.
+
+22
+00:01:36,840 --> 00:01:42,280
+The third idea I should be able to have a pinned or featured post I want to share.
+
+23
+00:01:42,390 --> 00:01:47,590
+This could be set up as a featured post property on the user type.
+
+24
+00:01:47,670 --> 00:01:51,030
+In this case it would be the type post so it would be optional.
+
+25
+00:01:51,030 --> 00:01:55,250
+I don't have to have a featured or pinned post but I should be able to.
+
+26
+00:01:55,260 --> 00:02:02,520
+This could then be used somewhere like my author profile page to render the pinned content first.
+
+27
+00:02:02,820 --> 00:02:06,000
+So these are just three ideas of what you could add to the application.
+
+28
+00:02:06,000 --> 00:02:09,270
+Obviously there are plenty of other ones as well.
+
+29
+00:02:09,270 --> 00:02:14,490
+If you come up with anything else or if you implement any of these three go ahead and share them in
+
+30
+00:02:14,490 --> 00:02:16,440
+the Q&amp;A for this lesson.
+
+31
+00:02:16,440 --> 00:02:18,210
+I would love to see what you built.
+
+32
+00:02:18,330 --> 00:02:22,570
+Whether you added one of these features or came up with something on your own.
+
+33
+00:02:22,590 --> 00:02:25,110
+All right now let's talk about the new app idea.
+
+34
+00:02:25,110 --> 00:02:29,430
+You can build it it's going to be something we discussed a bit earlier in the class.
+
+35
+00:02:29,430 --> 00:02:35,400
+If you remember from when we first explored Prisma you created a little product review Prisma instance
+
+36
+00:02:35,700 --> 00:02:38,610
+but we never built the no JSA side of things.
+
+37
+00:02:38,610 --> 00:02:39,960
+So that's the goal here.
+
+38
+00:02:39,990 --> 00:02:45,000
+A product review website where we have users products and reviews.
+
+39
+00:02:45,000 --> 00:02:49,200
+Users can create products and users can leave reviews on products.
+
+40
+00:02:49,440 --> 00:02:52,860
+Now the product could be anything it doesn't have to be something you could buy.
+
+41
+00:02:52,920 --> 00:02:59,520
+It could be a review website for trails in the area or books or cities or companies to work at for a
+
+42
+00:02:59,520 --> 00:03:01,130
+trail as an example.
+
+43
+00:03:01,170 --> 00:03:07,740
+On the trail type you might have the name the distance and the location and for reviews along side of
+
+44
+00:03:07,740 --> 00:03:09,650
+the text they could provide something.
+
+45
+00:03:09,750 --> 00:03:13,790
+Maybe how difficult the trail was on a scale of 1 to 10.
+
+46
+00:03:13,800 --> 00:03:19,470
+For books you can have things like the title the author and the ISBN number on the book and the review
+
+47
+00:03:19,500 --> 00:03:26,020
+could just be a generic text only review for city you could have something like the name of the city.
+
+48
+00:03:26,130 --> 00:03:32,010
+Maybe a walkability score can be part of the reviews along with whether they live in the city or are
+
+49
+00:03:32,010 --> 00:03:35,530
+just visiting as that would affect how you wait the review.
+
+50
+00:03:35,700 --> 00:03:38,930
+And for a company you could have the name and the location.
+
+51
+00:03:38,940 --> 00:03:44,670
+Maybe even though you R-AL as part of the company type and further review you could have them include
+
+52
+00:03:44,670 --> 00:03:50,190
+maybe their salary and their job title along with a standard text description.
+
+53
+00:03:50,490 --> 00:03:53,460
+So those are just a couple of ideas of things you could review.
+
+54
+00:03:53,550 --> 00:03:55,680
+Obviously the list goes on and on.
+
+55
+00:03:55,680 --> 00:04:00,390
+For the product you would add custom fields based off of what you're reviewing and the same is true
+
+56
+00:04:00,390 --> 00:04:01,340
+with the review.
+
+57
+00:04:01,530 --> 00:04:07,290
+Just as a reminder trail had things like the location and the trail review had things like the difficulty
+
+58
+00:04:07,470 --> 00:04:08,100
+score.
+
+59
+00:04:08,430 --> 00:04:13,290
+So this would be another great thing to build with what you've learned in the class and you can use
+
+60
+00:04:13,300 --> 00:04:17,960
+the boiler plate project we created in the last section to get this done.
+
+61
+00:04:17,970 --> 00:04:22,560
+As always if you end up building this or building anything else with graphite you will.
+
+62
+00:04:22,590 --> 00:04:28,170
+I would love to see that once again just post it in the Q&amp;A and share what you've done whether you shared
+
+63
+00:04:28,170 --> 00:04:31,050
+just the code or maybe a live example of your app.
+
+64
+00:04:31,050 --> 00:04:32,290
+I'd love to see it.
+
+65
+00:04:32,400 --> 00:04:34,620
+All right that is it for this one.
+
+66
+00:04:34,620 --> 00:04:40,200
+Those are just a couple of ideas of things you can now build with the skills you have and at this point
+
+67
+00:04:40,260 --> 00:04:42,730
+it's definitely important to build something.
+
+68
+00:04:42,780 --> 00:04:48,180
+Maybe you'll use graft well in a professional setting in a few months or a year or maybe you're working
+
+69
+00:04:48,180 --> 00:04:54,570
+on switching jobs right now but it's still going to be a great idea to get some at home practice under
+
+70
+00:04:54,570 --> 00:04:55,270
+your belt.
+
+71
+00:04:55,320 --> 00:05:00,600
+That's going to make sure you remember how to solve problems and how to build applications using graft
+
+72
+00:05:00,720 --> 00:05:02,190
+Well that's it for now.
+
+73
+00:05:02,190 --> 00:05:03,600
+I'll see you in the next one.
+

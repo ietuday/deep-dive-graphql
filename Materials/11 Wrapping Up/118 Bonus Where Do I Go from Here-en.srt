@@ -1,0 +1,188 @@
+1
+00:00:00,320 --> 00:00:05,220
+You've made it to the end of the class you now know how to use graph Q Well and at this point you're
+
+2
+00:00:05,220 --> 00:00:08,500
+probably wondering where do I go from here.
+
+3
+00:00:08,550 --> 00:00:13,990
+Now for most of my classes I'll answer that question over and over again in the course Q&amp;A.
+
+4
+00:00:14,130 --> 00:00:20,070
+So this time around I figured I'd make this video giving my official recommendation of what to learn
+
+5
+00:00:20,220 --> 00:00:21,260
+next.
+
+6
+00:00:21,300 --> 00:00:26,490
+The fact that you made it to the end of the class suggests you're already pretty familiar with the back
+
+7
+00:00:26,490 --> 00:00:27,990
+end if you were before.
+
+8
+00:00:27,990 --> 00:00:29,750
+You definitely are now.
+
+9
+00:00:29,880 --> 00:00:35,820
+So my recommendation for you is to take some time to explore the front end to learn how to build web
+
+10
+00:00:35,820 --> 00:00:37,900
+applications in the browser.
+
+11
+00:00:38,040 --> 00:00:43,290
+Now not everyone is going to want to switch careers or do this for a living but it's definitely something
+
+12
+00:00:43,290 --> 00:00:49,290
+that's worth while to learn even if your primary focus is still back and development.
+
+13
+00:00:49,290 --> 00:00:53,260
+It's going to give you everything you need to build full stack applications.
+
+14
+00:00:53,400 --> 00:00:55,700
+So Down below I have two suggestions.
+
+15
+00:00:55,770 --> 00:00:59,730
+As always you can find all of my courses at the following you RL.
+
+16
+00:00:59,760 --> 00:01:02,790
+First up I have the modern javascript boot camp.
+
+17
+00:01:02,880 --> 00:01:08,550
+This is where I cover the fundamentals of javascript which you already know but it's also where I cover
+
+18
+00:01:08,550 --> 00:01:14,180
+how to use the Nela javascript in the browser which you may or may not be familiar with.
+
+19
+00:01:14,190 --> 00:01:20,550
+Next up my real recommendation is the complete re-act web developer course if you already familiar with
+
+20
+00:01:20,550 --> 00:01:23,430
+the fundamentals of javascript in the browser.
+
+21
+00:01:23,430 --> 00:01:28,500
+This is the class that is going to take you to the next level you'll be using react to build real world
+
+22
+00:01:28,500 --> 00:01:32,700
+production ready web applications with all of the features you'd expect.
+
+23
+00:01:32,700 --> 00:01:36,390
+Things like authentication data validation and more.
+
+24
+00:01:36,600 --> 00:01:40,040
+So you can always find out more by clicking over to that class.
+
+25
+00:01:40,050 --> 00:01:45,450
+Check out the promo video and as always the first several videos are available for you to watch for
+
+26
+00:01:45,450 --> 00:01:47,000
+free before joining.
+
+27
+00:01:47,070 --> 00:01:51,450
+And as you're working through the course you're going to end up building a couple of applications.
+
+28
+00:01:51,540 --> 00:01:54,170
+The first one is a little app called indecision.
+
+29
+00:01:54,300 --> 00:01:59,030
+This is how we're going to start exploring re-act you enter some options in.
+
+30
+00:01:59,250 --> 00:02:04,530
+I'll enter a new one like take a re-act course you can remove or remove ALL.
+
+31
+00:02:04,530 --> 00:02:09,110
+Here I can just have the computer pick for me and it says take a javascript course.
+
+32
+00:02:09,270 --> 00:02:14,400
+So this is our beginner application and once we're comfortable with the fundamentals of react we'll
+
+33
+00:02:14,400 --> 00:02:18,320
+move on to our budget app where we're going to add a whole bunch more features.
+
+34
+00:02:18,370 --> 00:02:23,430
+You'll learn how to build out web apps that sort by date we'll be able to sort our data in the correct
+
+35
+00:02:23,460 --> 00:02:26,880
+order and search for expenses as well as add new ones.
+
+36
+00:02:26,880 --> 00:02:27,750
+I'll add something in.
+
+37
+00:02:27,750 --> 00:02:34,080
+Like my gas bill which I believe was about 30 bucks I can even pick the day I paid it and I can enter
+
+38
+00:02:34,080 --> 00:02:35,970
+a note if I wanted to.
+
+39
+00:02:35,970 --> 00:02:41,460
+So if this looks like what you're interested in learning I definitely recommend checking out the complete
+
+40
+00:02:41,700 --> 00:02:43,490
+re-act web developer course.
+
+41
+00:02:43,590 --> 00:02:47,490
+That's going to give you everything you need to build front ends for your back end.
+
+42
+00:02:47,520 --> 00:02:47,820
+No.
+
+43
+00:02:47,830 --> 00:02:49,350
+J.S. apps.
+
+44
+00:02:49,410 --> 00:02:49,980
+All right.
+
+45
+00:02:49,980 --> 00:02:51,020
+That is it for me.
+
+46
+00:02:51,030 --> 00:02:52,830
+And that is it for the class.
+
+47
+00:02:52,920 --> 00:02:55,930
+I hope to see you in another class sometime soon.
+

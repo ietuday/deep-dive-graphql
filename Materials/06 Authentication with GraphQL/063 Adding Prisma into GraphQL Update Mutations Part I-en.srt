@@ -1,0 +1,816 @@
+1
+00:00:00,300 --> 00:00:03,960
+In this video we're going to continue to refactor our mutations.
+
+2
+00:00:03,960 --> 00:00:08,100
+We've refactored a create mutation and delete mutation in this one.
+
+3
+00:00:08,100 --> 00:00:13,620
+We're going to turn our attention towards some of our update mutations which in the end of the day were
+
+4
+00:00:13,620 --> 00:00:15,700
+actually the most complex.
+
+5
+00:00:15,780 --> 00:00:20,550
+We had a lot of conditional logic to only update certain things if they were provided.
+
+6
+00:00:20,610 --> 00:00:23,560
+All of that is going to become completely unnecessary.
+
+7
+00:00:23,610 --> 00:00:28,980
+So we're going to be able to reduce the amount of code in these methods and we're gonna be able to reduce
+
+8
+00:00:28,980 --> 00:00:31,410
+the code complexity.
+
+9
+00:00:31,410 --> 00:00:36,930
+So let's go ahead and kick things off like we've kicked off all of our reef factors so far by commenting
+
+10
+00:00:36,930 --> 00:00:38,880
+out everything we have already.
+
+11
+00:00:38,880 --> 00:00:43,560
+We're going to leave this in place to make sure we don't forget to add any features back in like with
+
+12
+00:00:43,560 --> 00:00:45,120
+our other mutation methods.
+
+13
+00:00:45,120 --> 00:00:51,810
+I am going to tag this one as an async method and I'll also be accessing Prisma instead of accessing
+
+14
+00:00:51,900 --> 00:00:55,910
+the divi object where all of our arrays live to prove a point.
+
+15
+00:00:55,950 --> 00:00:59,100
+I'm actually going to structure this one slightly differently.
+
+16
+00:00:59,370 --> 00:01:04,620
+Instead of first verifying that the thing we're trying to change exists like we do right here when deleting
+
+17
+00:01:04,620 --> 00:01:10,170
+a user We're just going to get right down to business and pass everything along to Prisma allowing that
+
+18
+00:01:10,170 --> 00:01:12,660
+to do the checking for us.
+
+19
+00:01:12,660 --> 00:01:15,190
+So let's go ahead and see what that would look like right here.
+
+20
+00:01:15,240 --> 00:01:20,600
+We are actually going to start with a call to Prisma mutation and Dot update user.
+
+21
+00:01:20,730 --> 00:01:23,600
+And we're going to pass all of the necessary data in.
+
+22
+00:01:23,610 --> 00:01:29,550
+Now if you forget what that mutation takes you can always head over to localhost 4 4 6 6.
+
+23
+00:01:29,550 --> 00:01:32,090
+Right here we have our update user mutation.
+
+24
+00:01:32,220 --> 00:01:35,690
+We pass in data which is the data update and where.
+
+25
+00:01:35,760 --> 00:01:41,760
+Which is how we want to figure out which user to update for where we're going to provide the ID for
+
+26
+00:01:41,760 --> 00:01:42,360
+data.
+
+27
+00:01:42,450 --> 00:01:45,240
+We're going to provide the name and e-mail optional.
+
+28
+00:01:45,270 --> 00:01:48,590
+Just like they are for the actual Prisma mutation.
+
+29
+00:01:48,960 --> 00:01:51,060
+Now we can go ahead and actually knock this out.
+
+30
+00:01:51,060 --> 00:01:55,200
+Passing in the necessary arguments so we have our object.
+
+31
+00:01:55,260 --> 00:02:01,290
+We're going to set up a where as an object we want to search by id and we get the value from args dot
+
+32
+00:02:01,320 --> 00:02:01,930
+ID.
+
+33
+00:02:01,950 --> 00:02:05,230
+So we have that ID argument which we just explored in schema.
+
+34
+00:02:05,290 --> 00:02:08,540
+Dr. Kraft Well next up we have data.
+
+35
+00:02:08,700 --> 00:02:12,480
+Data can actually just come directly from args dot data.
+
+36
+00:02:12,600 --> 00:02:17,260
+Remember args dot data is an object with either name or email.
+
+37
+00:02:17,280 --> 00:02:18,990
+Right here we just explored that.
+
+38
+00:02:18,990 --> 00:02:20,610
+They're both completely optional.
+
+39
+00:02:20,610 --> 00:02:27,060
+We have the exact same requirement over here for data for the Prisma API so we can actually just pass
+
+40
+00:02:27,060 --> 00:02:28,810
+that data right through.
+
+41
+00:02:28,860 --> 00:02:33,940
+There's no need to look at it for any properties there's no need to make any changes to it.
+
+42
+00:02:33,960 --> 00:02:39,090
+The data that node j s expects is the same data that Prisma expects.
+
+43
+00:02:39,090 --> 00:02:45,420
+So the data can get passed through last up we are going to pass in the info argument to get all of the
+
+44
+00:02:45,450 --> 00:02:47,730
+data provided in the selection set.
+
+45
+00:02:47,730 --> 00:02:53,570
+So if I ask for the idea of the updated user I want to make sure the idea actually comes back.
+
+46
+00:02:53,580 --> 00:02:56,280
+The last thing to do is to return this promise.
+
+47
+00:02:56,280 --> 00:02:59,060
+We want to make sure that the color of the node.
+
+48
+00:02:59,080 --> 00:03:02,290
+J.S. API gets the data back.
+
+49
+00:03:02,310 --> 00:03:08,910
+They were expecting in this case they get back the data about the updated user with this in place were
+
+50
+00:03:08,910 --> 00:03:11,710
+actually done and we can save nutation.
+
+51
+00:03:11,750 --> 00:03:14,000
+Jay asked and test things out.
+
+52
+00:03:14,070 --> 00:03:21,650
+So I'm going to head over to local host 4000 and we are going to use the update user nutation.
+
+53
+00:03:21,810 --> 00:03:27,180
+Now I am going to kick things off by finding one of my existing users over here I have my users query
+
+54
+00:03:27,180 --> 00:03:29,230
+which I can fire off one more time.
+
+55
+00:03:29,460 --> 00:03:32,070
+I have Andrew I have Vickerman I have yes.
+
+56
+00:03:32,250 --> 00:03:37,890
+I'm going to go ahead and try to change Andrew's name from Andrew to just Andrew so right here I'll
+
+57
+00:03:37,890 --> 00:03:39,450
+grab his ID.
+
+58
+00:03:39,540 --> 00:03:42,850
+Now I can move over to the update user mutation.
+
+59
+00:03:42,930 --> 00:03:45,930
+I'm going to swap out the old ID with the new one.
+
+60
+00:03:46,050 --> 00:03:50,760
+And in this case we're not going to change anything about the age which no longer exists.
+
+61
+00:03:50,760 --> 00:03:58,450
+We're just going to change the name so data name and I am going to provide Andrew perfect down below
+
+62
+00:03:58,460 --> 00:04:00,070
+we have our selection set.
+
+63
+00:04:00,090 --> 00:04:04,340
+I don't want to grab anything related to the age since that no longer exists.
+
+64
+00:04:04,350 --> 00:04:10,130
+I'm just going to grab the id the name and the e-mail if I actually fire this off what happens.
+
+65
+00:04:10,200 --> 00:04:13,780
+We get our update operation successfully working.
+
+66
+00:04:13,920 --> 00:04:18,600
+And if I actually verify the database I can see that the data has indeed changed.
+
+67
+00:04:18,600 --> 00:04:23,850
+I'm going to click that lightning bolt and right here we can see the two was removed from the end of
+
+68
+00:04:23,880 --> 00:04:25,800
+Andrew which is awesome.
+
+69
+00:04:26,070 --> 00:04:31,770
+So in the end of the day we really can defer almost all responsibilities off to Prisma.
+
+70
+00:04:31,830 --> 00:04:38,040
+Now obviously if we change the ID to something like ABC at the end this is not going to match up with
+
+71
+00:04:38,040 --> 00:04:38,790
+a user.
+
+72
+00:04:38,910 --> 00:04:43,560
+And things are still going to fail they just fail in a way that's a bit less clear.
+
+73
+00:04:43,560 --> 00:04:48,640
+So here the message is no node found for the model user with value.
+
+74
+00:04:48,660 --> 00:04:52,330
+Then here's the ID when we actually used exist.
+
+75
+00:04:52,380 --> 00:04:58,560
+First we were able to customize that error message to something a little simpler like user not found
+
+76
+00:04:58,590 --> 00:04:59,560
+or e-mail.
+
+77
+00:04:59,560 --> 00:05:05,040
+Take a so in the end of the day it's really up to you to determine if you want to do a little verification
+
+78
+00:05:05,040 --> 00:05:11,540
+first or if you want to pass everything off to Prisma that means we can actually choose to remove our
+
+79
+00:05:11,550 --> 00:05:17,400
+exists check as well as the if statement from both delete user and from create user.
+
+80
+00:05:17,400 --> 00:05:22,170
+Now when I first show people a refactor like this their first thought is why are we writing a note app
+
+81
+00:05:22,170 --> 00:05:22,520
+again.
+
+82
+00:05:22,560 --> 00:05:24,150
+Why aren't we just using Prisma.
+
+83
+00:05:24,150 --> 00:05:28,210
+And remember the goal is to set up a node as that intermediary.
+
+84
+00:05:28,230 --> 00:05:34,110
+So when we do configure things like data validation sanitization an authentication node is going to
+
+85
+00:05:34,110 --> 00:05:40,730
+sit right there making sure that the clients for our applications can't just do anything to the database.
+
+86
+00:05:40,740 --> 00:05:47,250
+We want to restrict what someone can do based off of role's authentication and more.
+
+87
+00:05:47,250 --> 00:05:52,560
+With that said let's go ahead and delete all of the commented out code from Update user it is no longer
+
+88
+00:05:52,560 --> 00:05:53,620
+necessary.
+
+89
+00:05:53,700 --> 00:05:57,360
+And now we're going to go ahead and do the same thing for posts.
+
+90
+00:05:57,450 --> 00:05:58,830
+We have create post.
+
+91
+00:05:58,830 --> 00:06:01,190
+We have update posts and we have delete.
+
+92
+00:06:01,210 --> 00:06:03,840
+Post all of these are pretty substantial.
+
+93
+00:06:03,840 --> 00:06:06,130
+There's a lot of work going on in there.
+
+94
+00:06:06,270 --> 00:06:11,810
+And the good news is that with Prisma we're going to have almost nothing in any of these methods.
+
+95
+00:06:11,820 --> 00:06:16,770
+Now this is the point in the course where students often feel frustrated because we spent a whole bunch
+
+96
+00:06:16,770 --> 00:06:23,130
+of time working with graphs and arrays we wrote all of this code and now all of the code is ending up
+
+97
+00:06:23,130 --> 00:06:24,540
+getting removed.
+
+98
+00:06:24,540 --> 00:06:31,470
+It's important to remember that all of this code served a very valuable purpose early on in the class.
+
+99
+00:06:31,530 --> 00:06:36,990
+Its job was to get out of our way and allow us to focus on the basics of graphics well by working with
+
+100
+00:06:36,990 --> 00:06:40,090
+simple arrays and objects which we already knew about.
+
+101
+00:06:40,110 --> 00:06:44,190
+We were able to focus all of our actual learning on well itself.
+
+102
+00:06:44,340 --> 00:06:49,410
+Now that we understand how to structure a standard graphs you all application it makes sense to introduce
+
+103
+00:06:49,410 --> 00:06:54,690
+more complex tools like Prisma trying to use Prisma from the beginning would have made things almost
+
+104
+00:06:54,690 --> 00:06:56,220
+impossible to understand.
+
+105
+00:06:56,220 --> 00:07:01,620
+Remember the goal isn't to write the most cutting edge app right from the beginning.
+
+106
+00:07:01,680 --> 00:07:07,320
+The goal is to get to the most cutting edge by the end of the course and actually understand how and
+
+107
+00:07:07,320 --> 00:07:10,230
+why we picked the tools we picked.
+
+108
+00:07:10,230 --> 00:07:11,620
+Now it's your challenge.
+
+109
+00:07:11,640 --> 00:07:16,360
+We're going to go ahead and refactor create post update post and delete posts.
+
+110
+00:07:16,440 --> 00:07:21,660
+Let's head up to the top of the file and talk about what I would like you to do for this challenge in
+
+111
+00:07:21,660 --> 00:07:27,180
+particular it's going to be your goal to just worry about refactoring the Create post mutation to use
+
+112
+00:07:27,240 --> 00:07:27,680
+Prisma.
+
+113
+00:07:27,690 --> 00:07:31,480
+We're not going to worry about the other post related mutations yet.
+
+114
+00:07:31,560 --> 00:07:34,520
+We'll focus on those in future challenges one at a time.
+
+115
+00:07:34,770 --> 00:07:40,260
+So step one refactor create post mutation resolver to use Prisma instead of working with that array
+
+116
+00:07:40,260 --> 00:07:41,070
+data.
+
+117
+00:07:41,220 --> 00:07:46,440
+And when you're doing this don't worry about pub sub or anything related to subscriptions.
+
+118
+00:07:46,500 --> 00:07:50,700
+We are going to explore subscriptions shortly and how Prisma works with them.
+
+119
+00:07:50,850 --> 00:07:55,950
+And the good news is that Prisma handles almost all of that stuff internally which means that we don't
+
+120
+00:07:55,950 --> 00:08:00,960
+need to use pub sub dot publish anywhere inside of this file.
+
+121
+00:08:00,990 --> 00:08:05,610
+So while you're refactoring don't worry about replacing this code with anything you can actually just
+
+122
+00:08:05,610 --> 00:08:07,270
+remove it entirely.
+
+123
+00:08:07,380 --> 00:08:09,540
+So up above that brings us to step 2.
+
+124
+00:08:09,570 --> 00:08:11,850
+You're going to go ahead and test things out.
+
+125
+00:08:11,850 --> 00:08:18,420
+Create a new post at localhost 4000 from one of your users then verify it actually exists by looking
+
+126
+00:08:18,420 --> 00:08:19,620
+in the database.
+
+127
+00:08:19,620 --> 00:08:21,640
+So take some time to knock this one out.
+
+128
+00:08:21,690 --> 00:08:24,770
+I will move on to the other methods in future challenges.
+
+129
+00:08:24,780 --> 00:08:28,380
+Paused the video test your work and when you're done click play
+
+130
+00:08:32,000 --> 00:08:37,130
+how that go let's go ahead and kick things off down below by commenting out all of the code inside of
+
+131
+00:08:37,130 --> 00:08:38,130
+create post.
+
+132
+00:08:38,150 --> 00:08:44,070
+And remember this time around I'm not going to do any manual checking to see if the user exists first.
+
+133
+00:08:44,150 --> 00:08:48,660
+And we also don't need to do any manual publishing So it's going to be much simpler.
+
+134
+00:08:48,770 --> 00:08:51,260
+Exactly like we had up above.
+
+135
+00:08:51,260 --> 00:08:58,070
+Right now let's go ahead and start by destructuring not D-B and pub sub but Prisma the one thing that
+
+136
+00:08:58,070 --> 00:09:06,940
+we need from the context now we can go ahead and actually return a call to Prisma dot mutation dot create
+
+137
+00:09:06,960 --> 00:09:11,000
+post passing in the necessary data to actually create a post.
+
+138
+00:09:11,150 --> 00:09:17,290
+And if you forgot what's necessary you can always refer to the schema at 4 4 6 6.
+
+139
+00:09:17,330 --> 00:09:23,400
+That's localhost 4 4 6 6 for me right here I am going to pass in an operations argument object.
+
+140
+00:09:23,450 --> 00:09:28,730
+I'm also going to pass in info as that second argument and right here we're going to add a few things
+
+141
+00:09:28,730 --> 00:09:29,930
+into the mix.
+
+142
+00:09:29,930 --> 00:09:36,450
+If I head over to localhost 4 4 6 6 we can pull up the documentation for create post.
+
+143
+00:09:36,500 --> 00:09:37,900
+We know we need data.
+
+144
+00:09:38,000 --> 00:09:45,490
+We need Title body and published and we also need to know the author associated with that post.
+
+145
+00:09:45,500 --> 00:09:47,870
+We have all of that information already.
+
+146
+00:09:48,050 --> 00:09:54,290
+If we go over to schema Dom graft well and look at Create post we can see exactly what data we get with
+
+147
+00:09:54,290 --> 00:09:56,300
+Create post input.
+
+148
+00:09:56,300 --> 00:10:00,200
+Right here we have title body published and author.
+
+149
+00:10:00,230 --> 00:10:05,150
+So we're going to have to do a little bit of restructuring but nothing too bad right here to kick things
+
+150
+00:10:05,150 --> 00:10:05,540
+off.
+
+151
+00:10:05,630 --> 00:10:11,490
+Let's go ahead and set up a data we need to provide those three values right here we need.
+
+152
+00:10:11,490 --> 00:10:20,170
+Title title can come from args dot data dot title we also need a body which can come from args dot data
+
+153
+00:10:20,230 --> 00:10:21,320
+dot body.
+
+154
+00:10:21,400 --> 00:10:27,870
+And finally we also need published which can come from args dot data dot published.
+
+155
+00:10:27,880 --> 00:10:33,550
+Now we do still have args dot data dot author but that does not go right on this object.
+
+156
+00:10:33,550 --> 00:10:40,900
+Instead we define that author object we choose to connect it to an existing author and we are connecting
+
+157
+00:10:40,900 --> 00:10:41,830
+by IDs.
+
+158
+00:10:41,830 --> 00:10:44,690
+So this is where the idea ends up going right here.
+
+159
+00:10:44,800 --> 00:10:47,910
+Args dot data dot author.
+
+160
+00:10:48,010 --> 00:10:48,990
+Perfect.
+
+161
+00:10:49,240 --> 00:10:54,260
+Now that we have this in place we can actually go through the process of testing things out.
+
+162
+00:10:54,280 --> 00:10:55,630
+We are all done.
+
+163
+00:10:55,630 --> 00:11:01,550
+There is no need to add any more functionality in ignoring the checking letting Prisma do that for us.
+
+164
+00:11:01,630 --> 00:11:05,070
+We are ignoring the publishing because that's no longer necessary.
+
+165
+00:11:05,140 --> 00:11:07,760
+Which means that we have all of the features set up.
+
+166
+00:11:07,840 --> 00:11:13,180
+Now I can go ahead and actually remove all of the commented out code and test things out.
+
+167
+00:11:13,180 --> 00:11:14,920
+I'm going to save mutation.
+
+168
+00:11:14,950 --> 00:11:19,170
+J S then over inside of localhost 4000.
+
+169
+00:11:19,180 --> 00:11:21,620
+I'm going to try to create a new post.
+
+170
+00:11:21,670 --> 00:11:24,300
+I am going to need a user ID for that.
+
+171
+00:11:24,430 --> 00:11:29,510
+If I go over to the user's tab I have a few different user IDs right here.
+
+172
+00:11:29,530 --> 00:11:31,620
+I'm going to create a post for Jess.
+
+173
+00:11:31,630 --> 00:11:37,450
+You could have used any one of your users and up here I do have that create post nutation so it takes
+
+174
+00:11:37,450 --> 00:11:42,240
+in the data title body published and author title.
+
+175
+00:11:42,250 --> 00:11:43,550
+My new post.
+
+176
+00:11:43,570 --> 00:11:52,170
+I'll change that to stories by Jess I'll leave the body as just dot dot dot.
+
+177
+00:11:52,210 --> 00:11:56,560
+I'll leave this one as published and the author ID is the author ID.
+
+178
+00:11:56,560 --> 00:11:57,690
+I just copied.
+
+179
+00:11:57,700 --> 00:11:58,820
+Excellent.
+
+180
+00:11:58,840 --> 00:12:03,080
+Now down below we have our selection set asking for all of those scalar values.
+
+181
+00:12:03,100 --> 00:12:08,230
+I can also choose to grab other things like the authors ID and the author's name.
+
+182
+00:12:08,230 --> 00:12:10,620
+That would be perfectly fine as well.
+
+183
+00:12:10,630 --> 00:12:13,330
+Now we can go ahead and create the post by firing that off.
+
+184
+00:12:13,330 --> 00:12:14,170
+And what do we get.
+
+185
+00:12:14,170 --> 00:12:16,740
+We get back exactly what we might have expected.
+
+186
+00:12:16,750 --> 00:12:21,700
+We have all of the information about the post that was created and we also have some information about
+
+187
+00:12:21,700 --> 00:12:24,850
+that post's author which is perfect.
+
+188
+00:12:24,910 --> 00:12:32,410
+If I had over two PGE admin I can actually move on to Step Two and verify that the data actually exists
+
+189
+00:12:32,590 --> 00:12:35,640
+in the database so I have my data sitting right here.
+
+190
+00:12:35,650 --> 00:12:39,420
+But it looks like I lost my place on the sidebar.
+
+191
+00:12:39,510 --> 00:12:43,360
+Let me go ahead and find my database once again it's sitting right here.
+
+192
+00:12:43,530 --> 00:12:48,390
+We are looking for a particular post that should have been created so I'm going to view the data in
+
+193
+00:12:48,390 --> 00:12:50,190
+the host's table.
+
+194
+00:12:50,190 --> 00:12:54,120
+I'm going to view all roads and I should have my new post showing up right here.
+
+195
+00:12:54,120 --> 00:12:58,650
+I do indeed have that I have the title of stories by Jess.
+
+196
+00:12:58,800 --> 00:13:04,300
+I have dot dot dot for body and the published value of true which is fantastic.
+
+197
+00:13:04,320 --> 00:13:05,180
+So there we go.
+
+198
+00:13:05,190 --> 00:13:09,740
+That is all you needed to do for the Create post mutation challenge.
+
+199
+00:13:09,780 --> 00:13:13,070
+Now that we're done with this we can go ahead and remove the challenge comments.
+
+200
+00:13:13,110 --> 00:13:15,920
+Up above for that one and save the file.
+
+201
+00:13:16,020 --> 00:13:21,360
+That's where we're going to stop for this video we obviously still need to refactor update post and
+
+202
+00:13:21,360 --> 00:13:22,290
+delete posts.
+
+203
+00:13:22,290 --> 00:13:24,310
+We're going to get to that in the next video.
+
+204
+00:13:24,360 --> 00:13:26,180
+Let's go ahead and jump right into that.
+
