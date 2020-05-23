@@ -1,1 +1,3 @@
 http://graphql-demo.mead.io
+
+http://spec.graphql.org/June2018/
