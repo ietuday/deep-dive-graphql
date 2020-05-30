@@ -1,3 +1,19 @@
 http://graphql-demo.mead.io
 
 http://spec.graphql.org/June2018/
+
+Find out the id of the prisma docker container: docker ps
+Look into the logs: docker logs -f <prisma container id
+
+
+prisma init prisma
+
+
+  1. Open folder: cd prisma
+  2. Start your Prisma server: docker-compose up -d
+  3. Deploy your Prisma service: prisma deploy
+
+
+
+sudo docker restart prisma_prisma_1 
+
