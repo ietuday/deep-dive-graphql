@@ -10,7 +10,7 @@ prisma init prisma
 
 
   1. Open folder: cd prisma
-  2. Start your Prisma server: docker-compose up -d
+  2. Start your Prisma server: sudo docker-compose up -d
   3. Deploy your Prisma service: prisma deploy
 
 
