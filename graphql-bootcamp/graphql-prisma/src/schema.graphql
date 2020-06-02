@@ -3,38 +3,37 @@ type Query {
     posts(query: String): [Post!]!
     comments: [Comment!]!
     me: User!
+    post: Post!
 }
+
 type Mutation {
-    createUser(data: CreateUserInput): User!
-    updateUser(id: ID!, data:UpdateUserInput!): User!
+    createUser(data: CreateUserInput!): User!
     deleteUser(id: ID!): User!
-    createPost(data: CreatePostInput): Post!
-    updatePost(id: ID!, data: UpdatePostInput!): Post!
+    updateUser(id: ID!, data: UpdateUserInput!): User!
+    createPost(data: CreatePostInput!): Post!
     deletePost(id: ID!): Post!
-    createComment(data: CreateCommentInput): Comment!
-    updateComment(id: ID!, data: UpdateCommentInput!): Comment!
+    updatePost(id: ID!, data: UpdatePostInput!): Post!
+    createComment(data: CreateCommentInput!): Comment!
     deleteComment(id: ID!): Comment!
+    updateComment(id: ID!, data: UpdateCommentInput!): Comment!
 }
 
-type Subscription{
-    count:Int!
+type Subscription {
     comment(postId: ID!): CommentSubscriptionPayload!
-    post: PostSubscriptionPayload
+    post: PostSubscriptionPayload!
 }
 
-input CreateUserInput{
+input CreateUserInput {
     name: String!
     email: String!
-    age: Int
 }
 
 input UpdateUserInput {
     name: String
     email: String
-    age: Int
 }
 
-input CreatePostInput{
+input CreatePostInput {
     title: String!
     body: String!
     published: Boolean!
@@ -47,7 +46,7 @@ input UpdatePostInput {
     published: Boolean
 }
 
-input CreateCommentInput{
+input CreateCommentInput {
     text: String!
     author: ID!
     post: ID!
@@ -61,10 +60,11 @@ type User {
     id: ID!
     name: String!
     email: String!
-    age: Int
+    password: String!
     posts: [Post!]!
     comments: [Comment!]!
 }
+
 type Post {
     id: ID!
     title: String!
@@ -73,6 +73,7 @@ type Post {
     author: User!
     comments: [Comment!]!
 }
+
 type Comment {
     id: ID!
     text: String!
@@ -86,12 +87,12 @@ enum MutationType {
     DELETED
 }
 
-type PostSubscriptionPayload{
+type PostSubscriptionPayload {
     mutation: MutationType!
-    data: Post!
+    node: Post
 }
 
 type CommentSubscriptionPayload {
     mutation: MutationType!
-    data: Comment!
+    node: Comment
 }
